@@ -1,0 +1,370 @@
+.account {
+    .main-heading {
+        padding: 3rem 8rem 3rem 7rem;
+        background-color: rgba(3,133,149,.05); 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: baseline;
+        height: 200px; 
+        align-items: center;
+        padding: 0 0 0 7rem;
+        h1 {
+            font-weight: 700;
+            font-size: 50px;
+            margin-bottom: 2rem; 
+            color: #038595;
+        }
+    }
+    nav {
+        user-select: none;
+        padding:5px 5%;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        .nav-item {
+            font-size: 20px;
+            font-weight: 700;
+            color: rgba(0,0,0,.4);
+            cursor: pointer;
+                white-space: nowrap;
+            width: 120px;
+            text-align: center; 
+            line-height: 60px;
+            &.active {
+                color: $normal-color;
+                border-bottom: 2px solid $normal-color;
+            }
+        }
+        // dropdown 
+        .dropdown-container {
+            height: fit-content;
+            width: fit-content;
+            position: relative;
+            cursor: pointer;
+            .dropdown {
+                position: absolute;
+                top: 100% ;
+                right: 50%;
+                background: white; 
+                border-radius: 5px;
+                box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 15px 0px;
+                display: none;
+                flex-direction: column;
+                padding: 20px 0;
+                animation: fade .6s;
+                transform: translateX(50%);
+                // animation
+                @keyframes fade {
+                    from {
+                        opacity: 0;
+                    } to {
+                        opacity: 1;
+                    }
+                }
+                .dropdown-item {
+                    padding: 10px 20px;
+                    font-size: 14px;
+                    color: $dark;
+                    min-width: 100%;
+                    white-space: nowrap;
+                    &:hover {
+                        @include normalColor();
+                        @include lightBackground();
+                    }
+                }
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 50%;
+                    transform: translateY(-100%) translateX(50%);
+                    width: 0;
+                    height: 0;
+                    border-left: 7px solid transparent;
+                    border-right: 7px solid transparent;
+                    border-bottom: 8px solid white;
+                }
+            }
+            &:hover {
+                .dropdown {
+                    display: flex;
+                }
+            }
+        }
+    }
+    h2 {
+        font-size: 40px;
+        font-weight: 700;
+        color: #1b2124;
+    }
+    @media (max-width:800px) {
+        .main-heading {
+            @include toCenter();
+            padding: 0;
+            h1 {
+                font-size: 25px;
+                padding: 0;
+            }
+        }
+        nav {
+            display: grid;
+            grid-template-columns: repeat(3 , 1fr);
+            .nav-item {
+                font-size: 14px;
+                width:100%;
+            }
+            // dropdown 
+            .dropdown-container {
+                width: 100%;
+                .nav-item {
+                    font-size: 14px;   
+                }
+                .dropdown {
+                    .dropdown-item {
+                        font-size: 13px;
+                    }
+                }
+                &:hover {
+                    .dropdown {
+                        display: flex;
+                    }
+                }
+            }
+        }
+    }
+    // Profile
+    .save {
+        @include toCenter();
+        height: 150px;
+        border-top: 1px solid #ddd;
+        .button {
+            @include toCenter();
+            @include normalBackground();
+            color: white;
+            padding: 10px 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: .2s;
+            &:hover {
+                opacity: .8;
+            }
+        }
+    }
+    .Profile--Personal {
+        padding: 40px 5%;
+        padding-bottom: 0;
+        background: #fafcfc;
+        .inputs {
+            display: grid;
+            grid-template-columns: repeat(2 , 1fr);
+            grid-gap: 30px;
+            margin: 30px 0;
+            .element {
+                display: flex;
+                flex-direction: column;
+                gap: 10px; 
+                span.important {
+                    color: red;
+                }
+                label {
+                    color: #757575;
+                    font-size: 16px;
+                }
+                input,
+                select {
+                    color: $dark; 
+                    background-color: #fff; 
+                    border: 1px solid rgba(0,0,0,.1); 
+                    height: 35px;
+                    line-height: 35px;
+                    outline: 0;
+                    padding: 0 15px; 
+                    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+                    width: 100%;
+                    &:focus {
+                        border-color: $normal-color;
+                    }
+                } 
+            } 
+        }
+        @media (max-width:800px) {
+            .inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+    .Profile--Password {
+        padding: 40px 5%;
+        padding-bottom: 0;
+        background: #fafcfc;
+        .inputs {
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 50%;
+            grid-gap: 30px;
+            margin: 30px 0;
+            .element {
+                display: flex;
+                flex-direction: column;
+                gap: 10px; 
+                span.important {
+                    color: red;
+                }
+                label {
+                    color: #757575;
+                    font-size: 16px;
+                }
+                input,
+                select {
+                    color: $dark; 
+                    background-color: #fff; 
+                    border: 1px solid rgba(0,0,0,.1); 
+                    height: 35px;
+                    line-height: 35px;
+                    outline: 0;
+                    padding: 0 15px; 
+                    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+                    width: 100%;
+                    &:focus {
+                        border-color: $normal-color;
+                    }
+                } 
+            } 
+        } 
+    } 
+    .Profile--Interests {
+        padding: 40px 5%;
+        padding-bottom: 0;
+        background: #fafcfc;
+        .user-interests-desktop {
+            display: grid;
+            grid-template-columns: repeat(6 , 1fr);
+            grid-auto-rows: 200px;
+            margin: 40px 0;
+            .type {
+                @include toCenter();
+                cursor: pointer;
+                flex-direction: column;
+                gap: 20px;
+                border: 1px solid #eee;
+                object {
+                    pointer-events: none;
+                    user-select: none;
+                }
+                &:hover {
+                    background: white; 
+                    span {
+                        @include normalColor(); 
+                    }
+                } 
+                &.active {
+                    background: white; 
+                    border: 1px solid $normal-color;
+                    span {
+                        @include normalColor(); 
+                    }
+                } 
+                span {
+                    color: #afb0b0;
+                    font-size: 15px;
+                }
+            }
+        }
+        .user-interests-mobile {
+            display: none;
+            flex-direction: column;
+            gap: 20px; 
+            margin: 20px 0;
+            select {
+                color: $dark; 
+                background-color: #fff;
+                background-image: none;
+                border-radius: 6px;
+                border: 1px solid rgba(0,0,0,.2); 
+                height: 40px;
+                line-height: 40px;
+                outline: 0;
+                padding: 0 15px; 
+                transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+                width: 100%;
+                &:focus {
+                    border-color: $normal-color;
+                }
+            } 
+        }
+        @media (max-width:900px) {
+            .user-interests-desktop{
+                display: none;
+            }
+            .user-interests-mobile {
+                display: flex;
+            }
+        }
+    } 
+    // Billing
+    .Billing {
+        padding: 40px 5%;
+        background: #fafcfc;
+        .current-plan {
+            @include toCenter();
+            @include lightBackground();
+            justify-content: space-between;
+            width: 100%;
+            padding: 60px 5%;
+            border-radius: 20px;
+            gap: 30px;
+            margin: 30px 0;
+            h3 {
+                color: $normal-color;
+            }
+            .left {
+                width: 60%;
+                font-size: 20px;
+                line-height: 1.7;
+            }
+            .right {
+                @include normalBackground();
+                padding: 15px 30px;
+                border-radius: 5px;
+                color: white;
+                cursor: pointer;
+            }
+        }
+        .current-plan {
+            flex-direction: column;
+            gap: 15px; 
+            align-items: flex-start;
+            .right { 
+                align-items: flex-start;
+            }
+            .left {
+                width: 95%;
+                p {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    // Settings
+    .settings--order-notification {
+        padding: 40px 5%;
+        background: #fafcfc;
+        & > p {
+            color: gray;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 30px 0;
+            .element {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                input {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

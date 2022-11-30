@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <!-- Meta setup -->
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="keywords" content="">
+        <meta name="decription" content="">
+        <meta name="designer" content="">
+        
+        <!-- Title -->
+        <title>Welcome</title>
+        
+        <!-- Fav Icon -->
+        <link rel="icon" href="images/favicon.ico" />   
+
+        <!-- fonts -->
+        <link href="https://api.fontshare.com/v2/css?f[]=general-sans@701,500,300,600,400,700&f[]=cabinet-grotesk@800,500,700,400,300,900&display=swap" rel="stylesheet"> 
+
+        <!-- datepicker css -->
+        <link rel="stylesheet" href="css/datepicker.css" />
+
+        <!-- Include Bootstrap -->
+        <link rel="stylesheet" href="css/bootstrap.css" />
+
+        <!-- Main StyleSheet -->
+        <link rel="stylesheet" href="style.css" />  
+        
+        <!-- Responsive CSS -->
+        <link rel="stylesheet" href="css/responsive.css" /> 
+        
+    </head>
+    <body>
+        <!--[if lte IE 9]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p><![endif]-->
+
+        <!-- header-area start -->
+        <header class="header-area">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="#">
+                        <img src="images/logo.png" alt="">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </button>
+                    <div class="collapse navbar-collapse">
+                        <div class="ms-auto">
+                            <form action="#">
+                                <div class="search-barmain header-searchbar">
+                                    <div class="search-left">
+                                        <input type="search" placeholder="UX">
+                                    </div>
+                                    <div class="search-right">
+                                        <div class="date-field">
+                                            <input class="datepicker_3" type="text" value="Oct 10,2021" data-zdp_readonly_element="false" />
+                                        </div>
+                                        <button class="search-btn" type="button"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <ul class="navbar-nav nav-btn ms-auto">            
+                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Log In</a></li> 
+                            <li><a class="active" href="#">Sign Up</a></li> 
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- header-area end -->
+        
+        <!-- side-bar start -->
+        <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                    <a href="#">
+                        <img src="images/logo.png" alt="">
+                    </a>
+                </h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav">
+                    <li><a href="#">Concerts</a></li>
+                    <li><a href="#">Arts</a></li>
+                    <li><a href="#">Conference</a></li>
+                    <li><a href="#">Movies</a></li>             
+                    <li><a href="#">International</a></li> 
+                </ul>
+                <ul class="navbar-nav nav-btn">            
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Log In</a></li> 
+                    <li><a class="active" href="#">Sign Up</a></li> 
+                </ul>
+            </div>
+        </div>
+        <!-- side-bar end -->
+
+        <!-- result-wrapper start -->
+        <div class="result-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="result-left me-xl-5">
+                            <div class="result-title">
+                                <h2>Filters</h2>
+                            </div>
+                            <div class="stich-btn">
+                                <label class="switch">
+                                    <input type="checkbox" checked="">
+                                    <span class="slider round"></span>
+                                </label>
+                                <span class="online online-checked">Online</span>
+                            </div>
+
+                            <div class="filter-item">
+                                <h4>Location <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
+                                <form action="#" method="POST">
+                                    <ul class="filter-disable">
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck1">
+                                                <label for="ck1">International</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck2">
+                                                <label for="ck2">Jakarta Selatan</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck3">
+                                                <label for="ck3">Jakarta Timur</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck4">
+                                                <label for="ck4">Tangerang Selatan</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck5">
+                                                <label for="ck5">Jabodetabek</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </form>
+                            </div>
+
+                            <div class="filter-item">
+                                <h4>Categories <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
+                                <form action="#" method="POST">
+                                    <ul>
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck6">
+                                                <label for="ck6">Concert</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck7">
+                                                <label for="ck7">Arts</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck8" checked>
+                                                <label for="ck8">Conference</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="ck9">
+                                                <label for="ck9">Movies</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </form>
+                            </div>
+
+                            <div class="filter-item border-0">
+                                <h4>Price <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
+                                <div class="range-slider">
+                                    <div id="slider-range"></div>
+                                    <div class="range-cnt">
+                                        <span id="slider-range-value1"></span>
+                                        <span id="slider-range-value2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="result-right">
+                            <div class="result-forupr">
+                                <h2>Search results for <span> “UX”</span></h2>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 col-xl-4">
+                                    <div class="result-item">
+                                        <img src="images/ux-1.png" alt="">
+                                        <div class="result-cnt">
+                                            <div class="result-cntleft">
+                                                <h4>SEP</h4>
+                                                <p>20</p>
+                                            </div>
+                                            <div class="result-cntright">
+                                                <h6>Conference · Online</h6>
+                                                <h4>Coding 105: UI/UX Design</h4>
+                                                <p>Rp. 200.000 - 550.000</p>
+                                                <p><i class="fas fa-map-marker-alt"></i> Online</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-4">
+                                    <div class="result-item">
+                                        <img src="images/ux-2.png" alt="">
+                                        <div class="result-cnt">
+                                            <div class="result-cntleft">
+                                                <h4>SEP</h4>
+                                                <p>22</p>
+                                            </div>
+                                            <div class="result-cntright">
+                                                <h6>Conference · Online</h6>
+                                                <h4>Intro to UX/UI Design</h4>
+                                                <p>Rp. 200.000 - 550.000</p>
+                                                <p><i class="fas fa-map-marker-alt"></i> Online</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-4">
+                                    <div class="result-item">
+                                        <img src="images/ux-3.png" alt="">
+                                        <div class="result-cnt">
+                                            <div class="result-cntleft">
+                                                <h4>SEP</h4>
+                                                <p>23</p>
+                                            </div>
+                                            <div class="result-cntright">
+                                                <h6>Conference · Online</h6>
+                                                <h4>Skills U: UX/UI Design</h4>
+                                                <p>Rp. 200.000 - 550.000</p>
+                                                <p><i class="fas fa-map-marker-alt"></i> Online</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-4">
+                                    <div class="result-item">
+                                        <img src="images/ux-4.png" alt="">
+                                        <div class="result-cnt">
+                                            <div class="result-cntleft">
+                                                <h4>SEP</h4>
+                                                <p>24</p>
+                                            </div>
+                                            <div class="result-cntright">
+                                                <h6>Conference · Online</h6>
+                                                <h4>UX/UI Design Workshop</h4>
+                                                <p>Rp. 200.000 - 550.000</p>
+                                                <p><i class="fas fa-map-marker-alt"></i> Online</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- result-wrapper end -->
+
+        <!-- footer-area start -->
+        <footer class="footer-area">
+            <div class="container">
+                <div class="footer-main">
+                    <div class="footer-logo">
+                        <a href="#">
+                            <img src="images/footer-logo.png" alt="">
+                        </a>
+                    </div>
+                    <div class="footer-item">
+                        <h4>About</h4>
+                        <ul>
+                            <li><a href="#">About Karcis.com</a></li>
+                            <li><a href="#">How it works</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Forum</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-item">
+                        <h4>Partner with us</h4>
+                        <ul>
+                            <li><a href="#">Partnership programs</a></li>
+                            <li><a href="#">Affiliate program</a></li>
+                            <li><a href="#">Connectivity partners</a></li>
+                            <li><a href="#">Promotions and events</a></li>
+                            <li><a href="#">Integrations</a></li>
+                            <li><a href="#">Community</a></li>
+                            <li><a href="#">Loyalty program</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-item">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact us</a></li>
+                            <li><a href="#">Privacy policy</a></li>
+                            <li><a href="#">Terms of service</a></li>
+                            <li><a href="#">Trust and safety</a></li>
+                            <li><a href="#">Accessibility</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-item">
+                        <h4>Get the app</h4>
+                        <ul>
+                            <li><a href="#">Karcis.com for Android</a></li>
+                            <li><a href="#">Karcis.com for iOS</a></li>
+                            <li><a href="#">Mobile site</a></li>
+                            <li class="pt-3"><a href="#"><img src="images/app-store.png" alt=""></a></li>
+                            <li><a href="#"><img src="images/google-play.png" alt=""></a></li>
+                        </ul>
+                    </div>
+                </div>             
+            </div>
+            <div class="footer-btmprt">
+                <div class="container">
+                    <div class="footer-btmitem">
+                        <ul>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                        </ul>
+                        <p>&copy; 2020 Karcis incorporated</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- footer-area end -->
+
+        <!-- modal-area start -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Log in to continue</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div class="modal-links">
+                            <ul>
+                                <li><a href="#">Log In</a></li>
+                                <li><a class="active" href="#">Guest</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="modal-cnt">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mdl-item">
+                                            <label for="a1">First Name</label>
+                                            <input type="text" id="a1" placeholder="Your name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mdl-item">
+                                            <label for="a2">Last Name</label>
+                                            <input type="text" id="a2" placeholder="Your name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mdl-item">
+                                            <label for="a3">Phone number</label>
+                                            <input type="tel" id="a3" placeholder="Your phone number" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mdl-item">
+                                            <label for="a4">Email address</label>
+                                            <input type="email" id="a4" placeholder="name@example.com" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mdl-btmcnt">
+                                            <p>E-tickets will be sent to your email address, please make sure your email address is correct.</p>
+                                            <button type="button">Continue</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal-area end -->
+
+        <!-- Main jQuery -->
+        <script src="js/jquery-3.4.1.min.js"></script>       
+   
+        <!-- Bootstrap jQuery -->
+        <script src="js/bootstrap.bundle.js"></script>
+
+        <!-- datepicker js -->
+        <script src="js/datepicker.min.js"></script>
+
+        <!-- range js -->
+        <script src="js/range.js"></script>
+
+        <!-- Fontawesome Script -->
+        <script src="https://kit.fontawesome.com/7749c9f08a.js"></script>
+        
+        <!-- Custom jQuery -->
+        <script src="js/scripts.js"></script>
+        
+        <!-- Scroll-Top button -->
+        <a href="#" class="scrollto-top"><i class="fas fa-angle-up"></i></a>
+
+        <script>;
+            $('.datepicker_3').Zebra_DatePicker();
+        </script>
+    </body>
+</html>

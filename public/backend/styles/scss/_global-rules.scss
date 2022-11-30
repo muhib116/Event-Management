@@ -1,0 +1,50 @@
+// font face
+@font-face {
+    font-family: main-font;
+    src: url(../../fonts/Segoe\ UI.ttf);
+}
+// Page Rules
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: main-font;
+    text-decoration: none;
+    scroll-behavior: smooth;
+}
+body {
+    &.no-scroll {
+        overflow-y: hidden;
+    }
+}
+// Colors
+:root {
+    --normal-orange:#fc6435;
+    --light-orange:#ffefea;
+    --dark:#1b2124;
+}
+// custom framework
+.hide {
+    display: none !important;
+}
+// Mixins
+@mixin toCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin normalBackground {
+    background: var(--normal-orange);
+}
+@mixin lightBackground {
+    background: var(--light-orange);
+}
+@mixin normalColor {
+    color: var(--normal-orange);
+}
+@mixin lightColor {
+    color: var(--light-orange);
+}
+// variables
+$dark: var(--dark);
+$normal-color: var(--normal-orange);

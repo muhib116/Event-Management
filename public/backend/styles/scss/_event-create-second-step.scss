@@ -1,0 +1,160 @@
+.event-creation.step-2 {
+    .steps {
+        position: relative; 
+        &:before {
+            position: absolute;
+            content: '';
+            top: 15px;
+            transform: translateY(-50%);
+            left: 0;
+            width: 50%;
+            height: 3px;
+            z-index: 0;
+            background: $normal-color;
+        }
+        .step {
+            z-index: 1;
+        }
+    }
+    .event-theme {
+        display: grid;
+        grid-template-columns: repeat(2 , 1fr);
+        grid-gap: 20px;
+        width: 100%;
+        margin: 20px 0;
+        .theme {
+            position: relative;
+            height: 200px;
+            background: #f5f6f6;
+            .left {
+                width: 50%;
+                position: absolute;
+                left: 0; 
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 15px;
+                span.in-use {
+                    background: #dfefe2;
+                    color: #4ec757;
+                    width: fit-content;
+                    border-radius: 5px;
+                    font-weight: bolder;
+                    font-size: 11px;
+                    padding: 2px 4px;
+                }
+                img.pro {
+                    width: 25px;
+                }
+                h4 {
+                    margin-top: 10px;
+                    font-size: 20px;
+                }
+                .buttons {
+                    display: flex;
+                    margin-top: auto;
+                    justify-content: space-between;
+                    gap: 10px;
+                    .button {
+                        @include toCenter();
+                        background: $normal-color;
+                        width: 50%;
+                        height: 40px;
+                        border-radius: 10px;
+                        color: white;
+                        cursor: pointer;
+                        &.light {
+                            background: #f6e7e2;
+                            color: $normal-color;
+                        }
+                        &:hover {
+                            opacity: .75;
+                        }
+                    }
+                }
+            }
+            .right {
+                width: 50%;
+                height: 100%;
+                position: absolute;
+                right: 0;
+                img {
+                    position: absolute;
+                    right: 0;
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                }
+            }
+        }
+    }   
+    @media (max-width:900px) {
+        .event-theme {
+            grid-template-columns: 1fr;
+        }
+    } 
+    // event image
+    .event-image-section {
+        position: relative;
+        @include toCenter();
+        width: 100%;
+        height: 500px;
+        background: #f5f6f6;
+        border-radius:20px;
+        margin: 100px 0;
+        overflow: hidden;
+        input {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            opacity: 0
+        }
+        & > img.fill-container {
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform: translate(-50% , -50%); 
+            outline: none;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        .input-here {
+            @include toCenter();
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+            width:60%;
+            height: 60%;
+            background: white;
+            border-radius: 10px;
+            img {
+                width: 50px;
+            }
+            span {
+                color: $normal-color;
+            }
+        }
+    }
+    @media (max-width:900px) {
+        .event-image-section {   
+            height: 230px;
+            .input-here {
+                @include toCenter();
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                width:80%;
+                height: 60%;
+                background: white;
+                border-radius: 10px;
+                img {
+                    width: 40px;
+                }
+                span {
+                    color: $normal-color;
+                }
+            }
+        }
+    }
+}

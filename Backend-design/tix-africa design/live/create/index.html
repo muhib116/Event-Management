@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- CSS -->
+      <link rel="stylesheet" href="../../assets/styles/css/main.css">
+      <!-- Fontawesome -->
+      <script src="https://kit.fontawesome.com/38516d3f67.js" crossorigin="anonymous"></script>
+      <!-- favicon -->
+      <link rel="shortcut icon" href="../../assets/images/favicon.ico" type="image/x-icon">
+      <!-- Site Title -->
+      <title>Tix - Buy and sell event tickets on the internet</title>
+   </head>
+   <body id="body">
+      <!-- Header -->
+      <header>
+         <a href="/"><img src="../../assets/images/logo.svg" alt="Logo Image" class="logo"></a>
+         <div class="account-container">
+            <div class="account"> EK </div>
+            <div class="nav">
+               <a href="/live/account">Account</a>
+               <a href="/">Events</a>
+               <a href="#">Help</a>
+               <a href="#">Log out</a>
+            </div>
+         </div>
+      </header>
+      <div class="event-creation step-3 ">
+         <div class="steps">
+            <div class="step first">
+               <div class="icon active">
+                  <i class="fa-solid fa-check"></i>
+               </div>
+               <span>Details</span>
+            </div>
+            <div class="step second">
+               <div class="icon active">
+                  <i class="fa-solid fa-check"></i>
+               </div>
+               <span>Appearance</span>
+            </div>
+            <div class="step third">
+               <div class="icon active">
+                  <i class="fa-solid fa-check"></i>
+               </div>
+               <span>Tickets</span>
+            </div>
+         </div>
+         <div class="note">
+            <a href="#">Tix is free to use for free events. If you’re charging guests a fee, we charge a percentage of the value of ticket as a transaction processing fee.</a> 
+         </div>
+         <div class="make-tickets">
+            <img src="../../assets/images/ticket-create.svg" alt="Ticket Create">
+            <h5>Let's create tickets</h5>
+            <p>You don't have any tickets created yet, create your first ticket - it will only take 1 minute</p>
+            <div class="button" id="trigger_make_ticket">
+               Add Ticket <i class="fa-solid fa-plus"></i>
+            </div>
+         </div>
+         <!-- continue buttons 2-->
+         <div class="continue-buttons">
+            <div class="button">Skip and do this later</div>
+         </div>
+      </div>
+      <!-- Create New Event -->
+      <div id="screen_overlay" class="screen-overlay">
+         <div class="create-ticket hide" id="make_ticket">
+            <!-- exit creat new -->
+            <i id="exit_create_ticket" class="fa-solid exit fa-xmark"></i>
+            <!-- title -->
+            <div class="title">Create your tickets</div>
+            <!-- content goes here -->
+            <div class="content">
+               <h6>What kind of ticket is it?</h6>
+               <div class="kind-of-ticket">
+                  <div class="button free active">Free</div>
+                  <div class="button paid">Paid</div>
+                  <div class="button invite-only">Invite only</div>
+               </div>
+               <div class="element">
+                  <label for="name">*Ticket Name</label>
+                  <input name="name" type="text">
+               </div>
+               <div class="element">
+                  <label for="name">Stock</label>
+                  <div class="two-columns">
+                     <select id="tickets_stock" >
+                        <option value="limited">Limited Stock</option>
+                        <option value="unlimited">Unlimited Stock</option>
+                     </select>
+                     <input type="number" id="tickets_stock_input" >
+                  </div>
+               </div>
+               <div class="element pricing hide" id="ticket_price">
+                  <label for="paid">Price</label>
+                  <div class="two-columns">
+                     <input type="text" value="$" disabled>
+                     <input type="number" >
+                  </div>
+               </div>
+               <div class="element">
+                  <label for="name">*Purchase Limit</label>
+                  <select name="" >
+                     <option value="1">1</option>
+                     <option value="2">2</option>
+                     <option value="3">3</option>
+                     <option value="4">4</option>
+                     <option value="5">5</option>
+                  </select>
+               </div>
+               <div class="element">
+                  <label for="name">*Ticket description</label>
+                  <textarea name="Ticket description"></textarea>
+               </div>
+               <div class="element perks" id="perks">
+                  <input type="text" placeholder="Perks for this ticket" id="perks_input"> 
+                  <div class="add-perk" id="add_perk"><img src="../../assets/images/+.svg">Add</div>
+               </div>
+               <div class="element">
+                  <div class="two-columns">
+                     <input type="checkbox" name="perk checkbox">
+                     <label for="perk checkbox">Transfer fees to guest</label>
+                  </div>
+               </div>
+               <h6 class="additional-information-heading">Do you want to collect additional information?</h6>
+               <div class="element">
+                  <label for="question">Custom question</label>
+                  <input type="text" name="question"> 
+               </div>
+               <div class="element">
+                  <div class="two-columns">
+                     <input type="checkbox" name="perk checkbox">
+                     <label for="perk checkbox">Make this question required</label>
+                  </div>
+               </div>
+               <div class="add-other-question">
+                  <a href="#">Add an other question</a> 
+                  <img src="../../assets/images/star-bars.svg" alt="move-pro icon">
+               </div>
+               <div class="buttons">
+                  <div class="button btn-light">skip</div>
+                  <div class="button">continue</div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Type of ticket script -->
+      <script src="../../assets/js/ticket-type.js"></script>
+      <!-- make ticket script -->
+      <script src="../../assets/js/make-ticket.js"></script>
+      <!-- choose type of event -->
+      <script src="../../assets/js/type-of-event.js"></script>
+      <!-- upload image script -->
+      <script src="../../assets/js/image-upload.js"></script>
+      <!-- jump to next step script -->
+      <script src="../../assets/js/next-step.js"></script>
+      <!-- Add perks script -->
+      <script src="../../assets/js/add-perk.js"></script>
+      <!-- Editor script -->
+      <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+      <script>
+         ClassicEditor
+             .create( document.querySelector( '#editor' ) )
+             .catch( error => {
+                 console.error( error );
+             } );
+      </script>
+   </body>
+</html>
