@@ -953,7 +953,7 @@ main.dashboard {
             border-color: var(--normal-orange); }
         .screen-overlay .create-ticket .content .element input[type=number] {
           text-align: center; }
-        .screen-overlay .create-ticket .content .element [type=checkbox] {
+        .screen-overlay .create-ticket .content {
           height: 20px;
           width: 20px; }
         .screen-overlay .create-ticket .content .element textarea {

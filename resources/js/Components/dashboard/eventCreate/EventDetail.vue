@@ -3,123 +3,61 @@
         <h2>Event Details</h2>
         <div class="element">
             <label for="name">*Event Name</label>
-            <input name="name" type="text">
+            <input name="name" type="text" v-model="formData.name">
         </div>
         <div class="element">
             <label for="name">*Describe your event</label>
-            <textarea rows="15"></textarea>
+            <textarea rows="15" v-model="formData.description"></textarea>
         </div>
         <div class="element">
             <label for="location">*Location of event</label>
-            <input name="location" type="text" placeholder="Full Adress">
+            <input name="location" v-model="formData.location" type="text" placeholder="Full Adress">
         </div>
         <div class="element">
             <label for="location">*Use Costum URL</label>
             <div class="input-container">
                 <div class="startup">tix.africa/discover/</div>
-                <input name="url" type="url">
+                <input name="url" type="url" required v-model="formData.url">
             </div>
         </div>
         <div class="element">
             <label for="location">*Location tips</label>
-            <input name="location" type="text" placeholder="Use an uber, it's the green building on the left, etc">
+            <input 
+                name="location" 
+                type="text" required 
+                placeholder="Use an uber, it's the green building on the left, etc"
+                v-model="formData.location"
+            >
         </div>
         <h3>What kind of event is it?</h3>
         <p>Select the applicable category for your event</p>
+
+
         <!-- desktop kind of event -->
         <div class="kind-of-event ">
-            <div class="type active">
-                <object data="../../assets/images/svgs/art.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
+            <div 
+                v-for="item in eventsCategory" 
+                :key="item.name" 
+                class="type" :class="(item.isSelected&&'active')"
+                @click="() => {
+                    setActiveEvent(item)
+                    formData.eventCategory = item.name
+                }"
+            >
+                <img :src="item.src" />
+                <span class="name">
+                    {{ item.name }}
+                </span>
             </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/business.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/career.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/aid.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/5.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/6.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/7.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/8.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/9.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/10.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/11.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/12.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/13.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/14.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/15.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/16.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-            <div class="type">
-                <object data="../../assets/images/svgs/17.svg"></object>
-                <span class="name">Arts &amp; Culture</span>
-            </div>
-        </div> 
-
+        </div>
 
 
         <!-- mobile kind of event -->
         <div class="element mobile">
-            <select>
-                <option value="arts &amp; culture">arts &amp; culture</option>
-                <option value="business">business</option>
-                <option value="career">career</option>
-                <option value="charity &amp; aid">charity &amp; aid</option>
-                <option value="children &amp; youth">children &amp; youth</option>
-                <option value="community">community</option>
-                <option value="fashion &amp; design">fashion &amp; design</option>
-                <option value="food &amp; drink">food &amp; drink</option>
-                <option value="goverment">goverment</option>
-                <option value="investments">investments</option>
-                <option value="media &amp; film">media &amp; film</option>
-                <option value="music &amp; performances">music &amp; performances</option>
-                <option value="schools &amp; education">schools &amp; education</option>
-                <option value="spirituality &amp; religion">spirituality &amp; religion</option>
-                <option value="sports &amp; fitness">sports &amp; fitness</option>
-                <option value="startups &amp; smallbusiness">startups &amp; smallbusiness</option>
-                <option value="technology &amp; science">technology &amp; science</option>
+            <select v-model="formData.eventCategory">
+                <option v-for="item in eventsCategory" :key="'event-'+item.name" :value="item.name">
+                    {{ item.name }}
+                </option>
             </select>
         </div>
 
@@ -129,20 +67,30 @@
         <p>Select all the dates of your event</p>
         <div class="when">
             <div class="btns">
-                <div class="btn active">Single Event</div>
-                <div class="btn pro">Recurring Event</div>
-                <div class="btn pro">One-on-One</div>
+                <div 
+                    v-for="eventType in eventTypes" 
+                    class="btn" 
+                    :class="eventType.isSelected&&'active'"
+                    @click="() => {
+                        setActiveEventType(eventType)
+                        formData.eventType = eventType.name
+                    }"
+                >
+                    {{ eventType.name }}
+                </div>
             </div>
+
             <div class="element mobile">
-                <select>
+                <select v-model="formData.eventType">
                     <option value="Single Event">Single Event</option>
                     <option value="Recurring Event">Recurring Event</option>
                     <option value="One-on-One">One-on-One</option>
                 </select>
             </div>
+
             <div class="element">
                 <label for="location">*Select TimeZone</label>
-                <select>
+                <select v-model="formData.timezone">
                     <option data-time-zone-id="1" data-gmt-adjustment="GMT-12:00" data-use-daylight="0" value="-12">(GMT-12:00) International Date Line West</option>
                     <option data-time-zone-id="2" data-gmt-adjustment="GMT-11:00" data-use-daylight="0" value="-11">(GMT-11:00) Midway Island, Samoa</option>
                     <option data-time-zone-id="3" data-gmt-adjustment="GMT-10:00" data-use-daylight="0" value="-10">(GMT-10:00) Hawaii</option>
@@ -227,56 +175,78 @@
                     <option data-time-zone-id="82" data-gmt-adjustment="GMT+13:00" data-use-daylight="0" value="13">(GMT+13:00) Nuku'alofa</option>
                 </select>
             </div>
+
             <div class="element">
                 <label for="location">*Start date</label>
                 <div class="date-time">
-                    <input type="date">
-                    <input type="time">
+                    <input v-model="formData.start_date" type="date">
+                    <input v-model="formData.start_time" type="time">
                 </div>
             </div>
             <div class="element">
                 <label for="location">*End date</label>
                 <div class="date-time">
-                    <input type="date">
-                    <input type="time">
+                    <input v-model="formData.end_date" type="date">
+                    <input v-model="formData.end_time" type="time">
                 </div>
             </div>
         </div>
+
+
 
         <h2>Social details</h2>
         <div class="element"> 
             <div class="input-container">
                 <div class="startup"><i class="fa-solid fa-link"></i></div>
-                <input name="Website" type="url" placeholder="Your Website URL">
+                <input v-model="formData.website" name="Website" type="url" placeholder="Your Website URL">
             </div>
         </div>
         <div class="element"> 
             <div class="input-container">
                 <div class="startup"><i class="fa-brands fa-instagram"></i></div>
-                <input name="instagram" type="url" placeholder="Your Instagram Handle">
+                <input v-model="formData.instagram" name="instagram" type="url" placeholder="Your Instagram Handle">
             </div>
         </div>
         <div class="element"> 
             <div class="input-container">
                 <div class="startup"><i class="fa-brands fa-twitter"></i></div>
-                <input name="twitter" type="url" placeholder="Your Twitter Handle">
+                <input v-model="formData.twitter" name="twitter" type="url" placeholder="Your Twitter Handle">
             </div>
         </div>
         <div class="element"> 
             <div class="input-container">
                 <div class="startup"><i class="fa-brands fa-facebook-f"></i></div>
-                <input name="facebook" type="url" placeholder="Your Facebook Handle">
+                <input v-model="formData.facebook" name="facebook" type="url" placeholder="Your Facebook Handle">
             </div>
         </div>
         <!-- Continue Buttons -->
         <div class="save-or-cancel">
             <div class="button save">Cancel</div>
-            <div class="button save bg-red">Continue</div>
+            <div class="button save bg-red" @click="callback(formData)">Continue</div>
         </div>
     </div>
 </template>
 
+
+
 <script setup>
+    import useEvent from '../../../Pages/useEvent.js'
+
+    const props = defineProps({
+        formData: {
+            default: {}
+        },
+        callback: {
+            type: Function
+        }
+    })
+
+    const {
+        eventsCategory, 
+        setActiveEvent, 
+        eventTypes, 
+        setActiveEventType
+    } = useEvent()
 </script>
 
 <style scoped>

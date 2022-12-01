@@ -23,9 +23,9 @@
 </template>
 
 <script setup>
-    import TicketCreatePopup from '@/Components/dashboard/popup/TicketCreatePopup.vue';
-    import { ref } from 'vue'
-    const showPopup = ref(false)
+   import TicketCreatePopup from '@/Components/dashboard/popup/TicketCreatePopup.vue';
+   import { ref } from 'vue'
+   const showPopup = ref(false)
 </script>
 
 <style lang="scss" scoped>
