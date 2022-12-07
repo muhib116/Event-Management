@@ -29,7 +29,11 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::inertia('create/event', 'EventCreate');
+Route::get('create/event/{eventType}', function($eventType){
+    return Inertia::render('EventCreate', [
+        'eventType' => $eventType
+    ]);
+});
 
 
 Route::middleware('auth')->group(function () {
