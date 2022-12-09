@@ -2,6 +2,12 @@
 import Header from '@/Components/dashboard/Header.vue';
 import EventDashboard from '@/Components/dashboard/EventDashboard.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+const props = defineProps({
+    events: {
+        type: Array
+    }
+})
+
 </script>
 
 <template>
@@ -9,7 +15,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
     <AuthenticatedLayout>
         <Header />
-        <EventDashboard />
+        <EventDashboard :events="events" />
         <!-- <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template>

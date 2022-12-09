@@ -33,11 +33,11 @@
     } = useEvent()
 
     const handleForm = (data) => {
-        progressStep.value ++
+        // progressStep.value ++
         formData.value.eventType = props.eventType
         activeComponent.value = CreateTicket
         console.log(formData.value)
-        console.log(progressStep);
+        // console.log(progressStep);
     }
 </script>
 

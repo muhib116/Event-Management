@@ -1,5 +1,5 @@
 <template>
-    <header class="bg-white">
+    <header class="bg-white shadow-md z-10 sticky top-0">
         <Link :href="route('home')">
             <img src="../../assets/images/logo.svg" alt="Logo Image" class="logo">
         </Link>

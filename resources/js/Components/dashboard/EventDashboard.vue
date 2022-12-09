@@ -29,26 +29,27 @@
                     <img src="../../assets/images/dots.svg" class="dots" alt="dots">
                 </div>
             </div>
-            <a href="live/event" class="event">
+            
+            <a v-for="event in events" :key="event.id" href="live/event" class="event">
                 <div class="thumbnail">
                     <img src="../../assets/images/apple.jpg" alt="Thumbnail">
-                    <span>Draft</span>
+                    <span>{{ event.status ? 'Ended' : 'Draft' }}</span>
                 </div>
                 <div class="details">
                     <div class="top">
-                        <div class="name">Odio nihil ducimus quas...</div>
+                        <div class="name">{{ event.name }}</div>
                         <div class="tickets">
                             <img src="../../assets/images/ticket.svg" alt="">
                             <div class="number">0</div>
                         </div>
                     </div>
                     <div class="bottom">
-                        <div class="date">Started 11 hours ago</div>
+                        <div class="date">{{ event.start_date }}</div>
                         <div class="state">Tickets Sold</div>
                     </div>
                 </div>
             </a>
-            <a href="live/event" class="event">
+            <!-- <a href="live/event" class="event">
                 <div class="thumbnail">
                     <img src="../../assets/images/thumbnail.png" alt="Thumbnail">
                     <span>Ended</span>
@@ -142,7 +143,7 @@
                         <div class="state">Tickets Sold</div>
                     </div>
                 </div>
-            </a>
+            </a> -->
         </div>
 
         <NewEventPopup v-model="showEventPopup" />
@@ -156,6 +157,11 @@
     import BoxOfficePopup from './popup/BoxOfficePopup.vue';
     const showEventPopup = ref(false)
     const showBoxOfficePopup = ref(false)
+    const props = defineProps({
+        events: {
+            typeof: Array
+        }
+    });
 </script>
 
 <style lang="scss" scoped>

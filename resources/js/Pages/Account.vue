@@ -9,29 +9,30 @@
         </div>
         <nav>
             <div class="dropdown-container">
-                <div class="profile nav-item filter-item active" data-filter="profile-personal"> 
+                <div class="profile nav-item filter-item" :class="{'active': activeTab=='profile-personal'}" @click="activeTab='profile-personal'"> 
                     Profile 
-                    <i class="fa-solid fa-chevron-down"></i></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
                 <div class="dropdown">
-                    <div class="dropdown-item filter-item " data-filter="profile-personal">Personal</div>
-                    <div class="dropdown-item filter-item" data-filter="profile-password">Password</div>
-                    <div class="dropdown-item filter-item" data-filter="profile-interests">Interests</div>
+                    <div class="dropdown-item filter-item " @click="activeTab='profile-personal'">Personal</div>
+                    <div class="dropdown-item filter-item" @click="activeTab='profile-password'">Password</div>
+                    <div class="dropdown-item filter-item" @click="activeTab='profile-interests'">Interests</div>
                 </div>
             </div>
-            <div class="billing nav-item filter-item" data-filter="billing">Billing</div>
+            <div class="billing nav-item filter-item" :class="{'active': activeTab=='billing'}" @click="activeTab='billing'">Billing</div>
             <div class="dropdown-container">
-                <div class="profile nav-item filter-item " data-filter="order-notifications"> 
+                <div class="profile nav-item filter-item" :class="{'active': activeTab=='order-notifications'}" @click="activeTab='order-notifications'"> 
                     Settings 
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="dropdown">
-                    <div class="dropdown-item filter-item " data-filter="order-notifications">Order notifications</div>
-                    <div class="dropdown-item filter-item" data-filter="payment-settings">Payment settings</div> 
+                    <div class="dropdown-item filter-item " @click="activeTab = 'order-notifications'">Order notifications</div>
+                    <div class="dropdown-item filter-item" @click="activeTab = 'payment-settings'">Payment settings</div> 
                 </div>
             </div>
         </nav>
         <!-- Profile -->
-        <div class="Profile--Personal account-item" data-item="profile-personal">
+        <div class="Profile--Personal account-item" v-show="activeTab == 'profile-personal'">
             <h2>Personal Informations</h2>
             <div class="inputs"> 
                 <div class="element">
@@ -51,7 +52,7 @@
                 <div class="button">Save</div>
             </div>
         </div>
-        <div class="Profile--Password hide account-item" data-item="profile-password">
+        <div class="Profile--Password account-item" v-show="activeTab == 'profile-password'">
             <h2>Update Password</h2>
             <div class="inputs"> 
                 <div class="element">
@@ -71,7 +72,7 @@
                 <div class="button">Save</div>
             </div>
         </div>
-        <div class="Profile--Interests hide account-item" data-item="profile-interests">
+        <div class="Profile--Interests account-item" v-show="activeTab == 'profile-interests'">
             <h2>Your interests</h2>
             <p>Select up to three categories that describe the events you organize</p>
             <!-- desktop user interests-->
@@ -213,7 +214,7 @@
             </div>
         </div>
         <!-- Billing -->
-        <div class="Billing account-item hide" data-item="billing">
+        <div class="Billing account-item" v-show="activeTab == 'billing'">
             <h2>Personal Informations</h2> 
             <div class="current-plan">
                 <div class="left">
@@ -233,7 +234,7 @@
             </div>
         </div>
         <!-- settings -->
-        <div class="settings--order-notification account-item hide" data-item="order-notifications">
+        <div class="settings--order-notification account-item" v-show="activeTab == 'order-notifications'">
             <h2>Order Notifications</h2>
             <p>How frequently should we send order notifications by email?</p>
             <div class="options">
@@ -259,7 +260,7 @@
                 </div>
             </div>
         </div>
-        <div class="settings--order-notification account-item hide" data-item="payment-settings">
+        <div class="settings--order-notification account-item" v-show="activeTab == 'payment-settings'">
             <h2>Payment Settings</h2>
             <p>How frequently should we send order notifications by email?</p>
             <div class="options">
@@ -278,8 +279,12 @@
 
 
 <script setup>
+import { ref } from '@vue/reactivity';
 import Header from '@/Components/dashboard/Header.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
+const activeTab = ref('profile-personal');
+
 
 
 </script>
