@@ -36,7 +36,8 @@
         progressStep.value ++
         formData.value.eventType = props.eventType
         activeComponent.value = CreateTicket
-        console.log(formData.value, props)
+        console.log(formData.value)
+        console.log(progressStep);
     }
 </script>
 

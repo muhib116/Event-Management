@@ -1,12 +1,12 @@
 <template>
-    <header>
-        <a href="/">
+    <header class="bg-white">
+        <Link :href="route('home')">
             <img src="../../assets/images/logo.svg" alt="Logo Image" class="logo">
-        </a>
+        </Link>
         <div class="account-container">
             <div class="account"> EK </div>
             <div class="nav">
-                <a href="/live/account">Account</a>
+                <Link :href="route('live.account')">Account</Link>
                 <a href="/">Events</a>
                 <a href="#">Help</a>
                 <a href="#">Log out</a>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-
+import { Link } from '@inertiajs/inertia-vue3'
 </script>
 
 <style lang="scss" scoped>

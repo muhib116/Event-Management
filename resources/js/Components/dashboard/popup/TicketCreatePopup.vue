@@ -115,6 +115,7 @@
 <script setup>
    import { ref } from 'vue'
    import useEvent from '@/Pages/useEvent';
+   import { useForm } from '@inertiajs/inertia-vue3'
 
    const placeholderQuestion = {
          question: '',
@@ -133,6 +134,14 @@
 
    const nextStep = () => {
       formData.value.question = questions
+      const form = useForm(formData.value)
+      form.post(route('event.store', formData.value.eventType), {
+         preserveScroll: true,
+         onSuccess: (ev) => {
+            console.log(ev);
+            form.reset('password')
+         },
+      });
       console.log(formData.value)
    }
 </script>

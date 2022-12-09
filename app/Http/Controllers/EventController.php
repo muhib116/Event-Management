@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\MEvents;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
+
+class EventController extends Controller
+{
+    public function index($eventType) {
+        return Inertia::render('EventCreate', [
+            'eventType' => $eventType
+        ]);
+    }
+
+    public function eventStore(Request $request) {
+        // return $request->all();
+        $request->validate([
+            'description' => 'required|string',
+            'end_date' => 'required',
+            'end_time' => 'required',
+            'eventCategory' => 'required',
+            'eventType' => 'required',
+            'location' => 'required',
+            'name' => 'required',
+        ]);
+        // return $request->all();
+        try {
+            DB::beginTransaction();
+            $event = MEvents::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'location' => $request->location,
+                'location_tips' => $request->location_tips,
+                'custom_url' => $request->custom_url,
+                'eventType' => $request->eventType,
+                'eventCategory' => $request->eventCategory,
+                'time_zone' => $request->time_zone,
+                'start_date' => $request->start_date,
+                'start_time' => $request->start_time,
+                'end_date' => $request->end_date,
+                'end_time' => $request->end_time,
+                'event_date_type' => $request->event_date_type,
+                'website' => $request->website,
+                'instagram' => $request->instagram,
+                'twitter' => $request->twitter,
+                'facebook' => $request->facebook,
+                'status' => $request->status ? 1 : 0,
+            ]);
+            
+            $ticket = $event->tickets()->create([
+                'ticket_name' => $request->ticket_name,
+                'ticket_description' => $request->ticket_description,
+                'ticket_type' => $request->ticketType,
+                'ticket_stock' => $request->ticket_stock,
+                'stock_limit' => $request->stock_limit ?? 0,
+                'price' => $request->price ?? 0,
+                'perks' => $request->perks,
+                'isTransferFeesToGuest' => $request->isTransferFeesToGuest ? 1 : 0,
+                'questions' => $request->question,
+                'settings' => $request->settings,
+            ]);
+            
+            DB::commit();
+            return redirect()->route('dashboard')->with('success', 'Event create successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            //throw $th;
+            return response([
+                'data' => [],
+                // 'message' => 'Opps! Something wrong.',
+                'message' => $th->getMessage(),
+                'status' => 'error'
+            ], 200);
+            // return redirect()->back()->with('error', 'Opps something wrong');
+        } 
+    }
+}
+/*
+
+name
+description
+location
+location_tips
+custom_url
+eventType
+eventCategory
+time_zone
+start_date
+start_time
+end_date
+end_time
+event_date_type
+website
+instagram
+twitter
+facebook
+status
+settings
+
+*/

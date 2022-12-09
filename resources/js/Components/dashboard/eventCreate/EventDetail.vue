@@ -1,5 +1,5 @@
 <template>
-    <div class="event-details event-item" data-item="details"> 
+    <div class="event-details event-page event-item" data-item="details"> 
         <h2>Event Details</h2>
         <div class="element">
             <label for="name">*Event Name</label>
@@ -68,7 +68,7 @@
         <div class="when">
             <div class="btns">
                 <div 
-                    v-for="eventType in eventTypes" 
+                    v-for="(eventType, ind) in eventTypes" :key="ind"
                     class="btn" 
                     :class="eventType.isSelected&&'active'"
                     @click="() => {

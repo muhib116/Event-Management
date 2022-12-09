@@ -17,21 +17,26 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->string('location');
-            $table->string('location_tips');
-            $table->string('custom_url');
-            $table->enum('type', ['live', 'online']);
-            $table->foreignId('category_id');
-            $table->foreignId('time_zone');
-            $table->dateTime('start_at');
-            $table->dateTime('end_at');
-            $table->enum('event_date_type', ['single', 'recurring', 'one_on_one']);
+            $table->string('location')->nullable();
+            $table->string('location_tips')->nullable();
+            $table->string('custom_url')->nullable();
+            $table->string('eventType');
+            $table->string('eventCategory');
+            $table->text('time_zone')->nullable();
+
+            $table->date('start_date');
+            $table->time('start_time');
+
+            $table->date('end_date');
+            $table->time('end_time');
+            $table->string('event_date_type')->nullable();
             // social
             $table->text('website')->nullable();
             $table->text('instagram')->nullable();
             $table->text('twitter')->nullable();
             $table->text('facebook')->nullable();
             $table->tinyInteger('status')->default(0);
+            $table->json('settings')->nullable();
             $table->timestamps();
         });
     }
@@ -46,3 +51,4 @@ return new class extends Migration
         Schema::dropIfExists('m_events');
     }
 };
+

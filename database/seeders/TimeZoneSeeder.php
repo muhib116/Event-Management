@@ -126,7 +126,7 @@ class TimeZoneSeeder extends Seeder
         array('name' => 'Asia/Magadan','location' => '(GMT+12:00) Magadan'),
         array('name' => 'Pacific/Auckland','location' => '(GMT+12:00) Auckland'),
         array('name' => 'Pacific/Fiji','location' => '(GMT+12:00) Fiji')
-      );
+    );
     public function run()
     {
         TimeZone::insert($this->timezones);
