@@ -1,0 +1,100 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 4%;
+    box-shadow: rgba(0, 0, 0, 0.03) 0px 4px 29px 0px;
+    z-index: 100;
+    // logo
+        img.logo { 
+            height: 25px; 
+        }
+        nav {
+            z-index: 100;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 29px 0px;
+            a {
+                margin: 15px 0;
+            }
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 10px;
+                transform: translateY(-100%);
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-bottom: 6px solid white;
+            }
+        }
+    // account
+    .account-container {
+        height: fit-content;
+        width: fit-content;
+        position: relative;
+        cursor: pointer;
+        .account {
+            @include toCenter();
+            @include lightBackground();
+            @include normalColor();
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .nav {
+            position: absolute;
+            top: calc(100% + 7px);
+            right: 0;
+            background: white; 
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 15px 0px;
+            display: none;
+            flex-direction: column;
+            padding: 20px 0;
+            animation: fade .6s;
+            // animation
+            @keyframes fade {
+                from {
+                    opacity: 0;
+                } to {
+                    opacity: 1;
+                }
+            }
+            a {
+                padding: 10px 20px;
+                font-size: 14px;
+                color: $dark;
+                min-width: 100%;
+                &:hover {
+                    @include normalColor();
+                    @include lightBackground();
+                }
+            }
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 10px;
+                transform: translateY(-100%);
+                width: 0;
+                height: 0;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-bottom: 8px solid white;
+            }
+        }
+        &:hover {
+            .nav {
+                display: flex;
+            }
+        }
+    }
+}
