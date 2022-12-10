@@ -5,27 +5,28 @@
                 <h2>Upcoming Events</h2>
                 <a href="#">View All <i class="fas fa-chevron-right"></i></a>
             </div>
-            
 
             <div class="main-content relative">
                 <Carousel ref="myCarousel" :settings="settings" :breakpoints="breakpoints">
                     <Slide v-for="(item, index) in demoData" :key="index">
-                        <div class="upcome-item">
-                            <div class="upcome-banr">
-                                <img :src="item.path" :alt="item.title">
-                            </div>
-                            <div class="upcome-cnt">
-                                <div class="upcome-cntleft">
-                                    <h4>{{ item.month }}</h4>
-                                    <p>{{ item.day }}</p>
+                        <Link href="event-details">
+                            <div class="upcome-item">
+                                <div class="upcome-banr">
+                                    <img :src="item.path" :alt="item.title">
                                 </div>
-                                <div class="upcome-cntright">
-                                    <h4>{{ item.title }}</h4>
-                                    <p>{{ item.price }}</p>
-                                    <p><i class="fas fa-map-marker-alt"></i> {{ item.location }} </p>
+                                <div class="upcome-cnt">
+                                    <div class="upcome-cntleft">
+                                        <h4>{{ item.month }}</h4>
+                                        <p>{{ item.day }}</p>
+                                    </div>
+                                    <div class="upcome-cntright">
+                                        <h4>{{ item.title }}</h4>
+                                        <p>{{ item.price }}</p>
+                                        <p><i class="fas fa-map-marker-alt"></i> {{ item.location }} </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </Slide>
                 
                     <template #addons>
@@ -51,6 +52,7 @@
   </template>
   
 <script setup>
+    import { Head, Link } from '@inertiajs/inertia-vue3'
     import { Carousel, Slide, Pagination } from 'vue3-carousel'
     import '@/assets/frontend/carouselStyle.css'
     import useUpcomingEvents from './useUpcomingEvents'

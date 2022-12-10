@@ -3,6 +3,7 @@
 
     <Master>
         <Banner />
+        <SearchBar />
         <UpcomingEvents />
         <HotOffers />
         <TopSelling />
@@ -16,6 +17,7 @@
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
     import Banner from '@/Components/Frontend/Banner.vue'
+    import SearchBar from '@/Components/Frontend/SearchBar.vue'
     import UpcomingEvents from '@/Components/Frontend/UpcomingEvents.vue'
     import HotOffers from '@/Components/Frontend/HotOffers.vue'
     import TopSelling from '@/Components/Frontend/TopSelling.vue'

@@ -47,8 +47,8 @@
                         <li><a href="#">Karcis.com for Android</a></li>
                         <li><a href="#">Karcis.com for iOS</a></li>
                         <li><a href="#">Mobile site</a></li>
-                        <li class="pt-3"><a href="#"><img src="images/app-store.png" alt=""></a></li>
-                        <li><a href="#"><img src="images/google-play.png" alt=""></a></li>
+                        <li class="pt-3"><a href="#"><img src="@/assets/frontend/images/app-store.png" alt=""></a></li>
+                        <li><a href="#"><img src="@/assets/frontend/images/google-play.png" alt=""></a></li>
                     </ul>
                 </div>
             </div>             

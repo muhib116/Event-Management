@@ -2,7 +2,6 @@
     <div>
         <Nav />
         <Sidebar />
-        <SearchBar />
         <slot></slot>
         <Footer />
     </div>

@@ -6,8 +6,6 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
         
-        <!-- CSS -->
-        <link rel="stylesheet" href="{{ asset('backend/styles/css/main.css') }}">
         <!-- Fontawesome -->
         <script src="https://kit.fontawesome.com/38516d3f67.js" crossorigin="anonymous"></script>
         <!-- favicon -->
