@@ -77,9 +77,41 @@ class EventController extends Controller
             // return redirect()->back()->with('error', 'Opps something wrong');
         } 
     }
-}
-/*
 
+    public function manage($name) {
+        $event = MEvents::with(['tickets'])->where('name', $name)->orWhere('custom_url', $name)->first();
+        return $event;
+    }
+
+    public function create_discount(Request $request ,MEvents $mEvents) {
+        $request->validate([
+            'discount_code' => 'required',
+            'discount_code_type' => 'required',
+            'discount_value' => 'required|numeric',
+            'applied_type' => 'required',
+            'tickets' => 'nullable|array',
+            'use_limit' => 'required',
+            'start_date' => 'required',
+            'start_time' => 'required',
+        ]);
+        $mEvents->discounts()->create([
+            'discount_code' => $request->discount_code,
+            'discount_code_type' => $request->discount_code_type, // percent / fixed
+            'discount_value' => $request->discount_value, // discount amount
+            'applied_type' => $request->applied_type, // for specific ticket or all ticket
+            'use_limit' => $request->use_limit, // unlimited/ one  use only / limited amount 
+            'limit_amount' => $request->limit_amount, // how many time can use this discount code
+            'start_date' => $request->start_date,
+            'start_time' => $request->start_time,
+            'tickets' => $request->tickets, // ticket ids, if it is apply for specific tickets.
+            'end_date' => $request->end_date,
+            'end_time' => $request->end_time,
+        ]);
+        return back();
+    }
+}
+
+/*
 name
 description
 location

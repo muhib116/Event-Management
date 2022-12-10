@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('location')->nullable();
             $table->string('location_tips')->nullable();
-            $table->string('custom_url')->nullable();
+            $table->string('custom_url')->unique()->nullable();
             $table->string('eventType');
             $table->string('eventCategory');
             $table->text('time_zone')->nullable();
@@ -37,6 +37,11 @@ return new class extends Migration
             $table->text('facebook')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->json('settings')->nullable();
+
+            // event theme id
+            $table->integer('theme_id')->default(1);
+            $table->string('theme_image')->nullable();
+
             $table->timestamps();
         });
     }

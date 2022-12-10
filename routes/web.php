@@ -29,6 +29,10 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/event/manage/{name}', [EventController::class, 'manage'])->name('event.manage');
+Route::post('/event/{event}/create-discount', [EventController::class, 'create_discount'])->name('event.create_discount');
+
+
 Route::get('/live/account', function() {
     return Inertia::render('Account', []);
 })->name('live.account');

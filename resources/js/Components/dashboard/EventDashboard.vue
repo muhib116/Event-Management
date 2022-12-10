@@ -30,7 +30,7 @@
                 </div>
             </div>
             
-            <a v-for="event in events" :key="event.id" href="live/event" class="event">
+            <Link v-for="event in events" :key="event.id" :href="route('event.manage', event.name)" class="event">
                 <div class="thumbnail">
                     <img src="../../assets/images/apple.jpg" alt="Thumbnail">
                     <span>{{ event.status ? 'Ended' : 'Draft' }}</span>
@@ -48,7 +48,7 @@
                         <div class="state">Tickets Sold</div>
                     </div>
                 </div>
-            </a>
+            </Link>
             <!-- <a href="live/event" class="event">
                 <div class="thumbnail">
                     <img src="../../assets/images/thumbnail.png" alt="Thumbnail">
@@ -155,6 +155,7 @@
     import { ref } from 'vue'
     import NewEventPopup from './popup/NewEventPopup.vue';
     import BoxOfficePopup from './popup/BoxOfficePopup.vue';
+import { Link } from '@inertiajs/inertia-vue3';
     const showEventPopup = ref(false)
     const showBoxOfficePopup = ref(false)
     const props = defineProps({

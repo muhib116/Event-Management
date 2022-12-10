@@ -13,7 +13,12 @@ class MEvents extends Model
     protected $casts = [
         'settings' => 'array',
     ];
+
     public function tickets() {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function discounts() {
+        return $this->hasMany(Discount::class);
     }
 }
