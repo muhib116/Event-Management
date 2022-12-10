@@ -20,5 +20,6 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "vue3-carousel": "^0.2.8"
     }
 }

@@ -23,7 +23,5 @@
     </head>
     <body class="font-sans antialiased account">
         @inertia
-
-        {{-- <script src="{{ asset('backend/js/script.js') }}"></script> --}}
     </body>
 </html>
