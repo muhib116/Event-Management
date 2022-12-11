@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\MEvents;
+use App\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class EventController extends Controller
 {
+    use Utils;
+
     public function index($eventType) {
         return Inertia::render('EventCreate', [
             'eventType' => $eventType
@@ -18,6 +21,7 @@ class EventController extends Controller
     public function eventStore(Request $request) {
         // return $request->all();
         $request->validate([
+            'image' => 'nullable|image|mimes:png,jpg,webp,jpeg',
             'description' => 'required|string',
             'end_date' => 'required',
             'end_time' => 'required',
@@ -29,6 +33,10 @@ class EventController extends Controller
         // return $request->all();
         try {
             DB::beginTransaction();
+            $image = null;
+            if (isset($request->image)) {
+                $image = $this->imageUpload($request, 'image', 'upload/events');
+            }
             $event = MEvents::create([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -43,6 +51,9 @@ class EventController extends Controller
                 'end_date' => $request->end_date,
                 'end_time' => $request->end_time,
                 'event_date_type' => $request->event_date_type,
+                'image' => $image,
+                'video_link' => $request->video_link ?? null,
+                'map_link' => $request->map_link ?? null,
                 'website' => $request->website,
                 'instagram' => $request->instagram,
                 'twitter' => $request->twitter,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
@@ -22,6 +23,11 @@ Route::get('/live/account', function() {
 Route::get('create/event/{eventType}', [EventController::class, 'index'])->name('event.create');
 Route::post('store/event/{eventType}', [EventController::class, 'eventStore'])->name('event.store');
 
+Route::group(['as' => 'account.', 'prefix' => 'account', 'middleware' => 'auth'],function () {
+    Route::post('/update-info', [AccountController::class, 'update_personal_info'])->name('update_info');
+    Route::post('/update-password', [AccountController::class, 'update_password'])->name('update_password');
+    Route::post('/update-interest', [AccountController::class, 'update_interest'])->name('update_interest');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

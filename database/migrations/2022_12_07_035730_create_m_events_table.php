@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('m_events', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('description');
             $table->string('location')->nullable();
             $table->string('location_tips')->nullable();
@@ -35,12 +36,14 @@ return new class extends Migration
             $table->text('instagram')->nullable();
             $table->text('twitter')->nullable();
             $table->text('facebook')->nullable();
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->json('settings')->nullable();
 
             // event theme id
             $table->integer('theme_id')->default(1);
-            $table->string('theme_image')->nullable();
+            $table->string('image')->nullable();
+            $table->text('video_link')->nullable();
+            $table->text('map_link')->nullable();
 
             $table->timestamps();
         });

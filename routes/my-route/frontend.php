@@ -1,67 +1,41 @@
 <?php
-    use Illuminate\Foundation\Application;
-    use Illuminate\Support\Facades\Route;
-    use Inertia\Inertia;
 
-    Route::get('/', function () {
-        return Inertia::render('Frontend/Home', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    })->name('home');
+use App\Http\Controllers\FrontendController;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-    Route::get('/event-details', function () {
-        return Inertia::render('Frontend/EventDetails', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    })->name('eventDetails');
+$data = [
+    'canLogin' => Route::has('login') && !auth()->check(),
+    'canRegister' => Route::has('register') && !auth()->check(),
+    'laravelVersion' => Application::VERSION,
+    'phpVersion' => PHP_VERSION,
+];
 
-    Route::get('/checkout', function () {
-        return Inertia::render('Frontend/Checkout', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    })->name('checkout');
 
-    Route::get('/payment-complete', function () {
-        return Inertia::render('Frontend/PaymentComplete', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    })->name('payment-complete');
+Route::get('/', [FrontendController::class, 'index'])->name('home');
 
-    Route::get('/payment-method', function () {
-        return Inertia::render('Frontend/PaymentMethod', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    })->name('payment-method');
+Route::get('/event-details/{url}', [FrontendController::class, 'event_details'])->name('eventDetails');
 
-    Route::get('/search-result', function () {
-        return Inertia::render('Frontend/SearchResult', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    })->name('search-result');
+Route::get('/checkout/{mEvent:slug}', [FrontendController::class, 'checkout'])->name('checkout');
 
-    Route::get('/ticket', function () {
-        return Inertia::render('Frontend/TicketInfo', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    })->name('ticket');
+Route::get('/payment-complete', function () {
+    return Inertia::render('Frontend/PaymentComplete', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->name('payment-complete');
+
+Route::get('/payment-method', function () use($data) {
+    return Inertia::render('Frontend/PaymentMethod', $data);
+})->name('payment-method');
+
+Route::get('/search-result', function () use($data) {
+    return Inertia::render('Frontend/SearchResult', $data);
+})->name('search-result');
+
+Route::get('/ticket', function () use($data) {
+    return Inertia::render('Frontend/TicketInfo', $data);
+})->name('ticket');

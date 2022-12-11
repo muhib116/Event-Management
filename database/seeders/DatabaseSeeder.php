@@ -14,13 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        
+        \App\Models\User::factory(10)->create();
+        \App\Models\User::factory()->create([
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'email' => 'test@example.com',
+        ]);
+        \App\Models\MEvents::factory(100)->create();
         // $this->call(TimeZoneSeeder::class);
+        // $this->call(CategorySeeder::class);
         // $this->call(CategorySeeder::class);
     }
 }

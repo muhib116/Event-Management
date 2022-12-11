@@ -14,6 +14,11 @@
             <input name="location" v-model="formData.location" type="text" placeholder="Full Adress">
         </div>
         <div class="element">
+            <label for="map_link">Location map link</label>
+            <input name="map_link" v-model="formData.map_link" type="text" placeholder="Map link">
+        </div>
+
+        <div class="element">
             <label for="location">*Use Costum URL</label>
             <div class="input-container">
                 <div class="startup">tix.africa/discover/</div>
@@ -27,6 +32,15 @@
                 type="text" required 
                 placeholder="Use an uber, it's the green building on the left, etc"
                 v-model="formData.location"
+            >
+        </div>
+        <div class="element">
+            <label for="location">Video Link</label>
+            <input 
+                name="video_link" 
+                type="text" required 
+                placeholder="Video link"
+                v-model="formData.video_link"
             >
         </div>
         <h3>What kind of event is it?</h3>
