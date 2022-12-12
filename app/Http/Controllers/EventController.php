@@ -21,6 +21,7 @@ class EventController extends Controller
     public function eventStore(Request $request) {
         // return $request->all();
         $request->validate([
+            'name' => 'required|unique:m_events,slug',
             'image' => 'nullable|image|mimes:png,jpg,webp,jpeg',
             'description' => 'required|string',
             'end_date' => 'required',
@@ -28,7 +29,6 @@ class EventController extends Controller
             'eventCategory' => 'required',
             'eventType' => 'required',
             'location' => 'required',
-            'name' => 'required',
         ]);
         
         try {
@@ -39,7 +39,7 @@ class EventController extends Controller
             }
             $event = MEvents::create([
                 'name' => $request->name,
-                'slug' => \Str::slug($request->name),
+                'slug' => str()->slug($request->name),
                 'description' => $request->description,
                 'location' => $request->location,
                 'location_tips' => $request->location_tips,
@@ -90,8 +90,8 @@ class EventController extends Controller
         } 
     }
 
-    public function manage($name) {
-        $event = MEvents::with(['tickets'])->where('name', $name)->orWhere('custom_url', $name)->first();
+    public function manage($url) {
+        $event = MEvents::with(['tickets'])->where('name', $url)->orWhere('custom_url', $url)->first();
         return $event;
     }
 
