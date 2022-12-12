@@ -34,7 +34,7 @@
 <script setup>
     import Sidebar from './Sidebar.vue';
     import { ref } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3';
+    import { Link } from '@inertiajs/inertia-vue3';
 
     const showOffCanvas = ref(false)
 </script>

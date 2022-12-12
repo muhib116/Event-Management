@@ -35,7 +35,7 @@ header {
 header img.logo {
   height: 25px;
 }
-header nav {
+header .nav {
   z-index: 100;
   position: absolute;
   top: 100%;
