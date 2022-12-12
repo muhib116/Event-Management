@@ -36,7 +36,7 @@ class EventController extends Controller
             DB::beginTransaction();
             $image = null;
             if (isset($request->image)) {
-                $image = $this->imageUpload($request, 'image', 'upload/events');
+                $image = asset($this->imageUpload($request, 'image', 'upload/events'));
             }
             $event = MEvents::create([
                 'name' => $request->name,

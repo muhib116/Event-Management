@@ -104,7 +104,7 @@
 
             <div class="element">
                 <label for="location">*Image Upload</label>
-                <input type="file" @change="formData.image" />
+                <input type="file" @change="(e) => formData.image = e.target.files[0]" />
             </div>
 
             <div class="element">

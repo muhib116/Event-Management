@@ -19,15 +19,15 @@ body {
 }
 
 @import "global-rules";
-.admin {
-    @import "header";
-}
+// .admin {
+// }
+@import "header";
 @import "dashboard";
 @import "event-create";
 @import "event-create-second-step";
 @import "event-create-third-step";
-.admin {
-    @import "account";
-    @import "event";
-}
+@import "account";
+@import "event";
+// .admin {
+// }
 
