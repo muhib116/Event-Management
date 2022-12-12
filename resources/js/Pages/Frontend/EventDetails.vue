@@ -62,6 +62,16 @@
                             </div>
                         </div>
 
+                        <iframe 
+                            class="block max-w-[800px] w-full mx-auto mb-4 aspect-video"
+                            v-if="getVideoCode(event.video_link)" 
+                            :src="`https://www.youtube.com/embed/${getVideoCode(event.video_link)}`" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                        ></iframe>
+
                         <div class="event-descprt">
                             <h2>Description</h2>
                             <p>
@@ -77,7 +87,18 @@
                                     <option value="">Terms & Condition</option>
                                 </select>
                             </form>
-                        </div>                        
+                        </div>    
+                        
+                        <iframe 
+                            v-if="event.map_link" 
+                            class="block w-full mx-auto h-[300px] mb-4 aspect-auto mt-10" 
+                            :src="event.map_link" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                        
                     </div>
                 </div>
             </div>
@@ -89,12 +110,19 @@
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import SocialShare from '@/Components/Frontend/Event/SocialShare.vue'
     import Master from './Master.vue'
-import { Inertia } from '@inertiajs/inertia';
+    
     const props = defineProps({
         event: Object
     })
 
-    console.log(props.event)
+    const getVideoCode = (videoLink) => {
+        if(!videoLink) return false
+        let splitLink = videoLink.split('?v=')
+        if(splitLink.length==2){
+            let videoCode = splitLink[1].split('&')
+            return splitLink[1]
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
