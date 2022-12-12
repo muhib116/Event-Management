@@ -17,7 +17,7 @@
                                 <h2>{{ event.name }}</h2>
                                 <ul>
                                     <li><i class="fas fa-map-marker-alt"></i> {{ event.location }}</li>
-                                    <li><i class="fas fa-calendar-alt"></i> {{ event.start_date }}· {{ event.start_time }}</li>
+                                    <li><i class="fas fa-calendar-alt"></i> {{ event.start_date }}· {{ event.start_time }} </li>
                                 </ul>
                                 <p>Marty travels back in time using an eccentric scientist's time machine. However, he must make his high-school-aged parents fall in love in order to return to the present.</p>
                             </div>
@@ -120,7 +120,7 @@
         let splitLink = videoLink.split('?v=')
         if(splitLink.length==2){
             let videoCode = splitLink[1].split('&')
-            return splitLink[1]
+            return videoCode[1]
         }
     }
 </script>

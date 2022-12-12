@@ -62,14 +62,11 @@ class FrontendController extends Controller
                         ->where('custom_url', $url)
                         ->orWhere('slug', $url)
                         ->first();
+
         return Inertia::render('Frontend/TicketInfo', $this->data);
-        // $this->data['events'] = MEvents::with(['tickets'])->where('id', $mEvents->id)->first();
     }
 
     public function process(Request $request ,MEvents $mEvents) {
-        // $request->validate([
-        //     ''
-        // ]);
         $this->data['events'] = $mEvents;
         return Inertia::render('Frontend/Checkout', $this->data);
     }
