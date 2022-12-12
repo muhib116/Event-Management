@@ -7,9 +7,9 @@
                     <div class="col-lg-7">
                         <div class="checkout-left">
                             <div class="check-leftbtn">
-                                <a href="#">
+                                <Link  onclick="history.back();return false;">
                                     <img src="@/assets/frontend/images/left.svg" alt="">
-                                </a>
+                                </Link>
                             </div>
                             <div class="check-leftmain">
                                 <h2>Buyer Contact Information</h2>
@@ -50,7 +50,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="inform-btn">
-                                                <button type="button">Continue to Payment</button>
+                                                <Link class="bg-blue-600 text-white px-4 py-2 rounded" :href="route('payment-method')" type="button">Continue to Payment</Link>
                                             </div>
                                         </div>
                                     </div>

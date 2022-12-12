@@ -30,7 +30,7 @@ class EventController extends Controller
             'location' => 'required',
             'name' => 'required',
         ]);
-        // return $request->all();
+        
         try {
             DB::beginTransaction();
             $image = null;
@@ -39,6 +39,7 @@ class EventController extends Controller
             }
             $event = MEvents::create([
                 'name' => $request->name,
+                'slug' => \Str::slug($request->name),
                 'description' => $request->description,
                 'location' => $request->location,
                 'location_tips' => $request->location_tips,

@@ -19,6 +19,11 @@ Route::get('/event-details/{url}', [FrontendController::class, 'event_details'])
 
 Route::get('/checkout/{mEvent:slug}', [FrontendController::class, 'checkout'])->name('checkout');
 
+
+Route::get('/payment-method', function () use($data) {
+    return Inertia::render('Frontend/PaymentMethod', $data);
+})->name('payment-method');
+
 Route::get('/payment-complete', function () {
     return Inertia::render('Frontend/PaymentComplete', [
         'canLogin' => Route::has('login'),
@@ -27,10 +32,6 @@ Route::get('/payment-complete', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('payment-complete');
-
-Route::get('/payment-method', function () use($data) {
-    return Inertia::render('Frontend/PaymentMethod', $data);
-})->name('payment-method');
 
 Route::get('/search-result', function () use($data) {
     return Inertia::render('Frontend/SearchResult', $data);

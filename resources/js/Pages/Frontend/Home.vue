@@ -4,7 +4,7 @@
     <Master>
         <Banner />
         <SearchBar />
-        <UpcomingEvents />
+        <UpcomingEvents :data="upcoming_events" />
         <HotOffers />
         <TopSelling />
         <Arts />
@@ -29,5 +29,8 @@
         canRegister: Boolean,
         laravelVersion: String,
         phpVersion: String,
+        upcoming_events: Array,
+        arts_events: Array,
+        concerts_events: Array
     });
 </script>
