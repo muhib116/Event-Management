@@ -10,7 +10,7 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     public function index() {
-        $events = MEvents::with(['tickets'])->get()->map(function($item) {
+        $events = MEvents::with(['tickets'])->limit(9)->get()->map(function($item) {
             $item->start_date = Carbon::parse($item->start_date)->diffForHumans();
             return $item;
         });

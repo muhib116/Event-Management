@@ -44,7 +44,7 @@ class TicketFactory extends Factory
             'ticket_type' => $type,
             'ticket_stock' => rand(100, 300),
             'stock_limit' => rand(2, 5),
-            'price' => $type != 'Paid' ? rand(200, 500) : 0,
+            'price' => $type == 'Paid' ? rand(200, 500) : 0,
             'perks' => ['perks 1', 'perks 2'],
             'isTransferFeesToGuest' => rand(0, 1),
             'questions' => ['alskd', 'asdf'],
