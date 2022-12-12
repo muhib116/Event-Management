@@ -32,7 +32,7 @@
             
             <Link v-for="event in events" :key="event.id" :href="route('event.manage', event.name)" class="event">
                 <div class="thumbnail">
-                    <img src="../../assets/images/apple.jpg" alt="Thumbnail">
+                    <img :src="event.image" alt="Thumbnail">
                     <span>{{ event.status ? 'Ended' : 'Draft' }}</span>
                 </div>
                 <div class="details">

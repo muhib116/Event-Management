@@ -25,17 +25,17 @@ body.no-scroll {
   display: none !important;
 }
 
-.admin header {
+header {
   display: flex;
   justify-content: space-between;
   padding: 30px 4%;
   box-shadow: rgba(0, 0, 0, 0.03) 0px 4px 29px 0px;
   z-index: 100;
 }
-.admin header img.logo {
+header img.logo {
   height: 25px;
 }
-.admin header nav {
+header nav {
   z-index: 100;
   position: absolute;
   top: 100%;
@@ -45,10 +45,10 @@ body.no-scroll {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 29px 0px;
 }
-.admin header nav a {
+header nav a {
   margin: 15px 0;
 }
-.admin header nav::after {
+header nav::after {
   content: "";
   position: absolute;
   top: 0;
@@ -60,13 +60,13 @@ body.no-scroll {
   border-right: 5px solid transparent;
   border-bottom: 6px solid white;
 }
-.admin header .account-container {
+header .account-container {
   height: fit-content;
   width: fit-content;
   position: relative;
   cursor: pointer;
 }
-.admin header .account-container .account {
+header .account-container .account {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,7 +78,7 @@ body.no-scroll {
   font-size: 13px;
   font-weight: bold;
 }
-.admin header .account-container .nav {
+header .account-container .nav {
   position: absolute;
   top: calc(100% + 7px);
   right: 0;
@@ -98,17 +98,17 @@ body.no-scroll {
     opacity: 1;
   }
 }
-.admin header .account-container .nav a {
+header .account-container .nav a {
   padding: 10px 20px;
   font-size: 14px;
   color: var(--dark);
   min-width: 100%;
 }
-.admin header .account-container .nav a:hover {
+header .account-container .nav a:hover {
   color: var(--normal-orange);
   background: var(--light-orange);
 }
-.admin header .account-container .nav::after {
+header .account-container .nav::after {
   content: "";
   position: absolute;
   top: 0;
@@ -120,7 +120,7 @@ body.no-scroll {
   border-right: 7px solid transparent;
   border-bottom: 8px solid white;
 }
-.admin header .account-container:hover .nav {
+header .account-container:hover .nav {
   display: flex;
 }
 
@@ -1208,7 +1208,7 @@ main.dashboard .events .event .details .bottom .name {
   }
 }
 
-.admin .account .main-heading {
+.account .main-heading {
   padding: 3rem 8rem 3rem 7rem;
   background-color: rgba(3, 133, 149, 0.05);
   display: flex;
@@ -1218,20 +1218,20 @@ main.dashboard .events .event .details .bottom .name {
   align-items: center;
   padding: 0 0 0 7rem;
 }
-.admin .account .main-heading h1 {
+.account .main-heading h1 {
   font-weight: 700;
   font-size: 50px;
   margin-bottom: 2rem;
   color: #038595;
 }
-.admin .account nav {
+.account nav {
   user-select: none;
   padding: 5px 5%;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
 }
-.admin .account nav .nav-item {
+.account nav .nav-item {
   font-size: 20px;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.4);
@@ -1241,17 +1241,17 @@ main.dashboard .events .event .details .bottom .name {
   text-align: center;
   line-height: 60px;
 }
-.admin .account nav .nav-item.active {
+.account nav .nav-item.active {
   color: var(--normal-orange);
   border-bottom: 2px solid var(--normal-orange);
 }
-.admin .account nav .dropdown-container {
+.account nav .dropdown-container {
   height: fit-content;
   width: fit-content;
   position: relative;
   cursor: pointer;
 }
-.admin .account nav .dropdown-container .dropdown {
+.account nav .dropdown-container .dropdown {
   position: absolute;
   top: 100%;
   right: 50%;
@@ -1272,18 +1272,18 @@ main.dashboard .events .event .details .bottom .name {
     opacity: 1;
   }
 }
-.admin .account nav .dropdown-container .dropdown .dropdown-item {
+.account nav .dropdown-container .dropdown .dropdown-item {
   padding: 10px 20px;
   font-size: 14px;
   color: var(--dark);
   min-width: 100%;
   white-space: nowrap;
 }
-.admin .account nav .dropdown-container .dropdown .dropdown-item:hover {
+.account nav .dropdown-container .dropdown .dropdown-item:hover {
   color: var(--normal-orange);
   background: var(--light-orange);
 }
-.admin .account nav .dropdown-container .dropdown::after {
+.account nav .dropdown-container .dropdown::after {
   content: "";
   position: absolute;
   top: 0;
@@ -1295,54 +1295,54 @@ main.dashboard .events .event .details .bottom .name {
   border-right: 7px solid transparent;
   border-bottom: 8px solid white;
 }
-.admin .account nav .dropdown-container:hover .dropdown {
+.account nav .dropdown-container:hover .dropdown {
   display: flex;
 }
-.admin .account h2 {
+.account h2 {
   font-size: 40px;
   font-weight: 700;
   color: #1b2124;
 }
 @media (max-width: 800px) {
-  .admin .account .main-heading {
+  .account .main-heading {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
   }
-  .admin .account .main-heading h1 {
+  .account .main-heading h1 {
     font-size: 25px;
     padding: 0;
   }
-  .admin .account nav {
+  .account nav {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
-  .admin .account nav .nav-item {
+  .account nav .nav-item {
     font-size: 14px;
     width: 100%;
   }
-  .admin .account nav .dropdown-container {
+  .account nav .dropdown-container {
     width: 100%;
   }
-  .admin .account nav .dropdown-container .nav-item {
+  .account nav .dropdown-container .nav-item {
     font-size: 14px;
   }
-  .admin .account nav .dropdown-container .dropdown .dropdown-item {
+  .account nav .dropdown-container .dropdown .dropdown-item {
     font-size: 13px;
   }
-  .admin .account nav .dropdown-container:hover .dropdown {
+  .account nav .dropdown-container:hover .dropdown {
     display: flex;
   }
 }
-.admin .account .save {
+.account .save {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 150px;
   border-top: 1px solid #ddd;
 }
-.admin .account .save .button {
+.account .save .button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1353,34 +1353,34 @@ main.dashboard .events .event .details .bottom .name {
   cursor: pointer;
   transition: 0.2s;
 }
-.admin .account .save .button:hover {
+.account .save .button:hover {
   opacity: 0.8;
 }
-.admin .account .Profile--Personal {
+.account .Profile--Personal {
   padding: 40px 5%;
   padding-bottom: 0;
   background: #fafcfc;
 }
-.admin .account .Profile--Personal .inputs {
+.account .Profile--Personal .inputs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 30px;
   margin: 30px 0;
 }
-.admin .account .Profile--Personal .inputs .element {
+.account .Profile--Personal .inputs .element {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.admin .account .Profile--Personal .inputs .element span.important {
+.account .Profile--Personal .inputs .element span.important {
   color: red;
 }
-.admin .account .Profile--Personal .inputs .element label {
+.account .Profile--Personal .inputs .element label {
   color: #757575;
   font-size: 16px;
 }
-.admin .account .Profile--Personal .inputs .element input,
-.admin .account .Profile--Personal .inputs .element select {
+.account .Profile--Personal .inputs .element input,
+.account .Profile--Personal .inputs .element select {
   color: var(--dark);
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1391,41 +1391,41 @@ main.dashboard .events .event .details .bottom .name {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
 }
-.admin .account .Profile--Personal .inputs .element input:focus,
-.admin .account .Profile--Personal .inputs .element select:focus {
+.account .Profile--Personal .inputs .element input:focus,
+.account .Profile--Personal .inputs .element select:focus {
   border-color: var(--normal-orange);
 }
 @media (max-width: 800px) {
-  .admin .account .Profile--Personal .inputs {
+  .account .Profile--Personal .inputs {
     grid-template-columns: 1fr;
   }
 }
-.admin .account .Profile--Password {
+.account .Profile--Password {
   padding: 40px 5%;
   padding-bottom: 0;
   background: #fafcfc;
 }
-.admin .account .Profile--Password .inputs {
+.account .Profile--Password .inputs {
   display: grid;
   grid-template-columns: 1fr;
   width: 50%;
   grid-gap: 30px;
   margin: 30px 0;
 }
-.admin .account .Profile--Password .inputs .element {
+.account .Profile--Password .inputs .element {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.admin .account .Profile--Password .inputs .element span.important {
+.account .Profile--Password .inputs .element span.important {
   color: red;
 }
-.admin .account .Profile--Password .inputs .element label {
+.account .Profile--Password .inputs .element label {
   color: #757575;
   font-size: 16px;
 }
-.admin .account .Profile--Password .inputs .element input,
-.admin .account .Profile--Password .inputs .element select {
+.account .Profile--Password .inputs .element input,
+.account .Profile--Password .inputs .element select {
   color: var(--dark);
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1436,22 +1436,22 @@ main.dashboard .events .event .details .bottom .name {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
 }
-.admin .account .Profile--Password .inputs .element input:focus,
-.admin .account .Profile--Password .inputs .element select:focus {
+.account .Profile--Password .inputs .element input:focus,
+.account .Profile--Password .inputs .element select:focus {
   border-color: var(--normal-orange);
 }
-.admin .account .Profile--Interests {
+.account .Profile--Interests {
   padding: 40px 5%;
   padding-bottom: 0;
   background: #fafcfc;
 }
-.admin .account .Profile--Interests .user-interests-desktop {
+.account .Profile--Interests .user-interests-desktop {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: 200px;
   margin: 40px 0;
 }
-.admin .account .Profile--Interests .user-interests-desktop .type {
+.account .Profile--Interests .user-interests-desktop .type {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1460,34 +1460,34 @@ main.dashboard .events .event .details .bottom .name {
   gap: 20px;
   border: 1px solid #eee;
 }
-.admin .account .Profile--Interests .user-interests-desktop .type object {
+.account .Profile--Interests .user-interests-desktop .type object {
   pointer-events: none;
   user-select: none;
 }
-.admin .account .Profile--Interests .user-interests-desktop .type:hover {
+.account .Profile--Interests .user-interests-desktop .type:hover {
   background: white;
 }
-.admin .account .Profile--Interests .user-interests-desktop .type:hover span {
+.account .Profile--Interests .user-interests-desktop .type:hover span {
   color: var(--normal-orange);
 }
-.admin .account .Profile--Interests .user-interests-desktop .type.active {
+.account .Profile--Interests .user-interests-desktop .type.active {
   background: white;
   border: 1px solid var(--normal-orange);
 }
-.admin .account .Profile--Interests .user-interests-desktop .type.active span {
+.account .Profile--Interests .user-interests-desktop .type.active span {
   color: var(--normal-orange);
 }
-.admin .account .Profile--Interests .user-interests-desktop .type span {
+.account .Profile--Interests .user-interests-desktop .type span {
   color: #afb0b0;
   font-size: 15px;
 }
-.admin .account .Profile--Interests .user-interests-mobile {
+.account .Profile--Interests .user-interests-mobile {
   display: none;
   flex-direction: column;
   gap: 20px;
   margin: 20px 0;
 }
-.admin .account .Profile--Interests .user-interests-mobile select {
+.account .Profile--Interests .user-interests-mobile select {
   color: var(--dark);
   background-color: #fff;
   background-image: none;
@@ -1500,22 +1500,22 @@ main.dashboard .events .event .details .bottom .name {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
 }
-.admin .account .Profile--Interests .user-interests-mobile select:focus {
+.account .Profile--Interests .user-interests-mobile select:focus {
   border-color: var(--normal-orange);
 }
 @media (max-width: 900px) {
-  .admin .account .Profile--Interests .user-interests-desktop {
+  .account .Profile--Interests .user-interests-desktop {
     display: none;
   }
-  .admin .account .Profile--Interests .user-interests-mobile {
+  .account .Profile--Interests .user-interests-mobile {
     display: flex;
   }
 }
-.admin .account .Billing {
+.account .Billing {
   padding: 40px 5%;
   background: #fafcfc;
 }
-.admin .account .Billing .current-plan {
+.account .Billing .current-plan {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1527,57 +1527,58 @@ main.dashboard .events .event .details .bottom .name {
   gap: 30px;
   margin: 30px 0;
 }
-.admin .account .Billing .current-plan h3 {
+.account .Billing .current-plan h3 {
   color: var(--normal-orange);
 }
-.admin .account .Billing .current-plan .left {
+.account .Billing .current-plan .left {
   width: 60%;
   font-size: 20px;
   line-height: 1.7;
 }
-.admin .account .Billing .current-plan .right {
+.account .Billing .current-plan .right {
   background: var(--normal-orange);
   padding: 15px 30px;
   border-radius: 5px;
   color: white;
   cursor: pointer;
 }
-.admin .account .Billing .current-plan {
+.account .Billing .current-plan {
   flex-direction: column;
   gap: 15px;
   align-items: flex-start;
 }
-.admin .account .Billing .current-plan .right {
+.account .Billing .current-plan .right {
   align-items: flex-start;
 }
-.admin .account .Billing .current-plan .left {
+.account .Billing .current-plan .left {
   width: 95%;
 }
-.admin .account .Billing .current-plan .left p {
+.account .Billing .current-plan .left p {
   font-size: 16px;
 }
-.admin .account .settings--order-notification {
+.account .settings--order-notification {
   padding: 40px 5%;
   background: #fafcfc;
 }
-.admin .account .settings--order-notification > p {
+.account .settings--order-notification > p {
   color: gray;
 }
-.admin .account .settings--order-notification .options {
+.account .settings--order-notification .options {
   display: flex;
   flex-direction: column;
   gap: 20px;
   margin: 30px 0;
 }
-.admin .account .settings--order-notification .options .element {
+.account .settings--order-notification .options .element {
   display: flex;
   align-items: center;
   gap: 15px;
 }
-.admin .account .settings--order-notification .options .element input {
+.account .settings--order-notification .options .element input {
   cursor: pointer;
 }
-.admin .main-heading {
+
+.main-heading {
   padding: 3rem 8rem 3rem 7rem;
   background-color: rgba(3, 133, 149, 0.05);
   display: flex;
@@ -1587,38 +1588,38 @@ main.dashboard .events .event .details .bottom .name {
   height: auto;
   align-items: center;
 }
-.admin .main-heading .left {
+.main-heading .left {
   width: 60%;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.admin .main-heading .left h1 {
+.main-heading .left h1 {
   font-weight: 700;
   font-size: 50px;
   color: #038595;
 }
-.admin .main-heading .left p {
+.main-heading .left p {
   color: #038595;
   font-weight: bold;
   font-size: 20px;
 }
-.admin .main-heading .right {
+.main-heading .right {
   width: 40%;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.admin .main-heading .right p.top {
+.main-heading .right p.top {
   font-size: 18px;
   font-weight: 700;
   color: var(--dark);
 }
-.admin .main-heading .right p.top i {
+.main-heading .right p.top i {
   color: var(--normal-orange);
   font-size: 14px;
 }
-.admin .main-heading .right p.requirement {
+.main-heading .right p.requirement {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.0509803922), 0 25px 35px rgba(0, 0, 0, 0.031372549);
   border-radius: 5px;
   width: 100%;
@@ -1626,17 +1627,18 @@ main.dashboard .events .event .details .bottom .name {
   background: white;
   padding: 10px;
 }
-.admin .main-heading .right p.requirement span {
+.main-heading .right p.requirement span {
   color: var(--normal-orange);
 }
-.admin nav {
+
+nav {
   user-select: none;
   padding: 5px 5%;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
 }
-.admin nav .nav-item {
+nav .nav-item {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1652,17 +1654,17 @@ main.dashboard .events .event .details .bottom .name {
   text-align: center;
   line-height: 60px;
 }
-.admin nav .nav-item.active {
+nav .nav-item.active {
   color: var(--normal-orange);
   border-bottom: 2px solid var(--normal-orange);
 }
-.admin nav .dropdown-container {
+nav .dropdown-container {
   height: fit-content;
   width: fit-content;
   position: relative;
   cursor: pointer;
 }
-.admin nav .dropdown-container .dropdown {
+nav .dropdown-container .dropdown {
   z-index: 10;
   position: absolute;
   top: 100%;
@@ -1685,17 +1687,17 @@ main.dashboard .events .event .details .bottom .name {
     opacity: 1;
   }
 }
-.admin nav .dropdown-container .dropdown .dropdown-item {
+nav .dropdown-container .dropdown .dropdown-item {
   padding: 10px 20px;
   font-size: 14px;
   color: var(--dark);
   min-width: 100%;
 }
-.admin nav .dropdown-container .dropdown .dropdown-item:hover {
+nav .dropdown-container .dropdown .dropdown-item:hover {
   color: var(--normal-orange);
   background: var(--light-orange);
 }
-.admin nav .dropdown-container .dropdown::after {
+nav .dropdown-container .dropdown::after {
   content: "";
   position: absolute;
   top: 0;
@@ -1707,16 +1709,18 @@ main.dashboard .events .event .details .bottom .name {
   border-right: 7px solid transparent;
   border-bottom: 8px solid white;
 }
-.admin nav .dropdown-container:hover .dropdown {
+nav .dropdown-container:hover .dropdown {
   display: flex;
 }
-.admin h2 {
+
+h2 {
   font-size: 40px;
   font-weight: 700;
   color: #1b2124;
 }
+
 @media (max-width: 800px) {
-  .admin .main-heading {
+  .main-heading {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1724,76 +1728,77 @@ main.dashboard .events .event .details .bottom .name {
     flex-direction: column;
     gap: 20px;
   }
-  .admin .main-heading .left {
+  .main-heading .left {
     width: 100%;
   }
-  .admin .main-heading .left h1 {
+  .main-heading .left h1 {
     font-size: 30px;
     padding: 0;
   }
-  .admin .main-heading .left p {
+  .main-heading .left p {
     font-size: 16px;
   }
-  .admin .main-heading .right {
+  .main-heading .right {
     width: 100%;
   }
-  .admin nav {
+
+  nav {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
-  .admin nav .nav-item {
+  nav .nav-item {
     font-size: 14px;
     width: 100%;
     text-align: left;
     justify-content: left;
   }
-  .admin nav .dropdown-container {
+  nav .dropdown-container {
     width: 33%;
   }
-  .admin nav .dropdown-container .nav-item {
+  nav .dropdown-container .nav-item {
     font-size: 14px;
   }
-  .admin nav .dropdown-container .dropdown .dropdown-item {
+  nav .dropdown-container .dropdown .dropdown-item {
     font-size: 13px;
   }
-  .admin nav .dropdown-container:hover .dropdown {
+  nav .dropdown-container:hover .dropdown {
     display: flex;
   }
 }
-.admin .event-details {
+.event-details {
   background: #fafcfc;
   padding: 50px 5%;
 }
-.admin .event-details h2 {
+.event-details h2 {
   color: var(--dark);
   font-size: 48px;
   font-weight: bolder;
   margin: 50px 0;
 }
-.admin .event-details p {
+.event-details p {
   color: #757575;
   font-weight: bold;
 }
-.admin .event-details .element {
+.event-details .element {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 40px;
 }
-.admin .event-details .element.mobile {
+.event-details .element.mobile {
   display: none;
   margin-top: 30px;
 }
 @media (max-width: 900px) {
-  .admin .event-details .element.mobile {
+  .event-details .element.mobile {
     display: flex;
   }
 }
-.admin .event-details .element label {
+.event-details .element label {
   color: #757575;
 }
-.admin .event-details .element input,
-.admin .event-details .element select {
+.event-details .element input,
+.event-details .element select {
   color: var(--dark);
   background-color: #fff;
   background-image: none;
@@ -1806,14 +1811,14 @@ main.dashboard .events .event .details .bottom .name {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
 }
-.admin .event-details .element input:focus,
-.admin .event-details .element select:focus {
+.event-details .element input:focus,
+.event-details .element select:focus {
   border-color: var(--normal-orange);
 }
-.admin .event-details .element .input-container {
+.event-details .element .input-container {
   display: flex;
 }
-.admin .event-details .element .input-container .startup {
+.event-details .element .input-container .startup {
   color: var(--dark);
   background-image: none;
   border-radius: 6px;
@@ -1829,20 +1834,20 @@ main.dashboard .events .event .details .bottom .name {
   background: white;
   color: #aaa;
 }
-.admin .event-details .element .input-container .startup i {
+.event-details .element .input-container .startup i {
   width: 15px;
 }
-.admin .event-details .element .input-container input {
+.event-details .element .input-container input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.admin .event-details .kind-of-event {
+.event-details .kind-of-event {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: 200px;
   margin: 40px 0;
 }
-.admin .event-details .kind-of-event .type {
+.event-details .kind-of-event .type {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1851,47 +1856,47 @@ main.dashboard .events .event .details .bottom .name {
   gap: 20px;
   border: 1px solid #eee;
 }
-.admin .event-details .kind-of-event .type object {
+.event-details .kind-of-event .type object {
   user-select: none;
   pointer-events: none;
 }
-.admin .event-details .kind-of-event .type:hover {
+.event-details .kind-of-event .type:hover {
   background: white;
 }
-.admin .event-details .kind-of-event .type:hover span {
+.event-details .kind-of-event .type:hover span {
   color: var(--normal-orange);
 }
-.admin .event-details .kind-of-event .type:hover img {
+.event-details .kind-of-event .type:hover img {
   filter: hue-rotate(3.142rad);
 }
-.admin .event-details .kind-of-event .type.active {
+.event-details .kind-of-event .type.active {
   background: white;
   border: 1px solid var(--normal-orange);
 }
-.admin .event-details .kind-of-event .type.active span {
+.event-details .kind-of-event .type.active span {
   color: var(--normal-orange);
 }
-.admin .event-details .kind-of-event .type.active img {
+.event-details .kind-of-event .type.active img {
   filter: hue-rotate(3.142rad);
 }
-.admin .event-details .kind-of-event .type span {
+.event-details .kind-of-event .type span {
   color: #afb0b0;
   font-size: 15px;
 }
 @media (max-width: 900px) {
-  .admin .event-details .kind-of-event {
+  .event-details .kind-of-event {
     display: none;
   }
 }
-.admin .event-details .when {
+.event-details .when {
   width: 70%;
 }
-.admin .event-details .when .btns {
+.event-details .when .btns {
   display: flex;
   gap: 20px;
   margin: 60px 0;
 }
-.admin .event-details .when .btns .btn {
+.event-details .when .btns .btn {
   position: relative;
   background: white;
   border: 1px solid #aaaaaa;
@@ -1901,7 +1906,7 @@ main.dashboard .events .event .details .bottom .name {
   border-radius: 10px;
   cursor: pointer;
 }
-.admin .event-details .when .btns .btn.pro::before {
+.event-details .when .btns .btn.pro::before {
   content: "";
   position: absolute;
   top: 0;
@@ -1913,30 +1918,31 @@ main.dashboard .events .event .details .bottom .name {
   transform: translate(50%, -50%);
   z-index: 2;
 }
-.admin .event-details .when .btns .btn.active {
+.event-details .when .btns .btn.active {
   background: var(--light-orange);
   color: var(--normal-orange);
   border: none;
 }
 @media (max-width: 900px) {
-  .admin .event-details .when .btns {
+  .event-details .when .btns {
     display: none;
   }
 }
-.admin .event-details .when .date-time {
+.event-details .when .date-time {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-.admin .event-details .when .date-time input {
+.event-details .when .date-time input {
   width: 49%;
 }
 @media (max-width: 900px) {
-  .admin .event-details .when {
+  .event-details .when {
     width: 100%;
   }
 }
-.admin .save-or-cancel {
+
+.save-or-cancel {
   background: #fafcfc;
   padding: 70px 0;
   border-top: 1px solid #ddd;
@@ -1946,7 +1952,7 @@ main.dashboard .events .event .details .bottom .name {
   justify-content: center;
   gap: 20px;
 }
-.admin .save-or-cancel .button {
+.save-or-cancel .button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1958,22 +1964,23 @@ main.dashboard .events .event .details .bottom .name {
   border-radius: 10px;
   cursor: pointer;
 }
-.admin .save-or-cancel .button:hover {
+.save-or-cancel .button:hover {
   opacity: 0.8;
 }
-.admin .save-or-cancel .button.save {
+.save-or-cancel .button.save {
   background: var(--normal-orange);
   color: white;
 }
 @media (max-width: 900px) {
-  .admin .save-or-cancel .button {
+  .save-or-cancel .button {
     font-size: 11px;
   }
 }
-.admin .tickets-tickets {
+
+.tickets-tickets {
   padding: 50px 5%;
 }
-.admin .tickets-tickets .note {
+.tickets-tickets .note {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1985,14 +1992,14 @@ main.dashboard .events .event .details .bottom .name {
   background: white;
   box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
-.admin .tickets-tickets .note:hover a {
+.tickets-tickets .note:hover a {
   color: var(--normal-orange);
 }
-.admin .tickets-tickets .note a {
+.tickets-tickets .note a {
   color: black;
   font-weight: bold;
 }
-.admin .tickets-tickets .make-tickets {
+.tickets-tickets .make-tickets {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2004,13 +2011,13 @@ main.dashboard .events .event .details .bottom .name {
   height: 500px;
   border-radius: 40px;
 }
-.admin .tickets-tickets .make-tickets h5 {
+.tickets-tickets .make-tickets h5 {
   font-size: 32px;
 }
-.admin .tickets-tickets .make-tickets p {
+.tickets-tickets .make-tickets p {
   font-size: 18px;
 }
-.admin .tickets-tickets .make-tickets .button {
+.tickets-tickets .make-tickets .button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2026,25 +2033,25 @@ main.dashboard .events .event .details .bottom .name {
   transition: 0.2s;
   cursor: pointer;
 }
-.admin .tickets-tickets .make-tickets .button:hover {
+.tickets-tickets .make-tickets .button:hover {
   background: var(--light-orange);
   border: 1px solid var(--normal-orange);
   color: var(--normal-orange);
 }
 @media (max-width: 756PX) {
-  .admin .tickets-tickets .make-tickets {
+  .tickets-tickets .make-tickets {
     height: unset;
     min-height: 300px;
     border-radius: 30px;
     padding: 20px;
   }
-  .admin .tickets-tickets .make-tickets h5 {
+  .tickets-tickets .make-tickets h5 {
     font-size: 25px;
   }
-  .admin .tickets-tickets .make-tickets p {
+  .tickets-tickets .make-tickets p {
     font-size: 14px;
   }
-  .admin .tickets-tickets .make-tickets .button {
+  .tickets-tickets .make-tickets .button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2056,10 +2063,11 @@ main.dashboard .events .event .details .bottom .name {
     font-size: 16px;
   }
 }
-.admin .discount {
+
+.discount {
   padding: 50px 5%;
 }
-.admin .discount .create-discount {
+.discount .create-discount {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2071,13 +2079,13 @@ main.dashboard .events .event .details .bottom .name {
   height: 500px;
   border-radius: 40px;
 }
-.admin .discount .create-discount h5 {
+.discount .create-discount h5 {
   font-size: 32px;
 }
-.admin .discount .create-discount p {
+.discount .create-discount p {
   font-size: 18px;
 }
-.admin .discount .create-discount .button {
+.discount .create-discount .button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2093,58 +2101,59 @@ main.dashboard .events .event .details .bottom .name {
   transition: 0.2s;
   cursor: pointer;
 }
-.admin .discount .create-discount .button:hover {
+.discount .create-discount .button:hover {
   background: var(--light-orange);
   border: 1px solid var(--normal-orange);
   color: var(--normal-orange);
 }
 @media (max-width: 756PX) {
-  .admin .discount .create-discount {
+  .discount .create-discount {
     height: unset;
     min-height: 300px;
     border-radius: 30px;
     padding: 20px;
   }
-  .admin .discount .create-discount h5 {
+  .discount .create-discount h5 {
     font-size: 25px;
   }
-  .admin .discount .create-discount p {
+  .discount .create-discount p {
     font-size: 14px;
   }
 }
-.admin .ticket-email {
+
+.ticket-email {
   background: #fafcfc;
   padding: 50px 5%;
 }
-.admin .ticket-email h2 {
+.ticket-email h2 {
   color: var(--dark);
   font-size: 48px;
   font-weight: bolder;
   margin: 50px 0;
 }
-.admin .ticket-email p {
+.ticket-email p {
   color: #757575;
   font-weight: bold;
 }
-.admin .ticket-email .element {
+.ticket-email .element {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 40px;
 }
-.admin .ticket-email .element label {
+.ticket-email .element label {
   color: #757575;
 }
-.admin .ticket-email .element form {
+.ticket-email .element form {
   display: flex;
   flex-direction: column;
   width: 40%;
 }
-.admin .ticket-email .element form .element {
+.ticket-email .element form .element {
   width: 100%;
   margin-bottom: 15px;
 }
-.admin .ticket-email .element form input[type=email] {
+.ticket-email .element form input[type=email] {
   color: var(--dark);
   background-color: #fff;
   background-image: none;
@@ -2157,10 +2166,10 @@ main.dashboard .events .event .details .bottom .name {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
 }
-.admin .ticket-email .element form input[type=email]:focus {
+.ticket-email .element form input[type=email]:focus {
   border-color: var(--normal-orange);
 }
-.admin .ticket-email .element form input[type=submit] {
+.ticket-email .element form input[type=submit] {
   background: var(--normal-orange);
   color: var(--normal-orange);
   font-weight: bold;
@@ -2169,29 +2178,30 @@ main.dashboard .events .event .details .bottom .name {
   background: none;
   border: none;
 }
-.admin .event-page-appearances {
+
+.event-page-appearances {
   padding: 50px 5%;
 }
-.admin .event-page-appearances h2 {
+.event-page-appearances h2 {
   color: var(--dark);
 }
-.admin .event-page-appearances p {
+.event-page-appearances p {
   color: gray;
   font-weight: 700;
 }
-.admin .event-page-appearances .event-theme {
+.event-page-appearances .event-theme {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
   width: 100%;
   margin: 20px 0;
 }
-.admin .event-page-appearances .event-theme .theme {
+.event-page-appearances .event-theme .theme {
   position: relative;
   height: 200px;
   background: #f5f6f6;
 }
-.admin .event-page-appearances .event-theme .theme .left {
+.event-page-appearances .event-theme .theme .left {
   width: 50%;
   position: absolute;
   left: 0;
@@ -2200,7 +2210,7 @@ main.dashboard .events .event .details .bottom .name {
   flex-direction: column;
   padding: 15px;
 }
-.admin .event-page-appearances .event-theme .theme .left span.in-use {
+.event-page-appearances .event-theme .theme .left span.in-use {
   background: #dfefe2;
   color: #4ec757;
   width: fit-content;
@@ -2209,20 +2219,20 @@ main.dashboard .events .event .details .bottom .name {
   font-size: 11px;
   padding: 2px 4px;
 }
-.admin .event-page-appearances .event-theme .theme .left img.pro {
+.event-page-appearances .event-theme .theme .left img.pro {
   width: 25px;
 }
-.admin .event-page-appearances .event-theme .theme .left h4 {
+.event-page-appearances .event-theme .theme .left h4 {
   margin-top: 10px;
   font-size: 20px;
 }
-.admin .event-page-appearances .event-theme .theme .left .buttons {
+.event-page-appearances .event-theme .theme .left .buttons {
   display: flex;
   margin-top: auto;
   justify-content: space-between;
   gap: 10px;
 }
-.admin .event-page-appearances .event-theme .theme .left .buttons .button {
+.event-page-appearances .event-theme .theme .left .buttons .button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2233,20 +2243,20 @@ main.dashboard .events .event .details .bottom .name {
   color: white;
   cursor: pointer;
 }
-.admin .event-page-appearances .event-theme .theme .left .buttons .button.light {
+.event-page-appearances .event-theme .theme .left .buttons .button.light {
   background: #f6e7e2;
   color: var(--normal-orange);
 }
-.admin .event-page-appearances .event-theme .theme .left .buttons .button:hover {
+.event-page-appearances .event-theme .theme .left .buttons .button:hover {
   opacity: 0.75;
 }
-.admin .event-page-appearances .event-theme .theme .right {
+.event-page-appearances .event-theme .theme .right {
   width: 50%;
   height: 100%;
   position: absolute;
   right: 0;
 }
-.admin .event-page-appearances .event-theme .theme .right img {
+.event-page-appearances .event-theme .theme .right img {
   position: absolute;
   right: 0;
   max-width: 100%;
@@ -2254,11 +2264,11 @@ main.dashboard .events .event .details .bottom .name {
   object-fit: contain;
 }
 @media (max-width: 900px) {
-  .admin .event-page-appearances .event-theme {
+  .event-page-appearances .event-theme {
     grid-template-columns: 1fr;
   }
 }
-.admin .event-page-appearances .event-image-section {
+.event-page-appearances .event-image-section {
   position: relative;
   display: flex;
   align-items: center;
@@ -2270,13 +2280,13 @@ main.dashboard .events .event .details .bottom .name {
   margin: 20px 0 100px 0;
   overflow: hidden;
 }
-.admin .event-page-appearances .event-image-section input {
+.event-page-appearances .event-image-section input {
   position: absolute;
   height: 100%;
   width: 100%;
   opacity: 0;
 }
-.admin .event-page-appearances .event-image-section > img.fill-container {
+.event-page-appearances .event-image-section > img.fill-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -2286,7 +2296,7 @@ main.dashboard .events .event .details .bottom .name {
   width: 100%;
   object-fit: cover;
 }
-.admin .event-page-appearances .event-image-section .input-here {
+.event-page-appearances .event-image-section .input-here {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2298,17 +2308,17 @@ main.dashboard .events .event .details .bottom .name {
   background: white;
   border-radius: 10px;
 }
-.admin .event-page-appearances .event-image-section .input-here img {
+.event-page-appearances .event-image-section .input-here img {
   width: 50px;
 }
-.admin .event-page-appearances .event-image-section .input-here span {
+.event-page-appearances .event-image-section .input-here span {
   color: var(--normal-orange);
 }
 @media (max-width: 900px) {
-  .admin .event-page-appearances .event-image-section {
+  .event-page-appearances .event-image-section {
     height: 230px;
   }
-  .admin .event-page-appearances .event-image-section .input-here {
+  .event-page-appearances .event-image-section .input-here {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2320,14 +2330,15 @@ main.dashboard .events .event .details .bottom .name {
     background: white;
     border-radius: 10px;
   }
-  .admin .event-page-appearances .event-image-section .input-here img {
+  .event-page-appearances .event-image-section .input-here img {
     width: 40px;
   }
-  .admin .event-page-appearances .event-image-section .input-here span {
+  .event-page-appearances .event-image-section .input-here span {
     color: var(--normal-orange);
   }
 }
-.admin .guestlist {
+
+.guestlist {
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -2335,7 +2346,7 @@ main.dashboard .events .event .details .bottom .name {
   padding: 30px 5%;
   padding-bottom: 100px;
 }
-.admin .guestlist .button {
+.guestlist .button {
   background: var(--light-orange);
   width: fit-content;
   color: var(--normal-orange);
@@ -2344,12 +2355,13 @@ main.dashboard .events .event .details .bottom .name {
   opacity: 0.7;
   cursor: not-allowed;
 }
-.admin .shedule {
+
+.shedule {
   font-weight: bold;
   background: #fafcfc;
   padding: 50px 5%;
 }
-.admin .shedule .shedule-container {
+.shedule .shedule-container {
   background: var(--light-orange);
   display: flex;
   align-items: center;
@@ -2360,20 +2372,21 @@ main.dashboard .events .event .details .bottom .name {
   height: 200px;
   border-radius: 20px;
 }
-.admin .shedule .shedule-container p {
+.shedule .shedule-container p {
   color: gray;
   font-size: 20px;
 }
-.admin .shedule .shedule-container a {
+.shedule .shedule-container a {
   color: var(--normal-orange);
   text-decoration: underline;
 }
 @media (max-width: 900px) {
-  .admin .shedule .shedule-container p {
+  .shedule .shedule-container p {
     font-size: 16px;
   }
 }
-.admin .email-guestlist {
+
+.email-guestlist {
   padding: 50px 5%;
   background: #fafcfc;
   display: flex;
@@ -2381,21 +2394,22 @@ main.dashboard .events .event .details .bottom .name {
   gap: 30px;
   padding-bottom: 200px;
 }
-.admin .email-guestlist p {
+.email-guestlist p {
   color: gray;
 }
-.admin .sales {
+
+.sales {
   padding: 50px 5%;
   background: #fafcfc;
 }
-.admin .sales .sales-container {
+.sales .sales-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
   background: var(--light-orange);
   border-radius: 20px;
 }
-.admin .sales .sales-container .column {
+.sales .sales-container .column {
   background: var(--light-orange);
   display: flex;
   align-items: center;
@@ -2406,36 +2420,37 @@ main.dashboard .events .event .details .bottom .name {
   gap: 10px;
   width: 100%;
 }
-.admin .sales .sales-container .column .number {
+.sales .sales-container .column .number {
   font-size: 30px;
   font-weight: bolder;
   color: var(--normal-orange);
 }
-.admin .sales .sales-container .column .name {
+.sales .sales-container .column .name {
   color: gray;
 }
-.admin .sales .text {
+.sales .text {
   margin: 50px 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.admin .sales .text h2 {
+.sales .text h2 {
   color: var(--dark);
 }
-.admin .sales .text p {
+.sales .text p {
   color: gray;
 }
 @media (max-width: 900px) {
-  .admin .sales .sales-container {
+  .sales .sales-container {
     grid-template-columns: 1fr;
     background: none;
   }
 }
-.admin .screen-overlay {
+
+.screen-overlay {
   display: none;
 }
-.admin .screen-overlay .create-ticket {
+.screen-overlay .create-ticket {
   position: relative;
   z-index: 11;
   width: 500px;
@@ -2445,10 +2460,10 @@ main.dashboard .events .event .details .bottom .name {
   border-radius: 10px;
   min-height: auto;
 }
-.admin .screen-overlay .create-ticket.show {
+.screen-overlay .create-ticket.show {
   display: block;
 }
-.admin .screen-overlay .create-ticket i.exit {
+.screen-overlay .create-ticket i.exit {
   position: absolute;
   top: 25px;
   right: 30px;
@@ -2456,29 +2471,29 @@ main.dashboard .events .event .details .bottom .name {
   color: var(--dark);
   cursor: pointer;
 }
-.admin .screen-overlay .create-ticket .title {
+.screen-overlay .create-ticket .title {
   background-color: #f7f7f7;
   text-align: center;
   padding: 20px 0;
   font-size: 20px;
   font-weight: bold;
 }
-.admin .screen-overlay .create-ticket .content {
+.screen-overlay .create-ticket .content {
   padding: 20px;
   background: #fafcfc;
 }
-.admin .screen-overlay .create-ticket .content h6 {
+.screen-overlay .create-ticket .content h6 {
   font-weight: 700;
   font-size: 18px;
   color: var(--dark);
   margin-bottom: 1.5rem;
 }
-.admin .screen-overlay .create-ticket .content .kind-of-ticket {
+.screen-overlay .create-ticket .content .kind-of-ticket {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 15px;
 }
-.admin .screen-overlay .create-ticket .content .kind-of-ticket .button {
+.screen-overlay .create-ticket .content .kind-of-ticket .button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2494,18 +2509,18 @@ main.dashboard .events .event .details .bottom .name {
   transition: 0.2s;
   cursor: pointer;
 }
-.admin .screen-overlay .create-ticket .content .kind-of-ticket .button:hover, .admin .screen-overlay .create-ticket .content .kind-of-ticket .button.active {
+.screen-overlay .create-ticket .content .kind-of-ticket .button:hover, .screen-overlay .create-ticket .content .kind-of-ticket .button.active {
   background: var(--light-orange);
   border: 1px solid var(--normal-orange);
   color: var(--normal-orange);
 }
-.admin .screen-overlay .create-ticket .content .element {
+.screen-overlay .create-ticket .content .element {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin: 15px 0;
 }
-.admin .screen-overlay .create-ticket .content .element.perks .add-perk {
+.screen-overlay .create-ticket .content .element.perks .add-perk {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2517,12 +2532,12 @@ main.dashboard .events .event .details .bottom .name {
   border-radius: 5px;
   cursor: pointer;
 }
-.admin .screen-overlay .create-ticket .content .element label {
+.screen-overlay .create-ticket .content .element label {
   color: #757575;
 }
-.admin .screen-overlay .create-ticket .content .element input,
-.admin .screen-overlay .create-ticket .content .element textarea,
-.admin .screen-overlay .create-ticket .content .element select {
+.screen-overlay .create-ticket .content .element input,
+.screen-overlay .create-ticket .content .element textarea,
+.screen-overlay .create-ticket .content .element select {
   color: var(--dark);
   background-color: #fff;
   background-image: none;
@@ -2535,40 +2550,40 @@ main.dashboard .events .event .details .bottom .name {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
 }
-.admin .screen-overlay .create-ticket .content .element input:focus,
-.admin .screen-overlay .create-ticket .content .element textarea:focus,
-.admin .screen-overlay .create-ticket .content .element select:focus {
+.screen-overlay .create-ticket .content .element input:focus,
+.screen-overlay .create-ticket .content .element textarea:focus,
+.screen-overlay .create-ticket .content .element select:focus {
   border-color: var(--normal-orange);
 }
-.admin .screen-overlay .create-ticket .content .element input[type=number] {
+.screen-overlay .create-ticket .content .element input[type=number] {
   text-align: center;
 }
-.admin .screen-overlay .create-ticket .content .element [type=checkbox] {
+.screen-overlay .create-ticket .content .element [type=checkbox] {
   height: 20px;
   width: 20px;
 }
-.admin .screen-overlay .create-ticket .content .element textarea {
+.screen-overlay .create-ticket .content .element textarea {
   height: 200px;
 }
-.admin .screen-overlay .create-ticket .content .add-other-question {
+.screen-overlay .create-ticket .content .add-other-question {
   display: flex;
   align-items: center;
   justify-content: center;
   width: fit-content;
   gap: 15px;
 }
-.admin .screen-overlay .create-ticket .content .add-other-question a {
+.screen-overlay .create-ticket .content .add-other-question a {
   color: var(--normal-orange);
 }
-.admin .screen-overlay .create-ticket .content .add-other-question img {
+.screen-overlay .create-ticket .content .add-other-question img {
   width: 20px;
 }
-.admin .screen-overlay .create-ticket .content .two-columns {
+.screen-overlay .create-ticket .content .two-columns {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.admin .screen-overlay .create-ticket .content .buttons {
+.screen-overlay .create-ticket .content .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2577,7 +2592,7 @@ main.dashboard .events .event .details .bottom .name {
   border-top: 2px solid #ddd;
   gap: 5px;
 }
-.admin .screen-overlay .create-ticket .content .buttons .button {
+.screen-overlay .create-ticket .content .buttons .button {
   background: var(--normal-orange);
   color: white;
   font-size: 15px;
@@ -2585,12 +2600,12 @@ main.dashboard .events .event .details .bottom .name {
   border-radius: 5px;
   cursor: pointer;
 }
-.admin .screen-overlay .create-ticket .content .buttons .button.btn-light {
+.screen-overlay .create-ticket .content .buttons .button.btn-light {
   background: var(--light-orange);
   color: var(--normal-orange);
 }
 @media (max-width: 520px) {
-  .admin .screen-overlay .create-ticket {
+  .screen-overlay .create-ticket {
     width: 97%;
   }
 }
