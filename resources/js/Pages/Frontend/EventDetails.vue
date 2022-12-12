@@ -24,7 +24,7 @@
                             <div class="event-cntright">
                                 <p>Tickets starting at</p>
                                 <h4>Rp. 212.000</h4>
-                                <Link :href="route('checkout', event.slug)">Buy Tickets</Link>
+                                <Link :href="route('ticket-info', event.slug)">Buy Tickets</Link>
                             </div>
                         </div>
 
@@ -116,7 +116,6 @@
     })
 
     const getVideoCode = (videoLink) => {
-        console.log(videoLink);
         if(!videoLink) return false
         let splitLink = videoLink.split('?v=')
         if(splitLink.length==2){

@@ -38,4 +38,4 @@ Route::get('/search-result', function () use($data) {
     return Inertia::render('Frontend/SearchResult', $data);
 })->name('search-result');
 
-Route::get('/ticket-info/{url}', [FrontendController::class, 'ticket_info'])->name('ticket');
+Route::get('/ticket-info/{url}', [FrontendController::class, 'ticket_info'])->name('ticket-info');
