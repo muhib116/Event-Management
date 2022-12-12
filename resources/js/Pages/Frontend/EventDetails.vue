@@ -5,13 +5,7 @@
             <div class="container">
                 <div class="event-main">
                     <div class="event-left">
-                        <h4>Share</h4>
-                        <ul>
-                            <li><a href="#"><img src="@/assets/frontend/images/links.svg" alt=""><span>Share to Links </span></a></li>
-                            <li><a href="#"><img src="@/assets/frontend/images/instagram.svg" alt=""><span>Share to Instagram </span></a></li>
-                            <li><a href="#"><img src="@/assets/frontend/images/twitter.svg" alt=""><span>Share to Twitter</span></a></li>
-                            <li><a href="#"><img src="@/assets/frontend/images/facebook.svg" alt=""><span>Share to Facebook </span></a></li>
-                        </ul>
+                        <SocialShare />
                     </div>
                     <div class="event-right">
                         <div class="event-banner">
@@ -20,17 +14,17 @@
 
                         <div class="event-cntprt">
                             <div class="event-cntleft">
-                                <h2>Drive In Senja: Back to The Future</h2>
+                                <h2>{{ event.name }}</h2>
                                 <ul>
-                                    <li><i class="fas fa-map-marker-alt"></i> Parkiran Utama Mall @ Alam Sutera</li>
-                                    <li><i class="fas fa-calendar-alt"></i> September 22, 2021 · 20.00 - 21.56 WIB</li>
+                                    <li><i class="fas fa-map-marker-alt"></i> {{ event.location }}</li>
+                                    <li><i class="fas fa-calendar-alt"></i> {{ event.start_date }}· {{ event.start_time }}</li>
                                 </ul>
                                 <p>Marty travels back in time using an eccentric scientist's time machine. However, he must make his high-school-aged parents fall in love in order to return to the present.</p>
                             </div>
                             <div class="event-cntright">
                                 <p>Tickets starting at</p>
                                 <h4>Rp. 212.000</h4>
-                                <a href="#">Buy Tickets</a>
+                                <Link :href="route('checkout', event.slug)">Buy Tickets</Link>
                             </div>
                         </div>
 
@@ -68,9 +62,21 @@
                             </div>
                         </div>
 
+                        <iframe 
+                            class="block max-w-[800px] w-full mx-auto mb-4 aspect-video"
+                            v-if="getVideoCode(event.video_link)" 
+                            :src="`https://www.youtube.com/embed/${getVideoCode(event.video_link)}`" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                        ></iframe>
+
                         <div class="event-descprt">
                             <h2>Description</h2>
-                            <p>Drive-In Senja memberikan retro drive-in experience yang dikemas secara modern. Penggunaan transmisi radio kit, mengintegrasikan suara film ke dalam radio mobil, ditambah proyektor resolusi tinggi yang menyediakan pengalaman visual terbaik. Acara ini merupakan sarana yang aman untuk menghabiskan waktu bersama keluarga, pasangan, maupun komunitas</p>
+                            <p>
+                                {{ event.description }}
+                            </p>
                         </div>
 
                         <div class="event-termcond">
@@ -81,7 +87,18 @@
                                     <option value="">Terms & Condition</option>
                                 </select>
                             </form>
-                        </div>                        
+                        </div>    
+                        
+                        <iframe 
+                            v-if="event.map_link" 
+                            class="block w-full mx-auto h-[300px] mb-4 aspect-auto mt-10" 
+                            :src="event.map_link" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                        
                     </div>
                 </div>
             </div>
@@ -91,7 +108,21 @@
 
 <script setup>
     import { Head, Link } from '@inertiajs/inertia-vue3'
+    import SocialShare from '@/Components/Frontend/Event/SocialShare.vue'
     import Master from './Master.vue'
+    
+    const props = defineProps({
+        event: Object
+    })
+
+    const getVideoCode = (videoLink) => {
+        if(!videoLink) return false
+        let splitLink = videoLink.split('?v=')
+        if(splitLink.length==2){
+            let videoCode = splitLink[1].split('&')
+            return splitLink[1]
+        }
+    }
 </script>
 
 <style lang="scss" scoped>

@@ -44,7 +44,7 @@ class FrontendController extends Controller
         $this->data['event'] = MEvents::where('custom_url', $url)
                         ->orWhere('slug', $url)
                         ->first();
-        return $this->data;
+                        
         return Inertia::render('Frontend/EventDetails', $this->data);
     }
 

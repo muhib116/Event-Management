@@ -16,7 +16,6 @@
 
     import Nav from '@/Components/Frontend/Nav.vue'
     import Sidebar from '@/Components/Frontend/Sidebar.vue'
-    import SearchBar from '@/Components/Frontend/SearchBar.vue'
     import Footer from '@/Components/Frontend/Footer.vue'
 </script>
         <!-- fonts -->

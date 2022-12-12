@@ -103,6 +103,11 @@
             </div>
 
             <div class="element">
+                <label for="location">*Image Upload</label>
+                <input type="file" @change="formData.image" />
+            </div>
+
+            <div class="element">
                 <label for="location">*Select TimeZone</label>
                 <select v-model="formData.timezone">
                     <option data-time-zone-id="1" data-gmt-adjustment="GMT-12:00" data-use-daylight="0" value="-12">(GMT-12:00) International Date Line West</option>

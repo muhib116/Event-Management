@@ -8,20 +8,22 @@
 
             <div class="main-content relative">
                 <Carousel ref="myCarousel" :settings="settings" :breakpoints="breakpoints">
-                    <Slide v-for="(item, index) in demoData" :key="index">
-                        <Link href="event-details">
+                    <Slide v-for="(item, index) in data" :key="index">
+                        <Link :href="`event-details/${item.slug}`">
                             <div class="upcome-item">
-                                <div class="upcome-banr">
-                                    <img :src="item.path" :alt="item.title">
+                                <div class="upcome-banr h-[150px]">
+                                    <img :src="item.image" :alt="item.name" class="h-full block">
                                 </div>
                                 <div class="upcome-cnt">
                                     <div class="upcome-cntleft">
-                                        <h4>{{ item.month }}</h4>
-                                        <p>{{ item.day }}</p>
+                                        <h4 class="uppercase">{{ getMonth(item.start_date).slice(0,3) }}</h4>
+                                        <p>
+                                            {{ formateDate(item.start_date) }}
+                                        </p>
                                     </div>
                                     <div class="upcome-cntright">
-                                        <h4>{{ item.title }}</h4>
-                                        <p>{{ item.price }}</p>
+                                        <h4 :title="item.name">{{ truncate(item.name, 25) }}</h4>
+                                        <p>{{ item.price ? item.price : 'Free' }}</p>
                                         <p><i class="fas fa-map-marker-alt"></i> {{ item.location }} </p>
                                     </div>
                                 </div>
@@ -58,8 +60,13 @@
     import useUpcomingEvents from './useUpcomingEvents'
     import { ref } from 'vue'
 
+    const props = defineProps({
+        data: Array
+    })
+    
     const myCarousel = ref(null)
-    const { demoData } = useUpcomingEvents()
+    const { getMonth, formateDate, truncate } = useUpcomingEvents()
+
   
     const settings = {
         itemsToShow: 1,
@@ -77,5 +84,5 @@
           itemsToShow: 4,
           snapAlign: 'start',
         },
-      }
+    }
   </script>

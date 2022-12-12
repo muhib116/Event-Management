@@ -30,7 +30,7 @@ class EventController extends Controller
             'eventType' => 'required',
             'location' => 'required',
         ]);
-        // return $request->all();
+        
         try {
             DB::beginTransaction();
             $image = null;
