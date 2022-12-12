@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
         \App\Models\MEvents::factory(100)->create();
+        \App\Models\Ticket::factory(500)->create();
         // $this->call(TimeZoneSeeder::class);
         // $this->call(CategorySeeder::class);
         // $this->call(CategorySeeder::class);

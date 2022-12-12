@@ -12,7 +12,7 @@ require_once('my-route/frontend.php');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/event/manage/{name}', [EventController::class, 'manage'])->name('event.manage');
+Route::get('/event/manage/{url}', [EventController::class, 'manage'])->name('event.manage');
 Route::post('/event/{event}/create-discount', [EventController::class, 'create_discount'])->name('event.create_discount');
 
 

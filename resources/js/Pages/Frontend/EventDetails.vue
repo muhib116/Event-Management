@@ -116,6 +116,7 @@
     })
 
     const getVideoCode = (videoLink) => {
+        console.log(videoLink);
         if(!videoLink) return false
         let splitLink = videoLink.split('?v=')
         if(splitLink.length==2){

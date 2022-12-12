@@ -90,8 +90,8 @@ class EventController extends Controller
         } 
     }
 
-    public function manage($name) {
-        $event = MEvents::with(['tickets'])->where('name', $name)->orWhere('custom_url', $name)->first();
+    public function manage($url) {
+        $event = MEvents::with(['tickets'])->where('name', $url)->orWhere('custom_url', $url)->first();
         return $event;
     }
 
