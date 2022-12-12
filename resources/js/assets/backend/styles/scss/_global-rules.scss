@@ -1,22 +1,4 @@
-// font face
-@font-face {
-    font-family: main-font;
-    src: url('/backend/fonts/segoe_ui.ttf');
-}
-// Page Rules
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: main-font;
-    text-decoration: none;
-    scroll-behavior: smooth;
-}
-body {
-    &.no-scroll {
-        overflow-y: hidden;
-    }
-}
+
 // Colors
 :root {
     --normal-orange:#fc6435;

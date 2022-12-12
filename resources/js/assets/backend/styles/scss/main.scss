@@ -1,8 +1,33 @@
+// font face
+@font-face {
+    font-family: main-font;
+    src: url('/backend/fonts/segoe_ui.ttf');
+}
+// Page Rules
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: main-font;
+    text-decoration: none;
+    scroll-behavior: smooth;
+}
+body {
+    &.no-scroll {
+        overflow-y: hidden;
+    }
+}
+
 @import "global-rules";
-@import "header";
+.admin {
+    @import "header";
+}
 @import "dashboard";
 @import "event-create";
 @import "event-create-second-step";
 @import "event-create-third-step";
-@import "account.scss";
-@import "event.scss";
+.admin {
+    @import "account";
+    @import "event";
+}
+

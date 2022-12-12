@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MEvents;
 use App\Utils;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -92,7 +93,22 @@ class EventController extends Controller
 
     public function manage($url) {
         $event = MEvents::with(['tickets'])->where('name', $url)->orWhere('custom_url', $url)->first();
-        return $event;
+        if ($event) {
+            $startDate = strtotime($event->start_date);
+            $startTime = strtotime($event->start_time);
+            $endDate = strtotime($event->end_date);
+            $endTime = strtotime($event->end_time);
+
+            $event->start_date = date('D, M d Y', $startDate);
+            $event->start_time = date('H:s A', $startTime);
+            $event->end_date = date('D, M d Y', $endDate);
+            $event->end_time = date('H:s A', $endTime);
+        }
+        // return $event;
+        $this->data['event'] = $event;
+        
+        return Inertia::render('EventManage', $this->data);
+        // return $event;
     }
 
     public function create_discount(Request $request ,MEvents $mEvents) {

@@ -7,7 +7,7 @@
             <div class="account"> EK </div>
             <div class="nav">
                 <Link :href="route('live.account')">Account</Link>
-                <a href="/">Events</a>
+                <Link :href="route('dashboard')">Events</Link>
                 <a href="#">Help</a>
                 <a href="#">Log out</a>
             </div>
