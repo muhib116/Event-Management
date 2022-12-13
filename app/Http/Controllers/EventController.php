@@ -111,6 +111,34 @@ class EventController extends Controller
         // return $event;
     }
 
+    public function createTicket(Request $request, MEvents $mEvents) {
+        $request->validate([
+            'ticket_name' => 'required|unique:tickets,ticket_name',
+            'ticket_description' => 'required',
+            'ticket_type' => 'required',
+            'ticket_stock' => 'required',
+            // 'stock_limit' => $request->stock_limit ?? 0,
+            // 'price' => $request->price ?? 0,
+            // 'perks' => $request->perks,
+            // 'isTransferFeesToGuest' => $request->isTransferFeesToGuest ? 1 : 0,
+            // 'questions' => $request->question,
+            // 'settings' => $request->settings,
+        ]);
+
+        $request->validate([
+            'm_events_id' => $mEvents->id,
+            'ticket_name' => $request->ticket_name,
+            'ticket_description' => $request->ticket_description,
+            'ticket_type' => $request->ticketType,
+            'ticket_stock' => $request->ticket_stock,
+            'stock_limit' => $request->stock_limit ?? 0,
+            'price' => $request->price ?? 0, 
+            'isTransferFeesToGuest' => $request->isTransferFeesToGuest ? 1 : 0,
+            'questions' => $request->question,
+            'settings' => $request->settings,
+        ]);
+    }
+
     public function create_discount(Request $request ,MEvents $mEvents) {
         $request->validate([
             'discount_code' => 'required',
