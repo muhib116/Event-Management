@@ -21,7 +21,7 @@ Route::get('/live/account', function() {
 })->name('live.account');
 
 Route::get('create/event/{eventType}', [EventController::class, 'index'])->name('event.create');
-Route::post('store/event/{eventType}', [EventController::class, 'eventStore'])->name('event.store');
+// Route::post('store/event/{eventType}', [EventController::class, 'eventStore'])->name('event.store');
 
 Route::group(['as' => 'account.', 'prefix' => 'account', 'middleware' => 'auth'],function () {
     Route::post('/update-info', [AccountController::class, 'update_personal_info'])->name('update_info');

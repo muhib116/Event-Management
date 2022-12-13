@@ -1,9 +1,7 @@
 <template>
     <div v-if="modelValue" id="screen_overlay" class="screen-overlay show">
         <div id="create_new_event" class="create-new-event show">
-            <!-- exit creat new -->
             <i @click="$emit('update:modelValue', false)" class="fa-solid exit fa-xmark"></i>
-            <!-- create new event elements -->
             <div class="title">New Event</div>
             <div class="options">
                 <div 
@@ -22,7 +20,7 @@
                     <div class="button">Select</div>
                 </div>
             </div>
-            <Link :href="`create/event/${eventType.find(item=>item.isSelected).name}`" class="continue">Continue</Link>
+            <Link :href="`create/event/${eventType.find(item=>item.isSelected).key}`" class="continue">Continue</Link>
         </div>
     </div>
 </template>
@@ -33,11 +31,13 @@
     const eventType = ref([
         {
             name: 'Live Event',
+            key: 'live-event',
             description: 'An event that takes place at a physical location and attendees join in person',
             isSelected: true
         }, 
         {
             name: 'Online Event',
+            key: 'online-event',
             description: 'A virtual event that takes place online and attendees join using web conferencing services',
             isSelected: false
         }
