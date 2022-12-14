@@ -15,7 +15,8 @@
          </div>
          <!-- continue buttons 2-->
          <div class="continue-buttons">
-            <div class="button">Skip and do this later</div>
+            <Link :href="route('dashboard')" class="button">Skip and do this later</Link>
+            <!-- <Link :href="route('tickets', getEventId())" class="button">Skip and do this later</Link> -->
          </div>
  
          <TicketCreatePopup v-model="showPopup"/>
@@ -25,6 +26,10 @@
 <script setup>
    import TicketCreatePopup from '@/Components/dashboard/popup/TicketCreatePopup.vue';
    import { ref } from 'vue'
+   import { Link } from '@inertiajs/inertia-vue3'
+   import useTicket from '@/Pages/useTicket.js'
+
+   const { getEventId } = useTicket()
    const showPopup = ref(false)
 </script>
 

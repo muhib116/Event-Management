@@ -10,6 +10,7 @@ use Inertia\Inertia;
 
 require_once('my-route/frontend.php');
 require_once('my-route/event.php');
+require_once('my-route/ticket.php');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

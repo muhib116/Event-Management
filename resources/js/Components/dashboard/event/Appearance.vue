@@ -80,7 +80,7 @@
 
 
     onMounted(() => {
-        getImages(eventId.value)
+        getImages(getEventId())
     })
     onUpdated(() => {
         eventId.value = getEventId()

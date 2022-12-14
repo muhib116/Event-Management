@@ -120,21 +120,6 @@ const eventTypes = ref([
     },
 ])
 
-const ticketTypes = ref([
-    {
-        name: 'Free',
-        isSelected: true
-    },
-    {
-        name: 'Paid',
-        isSelected: false
-    },
-    {
-        name: 'Invite only',
-        isSelected: false
-    },
-])
-
 const eventForm = ref({
     eventType: null,
     name: null,
@@ -153,30 +138,8 @@ const eventForm = ref({
     instagram: null,
     twitter: null,
     facebook: null,
-    settings: {
-        bannerImage: '',
-        imageOne: '',
-        imageTwo: '',
-        imageThree: ''
-    }
+    settings: {}
 })
-
-const ticketForm = ref({
-    ticketType: null,
-    ticket_name: null,
-    ticket_stock: null,
-    purchase_limit: null,
-    ticket_description: null,
-    perks: null,
-    isTransferFeesToGuest: null,
-    stock_limit: null,
-    price: null,
-    questions: null
-})
-
-const insertedEventId = ref(null)
-
-const formDataForFileUpload = ref(new FormData())
 
 export default function useEvent(){
     const setActiveEvent = (item) => {
@@ -196,9 +159,6 @@ export default function useEvent(){
         setActiveEvent,
         eventTypes,
         setActiveEventType,
-        formDataForFileUpload,
-        ticketTypes,
-        eventForm,
-        insertedEventId
+        eventForm
     }
 }

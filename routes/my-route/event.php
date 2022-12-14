@@ -12,7 +12,3 @@ Route::post('/event/{event}/create-discount', [EventController::class, 'create_d
 Route::get('event/appearance/{event_id?}', function () {
     return Inertia::render('Appearance');
 })->middleware(['auth', 'verified'])->name('appearance');
-
-Route::get('event/ticket/{event_id?}', function () {
-    return Inertia::render('CreateTicket');
-})->middleware(['auth', 'verified'])->name('ticket');

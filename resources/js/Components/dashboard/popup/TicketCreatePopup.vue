@@ -15,7 +15,7 @@
                      class="button free" 
                      :class="(item.isSelected&&'active')"
                      @click="() => {
-                        myFormData.ticketType = item.name
+                        ticketForm.ticketType = item.name
                         ticketTypes.forEach(ticket => {
                            ticket.isSelected = ticket.name == item.name
                         })
@@ -26,51 +26,47 @@
                </div>
               <div class="element">
                  <label for="name">*Ticket Name</label>
-                 <input :class="validationFor.ticket_name.hasError && 'border-red-500'" v-model="myFormData.ticket_name" name="name" type="text">
+                 <input :class="validationFor.ticket_name.hasError && 'border-red-500'" v-model="ticketForm.ticket_name" name="name" type="text">
               </div>
               <div class="element">
-                 <label for="name">Stock</label>
+                 <label for="name">*Stock</label>
                  <div class="two-columns">
-                    <select v-model="myFormData.ticket_stock" id="tickets_stock">
+                    <select :class="validationFor.ticket_stock.hasError && 'border-red-500'" v-model="ticketForm.ticket_stock" id="tickets_stock">
                        <option value="0">-select-</option>
                        <option value="limited">Limited Stock</option>
                        <option value="unlimited">Unlimited Stock</option>
                     </select>
-                    <input v-if="(myFormData.ticket_stock == 'limited')" min="1" step="1" v-model="myFormData.stock_limit" type="number" id="tickets_stock_input">
+                    <input v-if="(ticketForm.ticket_stock == 'limited')" min="1" step="1" v-model="ticketForm.stock_limit" type="number" id="tickets_stock_input">
                  </div>
               </div>
 
-              <div v-if="myFormData.ticketType == 'Paid'" class="element pricing" id="ticket_price">
+              <div v-show="ticketForm.ticketType == 'Paid'" class="element pricing" id="ticket_price">
                  <label for="paid">Price</label>
                  <div class="two-columns">
                     <input type="text" value="$" disabled="">
-                    <input v-model="myFormData.price" min="0" type="number">
+                    <input v-model="ticketForm.price" min="0" type="number">
                  </div>
               </div>
 
               <div class="element">
                  <label for="name">*Purchase Limit</label>
-                 <select :class="validationFor.purchase_limit.hasError && 'border-red-500'" v-model="myFormData.purchase_limit" name="">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                 <select :class="validationFor.purchase_limit.hasError && 'border-red-500'" v-model="ticketForm.purchase_limit" name="">
+                    <option v-for="n in 15" :key="n" :value="n">{{ n }}</option>
                  </select>
               </div>
               <div class="element">
                  <label for="name">*Ticket description</label>
-                 <textarea :class="validationFor.ticket_description.hasError && 'border-red-500'" v-model="myFormData.ticket_description" name="Ticket description"></textarea>
+                 <textarea :class="validationFor.ticket_description.hasError && 'border-red-500'" v-model="ticketForm.ticket_description" name="Ticket description"></textarea>
               </div>
               <div class="element perks" id="perks">
-                  <input v-model="myFormData.perks" type="text" placeholder="Perks for this ticket" id="perks_input"> 
-                  <div class="add-perk" id="add_perk">
+                  <input v-model="ticketForm.perks" type="text" placeholder="Perks for this ticket" id="perks_input"> 
+                  <!-- <div class="add-perk" id="add_perk">
                      + Add
-                  </div>
+                  </div> -->
               </div>
               <div class="element- mb-6">
                  <div class="two-columns">
-                    <input type="checkbox" value="1" v-model="myFormData.isTransferFeesToGuest" >
+                    <input type="checkbox" value="1" v-model="ticketForm.isTransferFeesToGuest" >
                     <label>Transfer fees to guest</label>
                  </div>
               </div>
@@ -101,16 +97,15 @@
               <div class="add-other-question mt-8">
                  <button 
                      @click="() => {
-                        questions.push(placeholderQuestion)
-                        formData.questions
+                        questions.push({...placeholderQuestion})
                      }"
                  >Add an other question</button> 
                  <img src="../../../assets/images/star-bars.svg" alt="move-pro icon">
               </div>
 
               <div class="buttons">
-                 <!-- <div class="button btn-light">skip</div> -->
-                 <div class="button" @click="nextStep">continue</div>
+                 <!-- <div class="button btn-light">skip (go to event publish page)</div> -->
+                 <div class="button" @click="save">continue</div>
               </div>
            </div>
         </div>
@@ -119,27 +114,27 @@
 
 <script setup>
    import { ref, watch, onMounted } from 'vue'
-   import useEvent from '@/Pages/useEvent';
+   import useTicket from '@/Pages/useTicket'
+   
 
-   const placeholderQuestion = {
-         question: '',
-         isRequired: false
-   }
-   const questions = ref([
-      { ...placeholderQuestion }
-   ])
+   const { ticketTypes, ticketForm, resetTicketForm, placeholderQuestion, questions, saveTicket, getEventId } = useTicket()
 
-   const { myFormData, formData, ticketTypes } = useEvent()
    const props = defineProps({
       modelValue: {
          type: Boolean
+      },
+      callback: {
+         type: Function,
+         default: () => {}
       }
    })
+
    onMounted(() => {
-      myFormData.value.ticketType = 'Free'
+      ticketForm.value.ticketType = 'Free'
    })
+
    watch(questions.value, (value) => {
-      myFormData.value.questions = questions.value
+      ticketForm.value.questions = questions.value
    }, {deep: true})
 
    let validationFor = ref({
@@ -157,39 +152,37 @@
          field: 'ticket_description',
          title: 'Ticket Description',
          hasError: false
+      },
+      ticket_stock: {
+         field: 'ticket_stock',
+         title: 'Ticket Stock',
+         hasError: false
       }
    })
 
    const validateThisPage = () => 
-    {
-        let validationStatus = false
-        for(let item in validationFor.value){
-            let myFormDataHasProperty = myFormData.value.hasOwnProperty(item)
-            validationFor.value[item].hasError = !myFormDataHasProperty
-            validationStatus = myFormDataHasProperty
-        }
-       
-        return validationStatus
-    }
+   {
+      let validationStatus = false
+      for(let item in validationFor.value){
+         let isValid = ticketForm.value[item]
+         validationFor.value[item].hasError = !isValid
+         validationStatus = isValid
+      }
+      
+      return validationStatus
+   }
 
-
-   const nextStep = () => {
+   const emit = defineEmits()
+   const save = () => {
       if(!validateThisPage()){
          alert(`Required field must not be empty!`)
          return
       }
 
-      myFormData.value.question = questions
-      console.log(myFormData, formData)
-
-      // const form = useForm(myFormData.value)
-      // form.post(route('event.store', myFormData.value.eventType), {
-      //    preserveScroll: true,
-      //    onSuccess: (ev) => {
-      //       console.log(ev);
-      //       form.reset('password')
-      //    },
-      // })
+      saveTicket(ticketForm.value, getEventId())
+      resetTicketForm()
+      props.callback()
+      emit('update:modelValue', false)
    }
 </script>
 
