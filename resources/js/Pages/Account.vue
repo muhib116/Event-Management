@@ -37,116 +37,74 @@
                     <div class="inputs">
                         <div class="element">
                             <label for="First Name"><span class="important">*</span>First Name</label>
-                            <input type="text" name="first_name" v-model="form.first_name">
-                            <div class="text-red-500" v-if="form.errors.first_name">{{ form.errors.first_name }}</div>
+                            <input type="text" name="first_name" v-model="personal_info_form.first_name">
+                            <div class="text-red-500" v-if="personal_info_form.errors.first_name">{{ personal_info_form.errors.first_name }}</div>
                         </div>
                         <div class="element">
                             <label for="last_name"><span class="important">*</span>Last Name</label>
-                            <input type="text" id="last_name" name="last_name" v-model="form.last_name">
-                            <div class="text-red-500" v-if="form.errors.last_name">{{ form.errors.last_name }}</div>
+                            <input type="text" id="last_name" name="last_name" v-model="personal_info_form.last_name">
+                            <div class="text-red-500" v-if="personal_info_form.errors.last_name">{{ personal_info_form.errors.last_name }}</div>
                         </div>
                         <div class="element">
                             <label for="Phone number"><span class="important">*</span>Phone number</label>
-                            <input type="text" name="phone" v-model="form.phone" placeholder="+23480000000">
-                            <div class="text-red-500" v-if="form.errors.phone">{{ form.errors.phone }}</div>
+                            <input type="text" name="phone" v-model="personal_info_form.phone" placeholder="+23480000000">
+                            <div class="text-red-500" v-if="personal_info_form.errors.phone">{{ personal_info_form.errors.phone }}</div>
                         </div>
                     </div>
                     <div class="save">
-                        <button class="button" type="submit">Save</button>
+                        <button class="button" type="submit" :disabled="personal_info_form.processing">
+                            <svg v-if="personal_info_form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Save
+                        </button>
                     </div>
                 </form>
-                <div class="Profile--Password account-item" v-show="activeTab == 'profile-password'">
+                <form class="Profile--Password account-item" v-show="activeTab == 'profile-password'" @submit.prevent="savePassword">
                     <h2>Update Password</h2>
                     <div class="inputs">
                         <div class="element">
                             <label><span class="important">*</span>Old password</label>
-                            <input type="password" name="Old password">
+                            <input type="password" name="old_password" v-model="password_reset_info.old_password">
+                            <div class="text-red-500" v-if="password_reset_info.errors.old_password">{{ password_reset_info.errors.old_password }}</div>
                         </div>
                         <div class="element">
                             <label><span class="important">*</span>New password</label>
-                            <input type="password" name="New password">
+                            <input type="password" name="password" v-model="password_reset_info.password">
                         </div>
                         <div class="element">
                             <label><span class="important">*</span>Repeat new password</label>
-                            <input type="password" name="Repeat new password" >
+                            <input type="password" name="password_confirmation" v-model="password_reset_info.password_confirmation">
+                            <div class="text-red-500" v-if="password_reset_info.errors.password">{{ password_reset_info.errors.password }}</div>
                         </div>
                     </div>
                     <div class="save">
-                        <div class="button">Save</div>
+                        <button class="button" type="submit" :disabled="password_reset_info.processing">
+                            <svg v-if="password_reset_info.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Save
+                        </button>
                     </div>
-                </div>
-                <div class="Profile--Interests account-item" v-show="activeTab == 'profile-interests'">
+                </form>
+                <form class="Profile--Interests account-item" v-show="activeTab == 'profile-interests'" @submit.prevent="saveInterest">
                     <h2>Your interests</h2>
                     <p>Select up to three categories that describe the events you organize</p>
                     <!-- desktop user interests-->
                     <div class="user-interests-desktop" id="user_interests">
-                        <div class="type">
-                            <object data="../../assets/images/svgs/art.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/business.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type active">
-                            <object data="../../assets/images/svgs/career.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type active">
-                            <object data="../../assets/images/svgs/aid.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type active">
-                            <object data="../../assets/images/svgs/5.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/6.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/7.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/8.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/9.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/10.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/11.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/12.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/13.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/14.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/15.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/16.svg"></object>
-                            <span class="name">Arts & Culture</span>
-                        </div>
-                        <div class="type">
-                            <object data="../../assets/images/svgs/17.svg"></object>
-                            <span class="name">Arts & Culture</span>
+                        <div 
+                            class="type"
+                            v-for="item in eventsCategory" 
+                            :key="item.name"
+                            :class="{'active': interest_form.includes(item.name)}"
+                            @click="() => handleInterest(item)"
+                        >
+                            <img :src="item.src" />
+                            <span class="name">
+                                {{ item.name }}
+                            </span>
                         </div>
                     </div>
                     <!-- mobile user interests-->
@@ -213,9 +171,15 @@
                         </select>
                     </div>
                     <div class="save">
-                        <div class="button">Save</div>
+                        <button type="submit" class="button" :disabled="interest_form_inf.processing">
+                            <svg v-if="interest_form_inf.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Save
+                        </button>
                     </div>
-                </div>
+                </form>
                 <!-- Billing -->
                 <div class="Billing account-item" v-show="activeTab == 'billing'">
                     <h2>Personal Informations</h2>
@@ -282,15 +246,23 @@
     </Master>
 </template>
 
-
+<style>
+.el-message {
+    z-index: 9999 !important;
+}
+</style>
 <script setup>
-import { ref } from '@vue/reactivity';
+import { ref } from '@vue/reactivity'; 
+
 import Header from '@/Components/dashboard/Header.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Master from './Master.vue';
 import useEvent from './useEvent';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
+import "vue-toastification/dist/index.css";
+import { useToast } from "vue-toastification";
+const toast = useToast();
 
 const activeTab = ref('profile-personal');
 
@@ -299,29 +271,92 @@ const props = defineProps({
         type: Object
     }
 });
-const form = useForm({
+const personal_info_form = useForm({
     first_name: props.user.first_name,
     last_name: props.user.last_name,
-    phone: props.user.phone
-})
+    phone: props.user.phone,
+});
+
+const password_reset_info = useForm({
+    old_password: '',
+    password: '',
+    password_confirmation: '',
+});
+const interest_form_inf = useForm({
+    interests: props.user.interests ? props.user.interests : [],
+});
+
+const interest_form = ref(props.user.interests ? props.user.interests : []);
 
 const {
-    formData
+    formData,
+    eventsCategory
 } = useEvent()
+
 formData.value = props.user;
 console.log(formData.value);
 const handleForm = (data) => {
-    // formData.value.eventType = props.eventType
-    // activeComponent.value = CreateTicket
     console.log(formData.value)
-    // console.log(progressStep);
+}
+
+const handleInterest = (item) => {
+    if (!interest_form.value.includes(item.name) && interest_form.value.length < 3) {
+        interest_form.value.push(item.name);
+    } else {
+        let ind = interest_form.value.indexOf(item.name);
+        if (ind > -1) {
+            interest_form.value.splice(ind, 1);
+        } else {
+            toast.error("You can select maximum 3 categories", {
+                timeout: 2000,
+                position: "top-center",
+            });
+        }
+    }
+    interest_form_inf.interests = interest_form.value;
+}
+
+const saveInterest = (e) => { 
+    interest_form_inf.post(route('account.update_interest'), {
+        onSuccess: (e) => {
+            console.log(e);
+            toast.success("Interest updated", {
+                timeout: 2000,
+                position: "top-center",
+            });
+        },
+        onError: (e) => {
+            toast.error('Opps Something worng', {
+                position: "top-center",
+            })
+        }
+    });
+}
+const savePassword = (e) => {
+    password_reset_info.post(route('account.update_password'), {
+        onSuccess: (e) => password_reset_info.reset()
+    });
 }
 
 const savePersonalInfo = (e) => {
-    form.post(route('account.update_info'));
-    // const formEntries = new FormData(e.target).entries();
-    // const json = Object.assign(...Array.from(formEntries, ([x,y]) => ({[x]:y})));
-    // Inertia.post(route('account.update_info'),json);
+    personal_info_form.post(route('account.update_info'), {
+        onSuccess: (e) => {
+            toast.success('Profile update successfully', {
+                position: "top-center",
+            })
+        },
+        onError: (e) => {
+            console.log(e);
+            let msg = '';
+            for (const m of Object.values(e)) {
+                msg += `${m} \n`
+            }
+            toast.error(msg, {
+                timeout: 2000,
+                position: "top-center",
+            });
+        }
+    });
 }
 
 
