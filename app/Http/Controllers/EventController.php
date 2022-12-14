@@ -45,6 +45,16 @@ class EventController extends Controller
         return response()->json(["id" => $eventId], 200);
     }
 
+    public function eventImageUpload(Request $request, $event_id) {
+        if($request->file('banner')){
+            return 'banner image';
+        }
+
+        if($request->file('gallery')){
+            return 'gallery image';
+        }
+    }
+
 
 
     public function manage($url) {

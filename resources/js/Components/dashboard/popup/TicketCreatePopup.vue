@@ -120,7 +120,6 @@
 <script setup>
    import { ref, watch, onMounted } from 'vue'
    import useEvent from '@/Pages/useEvent';
-   import { useForm } from '@inertiajs/inertia-vue3'
 
    const placeholderQuestion = {
          question: '',
@@ -140,7 +139,6 @@
       myFormData.value.ticketType = 'Free'
    })
    watch(questions.value, (value) => {
-      console.log(myFormData.value)
       myFormData.value.questions = questions.value
    }, {deep: true})
 

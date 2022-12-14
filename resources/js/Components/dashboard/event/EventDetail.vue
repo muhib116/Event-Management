@@ -214,8 +214,9 @@
         </div>
         <!-- Continue Buttons -->
         <div class="save-or-cancel">
-            <div class="button save">Cancel</div>
-            <div class="button save bg-red" @click="validateThisPage">Continue</div>
+            <Link class="button save" :href="route('dashboard')">Cancel</Link>
+            <Link v-show="eventId" class="button save bg-red" :href="route('appearance', eventId)">Continue</Link>
+            <div v-show="!eventId" class="button save bg-red" @click="validateThisPage">Continue</div>
         </div>
     </div>
 </template>
@@ -224,8 +225,9 @@
 
 <script setup>
     import axios from 'axios';
-    import { ref } from 'vue'
+    import { ref, watch } from 'vue'
     import useEvent from '../../../Pages/useEvent.js'
+    import { Link } from '@inertiajs/inertia-vue3'
 
     const props = defineProps({
         callback: {
@@ -292,30 +294,33 @@
         }
     })
 
-
+    
+    const eventId = ref(null)
     const validateThisPage = () => 
     {
         let validationStatus = false
         for(let item in validationFor.value){
-            let eventFormHasProperty = eventForm.value.hasOwnProperty(item)
-            validationFor.value[item].hasError = !eventFormHasProperty
-            validationStatus = eventFormHasProperty
+            let validate = eventForm.value[item]
+            validationFor.value[item].hasError = !validate
+            validationStatus = validate
         }
 
         if(validationStatus){
             saveEvent(eventForm.value)
-        }else{
-            alert(`Required field must not be empty!`)
         }
     }
 
     const saveEvent = async (payload) => {
+        
         let { data } = await axios.post('store/event/online-event', payload)
-        console.log(data.id)
         if(data.id){
-            props.callback(data.id)
+            eventId.value = data.id
         }
     }
+
+    watch(eventForm, () => {
+        validateThisPage()
+    }, {deep: true})
 </script>
 
 <style scoped>

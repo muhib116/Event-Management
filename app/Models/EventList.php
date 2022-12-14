@@ -32,4 +32,8 @@ class EventList extends Model
     public function tickets() {
         return $this->hasMany(Ticket::class);
     }
+
+    public function images() {
+        return $this->hasMany(Images::class);
+    }
 }
