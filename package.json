@@ -23,6 +23,7 @@
         "@ckeditor/ckeditor5-build-classic": "^35.3.2",
         "@ckeditor/ckeditor5-vue": "^4.0.1",
         "@syncfusion/ej2-vue-calendars": "^20.3.59",
+        "element-plus": "^2.2.26",
         "vue3-carousel": "^0.2.8"
     }
 }

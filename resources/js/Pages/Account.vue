@@ -32,26 +32,29 @@
                     </div>
                 </nav>
                 <!-- Profile -->
-                <div class="Profile--Personal account-item" v-show="activeTab == 'profile-personal'">
+                <form class="Profile--Personal account-item" method="POST" v-show="activeTab == 'profile-personal'" @submit.prevent="savePersonalInfo">
                     <h2>Personal Informations</h2>
                     <div class="inputs">
                         <div class="element">
                             <label for="First Name"><span class="important">*</span>First Name</label>
-                            <input type="text" name="First Name" value="Emmn">
+                            <input type="text" name="first_name" v-model="form.first_name">
+                            <div class="text-red-500" v-if="form.errors.first_name">{{ form.errors.first_name }}</div>
                         </div>
                         <div class="element">
-                            <label for="Phone number"><span class="important">*</span>Last Name</label>
-                            <input type="text" name="Phone number" value="ket">
+                            <label for="last_name"><span class="important">*</span>Last Name</label>
+                            <input type="text" id="last_name" name="last_name" v-model="form.last_name">
+                            <div class="text-red-500" v-if="form.errors.last_name">{{ form.errors.last_name }}</div>
                         </div>
                         <div class="element">
                             <label for="Phone number"><span class="important">*</span>Phone number</label>
-                            <input type="text" name="Phone number" placeholder="+23480000000">
+                            <input type="text" name="phone" v-model="form.phone" placeholder="+23480000000">
+                            <div class="text-red-500" v-if="form.errors.phone">{{ form.errors.phone }}</div>
                         </div>
                     </div>
                     <div class="save">
-                        <div class="button">Save</div>
+                        <button class="button" type="submit">Save</button>
                     </div>
-                </div>
+                </form>
                 <div class="Profile--Password account-item" v-show="activeTab == 'profile-password'">
                     <h2>Update Password</h2>
                     <div class="inputs">
@@ -285,9 +288,41 @@ import { ref } from '@vue/reactivity';
 import Header from '@/Components/dashboard/Header.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Master from './Master.vue';
+import useEvent from './useEvent';
+import { Inertia } from '@inertiajs/inertia';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 const activeTab = ref('profile-personal');
 
+const props = defineProps({
+    user: {
+        type: Object
+    }
+});
+const form = useForm({
+    first_name: props.user.first_name,
+    last_name: props.user.last_name,
+    phone: props.user.phone
+})
+
+const {
+    formData
+} = useEvent()
+formData.value = props.user;
+console.log(formData.value);
+const handleForm = (data) => {
+    // formData.value.eventType = props.eventType
+    // activeComponent.value = CreateTicket
+    console.log(formData.value)
+    // console.log(progressStep);
+}
+
+const savePersonalInfo = (e) => {
+    form.post(route('account.update_info'));
+    // const formEntries = new FormData(e.target).entries();
+    // const json = Object.assign(...Array.from(formEntries, ([x,y]) => ({[x]:y})));
+    // Inertia.post(route('account.update_info'),json);
+}
 
 
 </script>
