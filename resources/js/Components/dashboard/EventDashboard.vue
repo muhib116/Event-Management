@@ -4,29 +4,10 @@
         <h1 class="title">Your events</h1>
         <div class="events">
 
-            <div @click="showEventPopup = true" class="create-new">
-                <i class="fa-solid plus-icon fa-plus"></i>
-                <p>Creat new event</p>
-            </div>
-
-            <div @click="(showBoxOfficePopup = true)" class="create-new">
-                <i class="fa-solid plus-icon fa-plus"></i>
-                <p>Creat new box office</p>
-            </div>
-
-
-
-
-            <div class="example">
-                <div class="top">
-                    <div class="img-box">
-                        <img src="../../assets/images/document.svg" class="folder" alt="Folder Icon">
-                        <img src="../../assets/images/star-bars.svg" class="star" alt="Star Icon">
-                    </div>
-                </div>
-                <div class="bottom">
-                    <div class="name">Example Box Office</div>
-                    <img src="../../assets/images/dots.svg" class="dots" alt="dots">
+            <div>
+                <div @click="showEventPopup = true" class="create-new">
+                    <i class="fa-solid plus-icon fa-plus"></i>
+                    <p>Create new event</p>
                 </div>
             </div>
             
