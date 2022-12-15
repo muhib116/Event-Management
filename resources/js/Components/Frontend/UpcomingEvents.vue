@@ -10,24 +10,7 @@
                 <Carousel ref="myCarousel" :settings="settings" :breakpoints="breakpoints">
                     <Slide v-for="(item, index) in data" :key="index">
                         <Link :href="`event-details/${item.slug}`">
-                            <div class="upcome-item">
-                                <div class="upcome-banr h-[150px]">
-                                    <img :src="item.image" :alt="item.name" class="h-full block">
-                                </div>
-                                <div class="upcome-cnt">
-                                    <div class="upcome-cntleft">
-                                        <h4 class="uppercase">{{ getMonth(item.start_date).slice(0,3) }}</h4>
-                                        <p>
-                                            {{ formateDate(item.start_date) }}
-                                        </p>
-                                    </div>
-                                    <div class="upcome-cntright">
-                                        <h4 class="text-right" :title="item.name">{{ truncate(item.name, 25) }}</h4>
-                                        <p class="text-right block">{{ item.price ? item.price : 'Free' }}</p>
-                                        <p class="text-right"><i class="fas fa-map-marker-alt"></i> {{ item.location }} </p>
-                                    </div>
-                                </div>
-                            </div>
+                            <EventCard :item="item" />
                         </Link>
                     </Slide>
                 
@@ -57,15 +40,14 @@
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import { Carousel, Slide, Pagination } from 'vue3-carousel'
     import '@/assets/frontend/carouselStyle.css'
-    import useUpcomingEvents from './useUpcomingEvents'
     import { ref } from 'vue'
+    import EventCard from './components/EventCard.vue'
 
     const props = defineProps({
         data: Array
     })
     
     const myCarousel = ref(null)
-    const { getMonth, formateDate, truncate } = useUpcomingEvents()
 
   
     const settings = {
