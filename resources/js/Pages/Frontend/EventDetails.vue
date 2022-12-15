@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-lg-4">
                                     <div class="event-informitem">
-                                        <img src="images/time.svg" alt="">
+                                        <img src="@/assets/frontend/images/time.svg" alt="">
                                         <div class="event-informcnt">
                                             <h4>Duration</h4>
                                             <p>20.00 - 21.56 WIB</p>
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col-md-6 col-lg-4">
                                     <div class="event-informitem">
-                                        <img src="images/people.svg" alt="">
+                                        <img src="@/assets/frontend/images/people.svg" alt="">
                                         <div class="event-informcnt">
                                             <h4>Audience</h4>
                                             <p>This movie is suitable for <br> audience aged 12  and above</p>
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="col-md-6 col-lg-4">
                                     <div class="event-informitem">
-                                        <img src="images/warning.svg" alt="">
+                                        <img src="@/assets/frontend/images/warning.svg" alt="">
                                         <div class="event-informcnt">
                                             <h4>Attention</h4>
                                             <p>Face mask and social distancing <br> are mandatory outside the car.</p>
@@ -80,13 +80,10 @@
                         </div>
 
                         <div class="event-termcond">
-                            <form action="#">
-                                <select name="" id="">
-                                    <option value="">Terms & Condition</option>
-                                    <option value="">Terms & Condition</option>
-                                    <option value="">Terms & Condition</option>
-                                </select>
-                            </form>
+                            <button class="text-lg font-black">Terms & Conditions</button>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non ducimus ipsa harum iure quod unde nihil asperiores autem eius sed! Ut excepturi delectus earum beatae facere in magnam voluptas? Eligendi!
+                            </p>
                         </div>    
                         
                         <iframe 

@@ -22,6 +22,7 @@ class EventController extends Controller
         $data = [
             "eventType"    => $request->eventType,
             "name"         => $request->name,
+            "slug"         => str()->slug($request->name),
             "description"  => $request->description,
             "location"     => $request->location,
             "url"          => $request->url,
@@ -37,8 +38,9 @@ class EventController extends Controller
             "instagram"    => $request->instagram,
             "twitter"      => $request->twitter,
             "facebook"     => $request->facebook,
-            "settings"     => json_encode($request->settings),
-            "map_link"     => $request->map_link
+            "settings"     => $request->settings,
+            "map_link"     => $request->map_link,
+            "publish"     => $request->publish ? 1 : 0,
         ];
 
         $eventId = EventList::create($data)->id;
@@ -68,7 +70,8 @@ class EventController extends Controller
             "twitter"      => $request->twitter,
             "facebook"     => $request->facebook,
             "settings"     => json_encode($request->settings),
-            "map_link"     => $request->map_link
+            "map_link"     => $request->map_link,
+            "publish"     => $request->publish ? 1 : 0,
         ];
 
         $res = EventList::where(['id' => $eventId])->update($data);

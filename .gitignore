@@ -1,4 +1,6 @@
 /node_modules
+/public/images
+/public/upload
 /public/build
 /public/hot
 /public/storage

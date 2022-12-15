@@ -32,8 +32,7 @@
             </nav>
 
             <div class="Profile--Personal account-item">
-                {{ components[activeComponent] }}
-                <components :is="components[activeComponent]"></components>
+                <components :is="EventDetail"></components>
             </div>
         </AuthenticatedLayout>
     </Master>
