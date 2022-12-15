@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('event_lists', function (Blueprint $table) {
-            //
+            $table->dropColumn('map_link');
         });
     }
 };
