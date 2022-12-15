@@ -1,16 +1,15 @@
 <template>
-    <div class="ticket-item active-box">
+    <div class="ticket-item" :class="quantity&&'active-box'">
 
         <h2>{{ ticket.ticket_name }}</h2>
         <p>{{ ticket.ticket_description }}</p>
         <div class="ticket-btmcnt">
             <h4>
-                Rp. 
-                {{ ticket.ticket_type == 'Free' ? 'Free' : ticket.price }}
+                {{ ticket.ticket_type == 'Free' || !ticket.price || ticket.price == 0 ? 'Free' : `$. ${ticket.price}` }}
             </h4>
             <form action="#" method="POST">
                 <div class="quantity">
-                    <span @click="quantity--" class="input-number-decrement">
+                    <span @click="quantity>0&&quantity--" class="input-number-decrement">
                         <img src="@/assets/frontend/images/minus.svg" alt="">
                     </span>
                     <input class="input-number active" type="text" v-model="quantity">

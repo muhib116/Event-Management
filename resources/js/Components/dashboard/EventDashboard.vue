@@ -16,7 +16,7 @@
             
             <Link v-for="event in events" :href="route('event.edit', event.id)" :key="event.id" class="event">
                 <div class="thumbnail">
-                    <img :src="get_banner(event.images)" alt="Thumbnail">
+                    <img :src="`../../../../${get_banner(event.images)}`" alt="Thumbnail">
                     <span>{{ event.status ? 'Ended' : 'Draft' }}</span>
                 </div>
                 <div class="details">
@@ -41,24 +41,19 @@
 
 <script setup>
     import { ref } from 'vue'
-    import { get } from 'lodash'
     import NewEventPopup from './popup/NewEventPopup.vue'
     import { Link } from '@inertiajs/inertia-vue3'
     import Widgets from './Widgets.vue'
+    import useEvent from '@/Pages/useEvent.js'
 
+    const { get_banner } = useEvent()
     const showEventPopup = ref(false)
     const props = defineProps({
         events: {
             typeof: Array
         }
     })
-    const get_banner = (images) => {
-        let img = images.find(item => {
-            return item.type=='banner'
-        })
-        if(!get(img, 'path')) return null
-        return `../../../../${img.path}`
-    }
+
 </script>
 
 <style lang="scss" scoped>

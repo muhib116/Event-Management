@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('ticket_name', 150)->nullable();
             $table->string('ticket_stock', 150)->nullable();
             $table->integer('stock_limit')->unsigned()->nullable();
-            $table->float('price')->nullable();
+            $table->float('price')->default(0);
             $table->integer('purchase_limit')->unsigned()->nullable();
             $table->text('ticket_description')->nullable();
             $table->boolean('isTransferFeesToGuest')->nullable()->default(false);
