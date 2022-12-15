@@ -76,8 +76,6 @@
             </select>
         </div>
 
-
-
         <h3>When is your event?</h3>
         <p class="mb-4">Select all the dates of your event</p>
         <div class="when">
@@ -215,8 +213,9 @@
         <!-- Continue Buttons -->
         <div class="save-or-cancel">
             <Link class="button save" :href="route('dashboard')">Cancel</Link>
-            <Link v-show="eventId" class="button save bg-red" :href="route('appearance', eventId)">Continue</Link>
-            <div v-show="!eventId" class="button save bg-red" @click="validateThisPage">Continue</div>
+            <div class="button save bg-red cursor-pointer" @click="handleEvent">
+                Continue
+            </div>
         </div>
     </div>
 </template>
@@ -225,7 +224,7 @@
 
 <script setup>
     import axios from 'axios';
-    import { ref, watch } from 'vue'
+    import { ref, watch, onMounted } from 'vue'
     import useEvent from '../../../Pages/useEvent.js'
     import { Link } from '@inertiajs/inertia-vue3'
 
@@ -238,7 +237,10 @@
     const {
         eventsCategory, 
         setActiveEvent,
-        eventForm
+        eventForm,
+        getParams,
+        getEventId,
+        getEvent
     } = useEvent()
 
     let validationFor = ref({
@@ -296,31 +298,71 @@
 
     
     const eventId = ref(null)
+    let isValid = ref(false)
     const validateThisPage = () => 
     {
-        let validationStatus = false
         for(let item in validationFor.value){
             let validate = eventForm.value[item]
             validationFor.value[item].hasError = !validate
-            validationStatus = validate
-        }
-
-        if(validationStatus){
-            saveEvent(eventForm.value)
         }
     }
 
+    const handleEvent = () => {
+        if(!isValid.value) return
+        if(getParams('edit') == 'event'){
+            updateEvent(eventForm.value, getEventId())
+            return;
+        }
+        saveEvent(eventForm.value)
+
+        setTimeout(() => {
+            window.location.href=route('appearance', eventId.value)
+        }, 500)
+    }
+
     const saveEvent = async (payload) => {
-        
-        let { data } = await axios.post('store/event/online-event', payload)
+        let { data } = await axios.post('store/event', payload)
         if(data.id){
             eventId.value = data.id
         }
     }
 
+    const updateEvent = async (payload, eventId) => {
+        let { data } = await axios.post(`event/edit/${eventId}`, payload)
+        if(data.status){
+            alert("Event Updated!")
+        }
+    }
+
+    const getValidationStatus = () => {
+        isValid.value = true
+        for(let item in validationFor.value){
+            if(validationFor.value[item].hasError){
+                isValid.value = false
+            }
+        }
+    }
+
     watch(eventForm, () => {
         validateThisPage()
+        getValidationStatus()
     }, {deep: true})
+
+    const makeEventTypeSelected = (eventCat) => {
+        eventsCategory.value.forEach(item=>{
+            if(item.name == eventCat){
+                item.isSelected = true
+            }
+        })
+    }
+
+    onMounted(async () => {
+        if(getParams('edit') == 'event'){
+            let eventData = await getEvent(getEventId())
+            eventForm.value = eventData
+            makeEventTypeSelected(eventData.eventCategory)
+        }
+    })
 </script>
 
 <style scoped>

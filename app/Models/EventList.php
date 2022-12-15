@@ -29,11 +29,11 @@ class EventList extends Model
         "settings",
     ];
 
-    public function tickets() {
-        return $this->hasMany(EventTickets::class);
+    public function eventTickets() {
+        return $this->hasMany(EventTickets::class, 'event_id');
     }
 
     public function images() {
-        return $this->hasMany(Images::class);
+        return $this->hasMany(Images::class, 'foreign_id');
     }
 }

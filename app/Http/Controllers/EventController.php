@@ -18,7 +18,6 @@ class EventController extends Controller
     }
 
     public function eventStore(Request $request) {
-        $request->settings = json_encode($request->settings);
         $data = [
             "eventType"    => $request->eventType,
             "name"         => $request->name,
@@ -44,6 +43,48 @@ class EventController extends Controller
         $eventId = EventList::create($data)->id;
         return response()->json(["id" => $eventId], 200);
     }
+
+    public function update(){
+        return Inertia::render('EventEdit');
+    }
+    public function eventEdit(Request $request, $eventId) {
+        $data = [
+            "eventType"    => $request->eventType,
+            "name"         => $request->name,
+            "description"  => $request->description,
+            "location"     => $request->location,
+            "url"          => $request->url,
+            "locationTips" => $request->locationTips,
+            "video_link"   => $request->video_link,
+            "eventCategory" => $request->eventCategory,
+            "timezone"     => $request->timezone,
+            "start_date"   => $request->start_date,
+            "start_time"   => $request->start_time,
+            "end_date"     => $request->end_date,
+            "end_time"     => $request->end_time,
+            "website"      => $request->website,
+            "instagram"    => $request->instagram,
+            "twitter"      => $request->twitter,
+            "facebook"     => $request->facebook,
+            "settings"     => json_encode($request->settings),
+            "map_link"     => $request->map_link
+        ];
+
+        $res = EventList::where(['id' => $eventId])->update($data);
+        if($res){
+            return response()->json(['status' => true], 200);
+        }
+        return response()->json(['status' => false]);
+    }
+
+    public function getEvent(Request $request, $eventId) {
+        $data = EventList::where(['id' => $eventId])->first();
+        return response()->json($data, 200);
+    }
+
+
+
+
 
     public function create_discount(Request $request ,MEvents $mEvents) {
         $request->validate([

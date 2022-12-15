@@ -6,6 +6,8 @@ use Inertia\Inertia;
 
 
 Route::get('create/event/{eventType}', [EventController::class, 'index'])->name('event.create');
+Route::get('event/edit/{event_id}', [EventController::class, 'update'])->name('event.edit');
+
 Route::post('/event/{event}/create-discount', [EventController::class, 'create_discount'])->name('event.create_discount');
 
 

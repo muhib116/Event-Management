@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import axios from 'axios'
 import ArtsCulture from "../assets/images/svgs/art.svg"
 import Business from '../assets/images/svgs/business.svg'
 import Career from '../assets/images/svgs/career.svg'
@@ -127,6 +128,7 @@ const eventForm = ref({
     location: null,
     url: null,
     locationTips: null,
+    map_link: null,
     video_link: null,
     eventCategory: null,
     timezone: null,
@@ -154,11 +156,27 @@ export default function useEvent(){
         })
     }
 
+    const _urlParams = new URLSearchParams(window.location.search);
+    const getParams = (key) => _urlParams.get(key)    
+    
+    const getEventId = () => {
+        let urlData = window.location.pathname.split('/')
+        return urlData.at(-1)
+    }
+
+    const getEvent = async (event_id) => {
+        let { data } = await axios.get(`event/${event_id}`)
+        return data
+    }
+
     return {
         eventsCategory,
         setActiveEvent,
         eventTypes,
         setActiveEventType,
-        eventForm
+        eventForm,
+        getParams,
+        getEventId,
+        getEvent
     }
 }

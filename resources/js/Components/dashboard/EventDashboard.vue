@@ -12,9 +12,9 @@
                 </div>
             </div>
             
-            <Link v-for="event in events" :key="event.id" :href="route('event.manage', event.name)" class="event">
+            <Link v-for="event in events" :href="route('event.edit', event.id)" :key="event.id" class="event">
                 <div class="thumbnail">
-                    <img :src="event.image" alt="Thumbnail">
+                    <img :src="get_banner(event.images)" alt="Thumbnail">
                     <span>{{ event.status ? 'Ended' : 'Draft' }}</span>
                 </div>
                 <div class="details">
@@ -39,15 +39,23 @@
 
 <script setup>
     import { ref } from 'vue'
-    import NewEventPopup from './popup/NewEventPopup.vue';
-import { Link } from '@inertiajs/inertia-vue3';
+    import { get } from 'lodash'
+    import NewEventPopup from './popup/NewEventPopup.vue'
+    import { Link } from '@inertiajs/inertia-vue3'
     const showEventPopup = ref(false)
-    const showBoxOfficePopup = ref(false)
     const props = defineProps({
         events: {
             typeof: Array
         }
-    });
+    })
+
+    const get_banner = (images) => {
+        let img = images.find(item => {
+            return item.type=='banner'
+        })
+        if(!get(img, 'path')) return null
+        return `../../../../${img.path}`
+    }
 </script>
 
 <style lang="scss" scoped>

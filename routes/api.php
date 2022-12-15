@@ -23,7 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 // event api
-Route::post('store/event/{eventType}', [EventController::class, 'eventStore'])->name('event.store');
+Route::post('store/event', [EventController::class, 'eventStore'])->name('event.store');
+Route::post('event/edit/{eventId}', [EventController::class, 'eventEdit'])->name('event.edit');
+Route::get('event/{eventId}', [EventController::class, 'getEvent'])->name('event.get');
+
+// fileUpload api
 Route::post('store/file-upload/{id?}', [FileUploadController::class, 'fileUpload'])->name('file.store');
 Route::get('files/{id}', [FileUploadController::class, 'files'])->name('files');
 Route::get('file-delete/{id}', [FileUploadController::class, 'fileDelete'])->name('file.delete');

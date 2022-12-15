@@ -19,7 +19,7 @@
             <!-- <Link :href="route('tickets', getEventId())" class="button">Skip and do this later</Link> -->
          </div>
  
-         <TicketCreatePopup v-model="showPopup"/>
+         <TicketCreatePopup v-model="showPopup" :callback="redirectToTicketsPage"/>
     </div>
 </template>
 
@@ -31,6 +31,9 @@
 
    const { getEventId } = useTicket()
    const showPopup = ref(false)
+   const redirectToTicketsPage = () => {
+      window.location.href = route('tickets', getEventId())
+   }
 </script>
 
 <style lang="scss" scoped>
