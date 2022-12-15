@@ -190,7 +190,7 @@ main.dashboard {
     background: rgba($color: #000000, $alpha: .6);
     display: none;
     &.show {
-        display: block;
+        display: block !important;
     }
     // create new event
     .create-new-event {

@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import axios from 'axios'
 import ArtsCulture from "../assets/images/svgs/art.svg"
 import Business from '../assets/images/svgs/business.svg'
 import Career from '../assets/images/svgs/career.svg'
@@ -120,22 +121,27 @@ const eventTypes = ref([
     },
 ])
 
-const ticketTypes = ref([
-    {
-        name: 'Free',
-        isSelected: false
-    },
-    {
-        name: 'Paid',
-        isSelected: false
-    },
-    {
-        name: 'Invite only',
-        isSelected: false
-    },
-])
-
-const formData = ref({})
+const eventForm = ref({
+    eventType: null,
+    name: null,
+    description: null,
+    location: null,
+    url: null,
+    locationTips: null,
+    map_link: null,
+    video_link: null,
+    eventCategory: null,
+    timezone: null,
+    start_date: null,
+    start_time: null,
+    end_date: null,
+    end_time: null,
+    website: null,
+    instagram: null,
+    twitter: null,
+    facebook: null,
+    settings: {}
+})
 
 export default function useEvent(){
     const setActiveEvent = (item) => {
@@ -150,12 +156,27 @@ export default function useEvent(){
         })
     }
 
+    const _urlParams = new URLSearchParams(window.location.search);
+    const getParams = (key) => _urlParams.get(key)    
+    
+    const getEventId = () => {
+        let urlData = window.location.pathname.split('/')
+        return urlData.at(-1)
+    }
+
+    const getEvent = async (event_id) => {
+        let { data } = await axios.get(`event/${event_id}`)
+        return data
+    }
+
     return {
         eventsCategory,
         setActiveEvent,
         eventTypes,
         setActiveEventType,
-        formData,
-        ticketTypes
+        eventForm,
+        getParams,
+        getEventId,
+        getEvent
     }
 }

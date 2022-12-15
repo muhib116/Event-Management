@@ -33,17 +33,21 @@ class AccountController extends Controller
     public function update_password(Request $request) {
         $request->validate([
             'old_password' => 'required',
-            'new_password' => 'required|confirmed'
+            'password' => 'required|confirmed'
         ]);
 
         $user = Auth::user();
         if (Hash::check($request->old_password, $user->password)) {
             $user->update([
-                'password' => Hash::make($request->new_password),
+                'password' => Hash::make($request->password),
             ]);
-            return back()->with('success', 'Password updated successfully!');
+            return back()->withErrors([
+                'success' => 'Password update successfully'
+            ]);
         } else {
-            return back()->with('error', 'Opps Something wrong!');
+            return back()->withErrors([
+                'password' => 'Opps something wrong'
+            ]);
         }
     }
 

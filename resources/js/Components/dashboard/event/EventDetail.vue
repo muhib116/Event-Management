@@ -3,26 +3,26 @@
         <h2>Event Details</h2>
         <div class="element">
             <label for="name">*Event Name</label>
-            <input name="name" type="text" v-model="formData.name">
+            <input name="name" :class="validationFor.name.hasError && 'border-red-500'" type="text" v-model="eventForm.name">
         </div>
         <div class="element">
             <label for="name">*Describe your event</label>
-            <textarea rows="15" v-model="formData.description"></textarea>
+            <textarea rows="15" :class="validationFor.description.hasError && 'border-red-500'" v-model="eventForm.description"></textarea>
         </div>
         <div class="element">
             <label for="location">*Location of event</label>
-            <input name="location" v-model="formData.location" type="text" placeholder="Full Adress">
+            <input name="location" :class="validationFor.location.hasError && 'border-red-500'" v-model="eventForm.location" type="text" placeholder="Full Adress">
         </div>
         <div class="element">
             <label for="map_link">Location map link</label>
-            <input name="map_link" v-model="formData.map_link" type="text" placeholder="Map link">
+            <input name="map_link" v-model="eventForm.map_link" type="text" placeholder="Map link">
         </div>
 
         <div class="element">
-            <label for="location">*Use Costum URL</label>
+            <label for="location">*Use Custom URL</label>
             <div class="input-container">
                 <div class="startup">tix.africa/discover/</div>
-                <input name="url" type="url" required v-model="formData.url">
+                <input name="url" type="url" :class="validationFor.url.hasError && 'border-red-500'" required v-model="eventForm.url">
             </div>
         </div>
         <div class="element">
@@ -31,7 +31,8 @@
                 name="location" 
                 type="text" required 
                 placeholder="Use an uber, it's the green building on the left, etc"
-                v-model="formData.location"
+                :class="validationFor.locationTips.hasError && 'border-red-500'"
+                v-model="eventForm.locationTips"
             >
         </div>
         <div class="element">
@@ -40,7 +41,7 @@
                 name="video_link" 
                 type="text" required 
                 placeholder="Video link"
-                v-model="formData.video_link"
+                v-model="eventForm.video_link"
             >
         </div>
         <h3>What kind of event is it?</h3>
@@ -55,7 +56,7 @@
                 class="type" :class="(item.isSelected&&'active')"
                 @click="() => {
                     setActiveEvent(item)
-                    formData.eventCategory = item.name
+                    eventForm.eventCategory = item.name
                 }"
             >
                 <img :src="item.src" />
@@ -68,48 +69,19 @@
 
         <!-- mobile kind of event -->
         <div class="element mobile">
-            <select v-model="formData.eventCategory">
+            <select v-model="eventForm.eventCategory">
                 <option v-for="item in eventsCategory" :key="'event-'+item.name" :value="item.name">
                     {{ item.name }}
                 </option>
             </select>
         </div>
 
-
-
         <h3>When is your event?</h3>
-        <p>Select all the dates of your event</p>
+        <p class="mb-4">Select all the dates of your event</p>
         <div class="when">
-            <div class="btns">
-                <div 
-                    v-for="(eventType, ind) in eventTypes" :key="ind"
-                    class="btn" 
-                    :class="eventType.isSelected&&'active'"
-                    @click="() => {
-                        setActiveEventType(eventType)
-                        formData.eventType = eventType.name
-                    }"
-                >
-                    {{ eventType.name }}
-                </div>
-            </div>
-
-            <div class="element mobile">
-                <select v-model="formData.eventType">
-                    <option value="Single Event">Single Event</option>
-                    <option value="Recurring Event">Recurring Event</option>
-                    <option value="One-on-One">One-on-One</option>
-                </select>
-            </div>
-
-            <div class="element">
-                <label for="location">*Image Upload</label>
-                <input type="file" @change="(e) => formData.image = e.target.files[0]" />
-            </div>
-
             <div class="element">
                 <label for="location">*Select TimeZone</label>
-                <select v-model="formData.timezone">
+                <select :class="validationFor.timezone.hasError && 'border-red-500'" v-model="eventForm.timezone">
                     <option data-time-zone-id="1" data-gmt-adjustment="GMT-12:00" data-use-daylight="0" value="-12">(GMT-12:00) International Date Line West</option>
                     <option data-time-zone-id="2" data-gmt-adjustment="GMT-11:00" data-use-daylight="0" value="-11">(GMT-11:00) Midway Island, Samoa</option>
                     <option data-time-zone-id="3" data-gmt-adjustment="GMT-10:00" data-use-daylight="0" value="-10">(GMT-10:00) Hawaii</option>
@@ -198,15 +170,15 @@
             <div class="element">
                 <label for="location">*Start date</label>
                 <div class="date-time">
-                    <input v-model="formData.start_date" type="date">
-                    <input v-model="formData.start_time" type="time">
+                    <input :class="validationFor.start_date.hasError && 'border-red-500'" v-model="eventForm.start_date" type="date">
+                    <input :class="validationFor.start_time.hasError && 'border-red-500'" v-model="eventForm.start_time" type="time">
                 </div>
             </div>
             <div class="element">
                 <label for="location">*End date</label>
                 <div class="date-time">
-                    <input v-model="formData.end_date" type="date">
-                    <input v-model="formData.end_time" type="time">
+                    <input :class="validationFor.end_date.hasError && 'border-red-500'" v-model="eventForm.end_date" type="date">
+                    <input :class="validationFor.end_time.hasError && 'border-red-500'" v-model="eventForm.end_time" type="time">
                 </div>
             </div>
         </div>
@@ -217,31 +189,33 @@
         <div class="element"> 
             <div class="input-container">
                 <div class="startup"><i class="fa-solid fa-link"></i></div>
-                <input v-model="formData.website" name="Website" type="url" placeholder="Your Website URL">
+                <input v-model="eventForm.website" name="Website" type="url" placeholder="Your Website URL">
             </div>
         </div>
         <div class="element"> 
             <div class="input-container">
                 <div class="startup"><i class="fa-brands fa-instagram"></i></div>
-                <input v-model="formData.instagram" name="instagram" type="url" placeholder="Your Instagram Handle">
+                <input v-model="eventForm.instagram" name="instagram" type="url" placeholder="Your Instagram Handle">
             </div>
         </div>
         <div class="element"> 
             <div class="input-container">
                 <div class="startup"><i class="fa-brands fa-twitter"></i></div>
-                <input v-model="formData.twitter" name="twitter" type="url" placeholder="Your Twitter Handle">
+                <input v-model="eventForm.twitter" name="twitter" type="url" placeholder="Your Twitter Handle">
             </div>
         </div>
         <div class="element"> 
             <div class="input-container">
                 <div class="startup"><i class="fa-brands fa-facebook-f"></i></div>
-                <input v-model="formData.facebook" name="facebook" type="url" placeholder="Your Facebook Handle">
+                <input v-model="eventForm.facebook" name="facebook" type="url" placeholder="Your Facebook Handle">
             </div>
         </div>
         <!-- Continue Buttons -->
         <div class="save-or-cancel">
-            <div class="button save">Cancel</div>
-            <div class="button save bg-red" @click="callback(formData)">Continue</div>
+            <Link class="button save" :href="route('dashboard')">Cancel</Link>
+            <div class="button save bg-red cursor-pointer" @click="handleEvent">
+                Continue
+            </div>
         </div>
     </div>
 </template>
@@ -249,12 +223,12 @@
 
 
 <script setup>
+    import axios from 'axios';
+    import { ref, watch, onMounted } from 'vue'
     import useEvent from '../../../Pages/useEvent.js'
+    import { Link } from '@inertiajs/inertia-vue3'
 
     const props = defineProps({
-        formData: {
-            default: {}
-        },
         callback: {
             type: Function
         }
@@ -262,10 +236,133 @@
 
     const {
         eventsCategory, 
-        setActiveEvent, 
-        eventTypes, 
-        setActiveEventType
+        setActiveEvent,
+        eventForm,
+        getParams,
+        getEventId,
+        getEvent
     } = useEvent()
+
+    let validationFor = ref({
+        name: {
+            field: 'name',
+            title: 'Event Name',
+            hasError: false
+        },
+        description: {
+            field: 'description',
+            title: 'Event Description',
+            hasError: false
+        },
+        location: {
+            field: 'location',
+            title: 'Event Location',
+            hasError: false
+        },
+        url: {
+            field: 'url',
+            title: 'Custom URL',
+            hasError: false
+        },
+        locationTips: {
+            field: 'locationTips',
+            title: 'Location Tips',
+            hasError: false
+        },
+        timezone: {
+            field: 'timezone',
+            title: 'Time Zone',
+            hasError: false
+        },
+        start_date: {
+            field: 'start_date',
+            title: 'Start Date',
+            hasError: false
+        },
+        start_time: {
+            field: 'start_time',
+            title: 'Start Time',
+            hasError: false
+        },
+        end_date: {
+            field: 'end_date',
+            title: 'End Date',
+            hasError: false
+        },
+        end_time: {
+            field: 'end_time',
+            title: 'End Time',
+            hasError: false
+        }
+    })
+
+    
+    const eventId = ref(null)
+    let isValid = ref(false)
+    const validateThisPage = () => 
+    {
+        for(let item in validationFor.value){
+            let validate = eventForm.value[item]
+            validationFor.value[item].hasError = !validate
+        }
+    }
+
+    const handleEvent = () => {
+        if(!isValid.value) return
+        if(getParams('edit') == 'event'){
+            updateEvent(eventForm.value, getEventId())
+            return;
+        }
+        saveEvent(eventForm.value)
+
+        setTimeout(() => {
+            window.location.href=route('appearance', eventId.value)
+        }, 500)
+    }
+
+    const saveEvent = async (payload) => {
+        let { data } = await axios.post('store/event', payload)
+        if(data.id){
+            eventId.value = data.id
+        }
+    }
+
+    const updateEvent = async (payload, eventId) => {
+        let { data } = await axios.post(`event/edit/${eventId}`, payload)
+        if(data.status){
+            alert("Event Updated!")
+        }
+    }
+
+    const getValidationStatus = () => {
+        isValid.value = true
+        for(let item in validationFor.value){
+            if(validationFor.value[item].hasError){
+                isValid.value = false
+            }
+        }
+    }
+
+    watch(eventForm, () => {
+        validateThisPage()
+        getValidationStatus()
+    }, {deep: true})
+
+    const makeEventTypeSelected = (eventCat) => {
+        eventsCategory.value.forEach(item=>{
+            if(item.name == eventCat){
+                item.isSelected = true
+            }
+        })
+    }
+
+    onMounted(async () => {
+        if(getParams('edit') == 'event'){
+            let eventData = await getEvent(getEventId())
+            eventForm.value = eventData
+            makeEventTypeSelected(eventData.eventCategory)
+        }
+    })
 </script>
 
 <style scoped>

@@ -3,37 +3,19 @@
         <AuthenticatedLayout>
             <Header />
             <div class="event-creation step-3 ">
-                <Step step="1"/>
-                <EventDetail />
+                <Step step="3"/>
+                <CreateTicket />
             </div>
         </AuthenticatedLayout>
     </Master>
 </template>
 
 <script setup>
-    import { onMounted } from 'vue'
     import Header from '@/Components/dashboard/Header.vue'
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
     import Step from '@/Components/dashboard/event/Step.vue'
-
-    import EventDetail from '@/Components/dashboard/event/EventDetail.vue'
-
-    import useEvent from './useEvent.js'
+    import CreateTicket from '@/Components/dashboard/event/CreateTicket.vue'
     import Master from './Master.vue'
-
-    const props = defineProps({
-        eventType: {
-            type: String
-        }
-    })
-
-    const {
-        eventForm
-    } = useEvent()
-
-    onMounted(() => {
-        eventForm.value.eventType = props.eventType
-    })
 </script>
 
 <style scoped>

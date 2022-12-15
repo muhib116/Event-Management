@@ -863,7 +863,7 @@ h2 {
         border-radius: 10px; 
         min-height: auto; 
         &.show {
-            display: block;
+            display: block !important;
         }
         // exit icon
         i.exit {

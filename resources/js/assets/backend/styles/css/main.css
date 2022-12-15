@@ -321,7 +321,7 @@ main.dashboard .events .event .details .bottom .name {
   display: none;
 }
 .screen-overlay.show {
-  display: block;
+  display: block !important;
 }
 .screen-overlay .create-new-event {
   position: relative;
@@ -1059,7 +1059,7 @@ main.dashboard .events .event .details .bottom .name {
   min-height: auto;
 }
 .screen-overlay .create-ticket.show {
-  display: block;
+  display: block !important;
 }
 .screen-overlay .create-ticket i.exit {
   position: absolute;
@@ -2446,7 +2446,7 @@ main.dashboard .events .event .details .bottom .name {
   min-height: auto;
 }
 .admin .screen-overlay .create-ticket.show {
-  display: block;
+  display: block !important;
 }
 .admin .screen-overlay .create-ticket i.exit {
   position: absolute;
