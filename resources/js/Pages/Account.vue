@@ -107,69 +107,6 @@
                             </span>
                         </div>
                     </div>
-                    <!-- mobile user interests-->
-                    <div class="user-interests-mobile" id="user_interests">
-                        <!-- first -->
-                        <select>
-                            <option value="arts & culture">arts & culture</option>
-                            <option value="business">business</option>
-                            <option value="career">career</option>
-                            <option value="charity & aid">charity & aid</option>
-                            <option value="children & youth">children & youth</option>
-                            <option value="community">community</option>
-                            <option value="fashion & design">fashion & design</option>
-                            <option value="food & drink">food & drink</option>
-                            <option value="goverment">goverment</option>
-                            <option value="investments">investments</option>
-                            <option value="media & film">media & film</option>
-                            <option value="music & performances">music & performances</option>
-                            <option value="schools & education">schools & education</option>
-                            <option value="spirituality & religion">spirituality & religion</option>
-                            <option value="sports & fitness">sports & fitness</option>
-                            <option value="startups & smallbusiness">startups & smallbusiness</option>
-                            <option value="technology & science">technology & science</option>
-                        </select>
-                        <!-- second -->
-                        <select>
-                            <option value="charity & aid">charity & aid</option>
-                            <option value="arts & culture">arts & culture</option>
-                            <option value="business">business</option>
-                            <option value="career">career</option>
-                            <option value="children & youth">children & youth</option>
-                            <option value="community">community</option>
-                            <option value="fashion & design">fashion & design</option>
-                            <option value="food & drink">food & drink</option>
-                            <option value="goverment">goverment</option>
-                            <option value="investments">investments</option>
-                            <option value="media & film">media & film</option>
-                            <option value="music & performances">music & performances</option>
-                            <option value="schools & education">schools & education</option>
-                            <option value="spirituality & religion">spirituality & religion</option>
-                            <option value="sports & fitness">sports & fitness</option>
-                            <option value="startups & smallbusiness">startups & smallbusiness</option>
-                            <option value="technology & science">technology & science</option>
-                        </select>
-                        <!-- third -->
-                        <select>
-                            <option value="children & youth">children & youth</option>
-                            <option value="arts & culture">arts & culture</option>
-                            <option value="business">business</option>
-                            <option value="career">career</option>
-                            <option value="charity & aid">charity & aid</option>
-                            <option value="community">community</option>
-                            <option value="fashion & design">fashion & design</option>
-                            <option value="food & drink">food & drink</option>
-                            <option value="goverment">goverment</option>
-                            <option value="investments">investments</option>
-                            <option value="media & film">media & film</option>
-                            <option value="music & performances">music & performances</option>
-                            <option value="schools & education">schools & education</option>
-                            <option value="spirituality & religion">spirituality & religion</option>
-                            <option value="sports & fitness">sports & fitness</option>
-                            <option value="startups & smallbusiness">startups & smallbusiness</option>
-                            <option value="technology & science">technology & science</option>
-                        </select>
-                    </div>
                     <div class="save">
                         <button type="submit" class="button" :disabled="interest_form_inf.processing">
                             <svg v-if="interest_form_inf.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -258,19 +195,27 @@ import Header from '@/Components/dashboard/Header.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Master from './Master.vue';
 import useEvent from './useEvent';
+import "vue-toastification/dist/index.css";
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
-import "vue-toastification/dist/index.css";
 import { useToast } from "vue-toastification";
+
 const toast = useToast();
 
 const activeTab = ref('profile-personal');
 
 const props = defineProps({
     user: {
-        type: Object
+        type: Object,
+        default: {}
     }
 });
+const {
+    formData,
+    eventsCategory
+} = useEvent()
+
+console.log(props);
 const personal_info_form = useForm({
     first_name: props.user.first_name,
     last_name: props.user.last_name,
@@ -287,17 +232,6 @@ const interest_form_inf = useForm({
 });
 
 const interest_form = ref(props.user.interests ? props.user.interests : []);
-
-const {
-    formData,
-    eventsCategory
-} = useEvent()
-
-formData.value = props.user;
-console.log(formData.value);
-const handleForm = (data) => {
-    console.log(formData.value)
-}
 
 const handleInterest = (item) => {
     if (!interest_form.value.includes(item.name) && interest_form.value.length < 3) {
