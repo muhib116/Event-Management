@@ -8,25 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class EventList extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        "eventType",
-        "name",
-        "description",
-        "location",
-        "url",
-        "locationTips",
-        "video_link",
-        "eventCategory",
-        "timezone",
-        "start_date",
-        "start_time",
-        "end_date",
-        "end_time",
-        "website",
-        "instagram",
-        "twitter",
-        "facebook",
-        "settings",
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'settings' => 'array',
     ];
 
     public function eventTickets() {

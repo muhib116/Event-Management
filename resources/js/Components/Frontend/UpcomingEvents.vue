@@ -22,9 +22,9 @@
                                         </p>
                                     </div>
                                     <div class="upcome-cntright">
-                                        <h4 :title="item.name">{{ truncate(item.name, 25) }}</h4>
-                                        <p>{{ item.price ? item.price : 'Free' }}</p>
-                                        <p><i class="fas fa-map-marker-alt"></i> {{ item.location }} </p>
+                                        <h4 class="text-right" :title="item.name">{{ truncate(item.name, 25) }}</h4>
+                                        <p class="text-right block">{{ item.price ? item.price : 'Free' }}</p>
+                                        <p class="text-right"><i class="fas fa-map-marker-alt"></i> {{ item.location }} </p>
                                     </div>
                                 </div>
                             </div>

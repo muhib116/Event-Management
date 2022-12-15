@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('eventType', 150)->nullable();
             $table->string('name', 150)->nullable();
+            $table->string('slug', 150)->nullable();
             $table->text('description')->nullable();
             $table->text('location')->nullable();
             $table->string('url', 150)->nullable();

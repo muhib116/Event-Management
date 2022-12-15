@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('event_lists', function (Blueprint $table) {
-            $table->boolean('publish')->default(false);
+        Schema::create('advertises', function (Blueprint $table) {
+            $table->id();
+            $table->string('title')->nullable();
+            $table->string('image')->nullable();
+            $table->longText('description')->nullable();
+            $table->json('settings')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('event_lists', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('advertises');
     }
 };

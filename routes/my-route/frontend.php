@@ -15,8 +15,8 @@ $data = [
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/event-details/{url}', [FrontendController::class, 'event_details'])->name('eventDetails');
-Route::get('/checkout/{mEvent:slug}', [FrontendController::class, 'checkout'])->name('checkout');
-Route::post('/checkout/{mEvent:slug}/process', [FrontendController::class, 'checkout_process'])->name('checkout.process');
+Route::get('/checkout/{EventList:slug}', [FrontendController::class, 'checkout'])->name('checkout');
+Route::post('/checkout/{EventList:slug}/process', [FrontendController::class, 'checkout_process'])->name('checkout.process');
 
 
 Route::get('/payment-method', function () use($data) {
