@@ -17,9 +17,11 @@
                     <TableRow v-for="(item, index) in ticketList" :key="index" :data="item" />
                 </table>
             </div>
+            
             <TicketCreatePopup
                 v-model="showPopup" 
                 :callback="getList"
+                :editable="editable"
             />
         </div>
 </template>
@@ -30,6 +32,12 @@
     import TableRow from '@/Components/dashboard/AllTickets/TableRow.vue'
     import useTicket from '@/Pages/useTicket.js'
 
+    const props = defineProps({
+        editable: {
+            type: Boolean,
+            default: false
+        }
+    })
     const ticketList = ref([])
     const { getEventId, getTickets } = useTicket()
     const showPopup = ref(false)

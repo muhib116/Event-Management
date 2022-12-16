@@ -105,7 +105,8 @@
 
               <div class="buttons">
                  <!-- <div class="button btn-light">skip (go to event publish page)</div> -->
-                 <div class="button" @click="save">continue</div>
+                 <div v-if="editable" class="button" @click="save">Create</div>
+                 <div v-else class="button" @click="save">Update</div>
               </div>
            </div>
         </div>
@@ -115,8 +116,9 @@
 <script setup>
    import { ref, watch, onMounted } from 'vue'
    import useTicket from '@/Pages/useTicket'
-   
+   import { useToast } from "vue-toastification";
 
+   const toast = useToast();
    const { ticketTypes, ticketForm, resetTicketForm, placeholderQuestion, questions, saveTicket, getEventId } = useTicket()
 
    const props = defineProps({
@@ -126,6 +128,14 @@
       callback: {
          type: Function,
          default: () => {}
+      },
+      editable: {
+         type: Boolean,
+         default: false
+      },
+      ticket: {
+         type: Object,
+         default: {}
       }
    })
 
@@ -173,16 +183,31 @@
    }
 
    const emit = defineEmits()
-   const save = () => {
+   const save = async () => {
       if(!validateThisPage()){
-         alert(`Required field must not be empty!`)
+         toast.error("Required field must not be empty!", {
+            timeout: 2000,
+            position: "top-center",
+         })
          return
       }
 
-      saveTicket(ticketForm.value, getEventId())
-      resetTicketForm()
-      props.callback()
-      emit('update:modelValue', false)
+      let res = await saveTicket(ticketForm.value, getEventId())
+      if(res.statusText == 'OK'){
+         toast.success("Ticket created!", {
+            timeout: 2000,
+            position: "top-center",
+         })
+
+         resetTicketForm()
+         props.callback()
+         emit('update:modelValue', false)
+         return
+      }
+      toast.error("Something went wrong!", {
+         timeout: 2000,
+         position: "top-center",
+      })
    }
 </script>
 
