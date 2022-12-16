@@ -37,3 +37,4 @@ Route::get('file-delete/{id}', [FileUploadController::class, 'fileDelete'])->nam
 // ticket api
 Route::post('create/ticket/{event_id}', [EventTicketController::class, 'store'])->name('ticket.create');
 Route::get('get/tickets/{event_id}', [EventTicketController::class, 'getTicket'])->name('ticket.create');
+Route::get('delete/ticket/{id}', [EventTicketController::class, 'deleteTicket'])->name('ticket.delete');

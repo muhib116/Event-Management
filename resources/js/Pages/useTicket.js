@@ -53,6 +53,10 @@ export default function useTicket()
         return axios.post(`create/ticket/${eventId}`, data)
     }
 
+    const deleteTicket = (eventId) => {
+        return axios.post(`delete/ticket/${eventId}`)
+    }
+
     const getTickets = async (eventId) => {
         let { data } = await axios.get(`get/tickets/${eventId}`)
         return data
