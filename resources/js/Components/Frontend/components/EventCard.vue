@@ -3,7 +3,7 @@
         <div class="upcome-banr h-[150px]">
             <img :src="`../../../../../${get_banner(item.images)}`" :alt="item.name" class="h-full block">
         </div>
-        <div class="upcome-cnt">
+        <div class="upcome-cnt justify-between">
             <div class="upcome-cntleft">
                 <h4 class="uppercase">{{ getMonth(item.start_date).slice(0,3) }}</h4>
                 <p>
