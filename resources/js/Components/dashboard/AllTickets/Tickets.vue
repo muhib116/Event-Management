@@ -14,14 +14,17 @@
                         <th class="px-2 py-4 text-gray-700">Ticket price</th>
                         <th class="px-2 py-4 text-gray-700"></th>
                     </tr>
-                    <TableRow v-for="(item, index) in ticketList" :key="index" :data="item" />
+                    <TableRow 
+                        v-for="(item, index) in ticketList" 
+                        :key="index" 
+                        :data="item"
+                        :callback="getList"
+                    />
                 </table>
             </div>
             
             <TicketCreatePopup
                 v-model="showPopup" 
-                :callback="getList"
-                :editable="editable"
             />
         </div>
 </template>
@@ -32,19 +35,17 @@
     import TableRow from '@/Components/dashboard/AllTickets/TableRow.vue'
     import useTicket from '@/Pages/useTicket.js'
 
+    const { getEventId, getTickets, ticketList } = useTicket()
     const props = defineProps({
         editable: {
             type: Boolean,
             default: false
         }
     })
-    const ticketList = ref([])
-    const { getEventId, getTickets } = useTicket()
     const showPopup = ref(false)
     
     const getList = async () => {
-        let tickets = await getTickets(getEventId())
-        ticketList.value = tickets
+        getTickets(getEventId())
     }
     onMounted(() => {
         getList()
