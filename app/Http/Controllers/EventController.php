@@ -91,6 +91,15 @@ class EventController extends Controller
         }
         return response()->json(['status' => false]);
     }
+    public function editPublish(Request $request, $eventId) {
+        $data = ["publish" => $request->publish ? 1 : 0];
+
+        $res = EventList::where(['id' => $eventId])->update($data);
+        if($res){
+            return response()->json(['status' => true], 200);
+        }
+        return response()->json(['status' => false]);
+    }
 
     public function getEvent(Request $request, EventList $eventList) {
         return response()->json($eventList, 200);

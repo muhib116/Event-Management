@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // event api
 Route::post('store/event', [EventController::class, 'eventStore'])->name('event.store');
 Route::post('event/edit/{eventId}', [EventController::class, 'eventEdit'])->name('event.edit');
+Route::post('event/publish/{eventId}', [EventController::class, 'editPublish'])->name('event.publish');
 Route::get('event/{eventList}', [EventController::class, 'getEvent'])->name('event.get');
 
 // fileUpload api
