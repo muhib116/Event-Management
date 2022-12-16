@@ -8,6 +8,7 @@
             <div class="nav">
                 <Link :href="route('live.account')">Account</Link>
                 <Link :href="route('dashboard')">Events</Link>
+                <Link :href="route('advertise.index')">Advertise</Link>
                 <a href="#">Help</a>
                 <a href="#">Log out</a>
             </div>

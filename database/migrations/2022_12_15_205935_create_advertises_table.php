@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->longText('description')->nullable();
             $table->boolean('status')->default(false);
+            $table->text('link')->nullable();
             $table->json('settings')->nullable();
             $table->timestamps();
         });
