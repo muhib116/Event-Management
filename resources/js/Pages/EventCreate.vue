@@ -4,7 +4,7 @@
             <Header />
             <div class="event-creation step-3 ">
                 <Step step="1"/>
-                <EventDetail />
+                <EventDetail :userId="userId" />
             </div>
         </AuthenticatedLayout>
     </Master>
@@ -24,7 +24,8 @@
     const props = defineProps({
         eventType: {
             type: String
-        }
+        },
+        userId: [Number, String]
     })
 
     const {

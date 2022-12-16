@@ -1,7 +1,7 @@
 <template>
     <div class="upcome-item">
         <div class="upcome-banr h-[150px]">
-            <img :src="`../../../../../${get_banner(item.images)}`" :alt="item.name" class="h-full block">
+            <img :src="`../../../../../${get_banner(item.images)}`" :alt="item.name" class="h-full block object-cover object-center w-full">
         </div>
         <div class="upcome-cnt justify-between">
             <div class="upcome-cntleft">

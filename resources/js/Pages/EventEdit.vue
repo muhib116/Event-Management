@@ -2,11 +2,11 @@
     <Master>
         <AuthenticatedLayout>
             <Header />
-            <div class="account">
-                <div class="main-heading h-[300px]">
+            <div class="account bg-[#e9eef1]">
+                <div class="main-heading bg-transparent pl-0 h-[300px] container mx-auto">
                     <div class="left">
                         <h1>{{ event.name }}</h1>
-                        <p><i class="fa-solid fa-calendar-days"></i> Wed, Aug 17 2022 at 10:00 PM - 10:30 PM GDT (Greenland)</p>
+                        <!-- <p><i class="fa-solid fa-calendar-days"></i> Wed, Aug 17 2022 at 10:00 PM - 10:30 PM GDT (Greenland)</p> -->
                         <p><i class="fa-solid fa-calendar-days"></i> {{ event.start_date }} at {{ event.start_time }} - {{ event.end_date }} at {{ event.start_time }} </p>
                         <p><i class="fa-solid fa-location-dot"></i> {{ event.location }}</p>
                     </div>
@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <nav>
+            <nav class="container mx-auto">
                 <div class="dropdown-container" v-for="(item, index) in navList" :key="index" @click="handleComponent(item)">
                     <div class="profile nav-item filter-item" :class="item.isActive && 'active'"> 
                         {{ item.title }}
@@ -28,7 +28,12 @@
             </nav>
 
             <div class="Profile--Personal account-item container mx-auto mt-5">
-                <component :is="components[activeComponent]" :event="event" editable="true"></component>
+                <component 
+                    :is="components[activeComponent]" 
+                    :event="event" 
+                    :editable="true"
+                    :userId="userId"
+                ></component>
             </div>
         </AuthenticatedLayout>
     </Master>
@@ -44,6 +49,9 @@
     import Master from './Master.vue'
     import useEvent from '@/Pages/useEvent.js'
 
+    const props = defineProps({
+        userId: [Number, String]
+    })
     const { getEventId, getEvent } = useEvent()
     const activeComponent = ref('EventDetail')
     const event = ref({})
@@ -70,8 +78,8 @@
         }
     ])
 
-    onMounted(() => {
-        event.value = getEvent(getEventId())
+    onMounted(async () => {
+        event.value = await getEvent(getEventId())
     })
 
     const handleComponent = (item) => {

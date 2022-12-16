@@ -25,6 +25,7 @@
             
             <TicketCreatePopup
                 v-model="showPopup" 
+                :userId="userId"
             />
         </div>
 </template>
@@ -40,7 +41,8 @@
         editable: {
             type: Boolean,
             default: false
-        }
+        },
+        userId: [String, Number]
     })
     const showPopup = ref(false)
     

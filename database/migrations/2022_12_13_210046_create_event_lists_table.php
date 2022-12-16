@@ -15,10 +15,14 @@ return new class extends Migration
     {
         Schema::create('event_lists', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->unsigned();
             $table->string('eventType', 150)->nullable();
             $table->string('name', 150)->nullable();
             $table->string('slug', 150)->nullable();
             $table->text('description')->nullable();
+            $table->text('terms_and_conditions')->nullable();
+            $table->text('audience')->nullable();
+            $table->text('attention')->nullable();
             $table->text('location')->nullable();
             $table->string('url', 150)->nullable();
             $table->string('locationTips', 150)->nullable();
@@ -37,7 +41,8 @@ return new class extends Migration
             $table->text('twitter')->nullable();
             $table->text('facebook')->nullable();
             $table->json('settings')->nullable();
-
+            $table->boolean('publish')->default(false);
+            
             $table->timestamps();
         });
     }

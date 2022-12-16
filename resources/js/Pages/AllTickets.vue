@@ -3,7 +3,7 @@
         <AuthenticatedLayout>
             <Header />
             <div class="event-creation step-3 ">
-                <Tickets />
+                <Tickets :userId="userId"/>
             </div>
         </AuthenticatedLayout>
     </Master>
@@ -17,9 +17,11 @@
     import Tickets from '@/Components/dashboard/AllTickets/Tickets.vue';
     import useTicket from './useTicket';
 
+    const props = defineProps({
+        userId: [Number, String]
+    })
     const ticketList = ref([])
     const { getEventId, getTickets } = useTicket()
-    const showPopup = ref(false)
     
     const getList = async () => {
         let tickets = await getTickets(getEventId())

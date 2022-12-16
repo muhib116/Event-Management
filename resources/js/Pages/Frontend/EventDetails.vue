@@ -58,7 +58,7 @@
                                         <img src="@/assets/frontend/images/people.svg" alt="">
                                         <div class="event-informcnt">
                                             <h4>Audience</h4>
-                                            <p>This movie is suitable for <br> audience aged 12  and above</p>
+                                            <p>{{ event.audience }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -67,15 +67,22 @@
                                         <img src="@/assets/frontend/images/warning.svg" alt="">
                                         <div class="event-informcnt">
                                             <h4>Attention</h4>
-                                            <p>Face mask and social distancing <br> are mandatory outside the car.</p>
+                                            <p>{{ event.attention }}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="event-descprt" id="description">
+                            <h2>Description</h2>
+                            <p>
+                                {{ event.description }}
+                            </p>
+                        </div>
+                        
                         <iframe 
-                            class="block max-w-[800px] w-full mx-auto mb-4 aspect-video"
+                            class="block max-w-[800px] w-full mx-auto mt-4 aspect-video"
                             v-if="getVideoCode(event.video_link)" 
                             :src="`https://www.youtube.com/embed/${getVideoCode(event.video_link)}`" 
                             title="YouTube video player" 
@@ -84,22 +91,13 @@
                             allowfullscreen
                         ></iframe>
 
-                        <div class="event-descprt" id="description">
-                            <h2>Description</h2>
-                            <p>
-                                {{ event.description }}
-                            </p>
-                        </div>
-
                         <div class="event-termcond">
                             <button @click="showTerms = !showTerms" class="text-lg font-black">Terms & Conditions</button>
-                            <p v-if="showTerms">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non ducimus ipsa harum iure quod unde nihil asperiores autem eius sed! Ut excepturi delectus earum beatae facere in magnam voluptas? Eligendi!
-                            </p>
+                            <p v-if="showTerms">{{ event.terms_and_conditions }}</p>
                         </div>    
                         
                         <iframe 
-                            v-if="event.map_link" 
+                            v-if="event.map_link.indexOf('https://www.google.com/maps/embed')==0" 
                             class="block w-full mx-auto h-[300px] mb-4 aspect-auto mt-10" 
                             :src="event.map_link" 
                             style="border:0;" 
@@ -132,7 +130,7 @@
         let splitLink = videoLink.split('?v=')
         if(splitLink.length==2){
             let videoCode = splitLink[1].split('&')
-            return videoCode[1]
+            return videoCode[0]
         }
     }
 </script>

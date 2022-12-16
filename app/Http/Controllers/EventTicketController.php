@@ -9,12 +9,13 @@ class EventTicketController extends Controller
 {
     function store(Request $request, $event_id) {
         $data = [
+            "user_id"    => $request->user_id,
             'event_id'      => $request->event_id,
             'ticketType'    => $request->ticketType,
             'ticket_name'   => $request->ticket_name,
             'ticket_stock'  => $request->ticket_stock,
             'stock_limit'   => $request->stock_limit,
-            'price'         => $request->price,
+            'price'         => $request->price ? $request->price : 0,
             'purchase_limit' => $request->purchase_limit,
             'questions'      => $request->questions,
             'perks'          => $request->perks,

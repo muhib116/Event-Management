@@ -10,6 +10,18 @@
             <textarea rows="15" :class="validationFor.description.hasError && 'border-red-500'" v-model="eventForm.description"></textarea>
         </div>
         <div class="element">
+            <label for="name">Terms and Conditions</label>
+            <textarea rows="15" v-model="eventForm.terms_and_conditions"></textarea>
+        </div>
+        <div class="element">
+            <label for="name">Audience</label>
+            <textarea rows="15" v-model="eventForm.audience"></textarea>
+        </div>
+        <div class="element">
+            <label for="name">Attention</label>
+            <textarea rows="15" v-model="eventForm.attention"></textarea>
+        </div>
+        <div class="element">
             <label for="location">*Location of event</label>
             <input name="location" :class="validationFor.location.hasError && 'border-red-500'" v-model="eventForm.location" type="text" placeholder="Full Adress">
         </div>
@@ -237,7 +249,8 @@
         editable: {
             type: Boolean,
             default: false
-        }
+        },
+        userId: [String, Number]
     })
 
     const {
@@ -312,24 +325,39 @@
         }
     }
 
-    const handleEvent = () => {
-        if(!isValid.value) return
+    const handleEvent = async () => {
+        if(!isValid.value) {
+            toast.error("Required field must not be empty!", {
+                timeout: 2000,
+                position: "top-center",
+            })
+            return
+        }
         if(props.editable){
             updateEvent(eventForm.value, getEventId())
             return;
         }
-        saveEvent(eventForm.value)
-
-        setTimeout(() => {
+        let res = await saveEvent(eventForm.value)
+        
+        if(res){
             window.location.href=route('appearance', eventId.value)
-        }, 500)
+            return;
+        }
+        toast.error("Event not created!", {
+            timeout: 2000,
+            position: "top-center",
+        })
     }
 
     const saveEvent = async (payload) => {
+        payload.user_id = props.userId
         let { data } = await axios.post('store/event', payload)
         if(data.id){
             eventId.value = data.id
+            return true
         }
+
+        return false
     }
 
     const updateEvent = async (payload, eventId) => {
@@ -368,7 +396,6 @@
         if(props.editable){
             let eventData = await getEvent(getEventId())
             eventForm.value = eventData
-            console.log(eventForm.value, eventData)
             makeEventTypeSelected(eventData.eventCategory)
         }
     })

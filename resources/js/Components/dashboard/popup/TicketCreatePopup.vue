@@ -104,7 +104,7 @@
 
               <div class="buttons">
                  <!-- <div class="button btn-light">skip (go to event publish page)</div> -->
-                 <div v-if="!editable" class="button" @click="save">Create</div>
+                 <div v-if="!editable" class="button" @click="save(ticketForm)">Create</div>
                  <div v-else class="button" @click="update(ticketForm)">Update</div>
               </div>
            </div>
@@ -113,24 +113,12 @@
 </template>
 
 <script setup>
-   import { ref, watch, onMounted } from 'vue'
+   import { ref, onMounted } from 'vue'
    import useTicket from '@/Pages/useTicket'
    import { useToast } from "vue-toastification"
 
-   const toast = useToast();
-   const { 
-      ticketTypes, 
-      ticketForm, 
-      placeholderQuestion, 
-      questions, 
-      resetTicketForm, 
-      saveTicket, 
-      getEventId, 
-      getTickets, 
-      updateTicket
-   } = useTicket()
-
    const props = defineProps({
+      userId: [String, Number],
       modelValue: {
          type: Boolean
       },
@@ -147,6 +135,19 @@
          default: {}
       }
    })
+   const toast = useToast();
+   const { 
+      ticketTypes, 
+      ticketForm, 
+      placeholderQuestion, 
+      questions, 
+      resetTicketForm, 
+      saveTicket, 
+      getEventId, 
+      getTickets, 
+      updateTicket
+   } = useTicket()
+
 
    onMounted(() => {
       ticketForm.value.ticketType = 'Free'
@@ -195,7 +196,7 @@
    }
 
    const emit = defineEmits()
-   const save = async () => {
+   const save = async (payload) => {
       if(!validateThisPage()){
          toast.error("Required field must not be empty!", {
             timeout: 2000,
@@ -204,7 +205,8 @@
          return
       }
 
-      let res = await saveTicket(ticketForm.value, getEventId())
+      payload.user_id = props.userId
+      let res = await saveTicket(payload, getEventId())
       if(res.statusText == 'OK'){
          toast.success("Ticket created!", {
             timeout: 2000,
@@ -213,6 +215,7 @@
 
          resetTicketForm()
          getTickets(getEventId())
+         props.callback()
          emit('update:modelValue', false)
          return
       }
