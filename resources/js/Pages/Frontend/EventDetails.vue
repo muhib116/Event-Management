@@ -7,9 +7,21 @@
                     <div class="event-left">
                         <SocialShare />
                     </div>
-                    <div class="event-right">
-                        <div class="event-banner">
-                            <img src="@/assets/frontend/images/event-banner.png" alt="">
+                    <div v-if="event" class="event-right">
+                        <div class="event-banner" v-if="event.images && get_banner(event.images)">
+                            <img :src="`../../../../${get_banner(event?.images)}`" alt="">
+                        </div>
+
+                        <h1 class="mt-4 text-lg font-black">Gallery</h1>
+                        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-3">
+                            <template v-for="(img, index) in event.images" :key="index">
+                                <img 
+                                    v-if="img && img.type == 'gallery'"
+                                    class="border aspect-square block object-cover object-center"
+                                    :src="`../../../../${img.path}`" 
+                                    alt=""
+                                >
+                            </template>
                         </div>
 
                         <div class="event-cntprt">
@@ -19,11 +31,11 @@
                                     <li><i class="fas fa-map-marker-alt"></i> {{ event.location }}</li>
                                     <li><i class="fas fa-calendar-alt"></i> {{ event.start_date }}· {{ event.start_time }} </li>
                                 </ul>
-                                <p>Marty travels back in time using an eccentric scientist's time machine. However, he must make his high-school-aged parents fall in love in order to return to the present.</p>
+                                <p>{{ event.description.slice(0, 150) }}<a href="#description">...</a></p>
                             </div>
                             <div class="event-cntright">
                                 <p>Tickets starting at</p>
-                                <h4>Rp. 212.000</h4>
+                                <h4>$ {{ event.event_tickets_min_price }}</h4>
                                 <Link :href="route('ticket-info', event.slug)">Buy Tickets</Link>
                             </div>
                         </div>
@@ -72,7 +84,7 @@
                             allowfullscreen
                         ></iframe>
 
-                        <div class="event-descprt">
+                        <div class="event-descprt" id="description">
                             <h2>Description</h2>
                             <p>
                                 {{ event.description }}
@@ -80,8 +92,8 @@
                         </div>
 
                         <div class="event-termcond">
-                            <button class="text-lg font-black">Terms & Conditions</button>
-                            <p>
+                            <button @click="showTerms = !showTerms" class="text-lg font-black">Terms & Conditions</button>
+                            <p v-if="showTerms">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non ducimus ipsa harum iure quod unde nihil asperiores autem eius sed! Ut excepturi delectus earum beatae facere in magnam voluptas? Eligendi!
                             </p>
                         </div>    
@@ -104,14 +116,17 @@
 </template>
 
 <script setup>
+    import { ref } from 'vue'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import SocialShare from '@/Components/Frontend/Event/SocialShare.vue'
     import Master from './Master.vue'
-    
+    import useEvent from '@/Pages/useEvent.js'
+
+    const { get_banner } = useEvent()
     const props = defineProps({
         event: Object
     })
-
+    const showTerms = ref(false)
     const getVideoCode = (videoLink) => {
         if(!videoLink) return false
         let splitLink = videoLink.split('?v=')

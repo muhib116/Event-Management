@@ -212,9 +212,9 @@
         </div>
         <!-- Continue Buttons -->
         <div class="save-or-cancel">
-            <Link class="button save" :href="route('dashboard')">Cancel</Link>
+            <Link v-if="!editable" class="button save" :href="route('dashboard')">Cancel</Link>
             <div class="button save bg-red cursor-pointer" @click="handleEvent">
-                Continue
+                {{ editable ? 'Update' : 'Continue' }}
             </div>
         </div>
     </div>
@@ -227,10 +227,16 @@
     import { ref, watch, onMounted } from 'vue'
     import useEvent from '../../../Pages/useEvent.js'
     import { Link } from '@inertiajs/inertia-vue3'
+    import { useToast } from "vue-toastification";
 
+    const toast = useToast();
     const props = defineProps({
         callback: {
             type: Function
+        },
+        editable: {
+            type: Boolean,
+            default: false
         }
     })
 
@@ -238,7 +244,6 @@
         eventsCategory, 
         setActiveEvent,
         eventForm,
-        getParams,
         getEventId,
         getEvent
     } = useEvent()
@@ -309,7 +314,7 @@
 
     const handleEvent = () => {
         if(!isValid.value) return
-        if(getParams('edit') == 'event'){
+        if(props.editable){
             updateEvent(eventForm.value, getEventId())
             return;
         }
@@ -330,7 +335,10 @@
     const updateEvent = async (payload, eventId) => {
         let { data } = await axios.post(`event/edit/${eventId}`, payload)
         if(data.status){
-            alert("Event Updated!")
+            toast.success("Event Updated Successfully!", {
+                timeout: 2000,
+                position: "top-center",
+            })
         }
     }
 
@@ -357,9 +365,10 @@
     }
 
     onMounted(async () => {
-        if(getParams('edit') == 'event'){
+        if(props.editable){
             let eventData = await getEvent(getEventId())
             eventForm.value = eventData
+            console.log(eventForm.value, eventData)
             makeEventTypeSelected(eventData.eventCategory)
         }
     })

@@ -1,5 +1,5 @@
 <template>
-    <div class="grid gap-4">
+    <div class="grid gap-4" :class="editable&&'mb-10'">
         <label class="bg-red-100 cursor-pointer relative grid items-center text-center max-w-[900px] mx-auto w-full" style="aspect-ratio: 3/1">
             <ImageUpload 
                 :title="(getBannerImage(imageFromApi)) ? 'Update Banner' : 'Upload Banner'" 
@@ -31,9 +31,11 @@
         </div>
 
 
-        <div class="save-or-cancel">
+        <div v-if="!editable" class="save-or-cancel">
             <Link class="button save bg-red" :href="route('ticket', eventId)">Skip</Link>
-            <Link class="button save bg-red" :href="route('ticket', eventId)">Continue</Link>
+            <Link class="button save bg-red" :href="route('ticket', eventId)">
+                Continue
+            </Link>
         </div>
     </div>
 </template>
@@ -44,7 +46,14 @@
     import ImageUpload from '@/Components/dashboard/event/components/ImageUpload.vue'
     import useFileUpload from '@/Components/useFileUpload.js'
     import { Link } from '@inertiajs/inertia-vue3' 
-
+    
+    const props = defineProps({
+        editable: {
+            type: Boolean,
+            default: false
+        }
+    })
+    
     const {
         getImages,
         imageFromApi,

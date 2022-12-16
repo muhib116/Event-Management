@@ -22,18 +22,21 @@ class FrontendController extends Controller
         ];
     }
     public function index() {
-        $this->data['upcoming_events'] = EventList::with(['eventTickets', 'images'])
+        $this->data['upcoming_events'] = EventList::with(['images'])
+                                ->withMin('eventTickets', 'price')
                                 ->where('publish', 1)
                                 ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d').'00:00:00')
                                 ->orderBy('start_date', 'ASC')
                                 ->limit(10)->get();
-        $this->data['arts_events'] = EventList::with(['eventTickets', 'images'])
+        $this->data['arts_events'] = EventList::with(['images'])
+                                ->withMin('eventTickets', 'price')
                                 ->where('publish', 1)
                                 ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d').'00:00:00')
                                 ->where('eventCategory', 'Arts Culture')
                                 ->orderBy('start_date', 'ASC') 
                                 ->limit(10)->get();
-        $this->data['concerts_events'] = EventList::with(['eventTickets', 'images'])
+        $this->data['concerts_events'] = EventList::with(['images'])
+                                ->withMin('eventTickets', 'price')
                                 ->where('publish', 1)
                                 ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d').'00:00:00')
                                 ->where('eventCategory', 'Concerts')
@@ -46,8 +49,9 @@ class FrontendController extends Controller
 
 
     public function event_details($url) {
-        $this->data['event'] = EventList::with(['eventTickets', 'images'])
-                        ->where('custom_url', $url)
+        $this->data['event'] = EventList::with(['images'])
+                        ->withMin('eventTickets', 'price')
+                        ->where('url', $url)
                         ->orWhere('slug', $url)
                         ->first();
                         
@@ -60,7 +64,7 @@ class FrontendController extends Controller
     }
     public function ticket_info($url) {
         $this->data['event'] = EventList::with(['eventTickets', 'images'])
-                        ->where('custom_url', $url)
+                        ->where('url', $url)
                         ->orWhere('slug', $url)
                         ->first();
 

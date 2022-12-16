@@ -17,6 +17,7 @@ import SpiritualityReligion from "../assets/images/svgs/14.svg"
 import SportsFitness from "../assets/images/svgs/15.svg"
 import StartupsSmallBusiness from "../assets/images/svgs/16.svg"
 import TechnologyScience from "../assets/images/svgs/17.svg"
+import { get } from 'lodash'
 
 const eventsCategory = ref([
     {
@@ -169,6 +170,14 @@ export default function useEvent(){
         return data
     }
 
+    const get_banner = (images) => {
+        let img = images.find(item => {
+            return item.type=='banner'
+        })
+        if(!get(img, 'path')) return null
+        return img.path
+    }
+
     return {
         eventsCategory,
         setActiveEvent,
@@ -177,6 +186,7 @@ export default function useEvent(){
         eventForm,
         getParams,
         getEventId,
-        getEvent
+        getEvent,
+        get_banner
     }
 }
