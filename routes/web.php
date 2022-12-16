@@ -11,6 +11,7 @@ use Inertia\Inertia;
 require_once('my-route/frontend.php');
 require_once('my-route/event.php');
 require_once('my-route/ticket.php');
+require_once('my-route/advertise.php');
 
 Route::group(['middleware' => ['auth', 'verified']],function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

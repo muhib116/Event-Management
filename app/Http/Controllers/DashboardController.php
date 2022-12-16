@@ -23,6 +23,8 @@ class DashboardController extends Controller
         
         return Inertia::render('Dashboard', [
             'events' => $events,
+            'total_event' => EventList::count(),
+            'total_ticket' => EventList::withCount('eventTickets')->get()->sum('event_tickets_count'),
         ]);
     }
 }
