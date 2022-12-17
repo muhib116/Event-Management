@@ -66,7 +66,7 @@
               </div>
               <div class="element- mb-6">
                  <div class="two-columns">
-                    <input type="checkbox" value="1" v-model="ticketForm.isTransferFeesToGuest" >
+                    <input type="checkbox" :checked="ticketForm.isTransferFeesToGuest" v-model="ticketForm.isTransferFeesToGuest" >
                     <label>Transfer fees to guest</label>
                  </div>
               </div>
@@ -232,7 +232,6 @@
             timeout: 2000,
             position: "top-center",
          })
-         resetTicketForm()
          getTickets(getEventId())
          emit('update:modelValue', false)
          return

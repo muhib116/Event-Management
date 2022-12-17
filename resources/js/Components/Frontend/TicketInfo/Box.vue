@@ -33,7 +33,7 @@
     const quantity = ref(0)
     const { cards, addCardData, commission, getTicketPrice } = useTicket()
     const getUpperLimit = (ticket) => {
-        if(ticket.ticket_stock != 'limited') return Infinity
+        if(ticket.ticket_stock != 'limited') return ticket.purchase_limit
         
         let currentStock = (ticket.stock_limit - ticket.sold)
         if( currentStock < ticket.purchase_limit){

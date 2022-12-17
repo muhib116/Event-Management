@@ -90,6 +90,26 @@
                             <div class="text-red-500" v-if="advertise_form.errors.description">{{ advertise_form.errors.description }}</div>
                         </div>
                         <div class="element">
+                            <label for="featured">Featured</label>
+                            <div class="two-columns">
+                                <select name="featured" id="featured" v-model="advertise_form.featured">
+                                    <option value="1">Active</option>
+                                    <option value="0">Disable</option>
+                                </select> 
+                            </div> 
+                            <div class="text-red-500" v-if="advertise_form.errors.featured">{{ advertise_form.errors.featured }}</div>
+                        </div>
+                        <div class="element">
+                            <label for="status">Status</label>
+                            <div class="two-columns">
+                                <select name="status" id="status" v-model="advertise_form.status">
+                                    <option value="1">Active</option>
+                                    <option value="0">Disable</option>
+                                </select> 
+                            </div> 
+                            <div class="text-red-500" v-if="advertise_form.errors.status">{{ advertise_form.errors.status }}</div>
+                        </div>
+                        <div class="element">
                             <label for="description">
                                 <span class="important">*</span>
                                 Image
@@ -156,9 +176,12 @@ import { ref } from '@vue/reactivity';
 import Header from '@/Components/dashboard/Header.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Master from './Master.vue';
+import useEvent from './useEvent';
 import "vue-toastification/dist/index.css";
+import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from "vue-toastification";
+import { onMounted } from '@vue/runtime-core';
 const toast = useToast();
 
 const props = defineProps({
