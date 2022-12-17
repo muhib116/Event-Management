@@ -9,6 +9,7 @@
                     </div>
                     <div v-if="event" class="event-right">
                         <div class="event-banner" v-if="event.images && get_banner(event.images)">
+                            <!-- <img :src="`../../../../${get_banner(event?.images)}`" alt="" class="max-h-[350px] h-full object-cover object-center"> -->
                             <img :src="`../../../../${get_banner(event?.images)}`" alt="">
                         </div>
 

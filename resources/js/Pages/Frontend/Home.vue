@@ -4,11 +4,11 @@
     <Master>
         <Banner />
         <SearchBar />
-        <UpcomingEvents :data="upcoming_events" />
+        <EventCarousel :data="upcoming_events" title="Upcoming Events" />
         <HotOffers />
         <TopSelling />
-        <Arts />
-        <Concerts />
+        <EventCarousel :data="arts_events" title="Browse Arts" />
+        <EventCarousel :data="concerts_events" title="Browse Concerts" />
     </Master>
 </template>
 
@@ -18,11 +18,9 @@
     import Master from './Master.vue'
     import Banner from '@/Components/Frontend/Banner.vue'
     import SearchBar from '@/Components/Frontend/SearchBar.vue'
-    import UpcomingEvents from '@/Components/Frontend/UpcomingEvents.vue'
+    import EventCarousel from '@/Components/Frontend/EventCarousel.vue'
     import HotOffers from '@/Components/Frontend/HotOffers.vue'
     import TopSelling from '@/Components/Frontend/TopSelling.vue'
-    import Arts from '@/Components/Frontend/Arts.vue'
-    import Concerts from '@/Components/Frontend/Concerts.vue'
 
     defineProps({
         canLogin: Boolean,

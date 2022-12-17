@@ -13,11 +13,10 @@
                     </button>
                     <div class="navbar-collapse">
                         <ul class="navbar-nav ms-auto">
-                            <li><a href="#">Concerts</a></li>
-                            <li><a href="#">Arts</a></li>
-                            <li><a href="#">Conference</a></li>
-                            <li><a href="#">Movies</a></li>             
-                            <li><a href="#">International</a></li>              
+                            <li><Link :href="route('category.event', 'concerts')">Concerts</Link></li>
+                            <li><Link :href="route('category.event', 'arts-culture')">Arts</Link></li>
+                            <li><Link :href="route('category.event', 'media-and-film')">Movies</Link></li>
+                            <li><Link :href="route('category.event', 'investments')">Investments</Link></li>            
                         </ul>
                         <ul class="navbar-nav nav-btn ms-auto">            
                             <li><Link :href="route('login')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Log In</Link></li> 

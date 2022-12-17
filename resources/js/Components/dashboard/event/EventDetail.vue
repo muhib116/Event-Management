@@ -68,7 +68,7 @@
                 class="type" :class="(item.isSelected&&'active')"
                 @click="() => {
                     setActiveEvent(item)
-                    eventForm.eventCategory = item.name
+                    eventForm.eventCategory = item.slug
                 }"
             >
                 <img :src="item.src" />
@@ -82,7 +82,7 @@
         <!-- mobile kind of event -->
         <div class="element mobile">
             <select v-model="eventForm.eventCategory">
-                <option v-for="item in eventsCategory" :key="'event-'+item.name" :value="item.name">
+                <option v-for="item in eventsCategory" :key="'event-'+item.name" :value="item.slug">
                     {{ item.name }}
                 </option>
             </select>
@@ -386,7 +386,7 @@
 
     const makeEventTypeSelected = (eventCat) => {
         eventsCategory.value.forEach(item=>{
-            if(item.name == eventCat){
+            if(item.slug == eventCat){
                 item.isSelected = true
             }
         })
