@@ -12,7 +12,7 @@ class AvaertiseController extends Controller
     private function check()
     {
         if (auth()->user()->type != 'admin') {
-            return redirect()->route('dashboard');
+            abort(404);
         }
     }
     public function index() {

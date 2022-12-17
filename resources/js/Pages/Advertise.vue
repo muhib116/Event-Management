@@ -156,12 +156,9 @@ import { ref } from '@vue/reactivity';
 import Header from '@/Components/dashboard/Header.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Master from './Master.vue';
-import useEvent from './useEvent';
 import "vue-toastification/dist/index.css";
-import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from "vue-toastification";
-import { onMounted } from '@vue/runtime-core';
 const toast = useToast();
 
 const props = defineProps({
