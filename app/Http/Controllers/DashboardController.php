@@ -14,7 +14,7 @@ class DashboardController extends Controller
     public function index() {
         $query = EventList::query();
         $query->withSum('eventTickets', 'sold')->with(['images']);
-        if (auth()->user()->type != 'Admin') {
+        if (auth()->user()->type != 'admin') {
             $query->where('user_id', auth()->id());
         }
         $events = $query->limit(900)
