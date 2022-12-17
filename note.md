@@ -1,17 +1,17 @@
 
 
-1: Logout
-2: Advertise image like banner image
-3: Featured advertise
-4: send featured ad on frontend
-5: Implement user_id
-6: advertise can manage by admin
-7: admin comission on dashboard
-8: if user type is admin show admin panel, if organizer show ............. 
+✅1: Logout
+✅2: Advertise image like banner image
+✅3: Featured advertise
+✅4: send featured ad on frontend
+✅5: Implement user_id
+✅6: advertise can manage by admin
+✅7: admin comission on dashboard
+✅8: if user type is admin show admin panel, if organizer show ............. 
 
 ::: if admin
 --widget:
-    total event
+    ✅total event
     total organiser
     total client
     commission
@@ -30,3 +30,7 @@
 
 ::: else
     Show client component
+
+
+
+///////////////////////

@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'first_name' => 'Organizer',
             'last_name' => 'User',
-            'type' => 'organizers',
+            'type' => 'organizer',
             'email' => 'org@gmail.com',
         ]);
         \App\Models\EventList::factory(100)->create();
