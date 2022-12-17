@@ -30,6 +30,9 @@
                                         Description
                                     </th>
                                     <th scope="col" class="px-2 py-4 text-gray-700">
+                                        Featured
+                                    </th>
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
                                         Status
                                     </th>
                                     <th scope="col" class="px-2 py-4 text-gray-700">
@@ -49,7 +52,11 @@
                                         {{ ad.description }}
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
-                                        <span v-if="ad.status == 0" class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Active</span>
+                                        <span v-if="ad.featured" class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Featured</span>
+                                        <span v-else class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Not featured</span>
+                                    </td>
+                                    <td class="text-center px-2 py-4 text-gray-700">
+                                        <span v-if="ad.status" class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Active</span>
                                         <span v-else class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Inactive</span>
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
@@ -78,7 +85,7 @@
                             <div class="text-red-500" v-if="advertise_form.errors.link">{{ advertise_form.errors.link }}</div>
                         </div>
                         <div class="element">
-                            <label for="description"><span class="important">*</span>description</label>
+                            <label for="description">Description</label>
                             <textarea name="description" id="description" rows="3" placeholder="Description" v-model="advertise_form.description"></textarea>
                             <div class="text-red-500" v-if="advertise_form.errors.description">{{ advertise_form.errors.description }}</div>
                         </div>
@@ -174,8 +181,11 @@ const advertise_form = useForm({
     description: null,
     link: null,
     banner_image: null,
-    advertise_id: null
+    advertise_id: null,
+    featured: 0,
+    status: 1
 });
+
 const delete_form = useForm({
     advertise_id: null
 });
@@ -205,6 +215,8 @@ function edit(ad) {
     advertise_form.description = ad.description;
     advertise_form.link = ad.link;
     advertise_form.advertise_id = ad.id;
+    advertise_form.featured = ad.featured;
+    advertise_form.status = ad.status;
     prev_img.value = ad.image;
 }
 

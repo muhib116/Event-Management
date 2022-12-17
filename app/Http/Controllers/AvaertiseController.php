@@ -9,7 +9,14 @@ use Inertia\Inertia;
 
 class AvaertiseController extends Controller
 {
+    private function check()
+    {
+        if (auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
+    }
     public function index() {
+        $this->check();
         $advertises = Advertise::orderBy('created_at', 'DESC')->get();
         return Inertia::render('Advertise', [
             'advertises' => $advertises,
@@ -17,6 +24,7 @@ class AvaertiseController extends Controller
     }
 
     public function store(Request $request) {
+        $this->check();
         $request->validate([
             'title' => 'required',
             'link' => 'required',
@@ -24,13 +32,15 @@ class AvaertiseController extends Controller
         // return $request->all();
         DB::beginTransaction();
         if (isset($request->advertise_id)) {
+            // return $request->all();
             $ad = Advertise::find($request->advertise_id);
             $data = [
                 'title' => $request->title,
                 // 'image' => $fileLocation,
                 'description' => $request->description,
-                'status' => $request->status ? 1 : 0,
+                'status' => $request->status,
                 'link' => $request->link,
+                'featured' => $request->featured,
                 'settings' => $request->settings ? $request->settings : null,
             ];
             if ($request->hasFile('banner_image')) {
@@ -57,8 +67,9 @@ class AvaertiseController extends Controller
                 'title' => $request->title,
                 'image' => $fileLocation,
                 'description' => $request->description,
-                'status' => $request->status ? 1 : 0,
+                'status' => $request->status,
                 'link' => $request->link,
+                'featured' => $request->featured,
                 'settings' => $request->settings ? $request->settings : null,
             ]);
         }
@@ -67,6 +78,7 @@ class AvaertiseController extends Controller
     }
 
     public function delete(Request $request) {
+        $this->check();
         $request->validate([
             'advertise_id' => 'required'
         ]);

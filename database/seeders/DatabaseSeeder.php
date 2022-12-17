@@ -31,16 +31,19 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'first_name' => 'Admin',
             'last_name' => 'User',
+            'type' => 'admin',
             'email' => 'admin@gmail.com',
         ]);
         \App\Models\User::factory()->create([
             'first_name' => 'Client',
             'last_name' => 'User',
+            'type' => 'clients',
             'email' => 'client@gmail.com',
         ]);
         \App\Models\User::factory()->create([
             'first_name' => 'Organizer',
             'last_name' => 'User',
+            'type' => 'organizer',
             'email' => 'org@gmail.com',
         ]);
         \App\Models\EventList::factory(100)->create();

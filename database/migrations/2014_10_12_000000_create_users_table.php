@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('type')->default('admin')->comment('admin/clients/organizers');
+            $table->string('type')->default('admin')->comment('admin/clients/organizer');
             $table->rememberToken();
             $table->json('settings')->nullable();
             $table->timestamps();

@@ -44,7 +44,7 @@ class FrontendController extends Controller
                                 ->orderBy('start_date', 'ASC')
                                 ->with(['eventTickets', 'images'])
                                 ->limit(10)->get();
-        $this->data['advertise'] = Advertise::limit(2)->get();
+        $this->data['featured_advertise'] = Advertise::where('featured', 1)->get();
         // return $this->data;
         return Inertia::render('Frontend/Home', $this->data);
     }
