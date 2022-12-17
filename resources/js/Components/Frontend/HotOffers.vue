@@ -7,23 +7,20 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <a v-for="item in data" :key="item.id" target="_blank" :href="item.link" class="block col-md-6">
                     <div class="offer-item">
-                        <img src="@/assets/frontend/images/offer-1.png" alt="">
+                        <img :src="item.image" alt="" class="h-[300px] object-cover object-center block w-full">
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="offer-item">
-                        <img src="@/assets/frontend/images/offer-2.png" alt="">
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-
+    const props = defineProps({
+        data: Array
+    })
 </script>
 
 <style lang="scss" scoped>

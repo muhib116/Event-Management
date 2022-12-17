@@ -58,7 +58,7 @@ class DashboardController extends Controller
             'events' => $events,
             'user' => auth()->user(),
             'total_sales_quantity' => $total_sales_quantity,
-            'total_sales_amount' => $total_sales_amount,
+            'total_sales_amount' => round($total_sales_amount, 2),
             'total_commission' => round($commission, 2),
             'total_event' => $total_event,
             'total_ticket' => $total_ticket,

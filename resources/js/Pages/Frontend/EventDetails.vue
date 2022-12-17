@@ -98,7 +98,7 @@
                         </div>    
                         
                         <iframe 
-                            v-if="event.map_link.indexOf('https://www.google.com/maps/embed')==0" 
+                            v-if="event.map_link && event.map_link.indexOf('https://www.google.com/maps/embed')==0" 
                             class="block w-full mx-auto h-[300px] mb-4 aspect-auto mt-10" 
                             :src="event.map_link" 
                             style="border:0;" 

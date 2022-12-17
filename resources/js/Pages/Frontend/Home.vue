@@ -5,7 +5,7 @@
         <Banner />
         <SearchBar />
         <EventCarousel :data="upcoming_events" title="Upcoming Events" />
-        <HotOffers />
+        <HotOffers :data="featured_advertise" />
         <TopSelling />
         <EventCarousel :data="arts_events" title="Browse Arts" />
         <EventCarousel :data="concerts_events" title="Browse Concerts" />
@@ -29,6 +29,7 @@
         phpVersion: String,
         upcoming_events: Array,
         arts_events: Array,
-        concerts_events: Array
+        concerts_events: Array,
+        featured_advertise: Array,
     });
 </script>

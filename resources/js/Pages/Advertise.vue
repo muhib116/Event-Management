@@ -69,9 +69,8 @@
                             </tbody>
                         </table>
                     </div>
-
-
                 </div>
+
                 <form class="Profile--Personal py-2 account-item" v-show="activeTab == 'create'" @submit.prevent="createAdvertise" method="POST" enctype="multipart/form-data">
                     <!-- <h2>Advertise</h2> -->
                     <div class="event-details">
@@ -111,15 +110,18 @@
                             <div class="text-red-500" v-if="advertise_form.errors.status">{{ advertise_form.errors.status }}</div>
                         </div>
                         <div class="element">
-                            <label for="description"><span class="important">*</span>Image</label>
+                            <label for="description">
+                                <span class="important">*</span>
+                                Image
+                            </label>
                             <div class="relative flex  items-center">
-                                <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 w-[250px] h-[250px] truncate font-bold bg-white p-4 bg-opacity-80 rounded">
-                                    <span class="z-10 bg-white py-3 px-4 rounded-md shadow-md absolute bottom-4">+ Image</span>
+                                <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[550px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
+                                    <span class="z-10 bg-white py-3 px-4 rounded shadow absolute top-0">+ Upload Banner</span>
                                     <input hidden type="file" name="image" accept="image/*" @change="(e) => {
                                         advertise_form.banner_image = e.target.files[0];
                                         onFileChange(e)
                                     }">
-                                    <div v-if="prev_img" class="flex-1 absolute top-0 left-0 flex gap-5 flex-wrap ml-5">
+                                    <div v-if="prev_img" class="flex-1 flex gap-5 flex-wrap">
                                         <img class="w-full h-full object-cover" :src="prev_img" alt="">
                                     </div>
                                 </label>
