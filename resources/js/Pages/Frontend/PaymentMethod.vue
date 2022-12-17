@@ -70,33 +70,10 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <div class="checkout-right">
-                            <h2>Event Details</h2>
-                            <div class="event-upper">
-                                <img src="@/assets/frontend/images/event.png" alt="">
-                                <div class="event-cnt">
-                                    <h4>Drive In Senja: Back to the Future</h4>
-                                    <p><i class="fas fa-map-marker-alt"></i> Parkiran Utama Mall @ Alam Sutera</p>
-                                    <p><i class="fas fa-calendar-alt"></i> September 22, 2021 · 20.00 - 21.56 WIB</p>
-                                </div>
-                            </div>
-
-                            <div class="summary-item">
-                                <h6>Order Summary</h6>
-                                <p>Ticket Type <span>2 x Paket VIP</span></p>
-                            </div>
-                            <div class="summary-item">
-                                <p>Ticket Price <span>2 x Rp. 371.000</span></p>
-                                <p>Service & Handling <span> - </span></p>
-                                <p>Admin Fee <span> Rp. 5.000 </span></p>
-                            </div>
-                            <div class="summary-item">
-                                <p><span>Total</span> <span>Rp. 747.000</span></p>
-                            </div>
-
-                            <div class="pay-btn">
-                                <Link class="active" :href="route('payment-complete')">Pay Now</Link>
-                            </div>
+                        <Cart :event="event" />
+                        <div class="pay-btn">
+                            <!-- <Link class="active" :href="route('payment-complete')">Pay Now</Link> -->
+                            <Button class="active" @click="handlePayment(cards)">Pay Now</Button>
                         </div>
                     </div>
                 </div>
@@ -106,10 +83,80 @@
 </template>
 
 <script setup>
+    import { ref } from 'vue'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
+    import Cart from '@/Components/Frontend/checkout/Cart.vue'
+    import { onMounted } from 'vue'
+    import useTicket from '@/Pages/Frontend/useTicket'
+    import axios from 'axios'
+
+    const { cards, commission } = useTicket()
+    
+    const props = defineProps({
+        event: Object
+    })
+
+    const preparePayload = (cards) => {
+        let index = 0
+        let payload = []
+        for(let key in cards) {
+            let { type, quantity, price, id } = cards[key]
+            payload[index] = {
+                organizer_id: props.event.user_id,
+                guest_id: null,
+                ticket_id: id,
+                ticket_type: type,
+                quantity: quantity,
+                commission: commission, //this commission setting as percentage
+                price: price,
+                payment_method: 'Hand Cash',
+                status: 'complete',
+            }
+            index ++
+        }
+
+        return payload
+    }
+
+    const handlePayment = async (cards) => {
+        let payload = preparePayload(cards)
+        let res = await axios.post('ticket/sale', payload)
+        if(res.status == 200){
+            // clean cards from localstorage
+            localStorage.clear('cards')
+            window.location.href = route('payment.complete')
+        }
+    }
+
+    onMounted(() => {
+        if(localStorage.getItem('cards')){
+            let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
+            cards.value = cardsFromLocalStorage
+        }
+
+        // preparePayload(cards.value)
+    })
+
+
+
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+    .pay-btn button:hover, .pay-btn .active {
+        background: #4F4CEE;
+    }
+    .pay-btn button {
+        width: 184px;
+        display: block;
+        text-align: center;
+        margin: 26px auto 0;
+        font-weight: 400;
+        font-size: 16px;
+        color: #FFFFFF;
+        background: #DADAFB;
+        padding: 10px 16px;
+        border-radius: 4px;
+        transition: 0.2s all ease;
+    }
 </style>

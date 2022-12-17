@@ -50,7 +50,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="inform-btn">
-                                                <Link class="bg-blue-600 text-white px-4 py-2 rounded" :href="route('payment-method')" type="button">Continue to Payment</Link>
+                                                <Link class="bg-blue-600 text-white px-4 py-2 rounded" :href="route('payment', event.slug)" type="button">Continue to Payment</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -59,31 +59,7 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <div class="checkout-right">
-                            <h2>Event Details</h2>
-                            <div class="event-upper">
-                                <img src="@/assets/frontend/images/event.png" alt="">
-                                <div class="event-cnt">
-                                    <h4>Drive In Senja: Back to the Future</h4>
-                                    <p><i class="fas fa-map-marker-alt"></i> Parkiran Utama Mall @ Alam Sutera</p>
-                                    <p><i class="fas fa-calendar-alt"></i> September 22, 2021 · 20.00 - 21.56 WIB</p>
-                                </div>
-                            </div>
-
-                            <div class="summary-item">
-                                <h6>Order Summary</h6>
-                                <p>Ticket Type <span>2 x Paket VIP</span></p>
-                            </div>
-                            <div class="summary-item">
-                                <p>Ticket Price <span>2 x Rp. 371.000</span></p>
-                                <p>Service & Handling <span> - </span></p>
-                                <p>Admin Fee <span> - </span></p>
-                            </div>
-                            <div class="summary-item">
-                                <p><span>Total</span> <span>Rp. 742.000</span></p>
-                            </div>
-
-                        </div>
+                        <Cart :event="event"/>
                     </div>
                 </div>
             </div>
@@ -94,6 +70,11 @@
 <script setup>
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
+    import Cart from '@/Components/Frontend/checkout/Cart.vue'
+
+    const props = defineProps({
+        event: Object
+    })
 </script>
 
 <style lang="scss" scoped>

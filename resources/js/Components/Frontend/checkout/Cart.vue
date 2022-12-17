@@ -1,0 +1,55 @@
+<template>
+    <div class="checkout-right">
+        <h2>Event Details</h2>
+        <div class="event-upper">
+            <img :src="`../../../../${get_banner(event?.images)}`" alt="" class="max-h-[200px] h-full object-cover object-center">
+            <div class="event-cnt">
+                <h4>{{ event.name }}</h4>
+                <p><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
+                <p><i class="fas fa-calendar-alt"></i> {{ event.start_date }} · {{ event.start_time }} - {{ event.end_date }} · {{ event.end_time }}</p>
+            </div>
+        </div>
+
+        <div class="summary-item">
+            <h6>Order Summary</h6>
+            <p v-for="(card, index) in cards" :key="`type-${index}`">
+                Ticket Type <span>{{ card.quantity }} x {{ card.type }}</span>
+            </p>
+        </div>
+        <div class="summary-item">
+            <p v-for="(card, index) in cards" :key="`type-${index}`">
+                Ticket Price 
+                <span>{{ card.quantity }} x Rp. {{ card.price }}</span>
+            </p>
+            <p>Service & Handling <span> - </span></p>
+            <p>Admin Fee <span> {{ getTotalCommission(cards).toFixed(2) }} </span></p>
+        </div>
+        <div class="summary-item">
+            <p><span>Total</span> <span>Rp. {{ getTotalWithFees(cards) }}</span></p>
+        </div>
+    </div>
+</template>
+
+<script setup>
+    import { onMounted } from 'vue'
+    import useTicket from '@/Pages/Frontend/useTicket'
+    import useEvent from '@/Pages/useEvent.js'
+
+    const { cards, getTotal, getTotalCommission, getTotalWithFees } = useTicket()
+    const { get_banner } = useEvent()
+    const props = defineProps({
+        event: Object
+    })
+
+    onMounted(() => {
+        if(localStorage.getItem('cards')){
+            let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
+            cards.value = cardsFromLocalStorage
+            getTotal(cards.value)
+        }
+    })
+</script>
+
+<style lang="scss" scoped>
+
+</style>

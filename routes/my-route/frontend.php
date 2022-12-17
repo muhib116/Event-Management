@@ -15,14 +15,14 @@ $data = [
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/event-details/{url}', [FrontendController::class, 'event_details'])->name('event.details');
-Route::get('/checkout/{EventList:slug}', [FrontendController::class, 'checkout'])->name('checkout');
+Route::get('/checkout/{url}', [FrontendController::class, 'checkout'])->name('checkout');
+Route::get('/payment-method/{url}', [FrontendController::class, 'payment'])->name('payment');
 Route::post('/checkout/{EventList:slug}/process', [FrontendController::class, 'checkout_process'])->name('checkout.process');
 Route::get('/category/{category}', [FrontendController::class, 'category_wise_event'])->name('category.event');
 
 
-Route::get('/payment-method', function () use($data) {
-    return Inertia::render('Frontend/PaymentMethod', $data);
-})->name('payment-method');
+
+
 
 Route::get('/payment-complete', function () {
     return Inertia::render('Frontend/PaymentComplete', [
@@ -31,7 +31,7 @@ Route::get('/payment-complete', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->name('payment-complete');
+})->name('payment.complete');
 
 Route::get('/search-result', function () use($data) {
     return Inertia::render('Frontend/SearchResult', $data);

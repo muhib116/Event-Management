@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\EventTicketController;
+use App\Http\Controllers\TicketSaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,10 +35,14 @@ Route::get('files/{id}', [FileUploadController::class, 'files'])->name('files');
 Route::get('file-delete/{id}', [FileUploadController::class, 'fileDelete'])->name('file.delete');
 
 
-
 // ticket api
 Route::post('create/ticket/{event_id}', [EventTicketController::class, 'store'])->name('ticket.create');
 Route::post('update/ticket/{id}', [EventTicketController::class, 'update'])->name('ticket.update');
 Route::get('get/tickets/{event_id}', [EventTicketController::class, 'getTicket'])->name('ticket.create');
 Route::get('duplicate/ticket/{id}', [EventTicketController::class, 'duplicate'])->name('ticket.duplicate');
 Route::get('delete/ticket/{id}', [EventTicketController::class, 'deleteTicket'])->name('ticket.delete');
+
+
+
+Route::post('ticket/sale', [TicketSaleController::class, 'sale'])->name('ticket.sale');
+

@@ -28,27 +28,22 @@
                 </div>
                 <div class="ticket-mainprt">
                     <div class="short-btn">
-                        <a href="#" class="inline-flex gap-1">
+                        <button @click="event.event_tickets.reverse()" class="inline-flex gap-1">
                             <img src="@/assets/frontend/images/updown.svg" alt="">
                             Sort By
-                        </a>
+                        </button>
                     </div>
 
                     <div class="ticket-boxprt">
-
                         <template v-for="(ticket, index) in event.event_tickets" :key="index">
                             <Box :ticket="ticket" v-if="!ticket.settings.isHidden"  />
                         </template>
-
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- <div class="bg-red h-[65px] fixed bottom-0 text-white bg-[#7F7DF3] w-full flex items-center justify-center border-t shadow">
-            Choose your ticket and quantity.
-        </div> -->
-        <div class="fixed bottom-0 w-full text-white bg-[#7F7DF3] border-t shadow ">
+        <div v-if="Object.keys(cards).length" class="fixed bottom-0 w-full text-white bg-[#7F7DF3] border-t shadow ">
             <div class="container h-[70px] flex items-center justify-between">
                 <div>
                     <table>
@@ -57,30 +52,54 @@
                             <td class="py-[4px] px-2 font-bold">Price Total (IDR)</td>
                         </tr>
                         <tr>
-                            <td class="py-[4px] px-2">2</td>
-                            <td class="py-[4px] px-2 font-bold">Rp. 742.000</td>
+                            <td class="py-[4px] px-2">{{ totalQuantity }}</td>
+                            <td class="py-[4px] px-2 font-bold">Rp. {{ totalPrice.toFixed(2) }}</td>
                         </tr>
                     </table>
                 </div>
-                <button class="bg-white text-[#4F4CEE] px-4 py-2 rounded shadow-lg">Buy Tickets</button>
+                <Link :href="route('checkout', event.slug)" class="bg-white text-[#4F4CEE] px-4 py-2 rounded shadow-lg">Buy Tickets</Link>
             </div>
+        </div>
+        <div v-else class="bg-red h-[65px] fixed bottom-0 text-white bg-[#7F7DF3] w-full flex items-center justify-center border-t shadow">
+            Choose your ticket and quantity.
         </div>
     </Master>
 </template>
 
 <script setup>
+    import { watch, onMounted } from 'vue'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
     import Box from '@/Components/Frontend/TicketInfo/Box.vue'
     import useEvent from '@/Pages/useEvent.js'
+    import useTicket from '@/Pages/Frontend/useTicket'
 
     const { get_banner } = useEvent()
-
+    const { cards, getTotalWithFees, totalQuantity, totalPrice } = useTicket()
     const props = defineProps({
         event: Object
     })
+    watch(cards, ()=>{
+        getTotalWithFees(cards.value)
+        localStorage.setItem('cards', JSON.stringify(cards.value))
+    }, { deep: true })
+
+    onMounted(() => {
+        if(localStorage.cards){
+            cards.value = JSON.parse(localStorage.getItem('cards'))
+        }
+    })
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+    .short-btn button {
+        font-weight: 400;
+        font-size: 14px;
+        color: #4F4CEE;
+        background: #FFFFFF;
+        border: 1px solid #4F4CEE;
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 4px;
+    }
 </style>
