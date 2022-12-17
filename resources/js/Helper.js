@@ -1,8 +1,3 @@
-import imageOne from '@/assets/frontend/images/upcome-1.png'
-import imageTwo from '@/assets/frontend/images/upcome-2.png'
-import imageThree from '@/assets/frontend/images/upcome-3.png'
-import imageFour from '@/assets/frontend/images/upcome-4.png'
-
 export default function useUpcomingEvents() {
     const months = ["January","February","March","April","May","June","July", "August","September","October","November","December"];
     const getMonth = (date) => {

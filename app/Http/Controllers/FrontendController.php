@@ -70,10 +70,24 @@ class FrontendController extends Controller
         return Inertia::render('Frontend/CategoryWiseEvent', $this->data);
     }
 
-    public function checkout(EventList $eventList) {
-        $this->data['events'] = EventList::with(['eventTickets', 'images'])->where('id', $eventList->id)->first();
+    public function checkout($url) {
+        $this->data['event'] = EventList::with(['images', 'eventTickets'])
+                                ->where('url', $url)
+                                ->orWhere('slug', $url)
+                                ->first();
+                                
         return Inertia::render('Frontend/Checkout', $this->data);
     }
+
+    public function payment($url) {
+        $this->data['event'] = EventList::with(['images', 'eventTickets'])
+                                ->where('url', $url)
+                                ->orWhere('slug', $url)
+                                ->first();
+                                
+        return Inertia::render('Frontend/PaymentMethod', $this->data);
+    }
+
     public function ticket_info($url) {
         $this->data['event'] = EventList::with(['eventTickets', 'images'])
                         ->where('url', $url)
