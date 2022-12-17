@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('status')->default(false);
             $table->text('link')->nullable();
             $table->json('settings')->nullable();
+            $table->boolean('featured')->default(false);
             $table->timestamps();
         });
     }

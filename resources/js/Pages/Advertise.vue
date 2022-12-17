@@ -16,44 +16,44 @@
                 <div class="settings--order-notification account-item" v-show="activeTab == 'lists'">
 
 
-                    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <div class="shadow mt-10 rounded border-t">
+                        <table class="w-full rounded">
+                            <thead class="border-b">
                                 <tr>
-                                    <th scope="col" class="py-3 px-6">
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
                                         Title
                                     </th>
-                                    <th scope="col" class="py-3 px-6">
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
                                         Image
                                     </th>
-                                    <th scope="col" class="py-3 px-6">
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
                                         Description
                                     </th>
-                                    <th scope="col" class="py-3 px-6">
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
                                         Status
                                     </th>
-                                    <th scope="col" class="py-3 px-6">
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
                                         Action
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="ad in advertises" :key="ad.id" class="bg-white border-b">
-                                    <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap">
+                                <tr v-for="ad in advertises" :key="ad.id" class="border-b">
+                                    <th scope="row" class="text-center px-2 py-4 text-gray-700">
                                         {{ ad.title }}
                                     </th>
-                                    <td class="py-4 px-6">
+                                    <td class="text-center px-2 py-4 text-gray-700">
                                         <img :src="ad.image" class="w-10" alt="">
                                     </td>
-                                    <td class="py-4 px-6">
+                                    <td class="text-center px-2 py-4 text-gray-700">
                                         {{ ad.description }}
                                     </td>
-                                    <td class="py-4 px-6">
+                                    <td class="text-center px-2 py-4 text-gray-700">
                                         <span v-if="ad.status == 0" class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Active</span>
                                         <span v-else class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Inactive</span>
                                     </td>
-                                    <td class="py-4 px-6">
-                                        <div class="flex gap-3">
+                                    <td class="text-center px-2 py-4 text-gray-700">
+                                        <div class="inline-flex gap-3 text-center px-2 py-4 mx-auto">
                                             <button @click="edit(ad)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                                             <button @click="deleteAd(ad)" :disabled="delete_form.processing" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
                                         </div>
@@ -86,16 +86,16 @@
                         <div class="element">
                             <label for="description"><span class="important">*</span>Image</label>
                             <div class="relative flex  items-center">
-                                <label class="cursor-pointer border flex items-center justify-center text-2xl border-dashed border-red-400 w-[150px] h-[150px] truncate font-bold bg-white p-4 bg-opacity-80 rounded">
-                                    + Image
+                                <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 w-[250px] h-[250px] truncate font-bold bg-white p-4 bg-opacity-80 rounded">
+                                    <span class="z-10 bg-white py-3 px-4 rounded-md shadow-md absolute bottom-4">+ Image</span>
                                     <input hidden type="file" name="image" accept="image/*" @change="(e) => {
                                         advertise_form.banner_image = e.target.files[0];
                                         onFileChange(e)
                                     }">
+                                    <div v-if="prev_img" class="flex-1 absolute top-0 left-0 flex gap-5 flex-wrap ml-5">
+                                        <img class="w-full h-full object-cover" :src="prev_img" alt="">
+                                    </div>
                                 </label>
-                                <div v-if="prev_img" class="flex-1 flex gap-5 flex-wrap ml-5">
-                                    <img class="w-[150px] h-[150px] object-cover" :src="prev_img" alt="">
-                                </div>
                             </div>
                             <div class="text-red-500" v-if="advertise_form.errors.image">{{ advertise_form.errors.image }}</div>
                         </div>

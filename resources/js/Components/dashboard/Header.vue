@@ -10,14 +10,19 @@
                 <Link :href="route('dashboard')">Events</Link>
                 <Link :href="route('advertise.index')">Advertise</Link>
                 <a href="#">Help</a>
-                <a href="#">Log out</a>
+                <a href="#" @click="logOutUser()">Log out</a>
             </div>
         </div>
     </header>
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3'
+import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/inertia-vue3';
+
+function logOutUser() {
+    Inertia.post(route('logout'));
+}
 </script>
 
 <style lang="scss" scoped>

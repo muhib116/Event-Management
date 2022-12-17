@@ -83,14 +83,15 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
     import Cart from '@/Components/Frontend/checkout/Cart.vue'
     import { onMounted } from 'vue'
     import useTicket from '@/Pages/Frontend/useTicket'
     import axios from 'axios'
+    import { useToast } from "vue-toastification";
 
+    const toast = useToast();
     const { cards, commission } = useTicket()
     
     const props = defineProps({
@@ -121,9 +122,16 @@
 
     const handlePayment = async (cards) => {
         let payload = preparePayload(cards)
+        if(!payload.length) {
+            toast.error("Please add ticket!", {
+                timeout: 2000,
+                position: "top-center",
+            })
+            return
+        }
         let res = await axios.post('ticket/sale', payload)
         if(res.status == 200){
-            // clean cards from localstorage
+            // clean cards from localStorage
             localStorage.clear('cards')
             window.location.href = route('payment.complete')
         }
@@ -134,12 +142,7 @@
             let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
             cards.value = cardsFromLocalStorage
         }
-
-        // preparePayload(cards.value)
     })
-
-
-
 </script>
 
 <style scoped>

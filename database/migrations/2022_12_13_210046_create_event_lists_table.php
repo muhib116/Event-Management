@@ -41,7 +41,7 @@ return new class extends Migration
             $table->text('twitter')->nullable();
             $table->text('facebook')->nullable();
             $table->json('settings')->nullable();
-            $table->boolean('publish')->default(false);
+            $table->boolean('publish')->default(true);
             
             $table->timestamps();
         });

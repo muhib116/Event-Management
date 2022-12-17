@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertise;
 use App\Models\EventList;
 use App\Models\MEvents;
 use Carbon\Carbon;
@@ -43,6 +44,7 @@ class FrontendController extends Controller
                                 ->orderBy('start_date', 'ASC')
                                 ->with(['eventTickets', 'images'])
                                 ->limit(10)->get();
+        $this->data['advertise'] = Advertise::limit(2)->get();
         // return $this->data;
         return Inertia::render('Frontend/Home', $this->data);
     }
