@@ -50,7 +50,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="inform-btn">
-                                                <Link class="bg-blue-600 text-white px-4 py-2 rounded" :href="route('payment', event.slug)" type="button">Continue to Payment</Link>
+                                                <Link v-if="!isEmpty(cards)" class="bg-blue-600 text-white px-4 py-2 rounded" :href="route('payment', event.slug)" type="button">Continue to Payment</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -68,12 +68,25 @@
 </template>
 
 <script setup>
+    import { onMounted } from 'vue'
+    import { isEmpty } from 'lodash'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
     import Cart from '@/Components/Frontend/checkout/Cart.vue'
+    import { useToast } from "vue-toastification";
+    import useTicket from '@/Pages/Frontend/useTicket'
 
+    const toast = useToast();
+    const { cards } = useTicket()
     const props = defineProps({
         event: Object
+    })    
+    
+    onMounted(() => {
+        if(localStorage.getItem('cards')){
+            let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
+            cards.value = cardsFromLocalStorage
+        }
     })
 </script>
 
