@@ -32,7 +32,7 @@
                  <label for="name">*Stock</label>
                  <div class="two-columns">
                     <select :class="validationFor.ticket_stock.hasError && 'border-red-500'" v-model="ticketForm.ticket_stock" id="tickets_stock">
-                       <option value="0">-select-</option>
+                       <option :value="null">-select-</option>
                        <option value="limited">Limited Stock</option>
                        <option value="unlimited">Unlimited Stock</option>
                     </select>
@@ -72,7 +72,7 @@
               </div>
               <h6 class="additional-information-heading">Do you want to collect additional information?</h6>
               
-               <template v-for="(item, index) in questions" :key="index">
+               <template v-for="(item, index) in ticketForm.questions" :key="index">
                   <div class="element">
                      <label for="question">Custom question</label>
                      <input type="text" v-model="item.question" name="question"> 
@@ -97,16 +97,15 @@
               <div class="add-other-question mt-8">
                  <button 
                      @click="() => {
-                        questions.push({...placeholderQuestion})
+                        ticketForm.questions.push({...placeholderQuestion})
                      }"
-                 >Add an other question</button> 
-                 <img src="../../../assets/images/star-bars.svg" alt="move-pro icon">
+                 >+ Add an other question</button> 
               </div>
 
               <div class="buttons">
                  <!-- <div class="button btn-light">skip (go to event publish page)</div> -->
-                 <div v-if="editable" class="button" @click="save">Create</div>
-                 <div v-else class="button" @click="save">Update</div>
+                 <div v-if="!editable" class="button" @click="save(ticketForm)">Create</div>
+                 <div v-else class="button" @click="update(ticketForm)">Update</div>
               </div>
            </div>
         </div>
@@ -114,14 +113,12 @@
 </template>
 
 <script setup>
-   import { ref, watch, onMounted } from 'vue'
+   import { ref, onMounted } from 'vue'
    import useTicket from '@/Pages/useTicket'
-   import { useToast } from "vue-toastification";
-
-   const toast = useToast();
-   const { ticketTypes, ticketForm, resetTicketForm, placeholderQuestion, questions, saveTicket, getEventId } = useTicket()
+   import { useToast } from "vue-toastification"
 
    const props = defineProps({
+      userId: [String, Number],
       modelValue: {
          type: Boolean
       },
@@ -133,19 +130,31 @@
          type: Boolean,
          default: false
       },
-      ticket: {
+      data: {
          type: Object,
          default: {}
       }
    })
+   const toast = useToast();
+   const { 
+      ticketTypes, 
+      ticketForm, 
+      placeholderQuestion, 
+      questions, 
+      resetTicketForm, 
+      saveTicket, 
+      getEventId, 
+      getTickets, 
+      updateTicket
+   } = useTicket()
+
 
    onMounted(() => {
       ticketForm.value.ticketType = 'Free'
+      if(props.editable){
+         ticketForm.value = props.data
+      }
    })
-
-   watch(questions.value, (value) => {
-      ticketForm.value.questions = questions.value
-   }, {deep: true})
 
    let validationFor = ref({
       ticket_name: {
@@ -179,11 +188,15 @@
          validationStatus = isValid
       }
       
+      if(ticketForm.value.ticket_stock == 'limited' && ticketForm.value.stock_limit==null){
+         validationStatus = false
+      }
+
       return validationStatus
    }
 
    const emit = defineEmits()
-   const save = async () => {
+   const save = async (payload) => {
       if(!validateThisPage()){
          toast.error("Required field must not be empty!", {
             timeout: 2000,
@@ -192,7 +205,8 @@
          return
       }
 
-      let res = await saveTicket(ticketForm.value, getEventId())
+      payload.user_id = props.userId
+      let res = await saveTicket(payload, getEventId())
       if(res.statusText == 'OK'){
          toast.success("Ticket created!", {
             timeout: 2000,
@@ -200,7 +214,26 @@
          })
 
          resetTicketForm()
+         getTickets(getEventId())
          props.callback()
+         emit('update:modelValue', false)
+         return
+      }
+      toast.error("Something went wrong!", {
+         timeout: 2000,
+         position: "top-center",
+      })
+   }
+
+   const update = (data) => {
+      let res = updateTicket(data, data.id)
+      if(res){
+         toast.success("Ticket updated!", {
+            timeout: 2000,
+            position: "top-center",
+         })
+         resetTicketForm()
+         getTickets(getEventId())
          emit('update:modelValue', false)
          return
       }

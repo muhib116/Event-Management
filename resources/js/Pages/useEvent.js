@@ -23,86 +23,103 @@ const eventsCategory = ref([
     {
         src: ArtsCulture,
         name: "Arts Culture",
+        slug: "arts-culture",
         isSelected: false
     },
     {
         src: Business,
         name: "Business",
+        slug: "business",
         isSelected: false
     },
     {
         src: Career,
         name: "Career",
+        slug: "career",
         isSelected: false
     },
     {
         src: Aid,
         name: 'Charity & Aid',
+        slug: "charity-and-aid",
         isSelected: false
     },
     {
         src: ChildrenYouth,
         name: "Children & Youth",
+        slug: "children-and-youth",
         isSelected: false
     },
     {
         src: Community,
         name: "Community",
+        slug: "community",
         isSelected: false
     },
     {
         src: FashionDesign,
         name: "Fashion & Design",
+        slug: "fashion-and-design",
         isSelected: false
     },
     {
         src: FoodDrink,
         name: "Food & Drink",
+        slug: "food-and-drink",
         isSelected: false
     },
     {
         src: Government,
         name: "Government",
+        slug: "government",
         isSelected: false
     },
     {
         src: Investments,
         name: "Investments",
+        slug: "investments",
         isSelected: false
     },
     {
         src: MediaFilm,
         name: "Media & Film",
+        slug: "media-and-film",
         isSelected: false
     },
     {
         src: MusicPerformances,
-        name: "Music & Performances",
+        name: "Concerts",
+        slug: "concerts",
         isSelected: false
     },
     {
         src: SchoolsEducation,
         name: "Schools & Education",
+        slug: "schools-and-education",
         isSelected: false
     },
     {
         src: SpiritualityReligion,
         name: "Spirituality & Religion",
+        slug: "spirituality-and-religion",
         isSelected: false
     },
     {
         src: SportsFitness,
         name: "Sports & Fitness",
+        slug: "sports-and-fitness",
         isSelected: false
     },
     {
         src: StartupsSmallBusiness,
         name: "Startups & Small Business",
+        slug: "startups-and-small-business",
         isSelected: false
     },
     {
         src: TechnologyScience,
         name: "Technology & Science",
+        slug: "technology-and-science",
         isSelected: false
     }
 ])
@@ -126,6 +143,9 @@ const eventForm = ref({
     eventType: null,
     name: null,
     description: null,
+    terms_and_conditions: null,
+    audience: null,
+    attention: null,
     location: null,
     url: null,
     locationTips: null,
@@ -147,7 +167,7 @@ const eventForm = ref({
 export default function useEvent(){
     const setActiveEvent = (item) => {
         eventsCategory.value.forEach(event => {
-            event.isSelected = (event.name == item.name)
+            event.isSelected = (event.slug == item.slug)
         })
     }
 
@@ -177,6 +197,15 @@ export default function useEvent(){
         if(!get(img, 'path')) return null
         return img.path
     }
+    const convertToSlug = (Text) => 
+    {
+        Text = Text
+            .toLowerCase()
+            .replace(/ /g,'-')
+            .replace(/[^\w-]+/g,'')
+            .replace(/--/g, '-')
+        return Text
+    } 
 
     return {
         eventsCategory,
@@ -187,6 +216,7 @@ export default function useEvent(){
         getParams,
         getEventId,
         getEvent,
-        get_banner
+        get_banner,
+        convertToSlug
     }
 }

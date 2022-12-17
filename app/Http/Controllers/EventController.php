@@ -9,21 +9,27 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
     public function index($eventType) {
         return Inertia::render('EventCreate', [
-            'eventType' => $eventType
+            'eventType' => $eventType,
+            'userId' => Auth::id()
         ]);
     }
 
     public function eventStore(Request $request) {
         $data = [
+            "user_id"    => $request->user_id,
             "eventType"    => $request->eventType,
             "name"         => $request->name,
             "slug"         => str()->slug($request->name),
             "description"  => $request->description,
+            "terms_and_conditions" => $request->terms_and_conditions,
+            "audience"      => $request->audience,
+            "attention"     => $request->attention,
             "location"     => $request->location,
             "url"          => $request->url,
             "locationTips" => $request->locationTips,
@@ -48,13 +54,18 @@ class EventController extends Controller
     }
 
     public function update(){
-        return Inertia::render('EventEdit');
+        return Inertia::render('EventEdit', [
+            'userId' => Auth::id()
+        ]);
     }
     public function eventEdit(Request $request, $eventId) {
         $data = [
             "eventType"    => $request->eventType,
             "name"         => $request->name,
             "description"  => $request->description,
+            "terms_and_conditions" => $request->terms_and_conditions,
+            "audience"     => $request->audience,
+            "attention"    => $request->attention,
             "location"     => $request->location,
             "url"          => $request->url,
             "locationTips" => $request->locationTips,
@@ -73,6 +84,15 @@ class EventController extends Controller
             "map_link"     => $request->map_link,
             "publish"     => $request->publish ? 1 : 0,
         ];
+
+        $res = EventList::where(['id' => $eventId])->update($data);
+        if($res){
+            return response()->json(['status' => true], 200);
+        }
+        return response()->json(['status' => false]);
+    }
+    public function editPublish(Request $request, $eventId) {
+        $data = ["publish" => $request->publish ? 1 : 0];
 
         $res = EventList::where(['id' => $eventId])->update($data);
         if($res){

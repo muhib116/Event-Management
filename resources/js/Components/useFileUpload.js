@@ -1,9 +1,9 @@
 import { ref } from 'vue'
 
 const imageFromApi = ref([])
-const preloader = ref(false)
 
 export default function useFileUpload() {
+    const preloader = ref(false)
     const imagePreview = (file, item, key) => {
         let FR = new FileReader()
         FR.readAsDataURL(file)

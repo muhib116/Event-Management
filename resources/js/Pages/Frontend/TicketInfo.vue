@@ -36,7 +36,9 @@
 
                     <div class="ticket-boxprt">
 
-                        <Box v-for="(ticket, index) in event.event_tickets" :key="index" :ticket="ticket"  />
+                        <template v-for="(ticket, index) in event.event_tickets" :key="index">
+                            <Box :ticket="ticket" v-if="!ticket.settings.isHidden"  />
+                        </template>
 
                     </div>
                 </div>

@@ -14,9 +14,10 @@ $data = [
 
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
-Route::get('/event-details/{url}', [FrontendController::class, 'event_details'])->name('eventDetails');
+Route::get('/event-details/{url}', [FrontendController::class, 'event_details'])->name('event.details');
 Route::get('/checkout/{EventList:slug}', [FrontendController::class, 'checkout'])->name('checkout');
 Route::post('/checkout/{EventList:slug}/process', [FrontendController::class, 'checkout_process'])->name('checkout.process');
+Route::get('/category/{category}', [FrontendController::class, 'category_wise_event'])->name('category.event');
 
 
 Route::get('/payment-method', function () use($data) {
@@ -35,5 +36,7 @@ Route::get('/payment-complete', function () {
 Route::get('/search-result', function () use($data) {
     return Inertia::render('Frontend/SearchResult', $data);
 })->name('search-result');
+
+
 
 Route::get('/ticket-info/{url}', [FrontendController::class, 'ticket_info'])->name('ticket-info');

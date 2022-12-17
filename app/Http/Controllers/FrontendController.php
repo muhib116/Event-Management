@@ -33,14 +33,14 @@ class FrontendController extends Controller
                                 ->withMin('eventTickets', 'price')
                                 ->where('publish', 1)
                                 ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d').'00:00:00')
-                                ->where('eventCategory', 'Arts Culture')
+                                ->where('eventCategory', 'arts-culture')
                                 ->orderBy('start_date', 'ASC') 
                                 ->limit(10)->get();
         $this->data['concerts_events'] = EventList::with(['images'])
                                 ->withMin('eventTickets', 'price')
                                 ->where('publish', 1)
                                 ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d').'00:00:00')
-                                ->where('eventCategory', 'Concerts')
+                                ->where('eventCategory', 'concerts')
                                 ->orderBy('start_date', 'ASC')
                                 ->with(['eventTickets', 'images'])
                                 ->limit(10)->get();
@@ -58,6 +58,16 @@ class FrontendController extends Controller
                         ->first();
                         
         return Inertia::render('Frontend/EventDetails', $this->data);
+    }
+
+
+    public function category_wise_event($category) {
+        $this->data['events'] = EventList::with(['images'])
+                                ->withMin('eventTickets', 'price')
+                                ->where('eventCategory', 'LIKE', '%'.$category.'%')
+                                ->limit(500)->get();
+                        
+        return Inertia::render('Frontend/CategoryWiseEvent', $this->data);
     }
 
     public function checkout(EventList $eventList) {

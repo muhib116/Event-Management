@@ -19,7 +19,7 @@
             <!-- <Link :href="route('tickets', getEventId())" class="button">Skip and do this later</Link> -->
          </div>
  
-         <TicketCreatePopup v-model="showPopup" :callback="redirectToTicketsPage"/>
+         <TicketCreatePopup v-model="showPopup" :userId="userId" :callback="redirectToTicketsPage"/>
     </div>
 </template>
 
@@ -29,9 +29,13 @@
    import { Link } from '@inertiajs/inertia-vue3'
    import useTicket from '@/Pages/useTicket.js'
 
+   const props = defineProps({
+      userId: [String, Number]
+   })
    const { getEventId } = useTicket()
    const showPopup = ref(false)
    const redirectToTicketsPage = () => {
+      console.log('callback...')
       window.location.href = route('tickets', getEventId())
    }
 </script>

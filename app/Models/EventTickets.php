@@ -12,5 +12,6 @@ class EventTickets extends Model
     protected $guarded = ['id'];
     protected $casts = [
         'settings' => 'array',
+        'questions' => 'array',
     ];
 }

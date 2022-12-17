@@ -1,4 +1,7 @@
 import { ref } from 'vue'
+
+const ticketList = ref([])
+
 export default function useTicket()
 {
     const ticketTypes = ref([
@@ -34,8 +37,10 @@ export default function useTicket()
         ticket_description: null,
         perks: null,
         isTransferFeesToGuest: null,
-        questions: null,
-        settings: {},
+        questions: [],
+        settings: {
+            isHidden: false
+        },
     }
 
     const ticketForm = ref({...defaultData})
@@ -53,9 +58,22 @@ export default function useTicket()
         return axios.post(`create/ticket/${eventId}`, data)
     }
 
+    const updateTicket = async (payload, id) => {
+        let { data } = await axios.post(`update/ticket/${id}`, payload)
+        return data.status
+    }
+
     const getTickets = async (eventId) => {
         let { data } = await axios.get(`get/tickets/${eventId}`)
-        return data
+        ticketList.value = data
+    }
+
+    const deleteTicket = (ticketId) => {
+        return axios.get(`delete/ticket/${ticketId}`)
+    }
+
+    const duplicateTicket = (ticketId) => {
+        return axios.get(`duplicate/ticket/${ticketId}`)
     }
 
     return {
@@ -63,9 +81,13 @@ export default function useTicket()
         ticketForm,
         placeholderQuestion,
         questions,
+        ticketList,
         getEventId,
         saveTicket,
         getTickets,
-        resetTicketForm
+        resetTicketForm,
+        updateTicket,
+        duplicateTicket,
+        deleteTicket,
     }
 }

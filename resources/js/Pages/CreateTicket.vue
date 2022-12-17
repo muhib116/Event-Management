@@ -4,7 +4,7 @@
             <Header />
             <div class="event-creation step-3 ">
                 <Step step="3"/>
-                <CreateTicket />
+                <CreateTicket :userId="userId" />
             </div>
         </AuthenticatedLayout>
     </Master>
@@ -16,6 +16,10 @@
     import Step from '@/Components/dashboard/event/Step.vue'
     import CreateTicket from '@/Components/dashboard/event/CreateTicket.vue'
     import Master from './Master.vue'
+    
+    const props = defineProps({
+        userId: [String, Number]
+    })
 </script>
 
 <style scoped>

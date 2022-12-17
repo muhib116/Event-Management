@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // event api
 Route::post('store/event', [EventController::class, 'eventStore'])->name('event.store');
 Route::post('event/edit/{eventId}', [EventController::class, 'eventEdit'])->name('event.edit');
+Route::post('event/publish/{eventId}', [EventController::class, 'editPublish'])->name('event.publish');
 Route::get('event/{eventList}', [EventController::class, 'getEvent'])->name('event.get');
 
 // fileUpload api
@@ -36,4 +37,7 @@ Route::get('file-delete/{id}', [FileUploadController::class, 'fileDelete'])->nam
 
 // ticket api
 Route::post('create/ticket/{event_id}', [EventTicketController::class, 'store'])->name('ticket.create');
+Route::post('update/ticket/{id}', [EventTicketController::class, 'update'])->name('ticket.update');
 Route::get('get/tickets/{event_id}', [EventTicketController::class, 'getTicket'])->name('ticket.create');
+Route::get('duplicate/ticket/{id}', [EventTicketController::class, 'duplicate'])->name('ticket.duplicate');
+Route::get('delete/ticket/{id}', [EventTicketController::class, 'deleteTicket'])->name('ticket.delete');
