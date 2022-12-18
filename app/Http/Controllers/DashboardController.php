@@ -15,6 +15,7 @@ class DashboardController extends Controller
     public function index() {
         $sales = collect([]);
         $query = EventList::query();
+
         $query->withSum('eventTickets', 'sold')->with(['images']);
         if (auth()->user()->type == 'organizer' || auth()->user()->type == 'clients') {
             $query->where('user_id', auth()->id());
@@ -40,11 +41,15 @@ class DashboardController extends Controller
 
         $events = $query->limit(900)
                 ->orderBy('created_at', 'DESC')
-                ->get()
-                ->map(function($item) {
-                    $item->start_date = Carbon::parse($item->start_date)->diffForHumans();
+                ->paginate(12)
+                ->through(function ($item) {
+                    $item['start_date'] = Carbon::parse($item->start_date)->diffForHumans();;
                     return $item;
                 });
+                // ->map(function($item) {
+                //     $item->start_date = Carbon::parse($item->start_date)->diffForHumans();
+                //     return $item;
+                // });
         $commission = 0; // (($sales->sum('price') / 100) * $sales->sum('commission'))
         $total_sales_amount =  0; //$sales->sum('price') - $commission;
         foreach ($sales as $key => $v) {
@@ -53,15 +58,22 @@ class DashboardController extends Controller
             $total_sales_amount += ($v->price * $v->quantity) - $t_com;
         }
         // dd($events);
-
+        $total_organizer = 0;
+        $total_clients = 0;
+        if (auth()->user()->type == 'admin') {
+            $total_organizer = User::where('type', 'organizer')->count();
+            $total_clients = User::where('type', 'clients')->count();
+        }
         return Inertia::render('Dashboard', [
             'events' => $events,
             'user' => auth()->user(),
-            'total_sales_quantity' => $total_sales_quantity,
+            'total_sales_quantity' => (int)$total_sales_quantity,
             'total_sales_amount' => round($total_sales_amount, 2),
             'total_commission' => round($commission, 2),
             'total_event' => $total_event,
             'total_ticket' => $total_ticket,
+            'total_organizer' => $total_organizer,
+            'total_clients' => $total_clients,
         ]);
     }
 }
