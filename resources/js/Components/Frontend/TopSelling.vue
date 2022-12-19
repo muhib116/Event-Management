@@ -7,30 +7,12 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div v-for="top_selling in $page.props.top_selling_events" :key="top_selling.id" class="col-md-4">
                     <div class="selling-item">
-                        <img src="@/assets/frontend/images/selling1.png" alt="">
+                        <img :src="top_selling.images[0].path" alt="">
                         <div class="selling-cnt">
-                            <h4>Hillsong: Wonder Tour</h4>
-                            <p>5 tickets left!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                     <div class="selling-item">
-                        <img src="@/assets/frontend/images/selling2.png" alt="">
-                        <div class="selling-cnt">
-                            <h4>Hamilton the Musical</h4>
-                            <p>8 tickets left!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="selling-item">
-                        <img src="@/assets/frontend/images/selling3.png" alt="">
-                        <div class="selling-cnt">
-                            <h4>Batavia Madrigal Singers</h4>
-                            <p>11 tickets left!</p>
+                            <h4>{{ top_selling.name }}</h4>
+                            <p>{{ top_selling.tickets_stock_limit - top_selling.ticket_sold }} tickets left!</p>
                         </div>
                     </div>
                 </div>

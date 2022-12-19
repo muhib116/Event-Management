@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Advertise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class AvaertiseController extends Controller
@@ -13,6 +14,7 @@ class AvaertiseController extends Controller
     {
         if (auth()->user()->type != 'admin') {
             abort(404);
+            return Redirect::route('home');
         }
     }
     public function index() {

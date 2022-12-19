@@ -12,6 +12,7 @@ require_once('my-route/frontend.php');
 require_once('my-route/event.php');
 require_once('my-route/ticket.php');
 require_once('my-route/advertise.php');
+require_once('my-route/setting.php');
 
 Route::group(['middleware' => ['auth', 'verified']],function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
