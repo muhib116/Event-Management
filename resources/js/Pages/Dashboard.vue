@@ -8,7 +8,7 @@ import { onMounted } from '@vue/runtime-core';
 const { dashboard } = useDashboard();
 const props = defineProps({
     events: {
-        type: Array
+        type: Object
     },
     user: {
         type: Object,
