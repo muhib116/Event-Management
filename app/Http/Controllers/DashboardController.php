@@ -40,6 +40,7 @@ class DashboardController extends Controller
         }
 
         $events = $query->limit(900)
+                ->with('user')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(12)
                 ->through(function ($item) {

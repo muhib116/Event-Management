@@ -27,20 +27,40 @@ class FrontendController extends Controller
         $this->data['upcoming_events'] = EventList::with(['images'])
                                 ->withMin('eventTickets', 'price')
                                 ->where('publish', 1)
-                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d').'00:00:00')
+                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
                                 ->orderBy('start_date', 'ASC')
                                 ->limit(10)->get();
         $this->data['arts_events'] = EventList::with(['images'])
                                 ->withMin('eventTickets', 'price')
                                 ->where('publish', 1)
-                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d').'00:00:00')
+                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
                                 ->where('eventCategory', 'arts-culture')
                                 ->orderBy('start_date', 'ASC') 
                                 ->limit(10)->get();
+        // $this->data['category_events'] = EventList::with(['images'])
+        //                         // ->withMin('eventTickets', 'price')
+        //                         ->where('publish', 1)
+        //                         ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
+        //                         // ->where('eventCategory', 'arts-culture')
+        //                         ->orderBy('start_date', 'ASC') 
+        //                         ->select(DB::raw('eventCategory'))
+        //                         // ->groupBy('eventCategory')
+        //                         ->get();
+        $this->data['category_events'] = EventList::with(['images'])
+                                // ->withMin('eventTickets', 'price')
+                                ->where('publish', 1)
+                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
+                                // ->where('eventCategory', 'arts-culture')
+                                ->orderBy('start_date', 'ASC') 
+                                // ->selectRaw('*')
+                                // ->select(DB::raw('eventCategory'))
+                                // ->groupBy('eventCategory')
+                                ->get();
+                                
         $this->data['concerts_events'] = EventList::with(['images'])
                                 ->withMin('eventTickets', 'price')
                                 ->where('publish', 1)
-                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d').'00:00:00')
+                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
                                 ->where('eventCategory', 'concerts')
                                 ->orderBy('start_date', 'ASC')
                                 ->with(['eventTickets', 'images'])
@@ -62,9 +82,17 @@ class FrontendController extends Controller
                                     }
                                     return false;
                                 })->take(3);
-
-// return $this->data['top_selling_events'];
-        $this->data['featured_advertise'] = Advertise::where('featured', 1)->get();
+        // return $this->data['category_events'];
+        // return $this->data['top_selling_events'];
+        $this->data['featured_advertise'] = Advertise::where('featured', 1)
+                                            ->orderBy('position', 'ASC')
+                                            ->where('end_at', '>', Carbon::now())
+                                            ->get()
+                                            ->map(function ($item) {
+                                                $item['start_at'] = Carbon::parse($item->start_at)->format('Y-m-d H:i:s A');
+                                                $item['end_at'] = Carbon::parse($item->end_at)->format('Y-m-d H:i:s A');
+                                                return $item;
+                                            });
         // return $this->data;
         return Inertia::render('Frontend/Home', $this->data);
     }

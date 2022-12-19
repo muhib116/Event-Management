@@ -36,6 +36,12 @@
                                         Status
                                     </th>
                                     <th scope="col" class="px-2 py-4 text-gray-700">
+                                        Position
+                                    </th>
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
+                                        Time frame
+                                    </th>
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
                                         Action
                                     </th>
                                 </tr>
@@ -58,6 +64,12 @@
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         <span v-if="ad.status" class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Active</span>
                                         <span v-else class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Inactive</span>
+                                    </td>
+                                    <td class="text-center px-2 py-4 text-gray-700">
+                                        {{ ad.position }}
+                                    </td>
+                                    <td class="text-center px-2 py-4 text-gray-700">
+                                        {{ ad.start_at }} - {{ ad.end_at }}
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         <div class="inline-flex gap-3 text-center px-2 py-4 mx-auto">
@@ -88,6 +100,23 @@
                             <label for="description">Description</label>
                             <textarea name="description" id="description" rows="3" placeholder="Description" v-model="advertise_form.description"></textarea>
                             <div class="text-red-500" v-if="advertise_form.errors.description">{{ advertise_form.errors.description }}</div>
+                        </div>
+                        <div class="element">
+                            <label for="position">Position</label>
+                            <input type="number" id="position" name="position" v-model="advertise_form.position">
+                            <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="element">
+                                <label for="start_at">Start At</label>
+                                <input type="datetime-local" id="start_at" name="start_at" v-model="advertise_form.start_at">
+                                <div class="text-red-500" v-if="advertise_form.errors.start_at">{{ advertise_form.errors.start_at }}</div>
+                            </div>
+                            <div class="element">
+                                <label for="end_at">End At</label>
+                                <input type="datetime-local" id="end_at" name="end_at" v-model="advertise_form.end_at">
+                                <div class="text-red-500" v-if="advertise_form.errors.end_at">{{ advertise_form.errors.end_at }}</div>
+                            </div>
                         </div>
                         <div class="element">
                             <label for="featured">Featured</label>
@@ -203,7 +232,10 @@ const advertise_form = useForm({
     banner_image: null,
     advertise_id: null,
     featured: 0,
-    status: 1
+    status: 1,
+    position: null,
+    start_at: null,
+    end_at: null,
 });
 
 const delete_form = useForm({
@@ -237,6 +269,9 @@ function edit(ad) {
     advertise_form.advertise_id = ad.id;
     advertise_form.featured = ad.featured;
     advertise_form.status = ad.status;
+    advertise_form.position = ad.position;
+    advertise_form.start_at = ad.start_at;
+    advertise_form.end_at = ad.end_at;
     prev_img.value = ad.image;
 }
 

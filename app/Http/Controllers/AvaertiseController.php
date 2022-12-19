@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertise;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -19,7 +20,13 @@ class AvaertiseController extends Controller
     }
     public function index() {
         $this->check();
-        $advertises = Advertise::orderBy('created_at', 'DESC')->get();
+        $advertises = Advertise::orderBy('position', 'ASC')
+                        ->get()
+                        ->map(function ($item) {
+                            // $item['start_at'] = Carbon::parse($item->start_at)->format('Y-m-d H:i:s A');
+                            // $item['end_at'] = Carbon::parse($item->end_at)->format('Y-m-d H:i:s A');
+                            return $item;
+                        });
         return Inertia::render('Advertise', [
             'advertises' => $advertises,
         ]);
@@ -43,6 +50,9 @@ class AvaertiseController extends Controller
                 'status' => $request->status,
                 'link' => $request->link,
                 'featured' => $request->featured,
+                'position' => $request->position,
+                'start_at' => $request->start_at,
+                'end_at' => $request->end_at,
                 'settings' => $request->settings ? $request->settings : null,
             ];
             if ($request->hasFile('banner_image')) {
@@ -72,6 +82,9 @@ class AvaertiseController extends Controller
                 'status' => $request->status,
                 'link' => $request->link,
                 'featured' => $request->featured,
+                'position' => $request->position,
+                'start_at' => $request->start_at,
+                'end_at' => $request->end_at,
                 'settings' => $request->settings ? $request->settings : null,
             ]);
         }

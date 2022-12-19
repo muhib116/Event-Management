@@ -21,4 +21,8 @@ class EventList extends Model
     public function images() {
         return $this->hasMany(Images::class, 'foreign_id');
     }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
