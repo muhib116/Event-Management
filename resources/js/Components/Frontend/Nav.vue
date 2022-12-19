@@ -19,8 +19,12 @@
                             <li><Link :href="route('category.event', 'investments')">Investments</Link></li>            
                         </ul>
                         <ul class="navbar-nav nav-btn ms-auto">            
-                            <li><Link :href="route('login')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Log In</Link></li> 
-                            <li><Link class="active" :href="route('register')">Sign Up</Link></li> 
+                            <li>
+                                <button @click="logoutNow">Logout</button>
+                                <button @click="login">Log in</button>
+                            </li> 
+                            <!-- <li><Link :href="route('login')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">L og In</Link></li>  -->
+                            <!-- <li><Link class="active" :href="route('register')">Sign Up</Link></li>  -->
                         </ul>
                     </div>
                 </nav>
@@ -31,15 +35,37 @@
 </template>
 
 <script setup>
-    import Sidebar from './Sidebar.vue';
+    import Sidebar from './Sidebar.vue'
     import { ref } from 'vue'
-    import { Link } from '@inertiajs/inertia-vue3';
+    import { Link } from '@inertiajs/inertia-vue3'
+    import useAuth from '@/useAuth.js'
 
+    const { 
+        login,
+        logoutNow,
+        isLogIn
+     } = useAuth()
     const showOffCanvas = ref(false)
 </script>
 
 
 <style scoped>
+    .nav-btn li button {
+        font-family: 'General Sans', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        color: #4F4CEE;
+        background: #FFFFFF;
+        border: 1px solid #4F4CEE;
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+    .nav-btn li button:hover, .nav-btn li .active {
+        background: #4F4CEE;
+        color: #FFFFFF;
+    }
+
     @media all and (max-width: 992px){
         .navbar-collapse{
             display: none;
