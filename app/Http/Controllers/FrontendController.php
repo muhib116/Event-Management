@@ -51,13 +51,18 @@ class FrontendController extends Controller
                                 ->withSum('eventTickets as ticket_sold', 'sold')
                                 ->withSum('eventTickets as tickets_stock_limit', 'stock_limit')
                                 // ->with(['eventTickets' => function($q) {
-                                //     return $q->where('');
+                                //     return $q->select('stock_limit,sold');
                                 // }])
-                                // ->with(DB::raw('SUM(event_tickets.sold > 0'))
-                                // ->where('ticket_sold', '<', 'tickets_stock_limit')
-                                // ->with('eventTickets')
                                 ->orderBy('ticket_sold', 'DESC')
-                                ->limit(3)->get();
+                                ->get()->filter(function($item) {
+                                    $stock_limit = $item->eventTickets->sum('stock_limit');
+                                    $sold = $item->eventTickets->sum('sold');
+                                    if ($stock_limit > $sold) {
+                                        return true;
+                                    }
+                                    return false;
+                                })->take(3);
+
 // return $this->data['top_selling_events'];
         $this->data['featured_advertise'] = Advertise::where('featured', 1)->get();
         // return $this->data;
