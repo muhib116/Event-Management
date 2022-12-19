@@ -5,7 +5,8 @@
         <Banner />
         <SearchBar />
         <EventCarousel :data="upcoming_events" title="Upcoming Events" />
-        <HotOffers :data="featured_advertise" />
+        <OfferCarousel :data="featured_advertise" />
+        <!-- <HotOffers :data="featured_advertise" /> -->
         <TopSelling />
         <div
             v-for="(events, key, index) in category_events"
@@ -28,6 +29,7 @@
     import EventCarousel from '@/Components/Frontend/EventCarousel.vue'
     import HotOffers from '@/Components/Frontend/HotOffers.vue'
     import TopSelling from '@/Components/Frontend/TopSelling.vue'
+import OfferCarousel from '@/Components/Frontend/OfferCarousel.vue'
 
     defineProps({
         canLogin: Boolean,

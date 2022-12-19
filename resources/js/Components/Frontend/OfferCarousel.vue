@@ -1,21 +1,25 @@
 <template>
-    <div v-if="!isEmpty(data)" class="upcome-area">
+    <div v-if="!isEmpty(data)" class="offer-area">
         <div class="container">
             <div class="upcome-upper">
-                <h2>{{ title }}</h2>
+                <h2>Hot Offers</h2>
+                <a href="#">View All <i class="fas fa-chevron-right" aria-hidden="true"></i></a>
             </div>
 
-            <div class="main-content relative">
+            <div class="row relative">
                 <Carousel ref="myCarousel" :settings="settings" :breakpoints="breakpoints">
                     <Slide v-for="(item, index) in data" :key="index">
-                        <EventCard :item="item" />
+                        <a target="_blank" :href="item.link" class="block w-full">
+                            <div class="offer-item">
+                                <img :src="item.image" alt="" class="h-[300px] object-cover object-center block w-full">
+                            </div>
+                        </a>
                     </Slide>
                 
                     <template #addons>
                         <Pagination />
                     </template>
-                </Carousel>
-
+                </Carousel> 
                 <div class="absolute top-1/2 transform -translate-y-10 flex gap-2 w-full justify-between">
                     <button @click="myCarousel.prev()" class="px-[12px] py-2 rounded bg-[#4f4cee] text-white">
                         <svg width="10" height="17" viewBox="0 0 10 17" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -31,18 +35,18 @@
             </div>
         </div>
     </div>
-  </template>
+
+</template>
   
 <script setup>
     import { isEmpty } from 'lodash'
     import { Carousel, Slide, Pagination } from 'vue3-carousel'
     import '@/assets/frontend/carouselStyle.css'
     import { ref } from 'vue'
-    import EventCard from './components/EventCard.vue'
+    import HotOffers from './HotOffers.vue';
 
     const props = defineProps({
         data: Array,
-        title: String
     }) 
 
     const myCarousel = ref(null)  
@@ -54,12 +58,12 @@
     const breakpoints = {
         // 700px and up
         700: {
-          itemsToShow: 3,
+          itemsToShow: 1,
           snapAlign: 'center',
         },
         // 1024 and up
         1024: {
-          itemsToShow: 4,
+          itemsToShow: 2,
           snapAlign: 'start',
         },
     }

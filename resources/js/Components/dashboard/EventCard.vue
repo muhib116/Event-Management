@@ -16,7 +16,7 @@
                 <div class="bottom">
                     <div class="date">
                         {{ event.start_date }} by 
-                        <span class="text-green-400">{{ event.user.first_name }} {{ event.user.last_name }}</span>
+                        <span class="text-orange-600">{{ event.user.first_name }} {{ event.user.last_name }}</span>
                     </div>
                     <div class="state">Tickets Sold</div>
                 </div>

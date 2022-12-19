@@ -46,17 +46,20 @@ class FrontendController extends Controller
     }
     public function index() {
         $this->data['upcoming_events'] = EventList::with(['images'])
-                                ->withMin('eventTickets', 'price')
+                                ->withMin('eventTickets as min_price', 'price')
+                                ->withMax('eventTickets as max_price', 'price')
                                 ->where('publish', 1)
                                 ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
                                 ->orderBy('start_date', 'ASC')
+                                // ->whereHas('eventTickets')
                                 ->limit(10)->get();
         $this->data['arts_events'] = EventList::with(['images'])
-                                ->withMin('eventTickets', 'price')
+                                ->withMin('eventTickets as min_price', 'price')
+                                ->withMax('eventTickets as max_price', 'price')
                                 ->where('publish', 1)
                                 ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
                                 ->where('eventCategory', 'arts-culture')
-                                ->orderBy('start_date', 'ASC') 
+                                ->orderBy('created_at', 'ASC') 
                                 ->limit(10)->get();
         // $this->data['category_events'] = EventList::with(['images'])
         //                         // ->withMin('eventTickets', 'price')
@@ -84,12 +87,15 @@ class FrontendController extends Controller
                                 ->where('publish', 1)
                                 ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
                                 ->where('eventCategory', 'concerts')
-                                ->orderBy('start_date', 'ASC')
                                 ->with(['eventTickets', 'images'])
+                                ->orderBy('created_at', 'DESC')
                                 ->limit(10)->get();
 
         $this->data['top_selling_events'] = EventList::with(['images'])
                                 ->where('publish', 1)
+                                ->withMin('eventTickets', 'price')
+                                ->withMax('eventTickets', 'price')
+                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
                                 ->withSum('eventTickets as ticket_sold', 'sold')
                                 ->withSum('eventTickets as tickets_stock_limit', 'stock_limit')
                                 // ->with(['eventTickets' => function($q) {
@@ -115,29 +121,32 @@ class FrontendController extends Controller
                                                 $item['end_at'] = Carbon::parse($item->end_at)->format('Y-m-d H:i:s A');
                                                 return $item;
                                             });
-        // return $this->data;
+
         $cevnt = [];
         foreach ($this->eventsCategory as $nm) {
             $evnt = EventList::with(['images'])
-                    ->withMin('eventTickets', 'price')
+                    ->withMin('eventTickets as min_price', 'price')
+                    ->withMax('eventTickets as max_price', 'price')
                     ->where('publish', 1)
                     ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
                     ->where('eventCategory', $nm)
-                    ->orderBy('start_date', 'ASC')
+                    ->orderBy('created_at', 'DESC')
                     ->with(['eventTickets', 'images'])
                     ->limit(10)->get();
-            if (count($evnt) > 3) {
+            if (count($evnt) > 3) { 
                 $cevnt[$nm] = $evnt;
             }
         }
         $this->data['category_events'] = collect($cevnt);
+        // return $this->data['category_events'];
         return Inertia::render('Frontend/Home', $this->data);
     }
 
 
     public function event_details($url) {
         $this->data['event'] = EventList::with(['images'])
-                        ->withMin('eventTickets', 'price')
+                        ->withMin('eventTickets as min_price', 'price')
+                        ->withMax('eventTickets as max_price', 'price')
                         ->where('url', $url)
                         ->orWhere('slug', $url)
                         ->first();
@@ -148,7 +157,8 @@ class FrontendController extends Controller
 
     public function category_wise_event($category) {
         $this->data['events'] = EventList::with(['images'])
-                                ->withMin('eventTickets', 'price')
+                                ->withMin('eventTickets as min_price', 'price')
+                                ->withMax('eventTickets as max_price', 'price')
                                 ->where('eventCategory', 'LIKE', '%'.$category.'%')
                                 ->limit(500)->get();
                         
@@ -157,6 +167,8 @@ class FrontendController extends Controller
 
     public function checkout($url) {
         $this->data['event'] = EventList::with(['images', 'eventTickets'])
+                                ->withMin('eventTickets as min_price', 'price')
+                                ->withMax('eventTickets as max_price', 'price')
                                 ->where('url', $url)
                                 ->orWhere('slug', $url)
                                 ->first();
@@ -166,6 +178,8 @@ class FrontendController extends Controller
 
     public function payment($url) {
         $this->data['event'] = EventList::with(['images', 'eventTickets'])
+                                ->withMin('eventTickets as min_price', 'price')
+                                ->withMax('eventTickets as max_price', 'price')
                                 ->where('url', $url)
                                 ->orWhere('slug', $url)
                                 ->first();
@@ -175,6 +189,8 @@ class FrontendController extends Controller
 
     public function ticket_info($url) {
         $this->data['event'] = EventList::with(['eventTickets', 'images'])
+                        ->withMin('eventTickets as min_price', 'price')
+                        ->withMax('eventTickets as max_price', 'price')
                         ->where('url', $url)
                         ->orWhere('slug', $url)
                         ->first();
@@ -183,8 +199,15 @@ class FrontendController extends Controller
     }
 
     public function process(Request $request ,EventList $eventList) {
-        $this->data['events'] = $eventList;
+        $this->data['events'] = EventList::withMin('eventTickets as min_price', 'price')
+                            ->withMax('eventTickets as max_price', 'price')
+                            ->find($eventList);
         return Inertia::render('Frontend/Checkout', $this->data);
+    }
+
+    public function filterPage(Request $request) {
+        // $keyword = $request->keyword;
+        return Inertia::render('Frontend/SearchResult', $this->data);
     }
 
 }

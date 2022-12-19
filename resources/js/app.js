@@ -2,6 +2,7 @@ import './bootstrap';
 import '../css/app.css';
 import './assets/backend/styles/css/main.css';
 import "vue-toastification/dist/index.css";
+import 'element-plus/dist/index.css'
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
@@ -10,6 +11,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import axios from 'axios'
 import Toast from "vue-toastification";
 import { createAuth0 } from '@auth0/auth0-vue';
+import ElementPlus from 'element-plus'
 
 
 axios.defaults.baseURL = `${window.location.origin}/api/`;
@@ -27,6 +29,7 @@ createInertiaApp({
                 maxToasts: 20,
                 newestOnTop: true
             })
+            .use(ElementPlus)
             .use(
                 createAuth0({
                     domain: "dev-8xgi8q5dp4sbgcnn.us.auth0.com",

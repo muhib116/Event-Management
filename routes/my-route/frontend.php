@@ -33,9 +33,7 @@ Route::get('/payment-complete', function () {
     ]);
 })->name('payment.complete');
 
-Route::get('/search-result', function () use($data) {
-    return Inertia::render('Frontend/SearchResult', $data);
-})->name('search-result');
+Route::get('/search-result', [FrontendController::class, 'filterPage'])->name('search-result');
 
 
 

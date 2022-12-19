@@ -1,4 +1,5 @@
 
+<!-- target 24-12-2022 -->
 
 ✅1: Logout
 ✅2: Advertise image like banner image
@@ -42,6 +43,16 @@
     -- ✅advertise position number and send as asc order
     -- ✅advertise time limit (start date, end date)
     -- ✅update advertise to disable when out of date
+    -- ✅remove view all from top selling section
+    -- ✅Hot offer slider and remove view all from there
+    -- ✅category carosel padding
+    -- event details manage guest list
+    -- guest management
+    -- organizer manage with payment system
 
-
-
+    -- site settings
+        -- logo, banner image, title
+        -- search page 
+        -- ✅date range
+        -- ✅ticket min max price
+        -- admin can set currency and commission

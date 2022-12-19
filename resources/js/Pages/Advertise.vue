@@ -55,7 +55,7 @@
                                         <img :src="ad.image" class="w-10" alt="">
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
-                                        {{ ad.description }}
+                                        {{ ad.description ? ad.description : 'N/A' }}
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         <span v-if="ad.featured" class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Featured</span>
@@ -66,11 +66,15 @@
                                         <span v-else class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Inactive</span>
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
-                                        {{ ad.position }}
+                                        {{ ad.position ? ad.position : 'N/A' }}
                                     </td>
-                                    <td class="text-center px-2 py-4 text-gray-700">
+                                    <td v-if="ad.start_at && ad.end_at" class="text-center px-2 py-4 text-gray-700">
                                         {{ ad.start_at }} - {{ ad.end_at }}
                                     </td>
+                                    <td v-else class="text-center px-2 py-4 text-gray-700">
+                                        N/A
+                                    </td>
+
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         <div class="inline-flex gap-3 text-center px-2 py-4 mx-auto">
                                             <button @click="edit(ad)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
@@ -101,10 +105,25 @@
                             <textarea name="description" id="description" rows="3" placeholder="Description" v-model="advertise_form.description"></textarea>
                             <div class="text-red-500" v-if="advertise_form.errors.description">{{ advertise_form.errors.description }}</div>
                         </div>
-                        <div class="element">
-                            <label for="position">Position</label>
-                            <input type="number" id="position" name="position" v-model="advertise_form.position">
-                            <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> 
+                            <div class="flex flex-col gap-[10px] mb-[40px] focus:border-red-600">
+                                <label for="position">Position</label>
+                                <el-date-picker
+                                    v-model="value1"
+                                    class="w-full border-none py-3 h-[40px]"
+                                    type="datetimerange"
+                                    start-placeholder="Start Date"
+                                    end-placeholder="End Date"
+                                    :default-time="defaultTime2"
+                                />
+                                <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
+                            </div>
+                            <div class="element">
+                                <label for="position">Position</label>
+                                <input type="number" id="position" name="position" v-model="advertise_form.position">
+                                <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
+                            </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="element">
@@ -158,6 +177,7 @@
                             <div class="text-red-500" v-if="advertise_form.errors.image">{{ advertise_form.errors.image }}</div>
                         </div>
                     </div>
+                    
                     <div class="save flex gap-3">
                         <button @click="cancelEdit()" v-if="advertise_form.advertise_id!==null" class="button" type="button">
                             <span>Cancel</span>
@@ -198,6 +218,25 @@
 .event-details textarea:focus {
     border-color: var(--normal-orange);
 }
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+.block:last-child {
+  border-right: none;
+}
+.block .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.el-range-editor.is-active,
+.el-range-editor.is-active:hover {
+    box-shadow: 0 0 0 1px #e83c3c inset !important;
+}
 </style>
 <script setup>
 import { ref } from '@vue/reactivity';
@@ -210,7 +249,7 @@ import "vue-toastification/dist/index.css";
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from "vue-toastification";
-import { onMounted } from '@vue/runtime-core';
+import { onMounted, watch } from '@vue/runtime-core';
 const toast = useToast();
 
 const props = defineProps({
@@ -221,9 +260,19 @@ const props = defineProps({
 });
 
 const activeTab = ref('lists');
-
+watch(activeTab, () => {
+    if (activeTab.value == 'lists') {
+        advertise_form.reset();
+    }
+})
 const prev_img = ref(false);
-
+const value1 = ref('')
+const value2 = ref('')
+const defaultTime1 = new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
+const defaultTime2 = [
+  new Date(2000, 1, 1, 12, 0, 0),
+  new Date(2000, 2, 1, 8, 0, 0),
+] // '12:00:00', '08:00:00'
 
 const advertise_form = useForm({
     title: null,
@@ -261,6 +310,7 @@ function cancelEdit() {
     prev_img.value = false;
     activeTab.value = 'lists';
 }
+
 function edit(ad) {
     activeTab.value = 'create';
     advertise_form.title = ad.title;
@@ -272,7 +322,13 @@ function edit(ad) {
     advertise_form.position = ad.position;
     advertise_form.start_at = ad.start_at;
     advertise_form.end_at = ad.end_at;
+    let start_d = new Date(ad.start_at);
+    // value1.value = new Date(start_d.getFullYear(), start_d.getMonth(), start_d.getDate(), start_d.getHours(), start_d.getMinutes(), start_d.getSeconds());
+    // defaultTime2[0] = new Date(ad.start_at);
+    // defaultTime2[1] = new Date(ad.end_at);
+
     prev_img.value = ad.image;
+    // console.log(new Date(ad.start_at));
 }
 
 

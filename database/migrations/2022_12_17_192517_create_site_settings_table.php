@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('site_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('currency');
-            $table->integer('commition');
+            $table->string('key');
+            $table->longText('value')->nullable();
             $table->timestamps();
         });
     }

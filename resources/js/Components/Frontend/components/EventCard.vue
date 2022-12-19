@@ -13,7 +13,12 @@
                 </div>
                 <div class="upcome-cntright">
                     <h4 class="text-right" :title="item.name">{{ truncate(item.name, 25) }}</h4>
-                    <p class="text-right">{{ item.event_tickets_min_price ? `$ ${item.event_tickets_min_price}` : 'Free' }}</p>
+                    <p class="text-right" v-if="item.min_price == item.max_price">
+                        {{ item.min_price ? `$ ${item.min_price}` : 'Free' }}
+                    </p>
+                    <p class="text-right" v-else>
+                        {{ item.min_price ? `$ ${item.min_price}-${item.max_price}` : 'Free' }}
+                    </p>
                     <p class="text-right">
                         <i class="fas fa-map-marker-alt"></i> {{ (item.eventType == 'online-event') ? 'Online' : item.location }}
                     </p>
@@ -29,9 +34,10 @@
     import { Head, Link } from '@inertiajs/inertia-vue3'
 
     const { get_banner } = useEvent()
-    defineProps({
+    const p = defineProps({
         item: Object
     })
+    console.log(p.item);
     const { getMonth, formateDate, truncate } = Helper()
 </script>
 
