@@ -8,6 +8,7 @@ use App\Models\MEvents;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -44,6 +45,20 @@ class FrontendController extends Controller
                                 ->orderBy('start_date', 'ASC')
                                 ->with(['eventTickets', 'images'])
                                 ->limit(10)->get();
+
+        $this->data['top_selling_events'] = EventList::with(['images'])
+                                ->where('publish', 1)
+                                ->withSum('eventTickets as ticket_sold', 'sold')
+                                ->withSum('eventTickets as tickets_stock_limit', 'stock_limit')
+                                // ->with(['eventTickets' => function($q) {
+                                //     return $q->where('');
+                                // }])
+                                // ->with(DB::raw('SUM(event_tickets.sold > 0'))
+                                // ->where('ticket_sold', '<', 'tickets_stock_limit')
+                                // ->with('eventTickets')
+                                ->orderBy('ticket_sold', 'DESC')
+                                ->limit(3)->get();
+// return $this->data['top_selling_events'];
         $this->data['featured_advertise'] = Advertise::where('featured', 1)->get();
         // return $this->data;
         return Inertia::render('Frontend/Home', $this->data);
