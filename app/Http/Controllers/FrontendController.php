@@ -14,6 +14,27 @@ use Inertia\Inertia;
 
 class FrontendController extends Controller
 {
+    protected $eventsCategory = [
+        "Arts Culture",
+        "Business",
+        "Concerts",
+        "Career",
+        'Charity & Aid',
+        "Children & Youth",
+        "Community",
+        "Fashion & Design",
+        "Food & Drink",
+        "Government",
+        "Investments",
+        "Media & Film",
+        "Music & Performances",
+        "Schools & Education",
+        "Spirituality & Religion",
+        "Sports & Fitness",
+        "Startups & Small Business",
+        "Technology & Science",
+    ];
+
     public function __construct()
     {
         $this->data = [
@@ -46,16 +67,17 @@ class FrontendController extends Controller
         //                         ->select(DB::raw('eventCategory'))
         //                         // ->groupBy('eventCategory')
         //                         ->get();
-        $this->data['category_events'] = EventList::with(['images'])
-                                // ->withMin('eventTickets', 'price')
-                                ->where('publish', 1)
-                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
-                                // ->where('eventCategory', 'arts-culture')
-                                ->orderBy('start_date', 'ASC') 
-                                // ->selectRaw('*')
-                                // ->select(DB::raw('eventCategory'))
-                                // ->groupBy('eventCategory')
-                                ->get();
+        // $this->data['category_events'] = EventList::with(['images'])
+        //                         // ->withMin('eventTickets', 'price')
+        //                         ->where('publish', 1)
+        //                         ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
+        //                         // ->where('eventCategory', 'arts-culture')
+        //                         ->orderBy('start_date', 'ASC') 
+        //                         // ->selectRaw('*')
+        //                         // ->select(DB::raw('eventCategory'))
+        //                         // ->groupBy('eventCategory')
+        //                         ->get();
+        
                                 
         $this->data['concerts_events'] = EventList::with(['images'])
                                 ->withMin('eventTickets', 'price')
@@ -94,6 +116,21 @@ class FrontendController extends Controller
                                                 return $item;
                                             });
         // return $this->data;
+        $cevnt = [];
+        foreach ($this->eventsCategory as $nm) {
+            $evnt = EventList::with(['images'])
+                    ->withMin('eventTickets', 'price')
+                    ->where('publish', 1)
+                    ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
+                    ->where('eventCategory', $nm)
+                    ->orderBy('start_date', 'ASC')
+                    ->with(['eventTickets', 'images'])
+                    ->limit(10)->get();
+            if (count($evnt) > 3) {
+                $cevnt[$nm] = $evnt;
+            }
+        }
+        $this->data['category_events'] = collect($cevnt);
         return Inertia::render('Frontend/Home', $this->data);
     }
 

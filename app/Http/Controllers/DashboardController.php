@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertise;
 use App\Models\EventList;
 use App\Models\EventTickets;
 use App\Models\TicketSales;
@@ -19,6 +20,11 @@ class DashboardController extends Controller
         $query->withSum('eventTickets', 'sold')->with(['images']);
         if (auth()->user()->type == 'organizer' || auth()->user()->type == 'clients') {
             $query->where('user_id', auth()->id());
+        }
+        if (auth()->user()->type == 'admin') {
+            Advertise::where('end_at', '<', Carbon::now())->update([
+                'status' => 0,
+            ]);
         }
 
         $total_ticket = 0;

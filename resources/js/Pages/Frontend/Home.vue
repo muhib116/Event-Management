@@ -7,8 +7,15 @@
         <EventCarousel :data="upcoming_events" title="Upcoming Events" />
         <HotOffers :data="featured_advertise" />
         <TopSelling />
-        <EventCarousel :data="arts_events" title="Browse Arts" />
-        <EventCarousel :data="concerts_events" title="Browse Concerts" />
+        <div
+            v-for="(events, key, index) in category_events"
+            :key="index"
+        >
+            <EventCarousel :data="events" :title="key" />
+        </div>
+    <!-- 
+            <EventCarousel :data="arts_events" title="Browse Arts" />
+        <EventCarousel :data="concerts_events" title="Browse Concerts" /> -->
     </Master>
 </template>
 
@@ -31,5 +38,6 @@
         arts_events: Array,
         concerts_events: Array,
         featured_advertise: Array,
+        category_events: Object,
     });
 </script>

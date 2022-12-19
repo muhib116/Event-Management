@@ -31,7 +31,7 @@ createInertiaApp({
                 createAuth0({
                     domain: "dev-8xgi8q5dp4sbgcnn.us.auth0.com",
                     client_id: "lVcd5ENj2CbbKwVRv1dP4yF11F2cr4YH",
-                    redirect_uri: window.location.origin
+                    redirect_uri: `${window.location.origin}/`,
                 })
             )
             .use(ZiggyVue, Ziggy)
