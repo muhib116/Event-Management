@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\FrontendUserProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +20,9 @@ Route::get('/checkout/{url}', [FrontendController::class, 'checkout'])->name('ch
 Route::get('/payment-method/{url}', [FrontendController::class, 'payment'])->name('payment');
 Route::post('/checkout/{EventList:slug}/process', [FrontendController::class, 'checkout_process'])->name('checkout.process');
 Route::get('/category/{category}', [FrontendController::class, 'category_wise_event'])->name('category.event');
+
+
+Route::get('/user/profile', [FrontendUserProfileController::class, 'userProfile'])->name('user.profile');
 
 
 

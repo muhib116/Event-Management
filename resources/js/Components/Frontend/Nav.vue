@@ -20,11 +20,22 @@
                         </ul>
                         <ul class="navbar-nav nav-btn ms-auto">            
                             <li>
-                                <button @click="logoutNow">Logout</button>
-                                <button @click="login">Log in</button>
+                                <button v-if="!isAuthenticated && !isLoading" @click="login">Log in</button>
                             </li> 
                             <!-- <li><Link :href="route('login')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">L og In</Link></li>  -->
                             <!-- <li><Link class="active" :href="route('register')">Sign Up</Link></li>  -->
+                            <li v-if="isAuthenticated" class="relative nav_dropdown_wrapper">
+                                <img :src="userInfo.image" class="w-10 h-10 rounded-full cursor-pointer object-cover object-center border shadow hover:shadow-lg" />
+                                <ul class="dropdown absolute top-[50px] right-0 bg-white shadow w-[260px] rounded">
+                                    <li class="cursor-pointer px-3 py-2 hover:bg-gray-100 truncate border-b">
+                                        <Link :href="route('user.profile')" class="border-0 p-0 text-black text-md bg-transparent hover:bg-transparent truncate">{{ userInfo.name }}</Link>
+                                    </li>
+                                    <li class="cursor-pointer px-3 py-2 hover:bg-gray-100 truncate border-b">
+                                        <Link :href="route('user.profile')" class="border-0 p-0 text-black text-md bg-transparent hover:bg-transparent">User Profile</Link>
+                                    </li>
+                                    <li @click="logout" class="cursor-pointer px-3 py-2 hover:bg-gray-100">Logout</li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -42,8 +53,10 @@
 
     const { 
         login,
-        logoutNow,
-        isLogIn
+        logout,
+        isAuthenticated,
+        userInfo,
+        isLoading
      } = useAuth()
     const showOffCanvas = ref(false)
 </script>
@@ -64,6 +77,16 @@
     .nav-btn li button:hover, .nav-btn li .active {
         background: #4F4CEE;
         color: #FFFFFF;
+    }
+
+    .nav_dropdown_wrapper .dropdown{
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.3s ease;
+    }
+    .nav_dropdown_wrapper:hover .dropdown{
+        visibility: visible;
+        opacity: 1;
     }
 
     @media all and (max-width: 992px){
