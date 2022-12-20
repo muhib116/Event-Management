@@ -13,19 +13,20 @@
         <div class="summary-item">
             <h6>Order Summary</h6>
             <p v-for="(card, index) in cards" :key="`type-${index}`">
-                Ticket Type <span>{{ card.quantity }} x {{ card.type }}</span>
+                <span>{{ card.name }} ({{ card.type }})</span>
+                <span>{{ card.quantity }}pcs x ${{ card.price }}</span>
             </p>
         </div>
-        <div class="summary-item">
-            <p v-for="(card, index) in cards" :key="`type-${index}`">
+        <div v-if="getTotalCommission(cards)>0" class="summary-item">
+            <!-- <p v-for="(card, index) in cards" :key="`type-${index}`">
                 Ticket Price 
                 <span>{{ card.quantity }} x Rp. {{ card.price }}</span>
-            </p>
+            </p> -->
             <p>Service & Handling <span> - </span></p>
             <p>Admin Fee <span> {{ getTotalCommission(cards).toFixed(2) }} </span></p>
         </div>
         <div class="summary-item">
-            <p><span>Total</span> <span>Rp. {{ getTotalWithFees(cards) }}</span></p>
+            <p><span>Total</span> <span>$ {{ getTotalWithFees(cards) }}</span></p>
         </div>
     </div>
 </template>

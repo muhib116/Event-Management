@@ -66,10 +66,11 @@
               </div>
               <div class="element- mb-6">
                  <div class="two-columns">
-                    <input type="checkbox" :checked="ticketForm.isTransferFeesToGuest" v-model="ticketForm.isTransferFeesToGuest" >
+                    <input type="checkbox" v-model="ticketForm.isTransferFeesToGuest" value="1" :checked="Boolean(ticketForm.isTransferFeesToGuest)"  >
                     <label>Transfer fees to guest</label>
                  </div>
               </div>
+
               <h6 class="additional-information-heading">Do you want to collect additional information?</h6>
               
                <template v-for="(item, index) in ticketForm.questions" :key="index">
@@ -88,7 +89,7 @@
                         >
                            Remove
                         </button>
-                        <input type="checkbox" v-model="item.isRequired" value="1" :checked="item.isRequired">
+                        <input type="checkbox" v-model="item.isRequired" value="1" :checked="Boolean(item.isRequired)">
                         <label for="perk checkbox">Make this question required</label>
                      </div>
                   </div>

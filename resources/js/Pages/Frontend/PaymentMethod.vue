@@ -86,14 +86,21 @@
 
 <script setup>
     import { Head, Link } from '@inertiajs/inertia-vue3'
+    import { onMounted, ref, watchEffect } from 'vue'
+    import { useToast } from "vue-toastification";
     import Master from './Master.vue'
     import Cart from '@/Components/Frontend/checkout/Cart.vue'
-    import { onMounted } from 'vue'
     import useTicket from '@/Pages/Frontend/useTicket'
     import axios from 'axios'
-    import { useToast } from "vue-toastification";
-import LoginCheck from './LoginCheck.vue'
+    import LoginCheck from './LoginCheck.vue'
+    import useAuth from '@/useAuth.js'
 
+
+    const guestId = ref(null)
+    const { 
+        userInfo,
+        isLoading
+    } = useAuth()
     const toast = useToast();
     const { cards, commission } = useTicket()
     
@@ -108,7 +115,7 @@ import LoginCheck from './LoginCheck.vue'
             let { type, quantity, price, id } = cards[key]
             payload[index] = {
                 organizer_id: props.event.user_id,
-                guest_id: null,
+                guest_id: guestId.value,
                 ticket_id: id,
                 ticket_type: type,
                 quantity: quantity,
@@ -144,6 +151,19 @@ import LoginCheck from './LoginCheck.vue'
         if(localStorage.getItem('cards')){
             let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
             cards.value = cardsFromLocalStorage
+        }
+    })
+
+    let timeoutId = null
+    watchEffect(() => {
+        if(!isLoading.value && !guestId.value){
+            clearTimeout(timeoutId)
+
+            timeoutId = setTimeout(async () => {
+                let guest = await axios.get(`guest/${userInfo.value.email}`)
+                guestId.value = guest.data.id
+                console.log(guestId.value)
+            }, 100)
         }
     })
 </script>

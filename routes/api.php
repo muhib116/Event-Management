@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\EventTicketController;
 use App\Http\Controllers\TicketSaleController;
+use App\Http\Controllers\GuestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +42,11 @@ Route::post('update/ticket/{id}', [EventTicketController::class, 'update'])->nam
 Route::get('get/tickets/{event_id}', [EventTicketController::class, 'getTicket'])->name('ticket.create');
 Route::get('duplicate/ticket/{id}', [EventTicketController::class, 'duplicate'])->name('ticket.duplicate');
 Route::get('delete/ticket/{id}', [EventTicketController::class, 'deleteTicket'])->name('ticket.delete');
-
-
-
 Route::post('ticket/sale', [TicketSaleController::class, 'sale'])->name('ticket.sale');
 
+
+
+
+// guest api
+Route::get('guest/{email}', [GuestController::class, 'getGuest'])->name('get.guest');
+Route::post('guest-create', [GuestController::class, 'createGuest'])->name('create.guest');

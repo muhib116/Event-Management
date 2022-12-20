@@ -7,13 +7,15 @@ const commission = 3 //in percentage
 
 export default function useTicket() {
     const addCardData = (ticket, cards, quantity) => {
+        let _commission = (ticket.isTransferFeesToGuest) ? commission : 0
         let cardData = {
             id: ticket.id,
+            name: ticket.ticket_name,
             type: ticket.ticketType,
             isTransferFeesToGuest: ticket.isTransferFeesToGuest,
             quantity: quantity.value,
             price: ticket.price,
-            fees: (ticket.price/100) * commission
+            fees: (ticket.price/100) * _commission
         }
         cards.value[`ticket_${ticket.id}`] = cardData
 

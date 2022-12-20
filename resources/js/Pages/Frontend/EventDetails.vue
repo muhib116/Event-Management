@@ -13,18 +13,6 @@
                             <img :src="`../../../../${get_banner(event?.images)}`" alt="">
                         </div>
 
-                        <h1 class="mt-4 text-lg font-black">Gallery</h1>
-                        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-3">
-                            <template v-for="(img, index) in event.images" :key="index">
-                                <img 
-                                    v-if="img && img.type == 'gallery'"
-                                    class="border aspect-square block object-cover object-center"
-                                    :src="`../../../../${img.path}`" 
-                                    alt=""
-                                >
-                            </template>
-                        </div>
-
                         <div class="event-cntprt">
                             <div class="event-cntleft">
                                 <h2>{{ event.name }}</h2>
@@ -41,6 +29,8 @@
                             </div>
                         </div>
 
+                        <Gallery :images="event.images" class="mt-16"/>
+
                         <div class="event-informprt">
                             <h4>Event Information</h4>
                             <div class="row">
@@ -49,8 +39,6 @@
                                         <img src="@/assets/frontend/images/time.svg" alt="">
                                         <div class="event-informcnt">
                                             <h4>Duration</h4>
-                                            <!-- <p>20.00 - 21.56 WIB</p> -->
-                                            <!-- <p>1 hour 56 minutes</p> -->
                                             <p>{{ event.duration }}</p>
                                         </div>
                                     </div>
@@ -121,6 +109,7 @@
     import SocialShare from '@/Components/Frontend/Event/SocialShare.vue'
     import Master from './Master.vue'
     import useEvent from '@/Pages/useEvent.js'
+    import Gallery from '@/Components/Frontend/EventDetails/Gallery.vue'
 
     const { get_banner } = useEvent()
     const props = defineProps({
