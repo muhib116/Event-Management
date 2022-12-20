@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
+    use Utils;
     public function index($eventType) {
         return Inertia::render('EventCreate', [
             'eventType' => $eventType,
@@ -21,6 +22,17 @@ class EventController extends Controller
     }
 
     public function eventStore(Request $request) {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+        $start_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$request->start_date $request->start_time")));
+        $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$request->end_date $request->end_time")));
+        if ($start_at->isAfter($end_at) && $start_at->isAfter(Carbon::now())) {
+            return response()->json([
+                'start_date' => 'Invalid Date time'
+            ]);
+        }
         $data = [
             "user_id"    => $request->user_id,
             "eventType"    => $request->eventType,
@@ -59,6 +71,13 @@ class EventController extends Controller
         ]);
     }
     public function eventEdit(Request $request, $eventId) {
+        $start_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$request->start_date $request->start_time")));
+        $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$request->end_date $request->end_time")));
+        if ($start_at->isAfter($end_at)) {
+            return response([
+                'start_date' => 'Invalid Date time'
+            ], 500);
+        }
         $data = [
             "eventType"    => $request->eventType,
             "name"         => $request->name,
@@ -102,6 +121,10 @@ class EventController extends Controller
     }
 
     public function getEvent(Request $request, EventList $eventList) {
+        $eventList = EventList::withCount('eventTickets as ticket_count')->find($eventList->id);
+        $end = Carbon::parse(date('Y-m-d H:i:s', strtotime("$eventList->end_date $eventList->end_time")));
+        $eventList->expired_at = $this->getDurationFormate($end->diffInSeconds(now()));
+        $eventList->is_expired = $end->gt(now());
         return response()->json($eventList, 200);
     }
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Advertise;
 use App\Models\EventList;
 use App\Models\MEvents;
+use App\Utils;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +16,7 @@ use Inertia\Inertia;
 
 class FrontendController extends Controller
 {
+    use Utils;
     protected $eventsCategory = [
         "Arts Culture",
         "Business",
@@ -144,12 +147,15 @@ class FrontendController extends Controller
 
 
     public function event_details($url) {
-        $this->data['event'] = EventList::with(['images'])
-                        ->withMin('eventTickets as min_price', 'price')
-                        ->withMax('eventTickets as max_price', 'price')
-                        ->where('url', $url)
-                        ->orWhere('slug', $url)
-                        ->first();
+        $event = EventList::with(['images'])
+                ->withMin('eventTickets as min_price', 'price')
+                ->withMax('eventTickets as max_price', 'price')
+                ->where('url', $url)
+                ->orWhere('slug', $url)
+                ->first();
+        $dur = $this->getEventDuration($event);
+        $event->duration = $this->getDurationFormate($dur);
+        $this->data['event'] = $event;
                         
         return Inertia::render('Frontend/EventDetails', $this->data);
     }
