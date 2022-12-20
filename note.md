@@ -56,3 +56,9 @@
         -- ✅date range
         -- ✅ticket min max price
         -- admin can set currency and commission
+
+
+:: from video
+    -- ✅while event creating: start date should not be > end date
+    -- ✅event details page duration
+    -- ✅event edit page (create some ticket for your event) if any event exist it should be hidden

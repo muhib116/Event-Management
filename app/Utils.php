@@ -2,6 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
+
 trait Utils
 {
     /**
@@ -47,6 +50,23 @@ trait Utils
                 unlink($image);
             }
         }
+    }
+
+    public function getEventDuration($event) {
+        if (!$event) return false;
+        $start_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->start_date $event->start_time")));
+        $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->end_date $event->end_time")));
+        $value = $start_at->diffInSeconds($end_at);
+        return $value;
+    }
+
+    public function getDurationFormate($value) {
+        $dt = Carbon::now();
+        $days = $dt->diffInDays($dt->copy()->addSeconds($value));
+        $hours = $dt->diffInHours($dt->copy()->addSeconds($value)->subDays($days));
+        $minutes = $dt->diffInMinutes($dt->copy()->addSeconds($value)->subDays($days)->subHours($hours));
+        $op = CarbonInterval::days($days)->hours($hours)->minutes($minutes)->forHumans();
+        return $op;
     }
 
     
