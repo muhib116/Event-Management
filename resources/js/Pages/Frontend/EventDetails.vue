@@ -49,8 +49,9 @@
                                         <img src="@/assets/frontend/images/time.svg" alt="">
                                         <div class="event-informcnt">
                                             <h4>Duration</h4>
-                                            <p>20.00 - 21.56 WIB</p>
-                                            <p>1 hour 56 minutes</p>
+                                            <!-- <p>20.00 - 21.56 WIB</p> -->
+                                            <!-- <p>1 hour 56 minutes</p> -->
+                                            <p>{{ event.duration }}</p>
                                         </div>
                                     </div>
                                 </div>

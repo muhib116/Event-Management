@@ -110,20 +110,20 @@
                             <div class="flex flex-col gap-[10px] mb-[40px] focus:border-red-600">
                                 <label for="position">Position</label>
                                 <el-date-picker
-                                    v-model="value1"
+                                    v-model="defaultTime2"
                                     class="w-full border-none py-3 h-[40px]"
                                     type="datetimerange"
                                     start-placeholder="Start Date"
                                     end-placeholder="End Date"
-                                    :default-time="defaultTime2"
+                                    @vnode-before-update="handleUpdate"
                                 />
                                 <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
                             </div>
-                            <div class="element">
+                            <!-- <div class="element">
                                 <label for="position">Position</label>
                                 <input type="number" id="position" name="position" v-model="advertise_form.position">
                                 <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="element">
@@ -250,6 +250,7 @@ import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from "vue-toastification";
 import { onMounted, watch } from '@vue/runtime-core';
+import moment from 'moment';
 const toast = useToast();
 
 const props = defineProps({
@@ -269,10 +270,10 @@ const prev_img = ref(false);
 const value1 = ref('')
 const value2 = ref('')
 const defaultTime1 = new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
-const defaultTime2 = [
-  new Date(2000, 1, 1, 12, 0, 0),
-  new Date(2000, 2, 1, 8, 0, 0),
-] // '12:00:00', '08:00:00'
+const defaultTime2 = ref([
+  new Date(),
+  new Date(),
+]); // '12:00:00', '08:00:00'
 
 const advertise_form = useForm({
     title: null,
@@ -286,7 +287,9 @@ const advertise_form = useForm({
     start_at: null,
     end_at: null,
 });
-
+function handleUpdate(e) {
+    // advertise_form.start_at = moment(defaultTime2.value[0]).format('')
+}
 const delete_form = useForm({
     advertise_id: null
 });
@@ -322,10 +325,8 @@ function edit(ad) {
     advertise_form.position = ad.position;
     advertise_form.start_at = ad.start_at;
     advertise_form.end_at = ad.end_at;
-    let start_d = new Date(ad.start_at);
-    // value1.value = new Date(start_d.getFullYear(), start_d.getMonth(), start_d.getDate(), start_d.getHours(), start_d.getMinutes(), start_d.getSeconds());
-    // defaultTime2[0] = new Date(ad.start_at);
-    // defaultTime2[1] = new Date(ad.end_at);
+    defaultTime2.value[0] = new Date(...moment(ad.start_at).format('Y, m, d, h, m').toString().split(','));
+    defaultTime2.value[1] = new Date(...moment(ad.end_at).format('Y, m, d, h, m').toString().split(','));
 
     prev_img.value = ad.image;
     // console.log(new Date(ad.start_at));

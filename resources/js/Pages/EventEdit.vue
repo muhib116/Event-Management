@@ -11,9 +11,9 @@
                         <p><i class="fa-solid fa-location-dot"></i> {{ event.location }}</p>
                     </div>
                     <div class="right">
-                        <p class="top"><i class="fa-solid fa-circle-exclamation"></i> This event ended 20 days ago, to republish it:</p>
+                        <p class="top" v-if="event.is_expired"><i class="fa-solid fa-circle-exclamation"></i> This event ended {{ event.expired_at }} ago, to republish it:</p>
                         <p class="requirement"><span>Add payment details</span> so you can get paid</p>
-                        <p class="requirement"><span>Create some tickets</span> for your event</p>
+                        <p class="requirement" v-if="event.ticket_count == 0"><span>Create some tickets</span> for your event</p>
                         <p class="requirement">Update the <span>event date</span> </p>
                     </div>
                 </div>
@@ -80,6 +80,7 @@
 
     onMounted(async () => {
         event.value = await getEvent(getEventId())
+        console.log(event);
     })
 
     const handleComponent = (item) => {
