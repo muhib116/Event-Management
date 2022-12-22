@@ -124,7 +124,7 @@ class EventController extends Controller
         $eventList = EventList::withCount('eventTickets as ticket_count')->find($eventList->id);
         $end = Carbon::parse(date('Y-m-d H:i:s', strtotime("$eventList->end_date $eventList->end_time")));
         $eventList->expired_at = $this->getDurationFormate($end->diffInSeconds(now()));
-        $eventList->is_expired = $end->gt(now());
+        $eventList->is_expired = now()->gt($end);
         return response()->json($eventList, 200);
     }
 

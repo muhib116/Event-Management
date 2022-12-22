@@ -12,6 +12,7 @@
                     </div>
                     <div class="right">
                         <p class="top" v-if="event.is_expired"><i class="fa-solid fa-circle-exclamation"></i> This event ended {{ event.expired_at }} ago, to republish it:</p>
+                        <p class="top" v-else><i class="fa-solid fa-circle-exclamation"></i> Things to do before you can make your event live</p>
                         <p class="requirement"><span>Add payment details</span> so you can get paid</p>
                         <p class="requirement" v-if="event.ticket_count == 0"><span>Create some tickets</span> for your event</p>
                         <p class="requirement">Update the <span>event date</span> </p>
@@ -45,6 +46,7 @@
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
     import EventDetail from '@/Components/dashboard/event/EventDetail.vue'
     import Appearance from '@/Components/dashboard/event/Appearance.vue'
+    import ManageGuestlist from '@/Components/dashboard/event/ManageGuestlist.vue'
     import Tickets from '@/Components/dashboard/AllTickets/Tickets.vue'
     import Master from './Master.vue'
     import useEvent from '@/Pages/useEvent.js'
@@ -69,6 +71,11 @@
         {
             title: 'Appearance',
             component: 'Appearance',
+            isActive: false
+        },
+        {
+            title: 'ManageGuestlist',
+            component: 'ManageGuestlist',
             isActive: false
         },
         {

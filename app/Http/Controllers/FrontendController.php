@@ -212,7 +212,42 @@ class FrontendController extends Controller
     }
 
     public function filterPage(Request $request) {
+        // return $request->all();
         // $keyword = $request->keyword;
+        $query = EventList::query();
+        if ($request->keyword) {
+            $query->where('name', 'like', '%'.$request->keyword.'%');
+            $query->orWhere('eventType', 'like', '%'.$request->keyword.'%');
+            $query->orWhere('slug', 'like', '%'.$request->keyword.'%');
+            $query->orWhere('location', 'like', '%'.$request->keyword.'%');
+            $query->orWhere('attention', 'like', '%'.$request->keyword.'%');
+            $query->orWhere('eventCategory', 'like', '%'.$request->keyword.'%');
+        }
+        if (isset($request->daterange) && is_array($request->daterange)) {
+            $query->whereBetween('start_date', $request->daterange);
+            $query->orWhereBetween('end_time', $request->daterange);
+        }
+        // $request->request->add([
+        //     'categories' => [
+        //         'Media & Film'
+        //     ]
+        // ]);
+        if (isset($request->categories) && is_array($request->categories)) {
+            $query->whereIn('eventCategory', $request->categories);
+        }
+        
+        if (isset($request->price_range) && is_array($request->price_range)) {
+            // $query->whereIn('eventCategory', $request->categories);
+        }
+        // if (isset($request->event_type) && is_array($request->price_range)) {
+        //     $query->where('eventCategory', $request->event_type);
+        // }
+        return $query->get();
+        $this->data['events'] = $query->with(['eventTickets', 'images'])
+                        ->withMin('eventTickets as min_price', 'price')
+                        ->withMax('eventTickets as max_price', 'price')
+                        ->limit(20)
+                        ->get();
         return Inertia::render('Frontend/SearchResult', $this->data);
     }
 

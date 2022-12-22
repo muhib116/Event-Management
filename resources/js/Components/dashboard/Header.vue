@@ -9,6 +9,7 @@
                 <Link :href="route('live.account')">Account</Link>
                 <Link :href="route('dashboard')">Events</Link>
                 <Link v-if="$page.props.auth.user.type=='admin'" :href="route('advertise.index')">Advertise</Link>
+                <Link v-if="$page.props.auth.user.type=='admin'" :href="route('settings.index')">Settings</Link>
                 <a href="#">Help</a>
                 <a href="#" @click="logOutUser()">Log out</a>
             </div>

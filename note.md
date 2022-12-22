@@ -62,3 +62,6 @@
     -- ✅while event creating: start date should not be > end date
     -- ✅event details page duration
     -- ✅event edit page (create some ticket for your event) if any event exist it should be hidden
+
+    -- track visitor ip and location (video on 24 min)
+        :help https://medium.com/@laraveltuts/ how-to-get-country-city-address-from-ip-address-laravel-9-e20c82200702
