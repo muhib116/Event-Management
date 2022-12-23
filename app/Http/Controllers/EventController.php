@@ -6,6 +6,7 @@ use App\Models\EventList;
 use App\Models\EventTickets;
 use App\Models\Guests;
 use App\Models\MEvents;
+use App\Models\PaymentDetail;
 use App\Models\TicketSales;
 use App\Utils;
 use Carbon\Carbon;
@@ -69,8 +70,10 @@ class EventController extends Controller
     }
 
     public function update(){
+        $has_payment_details = PaymentDetail::where('user_id', auth()->id())->get();
         return Inertia::render('EventEdit', [
-            'userId' => Auth::id()
+            'userId' => Auth::id(),
+            'has_payment_details' => count($has_payment_details) ? 1 : 0,
         ]);
     }
     public function eventEdit(Request $request, $eventId) {

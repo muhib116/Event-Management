@@ -29,6 +29,7 @@ class SettingController extends Controller
             'commission' => 'required|numeric',
             'currency' => 'required',
             'home_banner_image' => 'nullable|image',
+            'logo_image' => 'nullable|image',
             'home_banner_text' => 'required',
         ]);
         try {
@@ -50,6 +51,18 @@ class SettingController extends Controller
                 $image = $this->imageUpload($request, 'home_banner_image', 'images');
                 SiteSetting::updateOrCreate(['name' => 'home_banner_image'],[
                     'name' => 'home_banner_image',
+                    'value' => $image,
+                ]);
+            }
+            if ($request->hasFile('logo_image')) {
+                $file = $request->file('logo_image');
+                $uniqueCode = md5(uniqid(rand(), true));
+                $file_name  = $request->type.'-'.$uniqueCode.'-'.$file->getClientOriginalName();
+                
+                $old = SiteSetting::where('name', 'logo_image')->first();
+                $image = $this->imageUpload($request, 'logo_image', 'images');
+                SiteSetting::updateOrCreate(['name' => 'logo_image'],[
+                    'name' => 'logo_image',
                     'value' => $image,
                 ]);
             }

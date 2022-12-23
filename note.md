@@ -64,6 +64,8 @@
     -- track visitor ip and location (video on 24 min)
         :help https://medium.com/@laraveltuts/ how-to-get-country-city-address-from-ip-address-laravel-9-e20c82200702
 
+:: for online event
+    -- generate zome meeting
 
 :: bank
     bank name
@@ -75,7 +77,17 @@
     stripe info
     more info
 
+logologologologologologologologologologologologologologologologologologologologo
+logologologologologologologologologologologologologologologologologologologologo
+logologologologologologologologologologologologologologologologologologologologo
+logologologologologologologologologologologologologologologologologologologologo
+logologologologologologologologologologologologologologologologologologologologo
+logologologologologologologologologologologologologologologologologologologologo
+logologologologologologologologologologologologologologologologologologologologo
+logologologologologologologologologologologologologologologologologologologologo
+logologologologologologologologologologologologologologologologologologologologo
 
 
+Advertise location date range remove
 
 :: ticket 

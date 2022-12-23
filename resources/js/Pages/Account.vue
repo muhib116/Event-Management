@@ -118,23 +118,49 @@
                     </div>
                 </form>
                 <!-- Billing -->
-                <div class="Billing account-item" v-show="activeTab == 'billing'">
-                    <h2>Personal Informations</h2>
-                    <div class="current-plan">
-                        <div class="left">
-                            <h3>Tix Free <i class="fa-solid fa-circle-exclamation"></i></h3>
-                            <p>
-                                <strong>You are on the free plan and charged nothing.</strong> <br>
-                                Subscribe to Pro to get everything on the free plan plus lower transaction processing fees on paid tickets and more event management tools
-                            </p>
-                        </div>
-                        <div class="right">
-                            <div class="button">Upgrade Pro</div>
-                        </div>
+                <div class="Profile--Password account-item py-4" v-show="activeTab == 'billing'">
+                    <div class="flex items-center flex-wrap  justify-between">
+                        <h2>Account Informations</h2>
+                        <button class="button rounded hover:bg-orange-700 py-2 px-7 bg-orange-600 text-white" @click="showPopup = true">
+                            Add payment details
+                        </button>
                     </div>
-                    <div class="invoices">
-                        <h2>Your invoices</h2>
-                        <p>You have no invoice history yet.</p>
+                    <PaymentPopup
+                        v-model="showPopup"
+                    />
+
+                    <div class="mt-10">
+                        payment_details.get
+                        <div class="shadow mt-10 rounded border-t">
+                            <table class="w-full rounded">
+                                <tr class="border-b">
+                                    <th class="px-2 py-4 text-gray-700 capitalize">Organizer name</th>
+                                    <th class="px-2 py-4 text-gray-700 capitalize">bank name</th>
+                                    <th class="px-2 py-4 text-gray-700 capitalize">bank number</th>
+                                    <th class="px-2 py-4 text-gray-700 capitalize">account name</th>
+                                    <th class="px-2 py-4 text-gray-700 capitalize">paypal info</th>
+                                    <th class="px-2 py-4 text-gray-700 capitalize">stripe info</th>
+                                    <th class="px-2 py-4 text-gray-700 capitalize">mpesa info</th>
+                                    <th class="px-2 py-4 text-gray-700 capitalize">Action</th>
+                                </tr>
+                                <tr
+                                    v-for="data in payment_details" 
+                                    :key="data.id" 
+                                    class="border-b">
+                                    <td class="text-center px-2 py-4 text-gray-700">
+                                        {{ data.organizer?.first_name }}
+                                        {{ data.organizer?.last_name }}
+                                    </td>
+                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.bank_name }}</td>
+                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.bank_number }}</td>
+                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.account_name }}</td>
+                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.paypal_info }}</td>
+                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.stripe_info }}</td>
+                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.mpesa_info }}</td>
+                                    <td class="text-center px-2 py-4 text-gray-700"></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- settings -->
@@ -199,14 +225,21 @@ import "vue-toastification/dist/index.css";
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from "vue-toastification";
+import PaymentPopup from '@/Components/dashboard/popup/PaymentPopup.vue';
+import { watch } from '@vue/runtime-core';
+import axios from 'axios';
 
 const toast = useToast();
 
 const activeTab = ref('profile-personal');
-
+const showPopup = ref(false)
 const props = defineProps({
     user: {
         type: Object,
+        default: {}
+    },
+    payment_details: {
+        type: Array,
         default: {}
     }
 });
@@ -232,6 +265,7 @@ const interest_form_inf = useForm({
 });
 
 const interest_form = ref(props.user.interests ? props.user.interests : []);
+
 
 const handleInterest = (item) => {
     if (!interest_form.value.includes(item.name) && interest_form.value.length < 3) {

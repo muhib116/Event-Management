@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
                 'currency' => $settings->where('name', 'currency')->first(),
                 'home_banner_image' => $settings->where('name', 'home_banner_image')->first(),
                 'home_banner_text' => $settings->where('name', 'home_banner_text')->first(),
+                'logo_image' => $settings->where('name', 'logo_image')->first(),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),

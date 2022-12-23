@@ -53,6 +53,24 @@
                             <div class="text-red-500" v-if="form.errors.home_banner_image">{{ form.errors.home_banner_image }}</div>
                         </div>
                     </div>
+                    <div class="element">
+                        <label for="logo_image" class="text-xl font-semibold">Logo image</label>
+                        <div class="element">
+                            <div class="relative flex  items-center">
+                                <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
+                                    <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute -top-0">Upload Logo</span>
+                                    <input hidden type="file" name="image" accept="image/*" @change="(e) => {
+                                        form.logo_image = e.target.files[0];
+                                        onFileChange(e, 'logo')
+                                    }">
+                                    <div v-if="prev_logo_img" class="flex-1 flex gap-5 flex-wrap">
+                                        <img class="w-full h-full object-cover" :src="prev_logo_img" alt="">
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="text-red-500" v-if="form.errors.logo_image">{{ form.errors.logo_image }}</div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </AuthenticatedLayout>
@@ -81,12 +99,14 @@ const props = defineProps({
     }
 });
 const prev_img = ref(false);
+const prev_logo_img = ref(false);
 
 const form = useForm({
     currency: '',
     commission: null,
     home_banner_text: '',
     home_banner_image: null,
+    logo_image: null,
 });
 onMounted(()=> {
     let settings = props.settings;
@@ -95,12 +115,18 @@ onMounted(()=> {
     form.commission = _.find(settings, {name: 'commission'})?.value;
     form.home_banner_text = _.find(settings, {name: 'home_banner_text'})?.value;
     prev_img.value = _.find(settings, {name: 'home_banner_image'})?.value;
+    prev_logo_img.value = _.find(settings, {name: 'logo_image'})?.value;
     // console.log(_.find(settings, {name: 'home_banner_image'})?.value);
 });
 
-function onFileChange(e) {
-    const file = URL.createObjectURL(e.target.files[0]);
-    prev_img.value = file;
+function onFileChange(e, type=null) {
+    if (type == 'logo') {
+        const file = URL.createObjectURL(e.target.files[0]);
+        prev_logo_img.value = file;
+    } else {
+        const file = URL.createObjectURL(e.target.files[0]);
+        prev_img.value = file;
+    }
     // advertise_form.image = file;
 }
 
