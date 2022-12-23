@@ -55,6 +55,7 @@ Route::get('/get-ip', function() {
 // guest api
 Route::get('guest/{email}', [GuestController::class, 'getGuest'])->name('get.guest');
 Route::post('guest-create', [GuestController::class, 'createGuest'])->name('create.guest');
+Route::get('/event-history/{email}', [GuestController::class, 'getHistory'])->name('get.history');
 
 // get event guest
 Route::get('event-guest/{eventList}', [EventController::class, 'getEventGuest'])->name('get.event_guest');

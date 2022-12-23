@@ -29,8 +29,6 @@
     total views
     ✅total sell
 
-::: else
-    Show client component
 
 
 
@@ -46,7 +44,7 @@
     -- ✅remove view all from top selling section
     -- ✅Hot offer slider and remove view all from there
     -- ✅category carosel padding
-    -- event details manage guest list
+    -- ✅event details manage guest list
     -- guest management
     -- organizer manage with payment system
 

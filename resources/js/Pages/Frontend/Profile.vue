@@ -26,7 +26,10 @@
                             </div>
                         </div>
                         <div class="rightSide w-full p-4">
-                            <component :is="History" />
+                            <!-- <component :is="History" /> -->
+                            <History
+                                :history="history"
+                            />
                         </div>
                     </div>
                 </div>
@@ -39,14 +42,26 @@
     import Master from './Master.vue'
     import useAuth from '@/useAuth.js'
     import History from '@/Components/Frontend/profile/History.vue'
-import LoginCheck from './LoginCheck.vue';
-
+    import LoginCheck from './LoginCheck.vue';
+    import { onMounted, ref, watchEffect } from 'vue';
+import axios from 'axios';
     const { 
         logout,
         isAuthenticated,
         userInfo,
         isLoading
-     } = useAuth()
+     } = useAuth();
+
+    const history = ref([]);
+
+    watchEffect(async ()=> {
+        // console.log(isLoading);
+        if (!isLoading.value) {
+            console.log('in');
+            let getHistory = await axios.get(route('get.history', userInfo.value.email)).then(res => res.data);
+            history.value = getHistory.ticket_sales;
+        }
+    });
 </script>
 
 <style lang="scss" scoped>

@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TicketMail;
 use Illuminate\Http\Request;
 use App\Models\EventTickets;
+use App\Models\Guests;
 use App\Models\TicketSales;
+use Illuminate\Support\Facades\Mail;
 
 class TicketSaleController extends Controller
 {
     function sale(Request $request){
         // insert to ticket_sales and then update the sold column of event_tickets table
+        // dd($request->all());
         foreach($request->all() as $key => $value){
             $data = [
                 "organizer_id" => $value['organizer_id'],
@@ -22,9 +26,14 @@ class TicketSaleController extends Controller
                 "payment_method" => $value['payment_method'],
                 "status" => $value['status'],
             ];
-
-            if(TicketSales::create($data)->id){
-                $this->updateSoldColumn($value);
+            $ticket = TicketSales::create($data);
+            if($ticket->id){
+                // $this->updateSoldColumn($value);
+                $guest = Guests::find($data['guest_id']);
+                if ($guest) {
+                    Mail::to($guest)->send(new TicketMail($guest));
+                }
+                // Mail::send(TicketMail)
             }
         }
     }

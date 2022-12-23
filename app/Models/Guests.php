@@ -14,4 +14,8 @@ class Guests extends Model
         'settings' => 'array',
         "ip_info" => 'json'
     ];
+
+    public function ticketSales() {
+        return $this->hasMany(TicketSales::class, 'guest_id', 'id');
+    }
 }

@@ -140,7 +140,7 @@ class EventController extends Controller
     public function getEventSales(EventList $eventList) {
         $ids = $eventList->eventTickets()->pluck('id');
         $sales = TicketSales::with(['guests', 'ticket'])->whereIn('ticket_id', $ids)->get();
-        
+        // ssl
         return response([
             'sales' => $sales,
             'ticket_sold' => $sales->sum('quantity'),

@@ -17,7 +17,7 @@ class TicketSales extends Model
         return $this->belongsTo(Guests::class, 'guest_id', 'id');
     }
     public function ticket() {
-        return $this->belongsTo(EventTickets::class);
+        return $this->belongsTo(EventTickets::class)->with('event');
     }
 
     public function organizer() {

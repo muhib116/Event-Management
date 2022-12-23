@@ -40,22 +40,27 @@
             </thead>
 
             <tbody class="">
-                <tr v-for="n in 10" :key="n" class="border-b">
-                    <td class="pl-4">{{ n }}</td>
+                <tr v-for="(item, index) in history" :key="index" class="border-b">
+                    <td class="pl-4">{{ ++index }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        Concerts
+                        {{ item.ticket?.ticket_name }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        Live Event
+                        {{ item.ticket?.ticketType }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        15$
+                        {{ item.ticket?.price }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        22-12-12, 09:15am to 22-12-12, 04:00pm
+                        {{ item.ticket?.event.start_date }} {{ item.ticket?.event.start_time }} to
+                        {{ item.ticket?.event.end_date }} {{ item.ticket?.event.end_time }}
+                        <!-- 22-12-12, 09:15am to 22-12-12, 04:00pm -->
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <button class="cursor-pointer font-black text-blue-400">Download Ticket</button>
+                        <!-- <a :href="route('ticket_view', data.id)" target="_blank" class="border px-3 py-2 rounded border-slate-200 relative">
+                            <i class="fa fa-eye"></i>
+                        </a> -->
+                        <a :href="route('ticket_view', item.id)" target="_blank" class="cursor-pointer font-black text-blue-400">Download Ticket</a>
                     </td>
                 </tr>
             </tbody>
@@ -63,6 +68,17 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted } from 'vue'
+const props = defineProps({
+    history: Array
+});
+
+onMounted(() =>{
+    console.log('test')
+});
+
+
+</script>
 
 <style lang="scss" scoped></style>

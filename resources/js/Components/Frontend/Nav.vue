@@ -27,11 +27,13 @@
                             <li v-if="isAuthenticated" class="relative nav_dropdown_wrapper">
                                 <img :src="userInfo.image" class="w-10 h-10 rounded-full cursor-pointer object-cover object-center border shadow hover:shadow-lg" />
                                 <ul class="dropdown absolute top-[50px] right-0 bg-white shadow w-[260px] rounded">
-                                    <li class="cursor-pointer px-3 py-2 hover:bg-gray-100 truncate border-b">
-                                        <Link :href="route('user.profile')" class="border-0 p-0 text-black text-md bg-transparent hover:bg-transparent truncate">{{ userInfo.name }}</Link>
+                                    <li class="truncate border-b px-0">
+                                        <Link :href="route('user.profile')" class="flex items-center cursor-pointer px-3 py-2 hover:bg-gray-100  border-0 p-0 text-black text-md bg-transparent truncate">
+                                            {{ userInfo.name }}
+                                        </Link>
                                     </li>
-                                    <li class="cursor-pointer px-3 py-2 hover:bg-gray-100 truncate border-b">
-                                        <Link :href="route('user.profile')" class="border-0 p-0 text-black text-md bg-transparent hover:bg-transparent">User Profile</Link>
+                                    <li class="truncate border-b px-0">
+                                        <Link :href="route('user.profile')" class="cursor-pointer flex items-center px-3 py-2 hover:bg-gray-100  border-0 p-0 text-black text-md">User Profile</Link>
                                     </li>
                                     <li @click="logout" class="cursor-pointer px-3 py-2 hover:bg-gray-100">Logout</li>
                                 </ul>

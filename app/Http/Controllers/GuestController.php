@@ -13,6 +13,10 @@ class GuestController extends Controller
         return $res;
     }
 
+    public function registerGuest(Request $request) {
+        dd($request->all());
+    }
+
     public function createGuest(Request $request)
     {
         // return $request->all();
@@ -38,5 +42,10 @@ class GuestController extends Controller
             return response()->json(['status' => true], 200);
         }
         return response()->json(['status' => false], 500);
+    }
+
+    public function getHistory($email) {
+        $guest = Guests::with(['ticketSales' => fn($q) => $q->with('ticket')])->where("email", $email)->first();
+        return $guest;
     }
 }

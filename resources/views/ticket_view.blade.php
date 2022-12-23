@@ -10,7 +10,11 @@
 
 <body>
     @php
-        $get_img = QrCode::format('svg')->size(100)->generate('raviyatechnical');
+        $get_img = QrCode::format('svg')->size(100)->generate(json_encode([
+            'guest_name' => $ticketSales->guests->firstName,
+            'guest_id' => $ticketSales->guests->id,
+            'ticket_id' => $ticketSales->id,
+        ]));
         $image = "data:image/svg+xml;base64," . base64_encode($get_img );
     @endphp
     <div class="container">
@@ -26,8 +30,39 @@
             <div class="item-right">
                 <p class="event">{{ $ticketSales->ticket->ticket_name }}</p>
                 <h2 class="title">{{ $ticketSales->ticket->event->name }}</h2>
-
-                <div class="sce">
+                <table>
+                    <tr>
+                        <td>Start from:</td>
+                        <td>{{ date('M d Y', strtotime($ticketSales->ticket->event->start_date)) }} At 
+                        {{ date('H:s:i a', strtotime($ticketSales->ticket->event->start_time)) }}</td>
+                    </tr>
+                    <tr>
+                        <td>End at:</td>
+                        <td>
+                            {{ date('M d Y', strtotime($ticketSales->ticket->event->end_date)) }} At
+                            {{ date('H:s:i a', strtotime($ticketSales->ticket->event->end_time)) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Location:</td>
+                        <td>
+                            {{ $ticketSales->ticket->event->location }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Guest:</td>
+                        <td>
+                            {{ $ticketSales->guests->lastName }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Quantity:</td>
+                        <td>
+                            {{ $ticketSales->quantity }}
+                        </td>
+                    </tr>
+                </table>
+                {{-- <div class="sce">
                     <p>
                         <strong>Start from </strong>
                         {{ date('M d Y', strtotime($ticketSales->ticket->event->start_date)) }} At
@@ -48,7 +83,7 @@
                         <strong>Quantity</strong>
                         {{ $ticketSales->quantity }}
                     </p>
-                </div>
+                </div> --}}
                 <img class="abs_img" src="{{ $image }}">
             </div> <!-- end item-right -->
         </div> <!-- end item --> 
@@ -119,6 +154,16 @@
         }
         .container .month {
             font-size: 30px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        table td {
+            padding: 3px 5px;
         }
 
     </style>
