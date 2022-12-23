@@ -197,47 +197,6 @@
     </Master>
 </template>
 
-<style>
-.el-message {
-    z-index: 9999 !important;
-}
-
-.event-details textarea {
-    color: var(--dark);
-    background-color: #fff;
-    background-image: none;
-    border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    height: 140px;
-    outline: 0;
-    padding: 15px 15px;
-    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-    width: 100%;
-}
-
-.event-details textarea:focus {
-    border-color: var(--normal-orange);
-}
-.block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  flex: 1;
-}
-.block:last-child {
-  border-right: none;
-}
-.block .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-.el-range-editor.is-active,
-.el-range-editor.is-active:hover {
-    box-shadow: 0 0 0 1px #e83c3c inset !important;
-}
-</style>
 <script setup>
 import { ref } from '@vue/reactivity';
 
@@ -356,3 +315,47 @@ const createAdvertise = () => {
 }
 
 </script>
+
+
+
+<style>
+.el-message {
+    z-index: 9999 !important;
+}
+
+.event-details textarea {
+    color: var(--dark);
+    background-color: #fff;
+    background-image: none;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    height: 140px;
+    outline: 0;
+    padding: 15px 15px;
+    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    width: 100%;
+}
+
+.event-details textarea:focus {
+    border-color: var(--normal-orange);
+}
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+.block:last-child {
+  border-right: none;
+}
+.block .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.el-range-editor.is-active,
+.el-range-editor.is-active:hover {
+    box-shadow: 0 0 0 1px #e83c3c inset !important;
+}
+</style>

@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="inform-btn">
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded" type="submit">Continue to Payment</button>
+                        <button class="bg-[#4F4CEE] text-white px-4 py-3 rounded" type="submit">Continue to Payment</button>
                     </div>
                 </div>
             </form>
@@ -67,13 +67,15 @@
         phone: '',
         settings: {
             browser: null,
-            ip: null
-        }
+            // ip_info: null
+        },
+        ip_info: {}
     })
 
     onMounted(async () => {
         form.value.settings.browser = getBrowser()
-        // form.value.settings.ip = getIp() //not working from local machine
+        let ip = await getIp();
+        form.value.ip_info =  ip;
     })
 
 

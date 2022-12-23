@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -34,11 +35,18 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
+        $settings = SiteSetting::all();
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
             ],
             'user' => auth()->user(),
+            'settings' => [
+                'commission' => $settings->where('name', 'commission')->first(),
+                'currency' => $settings->where('name', 'currency')->first(),
+                'home_banner_image' => $settings->where('name', 'home_banner_image')->first(),
+                'home_banner_text' => $settings->where('name', 'home_banner_text')->first(),
+            ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'error' => fn () => $request->session()->get('error'),

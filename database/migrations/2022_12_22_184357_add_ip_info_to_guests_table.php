@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('site_settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->longText('value')->nullable();
-            $table->timestamps();
+        Schema::table('guests', function (Blueprint $table) {
+            $table->json('ip_info')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('site_settings');
+        Schema::table('guests', function (Blueprint $table) {
+            $table->dropColumn('ip_info');
+        });
     }
 };

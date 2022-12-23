@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         
-        \App\Models\User::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
         \App\Models\User::factory()->create([
             'first_name' => 'Admin',
             'last_name' => 'User',
@@ -46,35 +46,35 @@ class DatabaseSeeder extends Seeder
             'type' => 'organizer',
             'email' => 'org@gmail.com',
         ]);
-        \App\Models\EventList::factory(100)->create();
+        // \App\Models\EventList::factory(100)->create();
 
-        $events = \App\Models\EventList::all();
-        foreach ($events as $event) {
-            $ticketTypes = $this->ticketTypes[rand(0, count($this->ticketTypes)-1)];
-            $dateType = $this->dateType[rand(0, count($this->dateType)-1)];
+        // $events = \App\Models\EventList::all();
+        // foreach ($events as $event) {
+        //     $ticketTypes = $this->ticketTypes[rand(0, count($this->ticketTypes)-1)];
+        //     $dateType = $this->dateType[rand(0, count($this->dateType)-1)];
 
-            Images::create([
-                'foreign_id' => $event->id,
-                'path' => 'images/banner-0f628891312da22a191d987b4bb81a07-Anker-Soundcore-Life-Note-3i_638adb1216ec7.png',
-                'type' => 'banner',
-            ]);
+        //     Images::create([
+        //         'foreign_id' => $event->id,
+        //         'path' => 'images/banner-0f628891312da22a191d987b4bb81a07-Anker-Soundcore-Life-Note-3i_638adb1216ec7.png',
+        //         'type' => 'banner',
+        //     ]);
 
-            $event->eventTickets()->create([
-                "user_id"    => \App\Models\User::all()->random(1)->first()->id,
-                // 'event_id'      => $request->event_id,
-                'ticketType'    => $ticketTypes,
-                'ticket_name'   => fake()->name(),
-                'ticket_stock'  => rand(1, 200),
-                'stock_limit'   => rand(1, 200),
-                'price'         => $ticketTypes == 'Paid' ? rand(10, 100) : 0,
-                'purchase_limit' => rand(1, 10),
-                'questions'      => null,
-                'perks'          => null,
-                'ticket_description'    => fake()->realText(300),
-                'isTransferFeesToGuest' => rand(0, 1),
-                // 'settings' => $request->settings,
-            ]);
-        }
+        //     $event->eventTickets()->create([
+        //         "user_id"    => \App\Models\User::all()->random(1)->first()->id,
+        //         // 'event_id'      => $request->event_id,
+        //         'ticketType'    => $ticketTypes,
+        //         'ticket_name'   => fake()->name(),
+        //         'ticket_stock'  => rand(1, 200),
+        //         'stock_limit'   => rand(1, 200),
+        //         'price'         => $ticketTypes == 'Paid' ? rand(10, 100) : 0,
+        //         'purchase_limit' => rand(1, 10),
+        //         'questions'      => null,
+        //         'perks'          => null,
+        //         'ticket_description'    => fake()->realText(300),
+        //         'isTransferFeesToGuest' => rand(0, 1),
+        //         // 'settings' => $request->settings,
+        //     ]);
+        // }
 
         // \App\Models\Ticket::factory(500)->create();
         // $this->call(TimeZoneSeeder::class);

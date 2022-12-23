@@ -16,7 +16,7 @@
             
             <EventCard v-for="(event, index) in events.data" :key="index" :event="event" />
         </div>
-        <div class="mt-10 flex justify-center" v-if="events.links">
+        <div class="mt-10 flex justify-center" v-if="events.links && events.data.length">
             <div class="flex flex-wrap -mb-1">
                 <div v-for="(link, inde) in events.links" :key="inde">
                     <div v-if="link.url === null" :key="Math.random()+Math.random()" class="mr-1 mb-1 px-4 py-3 bg-white text-sm leading-4 text-gray-800 border rounded" v-html="link.label" />
@@ -25,6 +25,9 @@
                     </Link>
                 </div>
             </div>
+        </div>
+        <div v-else>
+            No event found
         </div>
 
         <NewEventPopup v-model="showEventPopup" />

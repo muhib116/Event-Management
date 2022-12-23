@@ -46,7 +46,17 @@ Route::post('ticket/sale', [TicketSaleController::class, 'sale'])->name('ticket.
 
 
 
+// get user ip info
+Route::get('/get-ip', function() {
+    $json = file_get_contents("https://ipinfo.io/json");
+    return json_decode($json);
+})->name('get_ip');
 
 // guest api
 Route::get('guest/{email}', [GuestController::class, 'getGuest'])->name('get.guest');
 Route::post('guest-create', [GuestController::class, 'createGuest'])->name('create.guest');
+Route::get('/event-history/{email}', [GuestController::class, 'getHistory'])->name('get.history');
+
+// get event guest
+Route::get('event-guest/{eventList}', [EventController::class, 'getEventGuest'])->name('get.event_guest');
+Route::get('event-sales/{eventList}', [EventController::class, 'getEventSales'])->name('get.event_sales');

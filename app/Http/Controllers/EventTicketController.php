@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EventTickets;
+use App\Models\TicketSales;
+use Illuminate\Support\Facades\App;
+use Inertia\Inertia;
 
 class EventTicketController extends Controller
 {
@@ -24,8 +27,8 @@ class EventTicketController extends Controller
             'settings' => $request->settings,
         ];
         
-        $ticketId = EventTickets::create($data)->id;
-        return response()->json(["id" => $ticketId], 200);
+        $ticketId = EventTickets::create($data);
+        return response()->json(["id" => $ticketId->id], 200);
     }
 
     function update(Request $request, $id) {
@@ -68,6 +71,7 @@ class EventTicketController extends Controller
         if($ticket){
             $newTicket = $ticket->replicate();
             $newTicket = $newTicket->save();
+            // $newTicket->design()->create();
             return response()->json($newTicket, 200);
         }
 
@@ -81,5 +85,21 @@ class EventTicketController extends Controller
             $ticket->delete();
             return response()->json(['status'=>true], 200);
         }
+    }
+
+    public function ticket_design(EventTickets $eventTickets) {
+        // return $eventTickets;
+        return Inertia::render('TicketDesign', [
+            'ticket' => $eventTickets,
+            'design' => $eventTickets->design,
+        ]);
+    }
+
+    public function ticket_view(TicketSales $ticketSales) {
+        $ticketSales = TicketSales::with(['guests', 'organizer', 'ticket' => fn($q) => $q->with('event')])->find($ticketSales->id);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('ticket_view', compact('ticketSales'));
+        return $pdf->stream();
+        return view('ticket_view', compact('ticketSales'));
     }
 }

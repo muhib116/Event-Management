@@ -22,7 +22,8 @@ export default function useGuestInformation (){
          return browserName
     }
     const getIp = async () => {
-        return await axios.get('https://api.ipify.org/?format=json')
+        let { data } = await axios.get('/get-ip');
+        return data;
     }
     return {
         getBrowser,
