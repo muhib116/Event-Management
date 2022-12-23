@@ -189,6 +189,10 @@ export default function useEvent(){
         let { data } = await axios.get(`event/${event_id}`)
         return data
     }
+    const getEventGuest = async (event_id) => {
+        let { data } = await axios.get(`event-guest/${event_id}`)
+        return data
+    }
 
     const get_banner = (images) => {
         let img = images.find(item => {
@@ -216,6 +220,7 @@ export default function useEvent(){
         getParams,
         getEventId,
         getEvent,
+        getEventGuest,
         get_banner,
         convertToSlug
     }

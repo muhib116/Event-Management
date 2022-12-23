@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\EventList;
+use App\Models\EventTickets;
+use App\Models\Guests;
 use App\Models\MEvents;
+use App\Models\TicketSales;
 use App\Utils;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -126,6 +129,23 @@ class EventController extends Controller
         $eventList->expired_at = $this->getDurationFormate($end->diffInSeconds(now()));
         $eventList->is_expired = now()->gt($end);
         return response()->json($eventList, 200);
+    }
+    public function getEventGuest(EventList $eventList) {
+        $ids = $eventList->eventTickets()->pluck('id');
+        $sales = TicketSales::where('guest_id', '!=', null)->whereIn('ticket_id', $ids)->pluck('guest_id');
+        $guest = Guests::whereIn('id', $sales)->get();
+        return $guest;
+        // return response()->json($eventList->guests()->get(), 200);
+    }
+    public function getEventSales(EventList $eventList) {
+        $ids = $eventList->eventTickets()->pluck('id');
+        $sales = TicketSales::with(['guests', 'ticket'])->whereIn('ticket_id', $ids)->get();
+        
+        return response([
+            'sales' => $sales,
+            'ticket_sold' => $sales->sum('quantity'),
+            'ticket_revenue' => $sales->sum('price'),
+        ], 200);
     }
 
 

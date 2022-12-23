@@ -105,6 +105,7 @@ function onFileChange(e) {
 }
 
 function saveSettings() {
+    console.log(form);
     form.post(route('settings.save'), {
         onSuccess(e) {
             if (e.props?.flash?.success) {

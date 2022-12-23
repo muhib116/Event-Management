@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiteSetting;
+use App\Utils;
+use Illuminate\Http\FileHelpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class SettingController extends Controller
 {
+    use Utils;
     public function index() {
         $settings = SiteSetting::all()->map(function($s) {
             if ($s->name == 'home_banner_image') {
@@ -44,15 +47,11 @@ class SettingController extends Controller
                 $file_name  = $request->type.'-'.$uniqueCode.'-'.$file->getClientOriginalName();
                 
                 $old = SiteSetting::where('name', 'home_banner_image')->first();
-                if ($old && file_exists(public_path($old->image))) {
-                    unlink(public_path($old->value));
-                }
-                $image = $file->move('images', $file_name);
+                $image = $this->imageUpload($request, 'home_banner_image', 'images');
                 SiteSetting::updateOrCreate(['name' => 'home_banner_image'],[
                     'name' => 'home_banner_image',
                     'value' => $image,
                 ]);
-                // return $image;
             }
             SiteSetting::updateOrCreate(['name' => 'home_banner_text'],[
                 'name' => 'home_banner_text',

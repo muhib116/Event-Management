@@ -2,6 +2,7 @@
     <div class="absolute top-full right-0 grid bg-white z-10 text-xs rounded shadow-lg">
         <button @click="$emit('openTicketPopup')" class="px-5 text-left py-2 border-b">Edit</button>
         <button @click="handleDuplicate(data.id)" class="px-5 text-left py-2 border-b">Duplicate</button>
+        <Link :href="route('ticket_design', data.id)" class="px-5 text-left py-2 border-b whitespace-nowrap">View design</Link>
         <button @click="handleHidden(data)" class="px-5 text-left py-2 border-b">
             {{ data.settings.isHidden ? 'Show' : 'Hide' }}
         </button>
@@ -12,6 +13,7 @@
 <script setup>
     import useTicket from '@/Pages/useTicket.js'
     import { useToast } from "vue-toastification"
+    import { Link } from '@inertiajs/inertia-vue3';
 
     const toast = useToast();
     const props = defineProps({

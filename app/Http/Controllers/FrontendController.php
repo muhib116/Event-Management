@@ -48,57 +48,39 @@ class FrontendController extends Controller
         ];
     }
     public function index() {
+        $json     = file_get_contents("http://ipinfo.io/119.30.32.76/geo");
+        // return json_decode($json);
         $this->data['upcoming_events'] = EventList::with(['images'])
                                 ->withMin('eventTickets as min_price', 'price')
                                 ->withMax('eventTickets as max_price', 'price')
                                 ->where('publish', 1)
-                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
+                                // ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
+                                ->whereDate('start_date', '>', now())
                                 ->orderBy('start_date', 'ASC')
                                 // ->whereHas('eventTickets')
                                 ->limit(10)->get();
-        $this->data['arts_events'] = EventList::with(['images'])
-                                ->withMin('eventTickets as min_price', 'price')
-                                ->withMax('eventTickets as max_price', 'price')
-                                ->where('publish', 1)
-                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
-                                ->where('eventCategory', 'arts-culture')
-                                ->orderBy('created_at', 'ASC') 
-                                ->limit(10)->get();
-        // $this->data['category_events'] = EventList::with(['images'])
-        //                         // ->withMin('eventTickets', 'price')
+        // $this->data['arts_events'] = EventList::with(['images'])
+        //                         ->withMin('eventTickets as min_price', 'price')
+        //                         ->withMax('eventTickets as max_price', 'price')
         //                         ->where('publish', 1)
         //                         ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
-        //                         // ->where('eventCategory', 'arts-culture')
-        //                         ->orderBy('start_date', 'ASC') 
-        //                         ->select(DB::raw('eventCategory'))
-        //                         // ->groupBy('eventCategory')
-        //                         ->get();
-        // $this->data['category_events'] = EventList::with(['images'])
-        //                         // ->withMin('eventTickets', 'price')
+        //                         ->where('eventCategory', 'arts-culture')
+        //                         ->orderBy('created_at', 'ASC') 
+        //                         ->limit(10)->get();                   
+        // $this->data['concerts_events'] = EventList::with(['images'])
+        //                         ->withMin('eventTickets', 'price')
         //                         ->where('publish', 1)
         //                         ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
-        //                         // ->where('eventCategory', 'arts-culture')
-        //                         ->orderBy('start_date', 'ASC') 
-        //                         // ->selectRaw('*')
-        //                         // ->select(DB::raw('eventCategory'))
-        //                         // ->groupBy('eventCategory')
-        //                         ->get();
-        
-                                
-        $this->data['concerts_events'] = EventList::with(['images'])
-                                ->withMin('eventTickets', 'price')
-                                ->where('publish', 1)
-                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
-                                ->where('eventCategory', 'concerts')
-                                ->with(['eventTickets', 'images'])
-                                ->orderBy('created_at', 'DESC')
-                                ->limit(10)->get();
+        //                         ->where('eventCategory', 'concerts')
+        //                         ->with(['eventTickets', 'images'])
+        //                         ->orderBy('created_at', 'DESC')
+        //                         ->limit(10)->get();
 
         $this->data['top_selling_events'] = EventList::with(['images'])
                                 ->where('publish', 1)
                                 ->withMin('eventTickets', 'price')
                                 ->withMax('eventTickets', 'price')
-                                ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
+                                ->whereDate('end_date', '>', now())
                                 ->withSum('eventTickets as ticket_sold', 'sold')
                                 ->withSum('eventTickets as tickets_stock_limit', 'stock_limit')
                                 // ->with(['eventTickets' => function($q) {
@@ -172,6 +154,9 @@ class FrontendController extends Controller
     }
 
     public function checkout($url) {
+        // $json = file_get_contents("http://ipinfo.io/119.30.32.76/geo");
+        $json = file_get_contents("https://ipinfo.io/json");
+        $this->data['ip_info'] = json_decode($json);
         $this->data['event'] = EventList::with(['images', 'eventTickets'])
                                 ->withMin('eventTickets as min_price', 'price')
                                 ->withMax('eventTickets as max_price', 'price')
@@ -235,14 +220,14 @@ class FrontendController extends Controller
         if (isset($request->categories) && is_array($request->categories)) {
             $query->whereIn('eventCategory', $request->categories);
         }
-        
+
         if (isset($request->price_range) && is_array($request->price_range)) {
             // $query->whereIn('eventCategory', $request->categories);
         }
         // if (isset($request->event_type) && is_array($request->price_range)) {
         //     $query->where('eventCategory', $request->event_type);
         // }
-        return $query->get();
+        // return $query->get();
         $this->data['events'] = $query->with(['eventTickets', 'images'])
                         ->withMin('eventTickets as min_price', 'price')
                         ->withMax('eventTickets as max_price', 'price')

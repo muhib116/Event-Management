@@ -52,7 +52,7 @@
 
     -- site settings
         -- logo, banner image, title
-        -- search page 
+        -- ✅search page 
         -- ✅date range
         -- ✅ticket min max price
         -- admin can set currency and commission
@@ -65,3 +65,19 @@
 
     -- track visitor ip and location (video on 24 min)
         :help https://medium.com/@laraveltuts/ how-to-get-country-city-address-from-ip-address-laravel-9-e20c82200702
+
+
+:: bank
+    bank name
+    account number
+    account name
+    branch name
+
+    paypal info
+    stripe info
+    more info
+
+
+
+
+:: ticket 

@@ -1,51 +1,46 @@
 <template>
-    <div class="grid gap-4" :class="editable&&'mb-10'">
-        <label class="bg-red-100 cursor-pointer relative grid items-center text-center max-w-[900px] mx-auto w-full" style="aspect-ratio: 3/1">
-            <ImageUpload 
-                :title="(getBannerImage(imageFromApi)) ? 'Update Banner' : 'Upload Banner'" 
-                type="banner" 
-                :id="eventId" 
-                class="top-10"
-                :callBack="() => {
-                    deleteImage(getBannerId(imageFromApi))
-                }"
-            />
-            <img v-if="getBannerImage(imageFromApi)" :src="getBannerImage(imageFromApi)" class="block h-full w-full object-cover object-center" />
-            <h4 v-else>Banner Image not available</h4>
-        </label>
-        <div class="grid grid-cols-3 gap-4 max-w-[900px] mx-auto w-full" style="aspect-ratio: 3/1">
-            
-            <ImageUpload title="Upload Gallery" type="gallery" :id="eventId" />
-            
-            <template v-for="(item, index) in imageFromApi" :key="index">
-                <div v-if="item.type == 'gallery'" class="relative bg-red-100 shadow-lg rounded overflow-hidden grid  items-center justify-center">
-                    <button 
-                        @click="handleImageDelete(item.id)"
-                        class="absolute right-2 top-2 p-2 bg-white bg-opacity-50 shadow hover:text-red-500"
-                    >
-                        <svg width="20px" height="20px" viewBox="0 0 20 20" class="w-4 h-4" fill="currentColor"><path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/></svg>
-                    </button>
-                    <img :src="item.path" class="block h-full w-full object-cover object-center" />
-                </div>
-            </template>
-        </div>
-
-
-        <div v-if="!editable" class="save-or-cancel">
-            <Link class="button save bg-red" :href="route('ticket', eventId)">Skip</Link>
-            <Link class="button save bg-red" :href="route('ticket', eventId)">
-                Continue
-            </Link>
+    <div class="guestlist event-item" data-item="guestlist">
+        <div class="shadow mt-10 rounded border-t">
+            <table class="w-full rounded">
+                <tr class="border-b">
+                    <th class="px-2 py-4 text-gray-700">Name</th>
+                    <th class="px-2 py-4 text-gray-700">Email</th>
+                    <th class="px-2 py-4 text-gray-700">Phone</th>
+                    <th class="px-2 py-4 text-gray-700">Location Info</th>
+                </tr>
+                <tr
+                    v-for="(data, index) in eventGuest" 
+                    :key="index" 
+                    class="border-b">
+                    <td class="text-center px-2 py-4 text-gray-700">
+                        {{ data.firstName }} 
+                        {{ data.lastName }}
+                    </td>
+                    <td class="text-center px-2 py-4 text-gray-700">{{ data.email }}</td>
+                    <td class="text-center px-2 py-4 text-gray-700">{{ data.phone }}</td>
+                    <td class="text-center px-2 py-4 text-gray-700">
+                        <div class="relative group inline-flex">
+                            <button class="border px-3 py-2 rounded border-slate-200 relative">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                            <div class="absolute scale-0 transition-transform duration-200 origin-bottom-right group-hover:scale-100 bottom-0 right-full bg-white z-10 py-3 px-4 shadow-md min-w-[200px] divide-y divide-slate-300">
+                                <div class="flex py-1 justify-between" v-if="data.settings?.browser">Browser: <strong>{{ data.settings?.browser }}</strong></div>
+                                <div class="flex py-1 justify-between" v-if="data.ip_info?.country">Country: <strong>{{ data.ip_info?.country }}</strong></div>
+                                <div class="flex py-1 justify-between" v-if="data.ip_info?.city">City: <strong>{{ data.ip_info?.city }}</strong></div>
+                                <div class="flex py-1 justify-between" v-if="data.ip_info?.timezone">Timezone: <strong>{{ data.ip_info?.timezone }}</strong></div>
+                                <div class="flex py-1 justify-between" v-if="data.ip_info?.postal">Postal: <strong>{{ data.ip_info?.postal }}</strong></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </template>
 
 <script setup>
     import { ref, onMounted, onUpdated } from 'vue'
-    import { isEmpty } from 'lodash'
-    import ImageUpload from '@/Components/dashboard/event/components/ImageUpload.vue'
-    import useFileUpload from '@/Components/useFileUpload.js'
-    import { Link } from '@inertiajs/inertia-vue3' 
+    import useEvent from '@/Pages/useEvent'
     
     const props = defineProps({
         editable: {
@@ -53,43 +48,18 @@
             default: false
         }
     })
-    
-    const {
-        getImages,
-        imageFromApi,
-        deleteImage
-    } = useFileUpload()
+    const { getEventGuest } = useEvent();
 
-    const eventId = ref(null)
-
-    const getBannerImage = (images) => {
-        let filteredImage = images.filter(item => {
-            return (item.type=='banner')
-        })
-        if(isEmpty(filteredImage)) return
-        return (filteredImage[0].path) ? filteredImage[0].path : ''
-    }
-    const getBannerId = (images) => {
-        let filteredImage = images.filter(item => {
-            return (item.type=='banner')
-        })
-        if(isEmpty(filteredImage)) return null
-        return (filteredImage[0].id) ? filteredImage[0].id : null
-    }
-    const handleImageDelete = (id) => {
-        if(confirm('Are you sure to delete this image ?')){
-            deleteImage(id)
-            getImages(eventId.value)
-        }
-    }
+    const eventId = ref(null);
+    const eventGuest = ref([]);
     const getEventId = () => {
         let urlData = window.location.pathname.split('/')
         return urlData.at(-1)
     }
 
 
-    onMounted(() => {
-        getImages(getEventId())
+    onMounted(async () => {
+        eventGuest.value = await getEventGuest(getEventId());
     })
     onUpdated(() => {
         eventId.value = getEventId()

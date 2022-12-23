@@ -13,5 +13,15 @@ class TicketSales extends Model
     protected $casts = [
         'settings' => 'array',
     ];
+    public function guests() {
+        return $this->belongsTo(Guests::class, 'guest_id', 'id');
+    }
+    public function ticket() {
+        return $this->belongsTo(EventTickets::class);
+    }
+
+    public function organizer() {
+        return $this->belongsTo(User::class, 'organizer_id', 'id');
+    }
     
 }

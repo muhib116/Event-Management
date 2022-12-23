@@ -15,12 +15,14 @@ class GuestController extends Controller
 
     public function createGuest(Request $request)
     {
+        // return $request->all();
         $data = [
             "firstName" => $request->firstName,
             "lastName"  => $request->lastName,
             "email"     => $request->email,
             "phone"     => $request->phone,
             "settings"  => $request->settings,
+            "ip_info"  => $request->ip_info,
         ];
 
         $isExist = Guests::where("email", $request->email)->exists();

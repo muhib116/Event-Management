@@ -12,5 +12,6 @@ class Guests extends Model
     protected $guarded = ['id'];
     protected $casts = [
         'settings' => 'array',
+        "ip_info" => 'json'
     ];
 }

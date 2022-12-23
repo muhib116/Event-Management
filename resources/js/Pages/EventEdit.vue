@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <nav class="container mx-auto">
+            <nav class="container mx-auto bg-white">
                 <div class="dropdown-container" v-for="(item, index) in navList" :key="index" @click="handleComponent(item)">
                     <div class="profile nav-item filter-item" :class="item.isActive && 'active'"> 
                         {{ item.title }}
@@ -47,6 +47,7 @@
     import EventDetail from '@/Components/dashboard/event/EventDetail.vue'
     import Appearance from '@/Components/dashboard/event/Appearance.vue'
     import ManageGuestlist from '@/Components/dashboard/event/ManageGuestlist.vue'
+    import Sales from '@/Components/dashboard/event/Sales.vue'
     import Tickets from '@/Components/dashboard/AllTickets/Tickets.vue'
     import Master from './Master.vue'
     import useEvent from '@/Pages/useEvent.js'
@@ -60,6 +61,8 @@
     const components = {
         EventDetail,
         Appearance,
+        ManageGuestlist,
+        Sales,
         Tickets
     }
     const navList = ref([
@@ -77,10 +80,15 @@
             title: 'ManageGuestlist',
             component: 'ManageGuestlist',
             isActive: false
-        },
+        }, 
         {
             title: 'Tickets',
             component: 'Tickets',
+            isActive: false
+        },
+        {
+            title: 'Sales',
+            component: 'Sales',
             isActive: false
         }
     ])
