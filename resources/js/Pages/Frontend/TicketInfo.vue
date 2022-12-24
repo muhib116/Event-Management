@@ -75,9 +75,10 @@
     import useTicket from '@/Pages/Frontend/useTicket'
 
     const { get_banner } = useEvent()
-    const { cards, getTotalWithFees, totalQuantity, totalPrice } = useTicket()
+    const { cards, getTotalWithFees, totalQuantity, totalPrice, commission } = useTicket()
     const props = defineProps({
-        event: Object
+        event: Object,
+        settings: Object
     })
     watch(cards, ()=>{
         getTotalWithFees(cards.value)
@@ -88,6 +89,7 @@
         if(localStorage.cards){
             cards.value = JSON.parse(localStorage.getItem('cards'))
         }
+        commission.value = props.settings.commission.value
     })
 </script>
 

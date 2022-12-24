@@ -6,13 +6,13 @@
                 <div class="container">
                     <div class="completed-main">
                         <div class="completed-upper">
-                            <a href="#">Completed!</a>
+                            <Link :href="route('home')">Completed!</Link>
                             <img src="@/assets/frontend/images/completed.png" alt="">
                         </div>
 
                         <div class="completed-cnt">
                             <h2>Tickets have been sent to</h2>
-                            <a href="mailto: rachelgreen@gmail.com">rachelgreen@gmail.com</a>
+                            <a v-if="!isLoading" :href="`mailto: ${userInfo.email}`">{{ userInfo.email }}</a>
                         </div>
 
                         <div class="resend-tickcnt">
@@ -24,7 +24,7 @@
                             <h4>Having trouble receiving the tickets?</h4>
                             <ul>
                                 <!-- <li><a href="tel: +62 21 1234 9876"><i class="fas fa-phone-alt"></i> {{ userInfo.phone }}</a></li> -->
-                                <li><a href="mailto: karcis@karcis.com"><i class="far fa-envelope"></i>{{ userInfo.phone }}</a></li>
+                                <li><a v-if="!isLoading" :href="`mailto: ${userInfo.email}`"><i class="far fa-envelope"></i>{{ userInfo.email }}</a></li>
                             </ul>
                         </div>                    
                     </div>
@@ -36,8 +36,8 @@
 
 <script setup>
     import useAuth from '@/useAuth';
-import { Head, Link } from '@inertiajs/inertia-vue3'
-import { onMounted } from '@vue/runtime-core';
+    import { Head, Link } from '@inertiajs/inertia-vue3'
+    import { onMounted } from '@vue/runtime-core';
     import LoginCheck from './LoginCheck.vue';
     import Master from './Master.vue'
 
