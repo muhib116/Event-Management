@@ -20,7 +20,7 @@ class SettingController extends Controller
             return $s;
         });
         return Inertia::render('Settings', [
-            'settings' => $settings
+            'site_settings' => $settings
         ]);
     }
     
@@ -61,6 +61,7 @@ class SettingController extends Controller
                 
                 $old = SiteSetting::where('name', 'logo_image')->first();
                 $image = $this->imageUpload($request, 'logo_image', 'images');
+
                 SiteSetting::updateOrCreate(['name' => 'logo_image'],[
                     'name' => 'logo_image',
                     'value' => $image,

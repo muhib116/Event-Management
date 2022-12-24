@@ -135,6 +135,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="w-full" v-if="$page.props?.total_advertise">
+                    <div class="relative flex flex-col min-w-0 break-words bg-white rounded-lg mb-6 xl:mb-0 shadow-lg">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-wrap">
+                                <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                                    <h5 class="text-blueGray-400 uppercase font-bold text-xs">Total Advertise</h5>
+                                    <span class="font-bold text-xl">{{ $page.props.total_advertise }}</span>
+                                </div>
+                                <div class="relative w-auto pl-4 flex-initial">
+                                    <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-pink-500">
+                                        <i class="fa-solid fa-bullhorn"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-blueGray-500 mt-4">
+                                <Link :href="route('advertise.index')" class="py-1 px-3 bg-orange-200 rounded">Manage</Link>
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -143,7 +163,7 @@
 
 <script setup>
 import useDashboard from '@/Pages/useDashboard';
-import { usePage } from '@inertiajs/inertia-vue3';
+import { Link, usePage } from '@inertiajs/inertia-vue3';
 
 const { dashboard } = useDashboard();
 // const pg  = usePage();

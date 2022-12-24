@@ -5,7 +5,9 @@
             <img :src="`../../${get($page.props, 'settings.logo_image.value')}`" alt="Logo Image" class="logo">
         </Link>
         <div class="account-container">
-            <div class="account"> EK </div>
+            <div class="account"> 
+                <img :src="`https://ui-avatars.com/api/?name=${$page.props.auth.user.first_name}&rounded=true&background=FC6435&color=fff`" alt="">
+            </div>
             <div class="nav">
                 <Link :href="route('live.account')">Account</Link>
                 <Link :href="route('dashboard')">Events</Link>

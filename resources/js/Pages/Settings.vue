@@ -93,7 +93,7 @@ import _ from 'lodash';
 const toast = useToast();
 
 const props = defineProps({
-    settings: {
+    site_settings: {
         type: Array,
         default: []
     }
@@ -109,7 +109,7 @@ const form = useForm({
     logo_image: null,
 });
 onMounted(()=> {
-    let settings = props.settings;
+    let settings = props.site_settings;
     // console.log(settings);
     form.currency = _.find(settings, {name: 'currency'})?.value;
     form.commission = _.find(settings, {name: 'commission'})?.value;

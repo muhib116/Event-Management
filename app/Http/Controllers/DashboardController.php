@@ -71,7 +71,7 @@ class DashboardController extends Controller
             $total_organizer = User::where('type', 'organizer')->count();
             $total_clients = User::where('type', 'clients')->count();
         }
-        return Inertia::render('Dashboard', [
+        $data = [
             'events' => $events,
             'user' => auth()->user(),
             'total_sales_quantity' => (int)$total_sales_quantity,
@@ -81,6 +81,10 @@ class DashboardController extends Controller
             'total_ticket' => $total_ticket,
             'total_organizer' => $total_organizer,
             'total_clients' => $total_clients,
-        ]);
+        ];
+        if (auth()->user()->type == 'admin') {
+            $data['total_advertise'] = Advertise::count();
+        }
+        return Inertia::render('Dashboard', $data);
     }
 }
