@@ -1,8 +1,8 @@
 <template>
-    <Link :href="route('event.details', item.slug)" class="w-full block">
-        <div class="upcome-item">
+    <Link :href="route('event.details', item.slug)" class="w-full block px-2">
+        <div class="upcome-item overflow-hidden">
             <div class="upcome-banr h-[200px]">
-                <img :src="`../../../../../${get_banner(item.images)}`" :alt="item.name" class="h-full block object-cover object-center w-full">
+                <img :src="get_banner(item.images)" :alt="item.name" class="h-full object-cover object-center w-full">
             </div>
             <div class="upcome-cnt justify-between">
                 <div class="upcome-cntleft">

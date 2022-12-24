@@ -35,8 +35,7 @@
    const { getEventId } = useTicket()
    const showPopup = ref(false)
    const redirectToTicketsPage = () => {
-      console.log('callback...')
-      window.location.href = route('tickets', getEventId())
+      window.location.href = route('dashboard')
    }
 </script>
 
