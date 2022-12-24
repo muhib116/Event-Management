@@ -5,7 +5,7 @@
                 <nav class="navbar navbar-expand-lg">
                     <Link class="navbar-brand" :href="route('home')">
                         <!-- <img :src="@/assets/frontend/images/logo.png" alt=""> -->
-                        <img :src="$page.props.settings?.logo_image.value" alt="">
+                        <img :src="get($page.props, 'settings.logo_image.value')" alt="">
                     </Link>
                     <button @click="(showOffCanvas = true)" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                         <span class="hamburger-box">
@@ -49,6 +49,7 @@
 </template>
 
 <script setup>
+    import { get } from 'lodash'
     import Sidebar from './Sidebar.vue'
     import { ref } from 'vue'
     import { Link } from '@inertiajs/inertia-vue3'
