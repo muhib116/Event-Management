@@ -3,15 +3,14 @@
         <div class="container">
             <div class="upcome-upper">
                 <h2>Hot Offers</h2>
-                <a href="#">View All <i class="fas fa-chevron-right" aria-hidden="true"></i></a>
             </div>
 
             <div class="row relative">
                 <Carousel ref="myCarousel" :settings="settings" :breakpoints="breakpoints">
                     <Slide v-for="(item, index) in data" :key="index">
-                        <a target="_blank" :href="item.link" class="block w-full">
+                        <a target="_blank" :href="item.link" class="grid w-full px-2">
                             <div class="offer-item">
-                                <img :src="item.image" alt="" class="h-[300px] object-cover object-center block w-full">
+                                <img :src="item.image" alt="" class="h-[300px] object-cover object-center w-full">
                             </div>
                         </a>
                     </Slide>

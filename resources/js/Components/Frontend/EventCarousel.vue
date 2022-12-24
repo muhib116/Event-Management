@@ -39,7 +39,7 @@
     import '@/assets/frontend/carouselStyle.css'
     import { ref } from 'vue'
     import EventCard from './components/EventCard.vue'
-
+    
     const props = defineProps({
         data: Array,
         title: String
@@ -48,7 +48,7 @@
     const myCarousel = ref(null)  
     const settings = {
         itemsToShow: 1,
-        snapAlign: 'center',
+        snapAlign: 'center'
     }
 
     const breakpoints = {

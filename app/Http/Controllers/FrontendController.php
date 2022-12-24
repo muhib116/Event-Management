@@ -233,6 +233,8 @@ class FrontendController extends Controller
                         ->withMax('eventTickets as max_price', 'price')
                         ->limit(20)
                         ->get();
+
+        // dd($this->data);
         return Inertia::render('Frontend/SearchResult', $this->data);
     }
 
