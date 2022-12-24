@@ -14,8 +14,6 @@ class TicketSaleController extends Controller
 {
     function sale(Request $request){
         // insert to ticket_sales and then update the sold column of event_tickets table
-        $simulateResponse=Mpesa::simulateC2B(100, "254708374149", "Testing");
-        dd($request->all());
         foreach($request->all() as $key => $value){
             $data = [
                 "organizer_id" => $value['organizer_id'],
