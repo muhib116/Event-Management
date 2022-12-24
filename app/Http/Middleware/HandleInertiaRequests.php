@@ -36,6 +36,8 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request)
     {
         $settings = SiteSetting::all();
+        $logo = $settings->where('name', 'logo_image')->first();
+        $logo->value = asset($logo->value);
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -46,7 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'currency' => $settings->where('name', 'currency')->first(),
                 'home_banner_image' => $settings->where('name', 'home_banner_image')->first(),
                 'home_banner_text' => $settings->where('name', 'home_banner_text')->first(),
-                'logo_image' => $settings->where('name', 'logo_image')->first(),
+                'logo_image' => $logo,
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
