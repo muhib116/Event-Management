@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\EventTickets;
 use App\Models\Guests;
 use App\Models\TicketSales;
-use Gathuku\Mpesa\Facades\Mpesa;
 use Illuminate\Support\Facades\Mail;
 
 class TicketSaleController extends Controller
@@ -28,7 +27,7 @@ class TicketSaleController extends Controller
             ];
             $ticket = TicketSales::create($data);
             if($ticket->id){
-                // $this->updateSoldColumn($value);
+                $this->updateSoldColumn($value);
                 $guest = Guests::find($data['guest_id']);
                 if ($guest) {
                     Mail::to($guest)->send(new TicketMail($guest));
@@ -36,7 +35,6 @@ class TicketSaleController extends Controller
                 // Mail::send(TicketMail)
             }
         }
-        $simulateResponse=Mpesa::simulateC2B(100, "254708374149", "Testing");
     }
 
     private function updateSoldColumn($data) {
