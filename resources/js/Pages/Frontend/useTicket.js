@@ -3,11 +3,11 @@ import { ref } from 'vue'
 const totalQuantity = ref(0)
 const totalPrice = ref(0)
 const cards = ref({})
-const commission = 3 //in percentage
+const commission = ref(0) //in percentage
 
 export default function useTicket() {
     const addCardData = (ticket, cards, quantity) => {
-        let _commission = (ticket.isTransferFeesToGuest) ? commission : 0
+        let _commission = (ticket.isTransferFeesToGuest) ? commission.value : 0
         let cardData = {
             id: ticket.id,
             name: ticket.ticket_name,
@@ -62,7 +62,7 @@ export default function useTicket() {
 
     const getTicketPrice = (ticket) => {
         if(ticket.isTransferFeesToGuest){
-            return (ticket.price + ((ticket.price/100)*commission)).toFixed(2)
+            return (ticket.price + ((ticket.price/100)*commission.value)).toFixed(2)
         }
 
         return ticket.price

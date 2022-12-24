@@ -39,7 +39,8 @@
     const { cards, getTotal, getTotalCommission, getTotalWithFees } = useTicket()
     const { get_banner } = useEvent()
     const props = defineProps({
-        event: Object
+        event: Object,
+        commission: Object
     })
 
     onMounted(() => {
@@ -48,7 +49,9 @@
             cards.value = cardsFromLocalStorage
             getTotal(cards.value)
         }
+        commission.value = props.settings.commission.value
     })
+
 </script>
 
 <style lang="scss" scoped>
