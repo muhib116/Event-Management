@@ -79,7 +79,7 @@
                             </div>
 
                             <div class="row">
-                                <div v-for="event in filteredEvents" :key="event.id" class="col-sm-6 col-xl-4">
+                                <div v-for="event in filteredEvents" :key="event.id" class="col-sm-6 col-xl-4 mb-4">
                                     <EventCardVue :item="event" />
                                 </div>
                             </div>                            
@@ -114,9 +114,7 @@
         if(e.target.checked){
             let copy = [...filterParameter.value.locations]
             copy.push(e.target.value)
-
             filterParameter.value.locations = [...new Set(copy)]
-
             return
         }
         
