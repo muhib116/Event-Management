@@ -1,82 +1,95 @@
 import { ref, computed } from 'vue'
-import { filter, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 
-export default function useFilter(events) {
-    const filterParameter = ref({
-        isOnline: true,
-        categories: [],
-        priceRange: [],
-        locations: []
-    })
-    const filteredEvents = computed(() => 
-    {
-        let newList = []
-        
-        // event type filtering
-        newList = events.filter(item => (item.eventType != 'live-event') == filterParameter.value.isOnline)
-        
-        console.log(newList)
-        // location filtering
-        if(!isEmpty(filterParameter.value.locations)){
-            newList = newList.filter(item => filterParameter.value.locations.includes(item.location))
-        }
+const events = ref([])
+const filterParameter = ref({
+    isOnline: true,
+    categories: [],
+    priceRange: [],
+    locations: [],
+    categories: []
+})
 
-        // price filtering
-        if(!isEmpty(filterParameter.value.priceRange)){
-            newList = newList.filter(item => _getItemWithRange(item, filterParameter.value.priceRange))
-        }
+const _getItemWithRange = (item, [min_price, max_price]) => {
+    // if(item.min_price >= min_price && item.max_price <= max_price){ //this condition works with ticket min and max price
+    if(item.min_price >= min_price && item.min_price <= max_price){ // this condition works with only min price of ticket
+        return true
+    }
+    return false
+}
 
-        return newList
-    })
-
-    const _getItemWithRange = (item, [min_price, max_price]) => {
-        // if(item.min_price >= min_price && item.max_price <= max_price){ //this condition works with ticket min and max price
-        if(item.min_price >= min_price && item.min_price <= max_price){ // this condition works with only min price of ticket
-            return true
-        }
-        return false
+const filteredEvents = computed(() => 
+{
+    let newList = []
+    
+    // event type filtering
+    newList = events.value.filter(item => (item.eventType != 'live-event') == filterParameter.value.isOnline)
+    
+    // location filtering
+    if(!isEmpty(filterParameter.value.locations)){
+        newList = newList.filter(item => filterParameter.value.locations.includes(item.location))
+    }
+    
+    // category filtering
+    if(!isEmpty(filterParameter.value.categories)){
+        newList = newList.filter(item => filterParameter.value.categories.includes(item.eventCategory))
     }
 
-    const getMinPrice = (events) => {
+    // price filtering
+    if(!isEmpty(filterParameter.value.priceRange)){
+        newList = newList.filter(item => _getItemWithRange(item, filterParameter.value.priceRange))
+    }
+
+    return newList
+})
+
+export default function useFilter()
+{
+    const getMinPrice = (localEvents) => {
         let priceList = []
-        events.forEach(item => {
-            priceList.push(item.min_price)
+        localEvents.forEach(item => {
+            priceList.push(Number(item.min_price))
+        })
+        
+
+        return !isEmpty(priceList) ? Math.min(...priceList) : 0
+    }
+    const getMaxPrice = (localEvents) => {
+        let priceList = []
+
+        localEvents.forEach(item => {
+            priceList.push(Number(item.max_price))
         })
 
-        return Math.min(...priceList)
-    }
-    const getMaxPrice = (events) => {
-        let priceList = []
-        events.forEach(item => {
-            priceList.push(item.max_price)
-        })
-
-        return Math.max(...priceList)
+        return !isEmpty(priceList) ? Math.max(...priceList) : 0
     }
 
-    const rangeValue = ref([getMinPrice(events), getMaxPrice(events)])
+    const rangeValue = ref([getMinPrice(filteredEvents.value), getMaxPrice(filteredEvents.value)])
     const setPriceRange = (range) => {
         filterParameter.value.priceRange = range
     }
 
-    const getLocations = (events) => {
+    const getLocations = (localEvents) => {
         let locations = []
-        events.forEach(item => {
-            locations.push({
-                location: item.location,
-                isSelected: false
-            })
+        localEvents.forEach(item => {
+            locations.push(item.location)
         })
 
         return [...new Set(locations)]
     }
 
+    const getCategories = (localEvents) => {
+        let categories = []
+        localEvents.forEach(item => {
+            categories.push(item.eventCategory)
+        })
 
-    // watchEffect(() => {
+        return [...new Set(categories)]
+    }
 
-    // })
-
+    
     return {
+        events,
         rangeValue,
         getMinPrice,
         getMaxPrice,
@@ -84,5 +97,6 @@ export default function useFilter(events) {
         filteredEvents,
         filterParameter,
         getLocations,
+        getCategories,
     }
 }
