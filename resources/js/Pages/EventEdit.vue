@@ -12,12 +12,15 @@
                     </div>
                     <div class="right">
                         <p class="top" v-if="event.is_expired"><i class="fa-solid fa-circle-exclamation"></i> This event ended {{ event.expired_at }} ago, to republish it:</p>
-                        <p class="top" v-else><i class="fa-solid fa-circle-exclamation"></i> Things to do before you can make your event live</p>
-                        <p class="requirement"><span>Add payment details</span> so you can get paid</p>
+                        <p class="top" v-if="!event.is_expired && $page.props.has_payment_details != 1"><i class="fa-solid fa-circle-exclamation"></i> Things to do before you can make your event live</p>
+                        <p class="requirement" v-if="$page.props.has_payment_details != 1"><span class="cursor-pointer select-none" @click="payPoput=true">Add payment details</span> so you can get paid</p>
                         <p class="requirement" v-if="event.ticket_count == 0"><span>Create some tickets</span> for your event</p>
-                        <p class="requirement">Update the <span>event date</span> </p>
+                        <p class="requirement" v-if="event.is_expired">Update the <span class="cursor-pointer select-none" @click="scrollToDate">event date</span> </p>
                     </div>
                 </div>
+                <PaymentPopup
+                    v-model="payPoput"
+                />
             </div>
             <nav class="container mx-auto bg-white">
                 <div class="dropdown-container" v-for="(item, index) in navList" :key="index" @click="handleComponent(item)">
@@ -51,6 +54,7 @@
     import Tickets from '@/Components/dashboard/AllTickets/Tickets.vue'
     import Master from './Master.vue'
     import useEvent from '@/Pages/useEvent.js'
+import PaymentPopup from '@/Components/dashboard/popup/PaymentPopup.vue'
 
     const props = defineProps({
         userId: [Number, String]
@@ -58,6 +62,7 @@
     const { getEventId, getEvent } = useEvent()
     const activeComponent = ref('EventDetail')
     const event = ref({})
+    const payPoput = ref(false);
     const components = {
         EventDetail,
         Appearance,
@@ -65,6 +70,7 @@
         Sales,
         Tickets
     }
+    
     const navList = ref([
         {
             title: 'Detail',
@@ -97,6 +103,11 @@
         event.value = await getEvent(getEventId())
         console.log(event);
     })
+
+    function scrollToDate() {
+        let el = document.querySelector('.scroll_target');
+        el.scrollIntoView({behavior: 'smooth'});
+    }
 
     const handleComponent = (item) => {
         activeComponent.value = item.component

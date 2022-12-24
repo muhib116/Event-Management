@@ -106,8 +106,9 @@
                             <div class="text-red-500" v-if="advertise_form.errors.description">{{ advertise_form.errors.description }}</div>
                         </div>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> 
-                            <div class="flex flex-col gap-[10px] mb-[40px] focus:border-red-600">
+                        <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-6">  -->
+                        <div class=""> 
+                            <!-- <div class="flex flex-col gap-[10px] mb-[40px] focus:border-red-600">
                                 <label for="position">Position</label>
                                 <el-date-picker
                                     v-model="defaultTime2"
@@ -118,12 +119,12 @@
                                     @vnode-before-update="handleUpdate"
                                 />
                                 <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
-                            </div>
-                            <!-- <div class="element">
+                            </div> -->
+                            <div class="element">
                                 <label for="position">Position</label>
                                 <input type="number" id="position" name="position" v-model="advertise_form.position">
                                 <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="element">
@@ -284,8 +285,8 @@ function edit(ad) {
     advertise_form.position = ad.position;
     advertise_form.start_at = ad.start_at;
     advertise_form.end_at = ad.end_at;
-    defaultTime2.value[0] = new Date(...moment(ad.start_at).format('Y, m, d, h, m').toString().split(','));
-    defaultTime2.value[1] = new Date(...moment(ad.end_at).format('Y, m, d, h, m').toString().split(','));
+    // defaultTime2.value[0] = new Date(...moment(ad.start_at).format('Y, m, d, h, m').toString().split(','));
+    // defaultTime2.value[1] = new Date(...moment(ad.end_at).format('Y, m, d, h, m').toString().split(','));
 
     prev_img.value = ad.image;
     // console.log(new Date(ad.start_at));

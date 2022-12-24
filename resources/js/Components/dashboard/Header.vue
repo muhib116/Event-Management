@@ -1,7 +1,8 @@
 <template>
     <header class="bg-white shadow-md z-10 sticky top-0">
-        <Link :href="route('dashboard')">
-            <img src="../../assets/images/logo.svg" alt="Logo Image" class="logo">
+        <Link :href="route('dashboard')" class="flex items-center">
+            <!-- <img src="../../assets/images/logo.svg" alt="Logo Image" class="logo"> -->
+            <img :src="'../../'+$page.props.settings?.logo_image.value" alt="Logo Image" class="logo">
         </Link>
         <div class="account-container">
             <div class="account"> EK </div>

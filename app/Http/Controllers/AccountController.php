@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PaymentDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,8 +13,10 @@ class AccountController extends Controller
 {
     public function index() {
         $user = Auth::user();
+        $payment_details = PaymentDetail::with('organizer')->where('user_id', auth()->id())->get();
         return Inertia::render('Account', [
             'user' => $user,
+            'payment_details' => $payment_details
         ]);
     }
     public function update_personal_info(Request $request) {

@@ -186,7 +186,7 @@
                     <input :class="validationFor.start_time.hasError && 'border-red-500'" v-model="eventForm.start_time" type="time">
                 </div>
             </div>
-            <div class="element">
+            <div class="element scroll_target">
                 <label for="location">*End date</label>
                 <div class="date-time">
                     <input :class="validationFor.end_date.hasError && 'border-red-500'" v-model="eventForm.end_date" type="date">
