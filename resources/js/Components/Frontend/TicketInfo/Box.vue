@@ -12,7 +12,7 @@
                 <span @click="quantity>0&&quantity--" class="input-number-decrement">
                     <img src="@/assets/frontend/images/minus.svg" alt="">
                 </span>
-                <input class="input-number active" type="text" v-model="quantity">
+                <input class="input-number active pointer-events-none" type="text" v-model="quantity" >
                 <span @click="quantity<getUpperLimit(ticket) && quantity++" class="input-number-increment">
                     <img src="@/assets/frontend/images/plus.svg" alt="">
                 </span>                     

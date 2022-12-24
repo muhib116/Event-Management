@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\EventTickets;
 use App\Models\Guests;
 use App\Models\TicketSales;
-use Gathuku\Mpesa\Facades\Mpesa;
 use Illuminate\Support\Facades\Mail;
 
 class TicketSaleController extends Controller
@@ -36,7 +35,6 @@ class TicketSaleController extends Controller
                 // Mail::send(TicketMail)
             }
         }
-        $simulateResponse=Mpesa::simulateC2B(100, "254708374149", "Testing");
     }
 
     private function updateSoldColumn($data) {
