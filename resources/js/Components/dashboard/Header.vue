@@ -1,6 +1,7 @@
 <template>
     <header class="bg-white shadow-md z-10 sticky top-0">
         <Link :href="route('dashboard')" class="flex items-center">
+            {{ $page.props.site_settings }}
             <!-- <img src="../../assets/images/logo.svg" alt="Logo Image" class="logo"> -->
             <img :src="`../../${get($page.props, 'settings.logo_image.value')}`" alt="Logo Image" class="logo">
         </Link>
