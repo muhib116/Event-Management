@@ -23,8 +23,8 @@
                         <div class="completed-btm">
                             <h4>Having trouble receiving the tickets?</h4>
                             <ul>
-                                <li><a href="tel: +62 21 1234 9876"><i class="fas fa-phone-alt"></i> +62 21 1234 9876</a></li>
-                                <li><a href="mailto: karcis@karcis.com"><i class="far fa-envelope"></i> karcis@karcis.com</a></li>
+                                <!-- <li><a href="tel: +62 21 1234 9876"><i class="fas fa-phone-alt"></i> {{ userInfo.phone }}</a></li> -->
+                                <li><a href="mailto: karcis@karcis.com"><i class="far fa-envelope"></i>{{ userInfo.phone }}</a></li>
                             </ul>
                         </div>                    
                     </div>
@@ -35,9 +35,20 @@
 </template>
 
 <script setup>
-    import { Head, Link } from '@inertiajs/inertia-vue3'
+    import useAuth from '@/useAuth';
+import { Head, Link } from '@inertiajs/inertia-vue3'
+import { onMounted } from '@vue/runtime-core';
     import LoginCheck from './LoginCheck.vue';
     import Master from './Master.vue'
+
+    const { 
+        userInfo,
+        isLoading
+    } = useAuth();
+
+    onMounted(() => {
+        console.log(userInfo);
+    })
 </script>
 
 <style lang="scss" scoped>

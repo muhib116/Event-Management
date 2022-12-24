@@ -27,7 +27,7 @@ class TicketSaleController extends Controller
             ];
             $ticket = TicketSales::create($data);
             if($ticket->id){
-                // $this->updateSoldColumn($value);
+                $this->updateSoldColumn($value);
                 $guest = Guests::find($data['guest_id']);
                 if ($guest) {
                     Mail::to($guest)->send(new TicketMail($guest));
