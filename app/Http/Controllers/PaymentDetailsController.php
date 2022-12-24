@@ -33,4 +33,13 @@ class PaymentDetailsController extends Controller
     public function get() {
         return PaymentDetail::with('organizer')->where('user_id', auth()->id())->get();
     }
+
+    public function delete_info($infoId) {
+        $info = PaymentDetail::find($infoId);
+        if($info) {
+            $info->delete();
+            return back()->with('success', 'Info deleted');
+        }
+        return back()->with('error', 'Opps Something wrong');
+    }
 }

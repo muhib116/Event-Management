@@ -45,15 +45,15 @@
     -- ✅Hot offer slider and remove view all from there
     -- ✅category carosel padding
     -- ✅event details manage guest list
-    -- guest management
+    -- ✅guest management
     -- organizer manage with payment system
 
     -- site settings
-        -- logo, banner image, title
+        -- ✅logo, banner image, title
         -- ✅search page 
         -- ✅date range
         -- ✅ticket min max price
-        -- admin can set currency and commission
+        -- ✅admin can set currency and commission
 
 
 :: from video
@@ -61,7 +61,7 @@
     -- ✅event details page duration
     -- ✅event edit page (create some ticket for your event) if any event exist it should be hidden
 
-    -- track visitor ip and location (video on 24 min)
+    -- ✅track visitor ip and location (video on 24 min)
         :help https://medium.com/@laraveltuts/ how-to-get-country-city-address-from-ip-address-laravel-9-e20c82200702
 
 :: for online event

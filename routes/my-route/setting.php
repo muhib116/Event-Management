@@ -13,4 +13,6 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('payment_details.save');
     Route::get('/payment-details/get', [PaymentDetailsController::class, 'get'])
         ->name('payment_details.get');
+    Route::delete('/payment-details/{infoId}', [PaymentDetailsController::class, 'delete_info'])
+        ->name('account.delete_info');
 });

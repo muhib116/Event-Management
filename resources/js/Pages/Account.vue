@@ -130,7 +130,7 @@
                     />
 
                     <div class="mt-10">
-                        payment_details.get
+                        <!-- payment_details.get -->
                         <div class="shadow mt-10 rounded border-t">
                             <table class="w-full rounded">
                                 <tr class="border-b">
@@ -157,7 +157,9 @@
                                     <td class="text-center px-2 py-4 text-gray-700">{{ data.paypal_info }}</td>
                                     <td class="text-center px-2 py-4 text-gray-700">{{ data.stripe_info }}</td>
                                     <td class="text-center px-2 py-4 text-gray-700">{{ data.mpesa_info }}</td>
-                                    <td class="text-center px-2 py-4 text-gray-700"></td>
+                                    <td class="text-center px-2 py-4 text-gray-700">
+                                        <button type="button" @click="deletePersonalInfo(data)" class="w-8 h-8 rounded-full text-white bg-red-500"><i class="fa fa-trash-o"></i></button>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -326,6 +328,10 @@ const savePersonalInfo = (e) => {
         }
     });
 }
-
+function deletePersonalInfo(data) {
+    if (confirm('Are you sure?')) {
+        Inertia.delete(route('account.delete_info', data.id));
+    }
+}
 
 </script>
