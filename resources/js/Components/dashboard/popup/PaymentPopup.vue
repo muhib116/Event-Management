@@ -13,26 +13,21 @@
                  <input name="name" v-model="form.bank_name" type="text">
               </div>
               <div class="element">
-                 <label for="name"><span class="text-red-500">*</span>Account Number</label>
+                 <label for="name"><span class="text-red-500">*</span>IBAN number</label>
                  <input name="name" v-model="form.bank_number" type="text">
               </div>
               <div class="element">
-                 <label for="name"><span class="text-red-500">*</span>Account Name</label>
+                 <label for="name"><span class="text-red-500">*</span>BIC</label>
                  <input name="name" v-model="form.account_name" type="text">
               </div>
               <div class="text-black">Paypal information</div>
               <div class="element">
                  <label for="name">Email</label>
-                 <input name="name" v-model="form.paypal_info" type="text">
-              </div>
-              <div class="text-black">Stripe information</div>
-              <div class="element">
-                 <label for="name"><span class="text-red-500">*</span>Email</label>
-                 <input name="name" v-model="form.stripe_info" type="text">
+                 <input name="name" v-model="form.paypal_info" type="email">
               </div>
               <div class="text-black">M-pesa information</div>
               <div class="element">
-                 <label for="name"><span class="text-red-500">*</span>Email</label>
+                 <label for="name">Phone</label>
                  <input name="name" v-model="form.mpesa_info" type="text">
               </div>
               <div class="flex justify-end">
@@ -52,7 +47,7 @@
 <script setup>
    import { useForm } from '@inertiajs/inertia-vue3';
    import axios from 'axios';
-   import { ref, onMounted, watchEffect } from 'vue'
+   import { ref, onMounted, watchEffect, watch } from 'vue'
    import { useToast } from "vue-toastification"
 
    const props = defineProps({
@@ -67,6 +62,9 @@
       editable: {
          type: Boolean,
          default: false
+      },
+      payment_details: {
+         type: [Object, null]
       },
       data: {
          type: Object,
@@ -83,14 +81,25 @@
       stripe_info: '',
       mpesa_info: '',
    });
+   watchEffect(() => {
+      let details = props.payment_details;
+      if (details) {
+         form.bank_name = details.bank_name;
+         form.bank_number = details.bank_number;
+         form.account_name = details.account_name;
+         form.paypal_info = details.paypal_info;
+         form.stripe_info = details.stripe_info;
+         form.mpesa_info = details.mpesa_info;
+      }
+   });
 
    function saveInfo() {
       // console.log(form.value);
       form.post(route('payment_details.save'), {
          onSuccess(s) {
-            console.log(s);
+            // console.log(s);
             toast.success('Details saved');
-            form.reset();
+            // form.reset();
             emit('update:modelValue', false);
          },
          onError(err) {

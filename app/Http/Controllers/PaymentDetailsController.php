@@ -11,7 +11,7 @@ class PaymentDetailsController extends Controller
         // return $request->all();
         // $request->validate(); 
         try {
-            PaymentDetail::create([
+            PaymentDetail::updateOrCreate(['user_id' => auth()->id()],[
                 'user_id' => auth()->id(),
                 'bank_name' => $request->bank_name,
                 'bank_number' => $request->bank_number,
@@ -31,7 +31,7 @@ class PaymentDetailsController extends Controller
     }
 
     public function get() {
-        return PaymentDetail::with('organizer')->where('user_id', auth()->id())->get();
+        return PaymentDetail::with('organizer')->where('user_id', auth()->id())->first();
     }
 
     public function delete_info($infoId) {

@@ -24,5 +24,5 @@ Route::get('event/ticket-design/{eventTickets}', [EventTicketController::class, 
     ->middleware(['auth', 'verified'])
     ->name('ticket_design');
 Route::get('event/ticket-view/{ticketSales}', [EventTicketController::class, 'ticket_view'])
-    ->middleware(['auth', 'verified'])
+    // ->middleware(['auth', 'verified'])
     ->name('ticket_view');

@@ -69,11 +69,15 @@ class EventController extends Controller
         return response()->json(["id" => $eventId], 200);
     }
 
-    public function update(){
+    public function update($edit){
+        $event = EventList::findOrFail($edit);
+        $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->end_date $event->end_time")));
+        $next_payout_date = $end_at->addWeek(1)->format('d-M-Y');
         $has_payment_details = PaymentDetail::where('user_id', auth()->id())->get();
         return Inertia::render('EventEdit', [
             'userId' => Auth::id(),
             'has_payment_details' => count($has_payment_details) ? 1 : 0,
+            'next_payout_date' => $next_payout_date,
         ]);
     }
     public function eventEdit(Request $request, $eventId) {
@@ -128,9 +132,12 @@ class EventController extends Controller
 
     public function getEvent(Request $request, EventList $eventList) {
         $eventList = EventList::withCount('eventTickets as ticket_count')->find($eventList->id);
+        $start = Carbon::parse(date('Y-m-d H:i:s', strtotime("$eventList->start_date $eventList->start_time")));
         $end = Carbon::parse(date('Y-m-d H:i:s', strtotime("$eventList->end_date $eventList->end_time")));
         $eventList->expired_at = $this->getDurationFormate($end->diffInSeconds(now()));
         $eventList->is_expired = now()->gt($end);
+        $eventList->end_date = $end->format('d-M-Y');
+        $eventList->start_date = $start->format('d-M-Y');
         return response()->json($eventList, 200);
     }
     public function getEventGuest(EventList $eventList) {

@@ -91,3 +91,25 @@ logologologologologologologologologologologologologologologologologologologologo
 Advertise location date range remove
 
 :: ticket 
+
+
+24:meeting:
+ -- ✅user profile update
+    -- ✅name, phone, etc.
+ -- ticket sold list, spalling mistack for price
+ -- use datatable on sold ticket list
+ -- ticket sold date
+ -- ✅next payout date is after one week from event end date
+ -- ✅event details page, change date formate to d-m-y
+ :: ✅payment info
+    -- ✅for m-pesa only need phone number
+    -- ✅remove stripe information 
+    -- ✅instade of account number rename it with (IBAN number)
+    -- ✅instade of account name rename it with (BIC)
+    -- ✅account information
+        ✅use 3 card for (bank info, paypal info and mpesa info)
+        ✅only one account information will add (update otherwise)
+        ✅remove delete button form account information
+-- ✅remove compare percent from widgets
+-- currency will placed after amount
+-- from payment method page, remove serves & handling 

@@ -20,8 +20,8 @@
                                 </p>
                             </div>
                             <div class="mt-0 grid">
-                                <button class="px-4 py-1 text-left hover:bg-gray-50">Profile</button>
-                                <button class="px-4 py-1 text-left hover:bg-gray-50">History</button>
+                                <Link :class="{'!text-red-500': $page.component == 'Frontend/ProfileEdit'}" :href="route('user.profile.edit')" class="px-4 text-black py-1 text-left hover:bg-gray-50">Profile</Link>
+                                <Link :class="{'!text-red-500': $page.component == 'Frontend/Profile'}" :href="route('user.profile')" class="px-4 py-1 text-black text-left hover:bg-gray-50">History</Link>
                                 <button class="px-4 py-1 text-left hover:bg-gray-50" @click="logout">Logout</button>
                             </div>
                         </div>
@@ -44,7 +44,8 @@
     import History from '@/Components/Frontend/profile/History.vue'
     import LoginCheck from './LoginCheck.vue';
     import { onMounted, ref, watchEffect } from 'vue';
-import axios from 'axios';
+    import axios from 'axios';
+    import { Link } from '@inertiajs/inertia-vue3';
     const { 
         logout,
         isAuthenticated,

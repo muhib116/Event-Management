@@ -23,6 +23,9 @@ Route::get('/category/{category}', [FrontendController::class, 'category_wise_ev
 
 
 Route::get('/user/profile', [FrontendUserProfileController::class, 'userProfile'])->name('user.profile');
+Route::get('/user/profile/edit', [FrontendUserProfileController::class, 'editUserProfile'])->name('user.profile.edit');
+Route::post('/user/profile/update', [FrontendUserProfileController::class, 'updateUserProfile'])->name('user.profile.update');
+Route::get('/user/get_profile/{email}', [FrontendUserProfileController::class, 'get_profile'])->name('user.get_profile');
 
 
 

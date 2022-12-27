@@ -1,7 +1,7 @@
 <template>
     <Master>
         <AuthenticatedLayout>
-            <Header /> 
+            <Header />
 
             <div class="account">
                 <div class="main-heading">
@@ -9,19 +9,19 @@
                 </div>
                 <nav>
                     <div class="dropdown-container">
-                        <div class="profile nav-item filter-item" :class="{'active': activeTab=='profile-personal'}" @click="activeTab='profile-personal'">
+                        <div class="profile nav-item filter-item" :class="{ 'active': activeTab == 'profile-personal' }" @click="activeTab = 'profile-personal'">
                             Profile
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="dropdown">
-                            <div class="dropdown-item filter-item " @click="activeTab='profile-personal'">Personal</div>
-                            <div class="dropdown-item filter-item" @click="activeTab='profile-password'">Password</div>
-                            <div class="dropdown-item filter-item" @click="activeTab='profile-interests'">Interests</div>
+                            <div class="dropdown-item filter-item " @click="activeTab = 'profile-personal'">Personal</div>
+                            <div class="dropdown-item filter-item" @click="activeTab = 'profile-password'">Password</div>
+                            <div class="dropdown-item filter-item" @click="activeTab = 'profile-interests'">Interests</div>
                         </div>
                     </div>
-                    <div class="billing nav-item filter-item" :class="{'active': activeTab=='billing'}" @click="activeTab='billing'">Billing</div>
+                    <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'billing' }" @click="activeTab = 'billing'">Billing</div>
                     <div class="dropdown-container">
-                        <div class="profile nav-item filter-item" :class="{'active': activeTab=='order-notifications'}" @click="activeTab='order-notifications'">
+                        <div class="profile nav-item filter-item" :class="{ 'active': activeTab == 'order-notifications' }" @click="activeTab = 'order-notifications'">
                             Settings
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
@@ -94,13 +94,7 @@
                     <p>Select up to three categories that describe the events you organize</p>
                     <!-- desktop user interests-->
                     <div class="user-interests-desktop" id="user_interests">
-                        <div 
-                            class="type"
-                            v-for="item in eventsCategory" 
-                            :key="item.name"
-                            :class="{'active': interest_form.includes(item.name)}"
-                            @click="() => handleInterest(item)"
-                        >
+                        <div class="type" v-for="item in eventsCategory" :key="item.name" :class="{ 'active': interest_form.includes(item.name) }" @click="() => handleInterest(item)">
                             <img :src="item.src" />
                             <span class="name">
                                 {{ item.name }}
@@ -119,49 +113,84 @@
                 </form>
                 <!-- Billing -->
                 <div class="Profile--Password account-item py-4" v-show="activeTab == 'billing'">
-                    <div class="flex items-center flex-wrap  justify-between">
-                        <h2>Account Informations</h2>
+                    <h2>Account Informations</h2>
+                    <PaymentPopup v-model="showPopup" :payment_details="payment_details" />
+                    
+                    <div class="flex items-center flex-wrap  justify-end" v-if="payment_details">
                         <button class="button rounded hover:bg-orange-700 py-2 px-7 bg-orange-600 text-white" @click="showPopup = true">
-                            Add payment details
+                            Edit payment details
                         </button>
                     </div>
-                    <PaymentPopup
-                        v-model="showPopup"
-                    />
-
-                    <div class="mt-10">
+                    <div class="mt-10 grid gap-5 grid-cols-1 md:grid-cols-3" v-if="payment_details">
                         <!-- payment_details.get -->
-                        <div class="shadow mt-10 rounded border-t">
-                            <table class="w-full rounded">
-                                <tr class="border-b">
-                                    <th class="px-2 py-4 text-gray-700 capitalize">Organizer name</th>
-                                    <th class="px-2 py-4 text-gray-700 capitalize">bank name</th>
-                                    <th class="px-2 py-4 text-gray-700 capitalize">bank number</th>
-                                    <th class="px-2 py-4 text-gray-700 capitalize">account name</th>
-                                    <th class="px-2 py-4 text-gray-700 capitalize">paypal info</th>
-                                    <th class="px-2 py-4 text-gray-700 capitalize">stripe info</th>
-                                    <th class="px-2 py-4 text-gray-700 capitalize">mpesa info</th>
-                                    <th class="px-2 py-4 text-gray-700 capitalize">Action</th>
-                                </tr>
-                                <tr
-                                    v-for="data in payment_details" 
-                                    :key="data.id" 
-                                    class="border-b">
-                                    <td class="text-center px-2 py-4 text-gray-700">
-                                        {{ data.organizer?.first_name }}
-                                        {{ data.organizer?.last_name }}
-                                    </td>
-                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.bank_name }}</td>
-                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.bank_number }}</td>
-                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.account_name }}</td>
-                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.paypal_info }}</td>
-                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.stripe_info }}</td>
-                                    <td class="text-center px-2 py-4 text-gray-700">{{ data.mpesa_info }}</td>
-                                    <td class="text-center px-2 py-4 text-gray-700">
-                                        <button type="button" @click="deletePersonalInfo(data)" class="w-8 h-8 rounded-full text-white bg-red-500"><i class="fa fa-trash-o"></i></button>
-                                    </td>
-                                </tr>
-                            </table>
+
+                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
+                            <div class="py-4 flex justify-center text-green-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-12" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <line x1="3" y1="21" x2="21" y2="21"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    <polyline points="5 6 12 3 19 6"></polyline>
+                                    <line x1="4" y1="10" x2="4" y2="21"></line>
+                                    <line x1="20" y1="10" x2="20" y2="21"></line>
+                                    <line x1="8" y1="14" x2="8" y2="17"></line>
+                                    <line x1="12" y1="14" x2="12" y2="17"></line>
+                                    <line x1="16" y1="14" x2="16" y2="17"></line>
+                                </svg>
+                            </div>
+                            <div class="pb-5 px-4 text-center">
+                                <h5 class="mb-2 font-semibold tracking-tight text-gray-900">Bank information</h5>
+                                <div class="flex flex-col">
+                                    <div>
+                                        <strong>Bank name:</strong> {{ payment_details.bank_name }}
+                                    </div>
+                                    <div>
+                                        <strong>IBAN number:</strong> {{ payment_details.bank_number }}
+                                    </div>
+                                    <div>
+                                        <strong>BIC:</strong> {{ payment_details.account_name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
+                            <div class="py-4 flex justify-center">
+                                <img width="90" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" alt="">
+                            </div>
+                            <div class="pb-5 px-4 text-center">
+                                <h5 class="mb-2 font-semibold tracking-tight text-gray-900">Paypal information</h5>
+                                <div class="flex flex-col">
+                                    <div>
+                                        <strong>Email:</strong> {{ payment_details.paypal_info }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
+                            <div class="py-4 flex justify-center">
+                                <img width="90" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/1200px-M-PESA_LOGO-01.svg.png" alt="">
+                            </div>
+                            <div class="pb-5 px-4 text-center">
+                                <h5 class="mb-2 font-semibold tracking-tight text-gray-900">Mpesa information</h5>
+                                <div class="flex flex-col">
+                                    <div>
+                                        <strong>Email:</strong> {{ payment_details.mpesa_info }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                         
+                    </div>
+                    <div v-else class="py-10 min-h-[300px] flex items-center justify-center flex-col gap-10">
+                        <h2 class="text-xl text-black font-semibold">
+                            You didn't provide any payment information
+                        </h2>
+                        <div class="flex items-center flex-wrap  justify-end">
+                            <button class="button rounded-md hover:bg-orange-700 py-5 px-8 bg-orange-600 text-white" @click="showPopup = true">
+                                <span v-if="payment_details">Edit</span>
+                                <span v-else><i class="fa fa-plus"></i> Add</span>
+                                payment details
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -171,19 +200,19 @@
                     <p>How frequently should we send order notifications by email?</p>
                     <div class="options">
                         <div class="element">
-                            <input type="radio" name="order-notification-option" >
+                            <input type="radio" name="order-notification-option">
                             <label>Instantly, for each order as it comes in</label>
                         </div>
                         <div class="element">
-                            <input type="radio" name="order-notification-option" >
+                            <input type="radio" name="order-notification-option">
                             <label>Daily summary, a daily summary of all orders sold each day</label>
                         </div>
                         <div class="element">
-                            <input type="radio" name="order-notification-option" >
+                            <input type="radio" name="order-notification-option">
                             <label>Weekly summary, a weekly summary of all orders sold each week</label>
                         </div>
                         <div class="element">
-                            <input type="radio" name="order-notification-option" >
+                            <input type="radio" name="order-notification-option">
                             <label>I do not want to receive order notifications</label>
                         </div>
                         <!-- save -->
@@ -197,7 +226,7 @@
                     <p>How frequently should we send order notifications by email?</p>
                     <div class="options">
                         <div class="element">
-                            <input type="radio" name="payment-settings-option" >
+                            <input type="radio" name="payment-settings-option">
                             <label>Weekly, your payouts are batched and paid once a week on friday</label>
                         </div>
                         <!-- save -->
@@ -217,7 +246,7 @@
 }
 </style>
 <script setup>
-import { ref } from '@vue/reactivity'; 
+import { ref } from '@vue/reactivity';
 
 import Header from '@/Components/dashboard/Header.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -241,7 +270,7 @@ const props = defineProps({
         default: {}
     },
     payment_details: {
-        type: Array,
+        type: Object,
         default: {}
     }
 });
@@ -286,7 +315,7 @@ const handleInterest = (item) => {
     interest_form_inf.interests = interest_form.value;
 }
 
-const saveInterest = (e) => { 
+const saveInterest = (e) => {
     interest_form_inf.post(route('account.update_interest'), {
         onSuccess: (e) => {
             console.log(e);

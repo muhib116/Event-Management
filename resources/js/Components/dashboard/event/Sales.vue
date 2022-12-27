@@ -11,7 +11,7 @@
                     <div class="name">Sales revenue</div>
                 </div>
                 <div class="column">
-                    <div class="number">-</div>
+                    <div class="number">{{ $page.props.next_payout_date }}</div>
                     <div class="name">Next payout date</div>
                 </div>
             </div>
