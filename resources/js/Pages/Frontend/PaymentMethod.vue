@@ -75,8 +75,8 @@
                             <div class="pay-btn">
                                 <!-- <Link class="active" :href="route('payment-complete')">Pay Now</Link> -->
                                 <Button class="active flex items-center gap-2 justify-center" @click="()=> {
+                                    // clickLoading = true;
                                     handlePayment(cards);
-                                    clickLoading = true;
                                 }" :disabled="clickLoading"
                                 :class="{
                                     'opacity-50': clickLoading
@@ -88,18 +88,22 @@
                                     </svg>
                                     Pay Now
                                 </Button>
+                                <div id="braintree-paypal-cta" ref="paypalBtnContainer"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
+
         </LoginCheck>
     </Master>
 </template>
 
 <script setup>
+    // import "https://unpkg.com/@paypal/paypal-js@5.1.1/dist/iife/paypal-js.min.js";
+    // import "https://www.paypalobjects.com/api/checkout.js";
     import { Head, Link } from '@inertiajs/inertia-vue3'
-    import { onMounted, ref, watchEffect } from 'vue'
+    import { onMounted,onActivated, ref, watchEffect } from 'vue'
     import { useToast } from "vue-toastification";
     import Master from './Master.vue'
     import Cart from '@/Components/Frontend/checkout/Cart.vue'
@@ -120,6 +124,7 @@
     const props = defineProps({
         event: Object
     })
+    const paypalBtnContainer = ref(null);
 
     const preparePayload = (cards) => {
         let index = 0
@@ -132,7 +137,7 @@
                 ticket_id: id,
                 ticket_type: type,
                 quantity: quantity,
-                commission: commission, //this commission setting as percentage
+                commission: commission.value, //this commission setting as percentage
                 price: price,
                 payment_method: 'Hand Cash',
                 status: 'complete',
@@ -152,18 +157,23 @@
             })
             return
         }
+        // axios.post('create-payment', payload);
         let res = await axios.post('ticket/sale', payload)
         if(res.status == 200){
             // clean cards from localStorage
             localStorage.clear('cards')
             window.location.href = route('payment.complete')
+            clickLoading = false;
+        } else {
+            clickLoading = false;
         }
-    }
-
+    } 
     onMounted(() => {
         if(localStorage.getItem('cards')){
             let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
-            cards.value = cardsFromLocalStorage
+            // cards.value = cardsFromLocalStorage
+            
+            
         }
     })
 
@@ -177,6 +187,60 @@
                 guestId.value = guest.data.id
                 console.log(guestId.value)
             }, 100)
+        }
+        if (!isLoading.value) {
+            // if (document.querySelector('#braintree-paypal-cta')) {
+            //     paypal.Button.render({
+            //         env: 'sandbox', // Or 'production'
+            //         style: {
+            //             size: 'large',
+            //             layout: 'vertical',
+            //             color: 'blue',
+            //             shape: 'rect',
+            //             label: 'paypal',
+            //         },
+            //         // Set up the payment:
+            //         // 1. Add a payment callback
+            //         validate: function(e) {
+            //             // console.log(e);
+            //             // let accepted = document.getElementById('accept_terms_condition');
+            //             // enableDisable(accepted, e);
+            //             // accepted.addEventListener('change', function() {
+            //             //     enableDisable(accepted, e);
+            //             // });
+            //         },
+            //         payment: function(data, actions) {
+            //             // 2. Make a request to your server
+            //             // console.dir(actions.request.post);
+            //             // accept_tmcaccept_tmc
+            //             console.log(data);
+            //             return actions.request.post(route('create_payment'))
+            //                 .then(function(res) {
+            //                     // 3. Return res.id from the response
+            //                     console.log(res);
+            //                     return res.id;
+            //                 }).catch(err => {
+            //                     console.log(err.message);
+            //                 });
+            //         },
+            //         // Execute the payment:
+            //         // 1. Add an onAuthorize callback
+            //         onAuthorize: function(data, actions) {
+            //             // 2. Make a request to your server
+            //             console.log(data);
+            //             // return actions.request.post('/api/execute-payment/{{ $order->id }}', {
+            //             //     paymentID: data.paymentID,
+            //             //     payerID:   data.payerID
+            //             // })
+            //             //     .then(function(res) {
+            //             //     console.log(res);
+            //             //     //   alert('PAYMENT WENT THROUGH!!');
+            //             //     window.location.href = `{{ route('order.success', $order->id) }}`;
+            //             //     // 3. Show the buyer a confirmation message.
+            //             //     });
+            //         }
+            //     }, '#braintree-paypal-cta');
+            // }
         }
     })
 </script>

@@ -28,6 +28,12 @@
                         scope="col"
                         class="px-6 py-3 text-left tracking-wider"
                     >
+                        Quantity
+                    </th>
+                    <th
+                        scope="col"
+                        class="px-6 py-3 text-left tracking-wider"
+                    >
                         Date
                     </th>
                     <th
@@ -50,6 +56,9 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ item.ticket?.price }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        {{ item.quantity }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ item.ticket?.event.start_date }} {{ item.ticket?.event.start_time }} to

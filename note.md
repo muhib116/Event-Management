@@ -113,3 +113,9 @@ Advertise location date range remove
 -- ✅remove compare percent from widgets
 -- currency will placed after amount
 -- from payment method page, remove serves & handling 
+
+
+database:
+    sales
+        sales details
+        ticket_numbers
