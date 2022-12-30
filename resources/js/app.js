@@ -12,7 +12,7 @@ import axios from 'axios'
 import Toast from "vue-toastification";
 import { createAuth0 } from '@auth0/auth0-vue';
 import ElementPlus from 'element-plus'
-
+import VueQrcodeReader from "vue3-qrcode-reader"; 
 
 axios.defaults.baseURL = `${window.location.origin}/api/`;
 
@@ -30,6 +30,7 @@ createInertiaApp({
                 newestOnTop: true
             })
             .use(ElementPlus)
+            .use(VueQrcodeReader) 
             .use(
                 createAuth0({
                     domain: "dev-8xgi8q5dp4sbgcnn.us.auth0.com",

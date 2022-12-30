@@ -26,4 +26,8 @@ class EventList extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function views() {
+        return $this->hasOne(EventView::class, 'event_list_id', 'id');
+    }
+
 }

@@ -3,7 +3,7 @@
         <AuthenticatedLayout>
             <Header />
 
-            <div class="account">
+            <div class="account pb-52">
                 <div class="main-heading">
                     <h1>Settings</h1>
                 </div>
@@ -35,40 +35,92 @@
                         <input type="text" id="home_banner_text" name="home_banner_text" v-model="form.home_banner_text">
                         <div class="text-red-500" v-if="form.errors.home_banner_text">{{ form.errors.home_banner_text }}</div>
                     </div>
-                    <div class="element">
-                        <label for="home_banner_image" class="text-xl font-semibold">Home page banner image</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3">
+
                         <div class="element">
-                            <div class="relative flex  items-center">
-                                <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
-                                    <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute top-0">Upload Banner</span>
-                                    <input hidden type="file" name="image" accept="image/*" @change="(e) => {
-                                        form.home_banner_image = e.target.files[0];
-                                        onFileChange(e)
-                                    }">
-                                    <div v-if="prev_img" class="flex-1 flex gap-5 flex-wrap">
-                                        <img class="w-full h-full object-cover" :src="prev_img" alt="">
-                                    </div>
-                                </label>
+                            <label for="home_banner_image" class="text-xl font-semibold">Home page banner image</label>
+                            <div class="element">
+                                <div class="relative flex  items-center">
+                                    <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
+                                        <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute top-0">Upload Banner</span>
+                                        <input hidden type="file" name="image" accept="image/*" @change="(e) => {
+                                            form.home_banner_image = e.target.files[0];
+                                            onFileChange(e)
+                                        }">
+                                        <div v-if="prev_img" class="flex-1 flex gap-5 flex-wrap">
+                                            <img class="w-full h-full object-cover" :src="prev_img" alt="">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="text-red-500" v-if="form.errors.home_banner_image">{{ form.errors.home_banner_image }}</div>
                             </div>
-                            <div class="text-red-500" v-if="form.errors.home_banner_image">{{ form.errors.home_banner_image }}</div>
                         </div>
-                    </div>
-                    <div class="element">
-                        <label for="logo_image" class="text-xl font-semibold">Logo image</label>
                         <div class="element">
-                            <div class="relative flex  items-center">
-                                <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
-                                    <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute -top-0">Upload Logo</span>
-                                    <input hidden type="file" name="image" accept="image/*" @change="(e) => {
-                                        form.logo_image = e.target.files[0];
-                                        onFileChange(e, 'logo')
-                                    }">
-                                    <div v-if="prev_logo_img" class="flex-1 flex gap-5 flex-wrap">
-                                        <img class="w-full h-full object-cover" :src="prev_logo_img" alt="">
-                                    </div>
-                                </label>
+                            <label for="logo_image" class="text-xl font-semibold">Header Logo image</label>
+                            <div class="element">
+                                <div class="relative flex  items-center">
+                                    <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
+                                        <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute -top-0">Upload Logo</span>
+                                        <input hidden type="file" name="image" accept="image/*" @change="(e) => {
+                                            form.logo_image = e.target.files[0];
+                                            onFileChange(e, 'logo')
+                                        }">
+                                        <div v-if="prev_logo_img" class="flex-1 flex gap-5 flex-wrap">
+                                            <img class="w-full h-full object-cover" :src="prev_logo_img" alt="">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="text-red-500" v-if="form.errors.logo_image">{{ form.errors.logo_image }}</div>
                             </div>
-                            <div class="text-red-500" v-if="form.errors.logo_image">{{ form.errors.logo_image }}</div>
+                        </div>
+                        <div class="element">
+                            <label for="logo_image" class="text-xl font-semibold">Footer Logo image</label>
+                            <div class="element">
+                                <div class="relative flex  items-center">
+                                    <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
+                                        <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute -top-0">Upload Logo</span>
+                                        <input hidden type="file" name="image" accept="image/*" @change="(e) => {
+                                            form.footer_logo_image = e.target.files[0];
+                                            onFileChange(e, 'footer_logo_image')
+                                        }">
+                                        <div v-if="prev_footer_logo_img" class="flex-1 flex gap-5 flex-wrap">
+                                            <img class="w-full h-full object-cover" :src="prev_footer_logo_img" alt="">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="text-red-500" v-if="form.errors.footer_logo_image">{{ form.errors.footer_logo_image }}</div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    <div class="text-3xl font-bold text-gray-600 mb-5">
+                        Social Links
+                    </div> 
+                    <div class="grid gap-3 grid-cols-2 w-full">
+                        <div class="element">
+                            <label>Facebook Link</label>
+                            <input type="text" v-model="form.facebook_link"> 
+                        </div>
+                        <div class="element">
+                            <label>Twitter Link</label>
+                            <input type="text" v-model="form.twitter_link"> 
+                        </div>
+                        <div class="element">
+                            <label>Tiktok Link</label>
+                            <input type="text" v-model="form.tiktok_link"> 
+                        </div>
+                        <div class="element">
+                            <label>Instagram Link</label>
+                            <input type="text" v-model="form.instagram_link"> 
+                        </div>
+                        <div class="element">
+                            <label>Youtube Link</label>
+                            <input type="text" v-model="form.youtube_link"> 
+                        </div>
+                        <div class="element">
+                            <label>Telegram Link</label>
+                            <input type="text" v-model="form.telegram_link"> 
                         </div>
                     </div>
                 </form>
@@ -100,6 +152,7 @@ const props = defineProps({
 });
 const prev_img = ref(false);
 const prev_logo_img = ref(false);
+const prev_footer_logo_img = ref(false);
 
 const form = useForm({
     currency: '',
@@ -107,6 +160,13 @@ const form = useForm({
     home_banner_text: '',
     home_banner_image: null,
     logo_image: null,
+    footer_logo_image: null,
+    facebook_link: null,
+    twitter_link: null,
+    tiktok_link: null,
+    instagram_link: null,
+    youtube_link: null,
+    telegram_link: null,
 });
 onMounted(()=> {
     let settings = props.site_settings;
@@ -114,8 +174,17 @@ onMounted(()=> {
     form.currency = _.find(settings, {name: 'currency'})?.value;
     form.commission = _.find(settings, {name: 'commission'})?.value;
     form.home_banner_text = _.find(settings, {name: 'home_banner_text'})?.value;
+    form.facebook_link = _.find(settings, {name: 'facebook_link'})?.value;
+    form.twitter_link = _.find(settings, {name: 'twitter_link'})?.value;
+    form.tiktok_link = _.find(settings, {name: 'tiktok_link'})?.value;
+    form.instagram_link = _.find(settings, {name: 'instagram_link'})?.value;
+    form.youtube_link = _.find(settings, {name: 'youtube_link'})?.value;
+    form.telegram_link = _.find(settings, {name: 'telegram_link'})?.value;
+
+
     prev_img.value = _.find(settings, {name: 'home_banner_image'})?.value;
     prev_logo_img.value = _.find(settings, {name: 'logo_image'})?.value;
+    prev_footer_logo_img.value = _.find(settings, {name: 'footer_logo_image'})?.value;
     // console.log(_.find(settings, {name: 'home_banner_image'})?.value);
 });
 
@@ -123,6 +192,9 @@ function onFileChange(e, type=null) {
     if (type == 'logo') {
         const file = URL.createObjectURL(e.target.files[0]);
         prev_logo_img.value = file;
+    } else if(type == 'footer_logo_image') {
+        const file = URL.createObjectURL(e.target.files[0]);
+        prev_footer_logo_img.value = file;
     } else {
         const file = URL.createObjectURL(e.target.files[0]);
         prev_img.value = file;

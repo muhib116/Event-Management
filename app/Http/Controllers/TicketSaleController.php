@@ -10,6 +10,7 @@ use App\Models\TicketNumber;
 use App\Models\TicketSales;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class TicketSaleController extends Controller
 {
@@ -34,6 +35,7 @@ class TicketSaleController extends Controller
         try {
             //code...
             $guest_id = 0;
+            $tickets = [];
             foreach($request->all() as $key => $value){
                 $data = [
                     "organizer_id" => $value['organizer_id'],
@@ -45,10 +47,12 @@ class TicketSaleController extends Controller
                     "price" => $value['price'],
                     "payment_method" => $value['payment_method'],
                     "status" => $value['status'],
+                    "sales_id" => Str::orderedUuid(),
                 ];
                 $guest_id = $data['guest_id'];
                 // return $data;
                 $ticket = TicketSales::create($data);
+                $tickets[] = $ticket;
                 // return $ticket;
                 if($ticket->id){
                     $guest = Guests::find($data['guest_id']);
@@ -56,10 +60,13 @@ class TicketSaleController extends Controller
                     $this->updateSoldColumn($value); 
                     // Mail::send(TicketMail)
                 }
-            } 
-            if ($guest) {
-                Mail::to($guest)->send(new TicketMail($guest));
             }
+            if ($guest) {
+                Mail::to($guest)->send(new TicketMail($guest, $tickets));
+            }
+            // return response([
+            //     'rul' => route('payment.complete', )
+            // ], 200);
         } catch (\Throwable $th) {
             throw $th;
             return $th->getMessage();

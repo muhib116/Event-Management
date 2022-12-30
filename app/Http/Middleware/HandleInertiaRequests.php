@@ -37,7 +37,14 @@ class HandleInertiaRequests extends Middleware
     {
         $settings = SiteSetting::all();
         $logo = $settings->where('name', 'logo_image')->first();
-        $logo->value = asset($logo->value);
+        if ($logo) {
+            $logo->value = asset($logo->value);
+        }
+        
+        $footer_logo_image = $settings->where('name', 'footer_logo_image')->first();
+        if ($footer_logo_image) {
+            $footer_logo_image->value = asset($footer_logo_image->value);
+        }
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -49,6 +56,13 @@ class HandleInertiaRequests extends Middleware
                 'home_banner_image' => $settings->where('name', 'home_banner_image')->first(),
                 'home_banner_text' => $settings->where('name', 'home_banner_text')->first(),
                 'logo_image' => $logo,
+                'footer_logo_image' => $footer_logo_image,
+                'facebook_link' => $settings->where('name', 'facebook_link')->first(),
+                'twitter_link' => $settings->where('name', 'twitter_link')->first(),
+                'tiktok_link' => $settings->where('name', 'tiktok_link')->first(),
+                'instagram_link' => $settings->where('name', 'instagram_link')->first(),
+                'youtube_link' => $settings->where('name', 'youtube_link')->first(),
+                'telegram_link' => $settings->where('name', 'telegram_link')->first(),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),

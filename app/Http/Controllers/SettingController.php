@@ -30,6 +30,7 @@ class SettingController extends Controller
             'currency' => 'required',
             'home_banner_image' => 'nullable|image',
             'logo_image' => 'nullable|image',
+            'footer_logo_image' => 'nullable|image',
             'home_banner_text' => 'required',
         ]);
         try {
@@ -67,9 +68,47 @@ class SettingController extends Controller
                     'value' => $image,
                 ]);
             }
+            if ($request->hasFile('footer_logo_image')) {
+                $file = $request->file('footer_logo_image');
+                $uniqueCode = md5(uniqid(rand(), true));
+                $file_name  = $request->type.'-'.$uniqueCode.'-'.$file->getClientOriginalName();
+                
+                $old = SiteSetting::where('name', 'footer_logo_image')->first();
+                $image = $this->imageUpload($request, 'footer_logo_image', 'images');
+
+                SiteSetting::updateOrCreate(['name' => 'footer_logo_image'],[
+                    'name' => 'footer_logo_image',
+                    'value' => $image,
+                ]);
+            }
             SiteSetting::updateOrCreate(['name' => 'home_banner_text'],[
                 'name' => 'home_banner_text',
                 'value' => $request->home_banner_text,
+            ]);
+
+            SiteSetting::updateOrCreate(['name' => 'facebook_link'],[
+                'name' => 'facebook_link',
+                'value' => $request->facebook_link,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'twitter_link'],[
+                'name' => 'twitter_link',
+                'value' => $request->twitter_link,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'tiktok_link'],[
+                'name' => 'tiktok_link',
+                'value' => $request->tiktok_link,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'instagram_link'],[
+                'name' => 'instagram_link',
+                'value' => $request->instagram_link,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'youtube_link'],[
+                'name' => 'youtube_link',
+                'value' => $request->youtube_link,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'telegram_link'],[
+                'name' => 'telegram_link',
+                'value' => $request->telegram_link,
             ]);
             DB::commit();
             return back()->with('success', 'Settings update successfully');

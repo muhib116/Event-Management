@@ -121,7 +121,7 @@
                             Edit payment details
                         </button>
                     </div>
-                    <div class="mt-10 grid gap-5 grid-cols-1 md:grid-cols-3" v-if="payment_details">
+                    <div class="mt-10 flex flex-wrap gap-5 justify-center" v-if="payment_details">
                         <!-- payment_details.get -->
 
                         <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
@@ -153,7 +153,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
+                        <div v-if="payment_details.paypal_info" class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
                             <div class="py-4 flex justify-center">
                                 <img width="90" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" alt="">
                             </div>
@@ -166,7 +166,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
+                        <div v-if="payment_details.mpesa_info" class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
                             <div class="py-4 flex justify-center">
                                 <img width="90" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/1200px-M-PESA_LOGO-01.svg.png" alt="">
                             </div>

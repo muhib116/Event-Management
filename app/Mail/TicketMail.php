@@ -8,19 +8,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Address;
 
 class TicketMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $guest;
+    public $tickets;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($guest)
+    public function __construct($guest, $tickets)
     {
-        //
+        $this->guest = $guest;
+        $this->tickets = $tickets;
     }
 
     /**
@@ -31,6 +35,7 @@ class TicketMail extends Mailable
     public function envelope()
     {
         return new Envelope(
+            // from: new Address('jeffrey@example.com', 'Jeffrey Way'),
             subject: 'Ticket Mail',
         );
     }
@@ -43,7 +48,7 @@ class TicketMail extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'emails.ticket_mail',
+            view: 'emails.ticket_mail'
         );
     }
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Advertise;
 use App\Models\EventList;
+use App\Models\EventView;
 use App\Models\MEvents;
+use App\Models\TicketView;
 use App\Utils;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -138,6 +140,18 @@ class FrontendController extends Controller
         $dur = $this->getEventDuration($event);
         $event->duration = $this->getDurationFormate($dur);
         $this->data['event'] = $event;
+        $views = $event->views()->first();
+        // dd($views);
+        if ($views) {
+            $views->increment('count');
+        } else {
+            EventView::create([
+                'event_list_id' => $event->id,
+                'count' => 1
+            ]);
+        }
+        // event_list_id
+        // TicketView::event_ticket_id
                         
         return Inertia::render('Frontend/EventDetails', $this->data);
     }

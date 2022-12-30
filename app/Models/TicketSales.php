@@ -23,5 +23,9 @@ class TicketSales extends Model
     public function organizer() {
         return $this->belongsTo(User::class, 'organizer_id', 'id');
     }
+
+    public function ticket_number() {
+        return $this->hasMany(TicketNumber::class, 'ticket_sale_id');
+    }
     
 }
