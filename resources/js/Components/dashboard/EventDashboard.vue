@@ -12,11 +12,9 @@
             </button>
         </h1>
         <p class="decode-result">Last result: <b>{{ result }}</b></p>
-        <!-- <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
-            <div v-show="showScanConfirmation" class="scan-confirmation">
-                
-            </div>
-        </qrcode-stream> -->
+        <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
+            <div v-show="showScanConfirmation"></div>
+        </qrcode-stream>
         <div class="events">
 
             <div @click="showEventPopup = true" v-show="user.type == 'organizer'" class="create-new cursor-pointer">
@@ -54,7 +52,7 @@
     import Widgets from './Widgets.vue' 
 
     const showEventPopup = ref(false)
-    const result = ref(null);
+    const result = ref(false);
     const camera = ref('auto');
     const showScanConfirmation = ref(false);
     const props = defineProps({
@@ -78,11 +76,11 @@
     }
 
     async function onDecode (content) {
-      this.result = content
+      result.value = content
 
-      this.pause()
-      await this.timeout(500)
-      this.unpause()
+      // pause()
+      // await timeout(500)
+      // unpause()
     }
 
     function unpause () {
@@ -99,5 +97,10 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style>
+  .qrcode-stream-camera,
+  .qrcode-stream-overlay{
+    width: 150px !important;
+    height: 150px !important;
+  }
 </style>
