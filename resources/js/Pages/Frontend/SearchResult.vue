@@ -6,57 +6,6 @@
                 <div class="row">
                     <div class="col-md-3">
                         <Filter :events="events" />
-                        <!-- <div class="result-left me-xl-5">
-                            <div class="result-title">
-                                <h2>Filters</h2>
-                            </div>
-                            <div class="stich-btn">
-                                <label class="switch">
-                                    <input type="checkbox" checked="" v-model="filterParameter.isOnline">
-                                    <span class="slider round"></span>
-                                </label>
-                                <span class="online online-checked">Online</span>
-                            </div>
-
-                            <div class="filter-item">
-                                <h4>Location <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
-                                <ul class="select-none">
-                                    <li v-for="location in getLocations(events)" :key="`location-${location}`">
-                                        <div class="form-group">
-                                            <input 
-                                                type="checkbox" 
-                                                :id="location"  
-                                                :value="location"
-                                                @change="(e) => filterByLocation(e)"
-                                            >
-                                            <label :for="location">{{ location }}</label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="filter-item">
-                                <h4>Categories <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
-                                <ul class="select-none">
-                                    <li v-for="category in getCategories(events)" :key="`location-${category}`">
-                                        <div class="form-group">
-                                            <input 
-                                                type="checkbox" 
-                                                :id="category"  
-                                                :value="category"
-                                                @change="(e) => filterByCategory(e)"
-                                            >
-                                            <label :for="category">{{ category }}</label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="filter-item border-0">
-                                <h4>Price <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
-                                <ElSlider v-model="rangeValue" range :max="getMaxPrice(filteredEvents)" @change="setPriceRange" />
-                            </div>
-                        </div> -->
                     </div>
 
                     <div class="col-md-9">
