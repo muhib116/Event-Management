@@ -74,6 +74,7 @@ Route::get('/event-history/{email}', [GuestController::class, 'getHistory'])->na
 Route::get('event-guest/{eventList}', [EventController::class, 'getEventGuest'])->name('get.event_guest');
 Route::get('event-sales/{eventList}', [EventController::class, 'getEventSales'])->name('get.event_sales');
 
+Route::post('checkin', [EventController::class, 'checkin'])->name('check_in');
 
 
 
