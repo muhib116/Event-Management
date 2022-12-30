@@ -4,7 +4,19 @@
 
         <Widgets />
 
-        <h1 class="text-3xl font-black">Your events</h1> 
+        <h1 class="text-3xl font-black flex flex-wrap justify-between items-center">
+            Your events
+            <button class="py-2 px-4 bg-blue-500 text-white rounded-md text-sm font-semibold flex gap-2 items-center justify-center">
+                <i class="fas fa-qrcode"></i>
+                Check in
+            </button>
+        </h1>
+        <p class="decode-result">Last result: <b>{{ result }}</b></p>
+        <!-- <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
+            <div v-show="showScanConfirmation" class="scan-confirmation">
+                
+            </div>
+        </qrcode-stream> -->
         <div class="events">
 
             <div @click="showEventPopup = true" v-show="user.type == 'organizer'" class="create-new cursor-pointer">
@@ -36,12 +48,15 @@
 
 <script setup>
     import { Link } from '@inertiajs/inertia-vue3';
-    import { ref } from 'vue'
+    import { reactive, ref } from 'vue'
     import EventCard from './EventCard.vue';
     import NewEventPopup from './popup/NewEventPopup.vue'
-    import Widgets from './Widgets.vue'
+    import Widgets from './Widgets.vue' 
 
     const showEventPopup = ref(false)
+    const result = ref(null);
+    const camera = ref('auto');
+    const showScanConfirmation = ref(false);
     const props = defineProps({
         events: {
             typeof: Array
@@ -50,7 +65,37 @@
             type: Object,
             default: {}
         }
-    })
+    });
+
+    async function onInit (promise) {
+      try {
+        await promise
+      } catch (e) {
+        console.error(e)
+      } finally {
+        showScanConfirmation.value = camera.value === "off"
+      }
+    }
+
+    async function onDecode (content) {
+      this.result = content
+
+      this.pause()
+      await this.timeout(500)
+      this.unpause()
+    }
+
+    function unpause () {
+      camera.value = 'auto'
+    };
+    function pause () {
+      camera.value = 'off'
+    }
+    function timeout (ms) {
+      return new Promise(resolve => {
+        window.setTimeout(resolve, ms)
+      })
+    }
 
 </script>
 

@@ -45,7 +45,11 @@ class GuestController extends Controller
     }
 
     public function getHistory($email) {
-        $guest = Guests::with(['ticketSales' => fn($q) => $q->with('ticket')])->where("email", $email)->first();
+        $guest = Guests::with(['ticketSales' => function($q) {
+                        return $q->with(['ticket', 'ticket_number']);
+                    }])
+                ->where("email", $email)
+                ->first();
         return $guest;
     }
 }

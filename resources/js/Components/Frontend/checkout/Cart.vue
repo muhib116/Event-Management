@@ -35,13 +35,15 @@
     import { onMounted } from 'vue'
     import useTicket from '@/Pages/Frontend/useTicket'
     import useEvent from '@/Pages/useEvent.js'
-
-    const { cards, getTotal, getTotalCommission, getTotalWithFees } = useTicket()
-    const { get_banner } = useEvent()
+    import { usePage } from '@inertiajs/inertia-vue3'
+    
+    const { cards, getTotal, getTotalCommission, getTotalWithFees } = useTicket();
+    const { get_banner } = useEvent();
     const props = defineProps({
         event: Object,
         commission: Object
     })
+    const page = usePage();
 
     onMounted(() => {
         if(localStorage.getItem('cards')){
@@ -49,7 +51,9 @@
             cards.value = cardsFromLocalStorage
             getTotal(cards.value)
         }
-        commission.value = props.settings.commission.value
+        // console.log(props.commission);
+        // commission.value = props.settings.commission.value
+        // commission.value = page.props.value?.settings.commission?.value
     })
 
 </script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Advertise;
 use App\Models\EventList;
 use App\Models\EventTickets;
+use App\Models\Guests;
 use App\Models\TicketSales;
 use App\Models\User;
 use Carbon\Carbon;
@@ -46,7 +47,7 @@ class DashboardController extends Controller
         }
 
         $events = $query->limit(900)
-                ->with('user')
+                ->with(['user', 'views'])
                 ->orderBy('created_at', 'DESC')
                 ->paginate(12)
                 ->through(function ($item) {
@@ -69,7 +70,9 @@ class DashboardController extends Controller
         $total_clients = 0;
         if (auth()->user()->type == 'admin') {
             $total_organizer = User::where('type', 'organizer')->count();
-            $total_clients = User::where('type', 'clients')->count();
+            $total_clients = Guests::count();
+        } else {
+            
         }
         $data = [
             'events' => $events,
@@ -85,6 +88,7 @@ class DashboardController extends Controller
         if (auth()->user()->type == 'admin') {
             $data['total_advertise'] = Advertise::count();
         }
+        // dd($data);
         return Inertia::render('Dashboard', $data);
     }
 }

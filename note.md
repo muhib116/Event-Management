@@ -1,6 +1,18 @@
 
 <!-- target 24-12-2022 -->
 
+
+
+
+
+::Trying to forgot.
+    -- ticket view
+    -- zoom link generate
+    -- ticket question
+
+
+
+
 ✅1: Logout
 ✅2: Advertise image like banner image
 ✅3: Featured advertise
@@ -18,7 +30,7 @@
     ✅commission
     ✅total sell amount
     ✅all events
-    total views
+    ✅total views
     ✅cant create event
 
 ::: if organizer
@@ -26,7 +38,6 @@
     ✅total event created by him
     ✅commission charge
     ✅total tickets
-    total views
     ✅total sell
 
 
@@ -66,8 +77,9 @@
 
 :: for online event
     -- generate zome meeting
+    https://marketplace.zoom.us/docs/sdk/video/web/get-started/#install-from-npm
 
-:: bank
+:: ✅bank
     bank name
     account number
     account name
@@ -77,17 +89,53 @@
     stripe info
     more info
 
-logologologologologologologologologologologologologologologologologologologologo
-logologologologologologologologologologologologologologologologologologologologo
-logologologologologologologologologologologologologologologologologologologologo
-logologologologologologologologologologologologologologologologologologologologo
-logologologologologologologologologologologologologologologologologologologologo
-logologologologologologologologologologologologologologologologologologologologo
-logologologologologologologologologologologologologologologologologologologologo
-logologologologologologologologologologologologologologologologologologologologo
-logologologologologologologologologologologologologologologologologologologologo
-
-
-Advertise location date range remove
 
 :: ticket 
+
+
+24:meeting:
+ -- ✅user profile update
+    -- ✅name, phone, etc.
+ -- ✅ticket sold list, spalling mistack for price
+ -- use datatable on sold ticket list
+ -- ticket sold date
+ -- ✅next payout date is after one week from event end date
+ -- ✅event details page, change date formate to d-m-y
+ :: ✅payment info
+    -- ✅for m-pesa only need phone number
+    -- ✅remove stripe information 
+    -- ✅instade of account number rename it with (IBAN number)
+    -- ✅instade of account name rename it with (BIC)
+    -- ✅account information
+        ✅use 3 card for (bank info, paypal info and mpesa info)
+        ✅only one account information will add (update otherwise)
+        ✅remove delete button form account information
+-- ✅remove compare percent from widgets
+-- currency will placed after amount with space.
+    -- commission implement from backend.
+-- from payment method page, remove serves & handling
+
+-- ticket code scane by camera and update status to checkin.(already used ticket)
+    vue qrcode reader
+    https://gruhn.github.io/vue-qrcode-reader/
+
+
+    -- ✅hide paypal and m-pesa if not available. (justify-center)
+
+    -- ✅if not login show login popup on card add.
+
+    ::footer
+        footer_top_part:
+            ✅logo
+            --✅Imprint, Data privacy, Terms & conditions
+        bootm_footer:
+            -- ✅witter, Facebook, Tiktok, Instagram, Youtube, Telegram, Copy write text
+        ✅(Dynamic from backend)
+
+-- while scanning (Check if he is woner of this ticket)
+    invalid, expired, used, validated
+
+database:
+    ✅sales
+        sales details
+        ticket_numbers

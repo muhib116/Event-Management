@@ -96,9 +96,11 @@ class EventTicketController extends Controller
     }
 
     public function ticket_view(TicketSales $ticketSales) {
-        $ticketSales = TicketSales::with(['guests', 'organizer', 'ticket' => fn($q) => $q->with('event')])->find($ticketSales->id);
+        $ticketSales = TicketSales::with(['guests', 'ticket_number', 'organizer', 'ticket' => fn($q) => $q->with('event')])->find($ticketSales->id);
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('ticket_view', compact('ticketSales'));
+        // return $ticketSales;
+        // return $pdf->download(str()->random(4).'_'.$ticketSales->id.'.pdf');
         return $pdf->stream();
         return view('ticket_view', compact('ticketSales'));
     }

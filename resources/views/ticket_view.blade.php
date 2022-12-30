@@ -9,84 +9,66 @@
 </head>
 
 <body>
-    @php
-        $get_img = QrCode::format('svg')->size(100)->generate(json_encode([
-            'guest_name' => $ticketSales->guests->firstName,
-            'guest_id' => $ticketSales->guests->id,
-            'ticket_id' => $ticketSales->id,
-        ]));
-        $image = "data:image/svg+xml;base64," . base64_encode($get_img );
-    @endphp
-    <div class="container">
-        <div class="item">
-            <div class="item-left">
-                <div class="icent">
-                    <h2 class="day">{{ date('d', strtotime($ticketSales->ticket->event->start_date)) }}</h2>
-                    <p class="month">{{ date('M', strtotime($ticketSales->ticket->event->start_date)) }}</p>
-                    <p>{{ date('Y', strtotime($ticketSales->ticket->event->start_date)) }}</p>
-                </div>
-            </div> <!-- end item-right -->
+    
+    <div class="container"> 
+        @foreach ($ticketSales->ticket_number as $ticket_number) 
+            @php
+                $get_img = QrCode::format('svg')->size(100)->generate(json_encode([
+                    'guest_name' => $ticketSales->guests->firstName,
+                    'guest_id' => $ticketSales->guests->id,
+                    'ticket_id' => $ticketSales->id,
+                    'ticket_number' => $ticket_number->ticket_number,
+                ]));
+                $image = "data:image/svg+xml;base64," . base64_encode($get_img);
+            @endphp
+            <div class="item">
+                <div class="item-left">
+                    <div class="icent">
+                        <h2 class="day">{{ date('d', strtotime($ticketSales->ticket->event->start_date)) }}</h2>
+                        <p class="month">{{ date('M', strtotime($ticketSales->ticket->event->start_date)) }}</p>
+                        <p>{{ date('Y', strtotime($ticketSales->ticket->event->start_date)) }}</p>
+                    </div>
+                </div> <!-- end item-right -->
 
-            <div class="item-right">
-                <p class="event">{{ $ticketSales->ticket->ticket_name }}</p>
-                <h2 class="title">{{ $ticketSales->ticket->event->name }}</h2>
-                <table>
-                    <tr>
-                        <td>Start from:</td>
-                        <td>{{ date('M d Y', strtotime($ticketSales->ticket->event->start_date)) }} At 
-                        {{ date('H:s:i a', strtotime($ticketSales->ticket->event->start_time)) }}</td>
-                    </tr>
-                    <tr>
-                        <td>End at:</td>
-                        <td>
-                            {{ date('M d Y', strtotime($ticketSales->ticket->event->end_date)) }} At
-                            {{ date('H:s:i a', strtotime($ticketSales->ticket->event->end_time)) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Location:</td>
-                        <td>
-                            {{ $ticketSales->ticket->event->location }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Guest:</td>
-                        <td>
-                            {{ $ticketSales->guests->lastName }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Quantity:</td>
-                        <td>
-                            {{ $ticketSales->quantity }}
-                        </td>
-                    </tr>
-                </table>
-                {{-- <div class="sce">
-                    <p>
-                        <strong>Start from </strong>
-                        {{ date('M d Y', strtotime($ticketSales->ticket->event->start_date)) }} At
-                        {{ date('H:s:i a', strtotime($ticketSales->ticket->event->start_time)) }} <br>
-                        <strong>To </strong>
-                        {{ date('M d Y', strtotime($ticketSales->ticket->event->end_date)) }} At
-                        {{ date('H:s:i a', strtotime($ticketSales->ticket->event->end_time)) }}
-                    </p>
-                    <p>
-                        <strong>At</strong>
-                        {{ $ticketSales->ticket->event->location }}
-                    </p>
-                    <p>
-                        <strong>Guest</strong>
-                        {{ $ticketSales->guests->lastName }}
-                    </p>
-                    <p>
-                        <strong>Quantity</strong>
-                        {{ $ticketSales->quantity }}
-                    </p>
-                </div> --}}
-                <img class="abs_img" src="{{ $image }}">
-            </div> <!-- end item-right -->
-        </div> <!-- end item --> 
+                <div class="item-right">
+                    <p class="event">{{ $ticketSales->ticket->ticket_name }}</p>
+                    <h2 class="title">{{ $ticketSales->ticket->event->name }}</h2>
+                    <table>
+                        <tr>
+                            <td>Start from:</td>
+                            <td>{{ date('M d Y', strtotime($ticketSales->ticket->event->start_date)) }} At 
+                            {{ date('H:s:i a', strtotime($ticketSales->ticket->event->start_time)) }}</td>
+                        </tr>
+                        <tr>
+                            <td>End at:</td>
+                            <td>
+                                {{ date('M d Y', strtotime($ticketSales->ticket->event->end_date)) }} At
+                                {{ date('H:s:i a', strtotime($ticketSales->ticket->event->end_time)) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Location:</td>
+                            <td>
+                                {{ $ticketSales->ticket->event->location }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Guest:</td>
+                            <td>
+                                {{ $ticketSales->guests->lastName }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ticket number:</td>
+                            <td>
+                                {{ $ticket_number->ticket_number }}
+                            </td>
+                        </tr>
+                    </table>
+                    <img class="abs_img" src="{{ $image }}">
+                </div>
+            </div>
+        @endforeach 
     </div>
 
     <style>
@@ -106,7 +88,7 @@
         }
         .container {
             padding: 20px;
-            margin: 0 auto;
+            margin: 80px auto;
         }
 
         .container .item {
@@ -117,6 +99,7 @@
             padding: 30px;
             border: 1px solid #988;
             height: 200px;
+            margin-bottom: 50px;
         }
         .item::after,
         .container .item-right {
@@ -164,6 +147,11 @@
         }
         table td {
             padding: 3px 5px;
+        }
+        @media print {
+            .item {
+                page-break-after: always;
+            }
         }
 
     </style>

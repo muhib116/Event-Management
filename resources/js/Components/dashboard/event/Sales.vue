@@ -11,7 +11,7 @@
                     <div class="name">Sales revenue</div>
                 </div>
                 <div class="column">
-                    <div class="number">-</div>
+                    <div class="number">{{ $page.props.next_payout_date }}</div>
                     <div class="name">Next payout date</div>
                 </div>
             </div>
@@ -20,13 +20,15 @@
     <div class="guestlist event-item " data-item="guestlist">
         <!-- eventSales -->
         <div class="shadow mt-10 rounded border-t">
+            
             <table class="w-full rounded">
                 <tr class="border-b">
                     <th class="px-2 py-4 text-gray-700">Ticket Name</th>
                     <th class="px-2 py-4 text-gray-700">Guest</th>
                     <th class="px-2 py-4 text-gray-700">Ticket type</th>
-                    <th class="px-2 py-4 text-gray-700">Pricie</th>
+                    <th class="px-2 py-4 text-gray-700">Price</th>
                     <th class="px-2 py-4 text-gray-700">Quantity</th>
+                    <th class="px-2 py-4 text-gray-700">Sold date</th>
                     <th class="px-2 py-4 text-gray-700">View Ticket</th>
                 </tr>
                 <tr
@@ -41,8 +43,9 @@
                     <td class="text-center px-2 py-4 text-gray-700">{{ data.ticket_type }}</td>
                     <td class="text-center px-2 py-4 text-gray-700">{{ $page.props.settings?.currency.value }} {{ data.price }}</td>
                     <td class="text-center px-2 py-4 text-gray-700">{{ data.quantity }}</td>
+                    <td class="text-center px-2 py-4 text-gray-700">{{ moment(data.created_at).format('d-M-Y H:s:i a') }}</td>
                     <td class="text-center px-2 py-4 text-gray-700">
-                        <a :href="route('ticket_view', data.id)" target="_blank" class="border px-3 py-2 rounded border-slate-200 relative">
+                        <a :href="route('ticket_view', data.sales_id)" target="_blank" class="border px-3 py-2 rounded border-slate-200 relative">
                             <i class="fa fa-eye"></i>
                         </a>
                     </td>
@@ -57,8 +60,9 @@
     import { isEmpty } from 'lodash'
     import ImageUpload from '@/Components/dashboard/event/components/ImageUpload.vue'
     import useFileUpload from '@/Components/useFileUpload.js'
-    import { Link } from '@inertiajs/inertia-vue3' 
-import axios from 'axios'
+    import { Link } from '@inertiajs/inertia-vue3'
+    import axios from 'axios'
+import moment from 'moment'
     
     const props = defineProps({
         editable: {

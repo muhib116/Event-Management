@@ -46,6 +46,22 @@ class DatabaseSeeder extends Seeder
             'type' => 'organizer',
             'email' => 'org@gmail.com',
         ]);
+        \App\Models\SiteSetting::insert([
+            ['name' => 'commission', 'value' => ''],
+            ['name' => 'currency','value' => ''],
+            ['name' => 'home_banner_image','value' => ''],
+            ['name' => 'logo_image','value' => ''],
+            ['name' => 'footer_logo_image','value' => ''],
+            ['name' => 'home_banner_text','value' => ''],
+
+            ['name' => 'facebook_link','value' => ''],
+            ['name' => 'twitter_link','value' => ''],
+            ['name' => 'tiktok_link','value' => ''],
+            ['name' => 'instagram_link','value' => ''],
+            ['name' => 'youtube_link','value' => ''],
+            ['name' => 'telegram_link','value' => ''],
+            
+        ]);
         // \App\Models\EventList::factory(100)->create();
 
         // $events = \App\Models\EventList::all();

@@ -1,6 +1,7 @@
 <template>
-    <div class="guestlist event-item" data-item="guestlist">
-        <div class="shadow mt-10 rounded border-t">
+    <div class="py-5 bg-white px-5 rounded-md" data-item="guestlist">
+        <h4 class="font-extrabold text-2xl">Guest List</h4>
+        <div class="shadow rounded border-t mt-10">
             <table class="w-full rounded">
                 <tr class="border-b">
                     <th class="px-2 py-4 text-gray-700">Name</th>

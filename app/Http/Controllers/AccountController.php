@@ -13,7 +13,7 @@ class AccountController extends Controller
 {
     public function index() {
         $user = Auth::user();
-        $payment_details = PaymentDetail::with('organizer')->where('user_id', auth()->id())->get();
+        $payment_details = PaymentDetail::with('organizer')->where('user_id', auth()->id())->first();
         return Inertia::render('Account', [
             'user' => $user,
             'payment_details' => $payment_details

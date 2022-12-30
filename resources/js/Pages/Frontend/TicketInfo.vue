@@ -36,14 +36,14 @@
 
                     <div class="ticket-boxprt">
                         <template v-for="(ticket, index) in event.event_tickets" :key="index">
-                            <Box :ticket="ticket" v-if="!ticket.settings.isHidden"  />
+                            <Box :ticket="ticket" @openLoginPopup="loginPopupOpen" v-if="!ticket.settings.isHidden"  />
                         </template>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div v-if="Object.keys(cards).length" class="fixed bottom-0 w-full text-white bg-[#7F7DF3] border-t shadow ">
+        <div v-if="Object.keys(cards).length" class="sticky bottom-0 z-10 w-full text-white bg-[#7F7DF3] border-t">
             <div class="container h-[70px] flex items-center justify-between">
                 <div>
                     <table>
@@ -60,37 +60,52 @@
                 <Link :href="route('checkout', event.slug)" class="bg-white text-[#4F4CEE] px-4 py-2 rounded shadow-lg">Buy Tickets</Link>
             </div>
         </div>
-        <div v-else class="bg-red h-[65px] fixed bottom-0 text-white bg-[#7F7DF3] w-full flex items-center justify-center border-t shadow">
+        <div v-else class="bg-red h-[65px] sticky bottom-0 z-10 text-white bg-[#7F7DF3] w-full flex items-center justify-center border-t">
             Choose your ticket and quantity.
         </div>
+        <LoginPopup :modelValue="modelValue" />
     </Master>
 </template>
 
 <script setup>
-    import { watch, onMounted } from 'vue'
+    import { watch, onMounted, ref, watchEffect } from 'vue'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
     import Box from '@/Components/Frontend/TicketInfo/Box.vue'
     import useEvent from '@/Pages/useEvent.js'
     import useTicket from '@/Pages/Frontend/useTicket'
+    import useAuth from '@/useAuth'
+    import LoginPopup from '@/Components/dashboard/popup/LoginPopup.vue'
 
     const { get_banner } = useEvent()
+    const { isLoading, isAuthenticated, login } = useAuth();
+    const modelValue = ref(false);
     const { cards, getTotalWithFees, totalQuantity, totalPrice, commission } = useTicket()
     const props = defineProps({
         event: Object,
         settings: Object
     })
+    
     watch(cards, ()=>{
         getTotalWithFees(cards.value)
         localStorage.setItem('cards', JSON.stringify(cards.value))
     }, { deep: true })
-
+    watchEffect(() => {
+        if (!isLoading.value && !isAuthenticated.value) {
+            modelValue.value = true;
+        }
+    });
     onMounted(() => {
         if(localStorage.cards){
             cards.value = JSON.parse(localStorage.getItem('cards'))
         }
+        
         commission.value = props.settings.commission.value
     })
+
+    const loginPopupOpen = () => {
+        modelValue.value = true;
+    }
 </script>
 
 <style scoped>

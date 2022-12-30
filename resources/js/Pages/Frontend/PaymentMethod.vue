@@ -24,48 +24,6 @@
                                                 </li>
                                             </ul>   
                                         </div>
-                                        <div class="payment-item">
-                                            <h4>Virtual Account</h4>
-                                            <ul>
-                                                <li>
-                                                    <input type="radio" id="r2" name="radio-group">
-                                                    <label for="r2">BCA Virtual Account <img src="@/assets/frontend/images/r1.png" alt=""></label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio" id="r3" name="radio-group">
-                                                    <label for="r3">BNI Virtual Account <img src="@/assets/frontend/images/r2.png" alt=""></label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio" id="r4" name="radio-group">
-                                                    <label for="r4">Mandiri Virtual Account <img src="@/assets/frontend/images/r3.png" alt=""></label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio" id="r5" name="radio-group">
-                                                    <label for="r5">Other Bank </label>
-                                                </li>
-                                            </ul>   
-                                        </div>
-                                        <div class="payment-item">
-                                            <h4>Electronic Money</h4>
-                                            <ul>
-                                                <li>
-                                                    <input type="radio" id="r6" name="radio-group">
-                                                    <label for="r6">Gopay <img src="@/assets/frontend/images/r4.png" alt=""></label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio" id="r7" name="radio-group" checked>
-                                                    <label for="r7">OVO <img src="@/assets/frontend/images/r5.png" alt=""></label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio" id="r8" name="radio-group">
-                                                    <label for="r8">LinkAja <img src="@/assets/frontend/images/r6.png" alt=""></label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio" id="r9" name="radio-group">
-                                                    <label for="r9">Shopee pay <img src="@/assets/frontend/images/r7.png" alt=""></label>
-                                                </li>
-                                            </ul>   
-                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -75,8 +33,8 @@
                             <div class="pay-btn">
                                 <!-- <Link class="active" :href="route('payment-complete')">Pay Now</Link> -->
                                 <Button class="active flex items-center gap-2 justify-center" @click="()=> {
-                                    handlePayment(cards);
                                     clickLoading = true;
+                                    handlePayment(cards);
                                 }" :disabled="clickLoading"
                                 :class="{
                                     'opacity-50': clickLoading
@@ -88,18 +46,22 @@
                                     </svg>
                                     Pay Now
                                 </Button>
+                                <div id="braintree-paypal-cta" ref="paypalBtnContainer"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
+
         </LoginCheck>
     </Master>
 </template>
 
 <script setup>
+    // import "https://unpkg.com/@paypal/paypal-js@5.1.1/dist/iife/paypal-js.min.js";
+    // import "https://www.paypalobjects.com/api/checkout.js";
     import { Head, Link } from '@inertiajs/inertia-vue3'
-    import { onMounted, ref, watchEffect } from 'vue'
+    import { onMounted,onActivated, ref, watchEffect } from 'vue'
     import { useToast } from "vue-toastification";
     import Master from './Master.vue'
     import Cart from '@/Components/Frontend/checkout/Cart.vue'
@@ -120,6 +82,7 @@
     const props = defineProps({
         event: Object
     })
+    const paypalBtnContainer = ref(null);
 
     const preparePayload = (cards) => {
         let index = 0
@@ -132,7 +95,7 @@
                 ticket_id: id,
                 ticket_type: type,
                 quantity: quantity,
-                commission: commission, //this commission setting as percentage
+                commission: commission.value, //this commission setting as percentage
                 price: price,
                 payment_method: 'Hand Cash',
                 status: 'complete',
@@ -152,18 +115,23 @@
             })
             return
         }
-        let res = await axios.post('ticket/sale', payload)
+        // axios.post('create-payment', payload);
+        let res = await axios.post('ticket/sale', payload);
         if(res.status == 200){
             // clean cards from localStorage
             localStorage.clear('cards')
             window.location.href = route('payment.complete')
+            clickLoading = false;
+        } else {
+            clickLoading = false;
         }
-    }
-
+    } 
     onMounted(() => {
         if(localStorage.getItem('cards')){
             let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
-            cards.value = cardsFromLocalStorage
+            // cards.value = cardsFromLocalStorage
+            
+            
         }
     })
 
@@ -177,6 +145,60 @@
                 guestId.value = guest.data.id
                 console.log(guestId.value)
             }, 100)
+        }
+        if (!isLoading.value) {
+            // if (document.querySelector('#braintree-paypal-cta')) {
+            //     paypal.Button.render({
+            //         env: 'sandbox', // Or 'production'
+            //         style: {
+            //             size: 'large',
+            //             layout: 'vertical',
+            //             color: 'blue',
+            //             shape: 'rect',
+            //             label: 'paypal',
+            //         },
+            //         // Set up the payment:
+            //         // 1. Add a payment callback
+            //         validate: function(e) {
+            //             // console.log(e);
+            //             // let accepted = document.getElementById('accept_terms_condition');
+            //             // enableDisable(accepted, e);
+            //             // accepted.addEventListener('change', function() {
+            //             //     enableDisable(accepted, e);
+            //             // });
+            //         },
+            //         payment: function(data, actions) {
+            //             // 2. Make a request to your server
+            //             // console.dir(actions.request.post);
+            //             // accept_tmcaccept_tmc
+            //             console.log(data);
+            //             return actions.request.post(route('create_payment'))
+            //                 .then(function(res) {
+            //                     // 3. Return res.id from the response
+            //                     console.log(res);
+            //                     return res.id;
+            //                 }).catch(err => {
+            //                     console.log(err.message);
+            //                 });
+            //         },
+            //         // Execute the payment:
+            //         // 1. Add an onAuthorize callback
+            //         onAuthorize: function(data, actions) {
+            //             // 2. Make a request to your server
+            //             console.log(data);
+            //             // return actions.request.post('/api/execute-payment/{{ $order->id }}', {
+            //             //     paymentID: data.paymentID,
+            //             //     payerID:   data.payerID
+            //             // })
+            //             //     .then(function(res) {
+            //             //     console.log(res);
+            //             //     //   alert('PAYMENT WENT THROUGH!!');
+            //             //     window.location.href = `{{ route('order.success', $order->id) }}`;
+            //             //     // 3. Show the buyer a confirmation message.
+            //             //     });
+            //         }
+            //     }, '#braintree-paypal-cta');
+            // }
         }
     })
 </script>

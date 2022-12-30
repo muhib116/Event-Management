@@ -13,7 +13,10 @@
                     <img src="@/assets/frontend/images/minus.svg" alt="">
                 </span>
                 <input class="input-number active pointer-events-none" type="text" v-model="quantity" >
-                <span @click="quantity<getUpperLimit(ticket) && quantity++" class="input-number-increment">
+                <span @click="() => {
+                    quantity<getUpperLimit(ticket) && quantity++;
+                    $emit('openLoginPopup')
+                }" class="input-number-increment">
                     <img src="@/assets/frontend/images/plus.svg" alt="">
                 </span>                     
             </div>
@@ -27,12 +30,13 @@
 
 
     const props = defineProps({
-        ticket: Object
+        ticket: Object,
     })
 
     const quantity = ref(0)
     const { cards, addCardData, commission, getTicketPrice } = useTicket()
     const getUpperLimit = (ticket) => {
+        
         if(ticket.ticket_stock != 'limited') return ticket.purchase_limit
         
         let currentStock = (ticket.stock_limit - ticket.sold)

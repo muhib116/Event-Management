@@ -23,12 +23,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-sm text-blueGray-500 mt-4">
+                            <!-- <p class="text-sm text-blueGray-500 mt-4">
                                 <span class="text-emerald-500 mr-2">
                                     <i class="fas fa-arrow-down"></i> 12%
                                 </span>
                                 <span class="whitespace-nowrap">Since last month</span>
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </div>
@@ -46,12 +46,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-sm text-blueGray-500 mt-4">
+                            <!-- <p class="text-sm text-blueGray-500 mt-4">
                                 <span class="text-emerald-500 mr-2">
                                     <i class="fas fa-arrow-down"></i> 12%
                                 </span>
                                 <span class="whitespace-nowrap">Since last month</span>
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </div>
@@ -76,12 +76,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-sm text-blueGray-500 mt-4">
+                            <!-- <p class="text-sm text-blueGray-500 mt-4">
                                 <span class="text-emerald-500 mr-2">
                                     <i class="fas fa-arrow-down"></i> 12%
                                 </span>
                                 <span class="whitespace-nowrap">Since last month</span>
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                                     <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-red-500"><i class="far fa-chart-bar"></i></div>
                                 </div>
                             </div>
-                            <p class="text-sm text-blueGray-500 mt-4"><span class="text-emerald-500 mr-2"><i class="fas fa-arrow-up"></i> 3.48%</span><span class="whitespace-nowrap">Since last month</span></p>
+                            <!-- <p class="text-sm text-blueGray-500 mt-4"><span class="text-emerald-500 mr-2"><i class="fas fa-arrow-up"></i> 3.48%</span><span class="whitespace-nowrap">Since last month</span></p> -->
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                                     <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-orange-500"><i class="fas fa-chart-pie"></i></div>
                                 </div>
                             </div>
-                            <p class="text-sm text-blueGray-500 mt-4"><span class="text-red-500 mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span><span class="whitespace-nowrap">Since last week</span></p>
+                            <!-- <p class="text-sm text-blueGray-500 mt-4"><span class="text-red-500 mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span><span class="whitespace-nowrap">Since last week</span></p> -->
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-sm text-blueGray-500 mt-4"><span class="text-orange-500 mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span><span class="whitespace-nowrap">Since yesterday</span></p>
+                            <!-- <p class="text-sm text-blueGray-500 mt-4"><span class="text-orange-500 mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span><span class="whitespace-nowrap">Since yesterday</span></p> -->
                         </div>
                     </div>
                 </div>
@@ -149,9 +149,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-sm text-blueGray-500 mt-4">
+                            <!-- <p class="text-sm text-blueGray-500 mt-4">
                                 <Link :href="route('advertise.index')" class="py-1 px-3 bg-orange-200 rounded">Manage</Link>
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </div>
