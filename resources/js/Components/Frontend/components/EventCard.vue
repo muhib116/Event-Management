@@ -11,7 +11,7 @@
                 <img :src="get_banner(item.images)" :alt="item.name" class="h-full object-cover object-center w-full">
             </div>
             <div class="">
-                <div class="upcome-cntright py-3 grid ml-0">
+                <div class="upcome-cntright text-center py-3 grid ml-0">
                     <h4 :title="item.name" class="text-xl mb-0">{{ truncate(item.name, 25) }}</h4>
                     <p v-if="item.min_price == item.max_price" class="mt-0">
                         {{ item.min_price ? `$ ${item.min_price}` : 'Free' }}
