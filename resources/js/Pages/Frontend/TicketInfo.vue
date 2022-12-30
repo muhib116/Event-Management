@@ -36,7 +36,7 @@
 
                     <div class="ticket-boxprt">
                         <template v-for="(ticket, index) in event.event_tickets" :key="index">
-                            <Box :ticket="ticket" @openLoginPopup="loginPopupOpen" v-if="!ticket.settings.isHidden"  />
+                            <Box :ticket="ticket" v-if="!ticket.settings.isHidden"  />
                         </template>
                     </div>
                 </div>
@@ -102,10 +102,7 @@
         
         commission.value = props.settings.commission.value
     })
-
-    const loginPopupOpen = () => {
-        modelValue.value = true;
-    }
+ 
 </script>
 
 <style scoped>

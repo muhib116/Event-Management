@@ -121,9 +121,9 @@
             // clean cards from localStorage
             localStorage.clear('cards')
             window.location.href = route('payment.complete')
-            clickLoading = false;
+            clickLoading.value = false;
         } else {
-            clickLoading = false;
+            clickLoading.value = false;
         }
     } 
     onMounted(() => {

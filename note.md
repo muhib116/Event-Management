@@ -98,7 +98,7 @@
     -- ✅name, phone, etc.
  -- ✅ticket sold list, spalling mistack for price
  -- use datatable on sold ticket list
- -- ticket sold date
+ -- ✅ticket sold date
  -- ✅next payout date is after one week from event end date
  -- ✅event details page, change date formate to d-m-y
  :: ✅payment info
