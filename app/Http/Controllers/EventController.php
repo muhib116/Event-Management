@@ -7,6 +7,7 @@ use App\Models\EventTickets;
 use App\Models\Guests;
 use App\Models\MEvents;
 use App\Models\PaymentDetail;
+use App\Models\TicketNumber;
 use App\Models\TicketSales;
 use App\Utils;
 use Carbon\Carbon;
@@ -187,5 +188,43 @@ class EventController extends Controller
             'end_time' => $request->end_time,
         ]);
         return back();
+    }
+
+
+    public function checkin(Request $request) {
+        if (!$request->ticket_number) {
+            return response([
+                'type' => 'error',
+                'message' => "Opps! Something wrong."
+            ]);
+        }
+        $ticket_number = TicketNumber::where('ticket_number', $request->ticket_number)->first();
+        if (!$ticket_number) {
+            return response([
+                'type' => 'error',
+                'message' => "Opps! Code does not match."
+            ]);
+        }
+        if ($ticket_number->status == 'used') {
+            return response([
+                'type' => 'error',
+                'message' => "Opps! Code already used."
+            ]);
+        } 
+        $event = $ticket_number->ticketSales->ticket->event;
+        $end = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->end_date $event->end_time")));
+        if (now()->gt($end)) {
+            return response([
+                'type' => 'error',
+                'message' => "Opps! Code Expired."
+            ]);
+        }
+        $ticket_number->update([
+            'status' => 'used'
+        ]);
+        return response([
+            'type' => 'success',
+            'message' => "Checked in successfully"
+        ]);
     }
 }
