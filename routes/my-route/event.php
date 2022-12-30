@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,3 +15,5 @@ Route::post('/event/{event}/create-discount', [EventController::class, 'create_d
 Route::get('event/appearance/{event_id?}', function () {
     return Inertia::render('Appearance');
 })->middleware(['auth', 'verified'])->name('appearance');
+
+Route::get('/organizer-payment', [TransactionController::class, 'index'])->name('organizer_payment');

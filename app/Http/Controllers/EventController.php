@@ -202,13 +202,13 @@ class EventController extends Controller
         if (!$ticket_number) {
             return response([
                 'type' => 'error',
-                'message' => "Opps! Code does not match."
+                'message' => "Opps! Ticket does not match."
             ]);
         }
         if ($ticket_number->status == 'used') {
             return response([
                 'type' => 'error',
-                'message' => "Opps! Code already used."
+                'message' => "Opps! Ticket already used."
             ]);
         } 
         $event = $ticket_number->ticketSales->ticket->event;
@@ -216,7 +216,7 @@ class EventController extends Controller
         if (now()->gt($end)) {
             return response([
                 'type' => 'error',
-                'message' => "Opps! Code Expired."
+                'message' => "Opps! Ticket Expired."
             ]);
         }
         $ticket_number->update([

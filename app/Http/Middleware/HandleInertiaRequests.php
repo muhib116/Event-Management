@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Page;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -64,6 +65,7 @@ class HandleInertiaRequests extends Middleware
                 'youtube_link' => $settings->where('name', 'youtube_link')->first(),
                 'telegram_link' => $settings->where('name', 'telegram_link')->first(),
             ],
+            'pages' => Page::all(),
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'error' => fn () => $request->session()->get('error'),

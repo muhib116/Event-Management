@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\FrontendUserProfileController;
+use App\Http\Controllers\PageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,6 +28,12 @@ Route::get('/user/profile/edit', [FrontendUserProfileController::class, 'editUse
 Route::post('/user/profile/update', [FrontendUserProfileController::class, 'updateUserProfile'])->name('user.profile.update');
 Route::get('/user/get_profile/{email}', [FrontendUserProfileController::class, 'get_profile'])->name('user.get_profile');
 
+
+Route::get('/create-page', [PageController::class, 'index'])->name('page');
+Route::get('/create-page/{page}', [PageController::class, 'edit'])->name('page.edit');
+Route::post('/store-page', [PageController::class, 'store'])->name('page.store');
+Route::put('/store-update/{page}', [PageController::class, 'update'])->name('page.update');
+Route::put('/store-delete/{page}', [PageController::class, 'delete'])->name('page.delete');
 
 
 

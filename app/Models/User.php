@@ -39,4 +39,8 @@ class User extends Authenticatable
         'interests' => 'array',
         'settings' => 'array',
     ];
+
+    public function transaction() {
+        $this->hasMany(Transaction::class, 'user_id', 'id');
+    }
 }
