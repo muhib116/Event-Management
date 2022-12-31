@@ -67,10 +67,12 @@
     import { ref, onMounted, onUpdated, computed } from 'vue'
     import { useForm } from '@inertiajs/inertia-vue3'
     import { useToast } from "vue-toastification";
-    const toast = useToast();
     import useFileUpload from '@/Components/useFileUpload.js'
     import axios from 'axios'
     import moment from 'moment'
+    
+
+    const toast = useToast();
     
     const props = defineProps({
         editable: {
@@ -102,6 +104,7 @@
                 }
             },
         });
+    }
     const eventSales = ref([])
     const getData = () => {
         if(!eventSales.value?.sales) return []
@@ -123,19 +126,19 @@
     })
     const getEventId = () => {
         let urlData = window.location.pathname.split('/')
-        return urlData.at(-1)
+        return urlData.at(-1);
     }
 
     onMounted(async () => {
         getImages(getEventId())
         let { data } = await axios.get(`event-sales/${getEventId()}`);
         eventSales.value = data;
-    })
-    onUpdated(() => {
-        eventId.value = getEventId()
-    })
+    });
+    // onUpdated(() => {
+    //     eventId.value = getEventId()
+    // })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
     
 </style>

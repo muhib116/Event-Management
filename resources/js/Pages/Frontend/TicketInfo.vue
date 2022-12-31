@@ -49,11 +49,11 @@
                     <table>
                         <tr>
                             <td class="py-[4px] px-2">Qty</td>
-                            <td class="py-[4px] px-2 font-bold">Price Total (IDR)</td>
+                            <td class="py-[4px] px-2 font-bold">Price Total</td>
                         </tr>
                         <tr>
                             <td class="py-[4px] px-2">{{ totalQuantity }}</td>
-                            <td class="py-[4px] px-2 font-bold">Rp. {{ totalPrice.toFixed(2) }}</td>
+                            <td class="py-[4px] px-2 font-bold">{{ totalPrice.toFixed(2) }} {{  $page.props?.currency.value }}</td>
                         </tr>
                     </table>
                 </div>

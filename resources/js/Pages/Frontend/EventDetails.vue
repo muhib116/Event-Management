@@ -24,7 +24,7 @@
                             </div>
                             <div class="event-cntright">
                                 <p>Tickets starting at</p>
-                                <h4>$ {{ event.min_price }}</h4>
+                                <h4>{{ event.min_price }} {{  $page.props?.currency.value }}</h4>
                                 <Link :href="route('ticket-info', event.slug)">Buy Tickets</Link>
                             </div>
                         </div>

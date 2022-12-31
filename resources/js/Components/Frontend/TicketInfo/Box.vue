@@ -6,7 +6,7 @@
         <p>{{ ticket.ticket_description }}</p>
         <div class="ticket-btmcnt">
             <h4>
-                {{ ticket.ticket_type == 'Free' || !ticket.price || ticket.price == 0 ? 'Free' : `$. ${ getTicketPrice(ticket)}` }}
+                {{ ticket.ticket_type == 'Free' || !ticket.price || ticket.price == 0 ? 'Free' : `${ getTicketPrice(ticket)} ${$page.props?.currency.value}` }}
             </h4>
             <div class="quantity">
                 <span @click="quantity>0&&quantity--" class="input-number-decrement">

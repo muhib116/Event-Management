@@ -14,7 +14,7 @@
             <h6>Order Summary</h6>
             <p v-for="(card, index) in cards" :key="`type-${index}`">
                 <span>{{ card.name }} ({{ card.type }})</span>
-                <span>{{ card.quantity }}pcs x ${{ card.price }}</span>
+                <span>{{ card.quantity }}pcs x {{ card.price }} {{  $page.props?.currency.value }}</span>
             </p>
         </div>
         <div v-if="getTotalCommission(cards)>0" class="summary-item">
@@ -26,7 +26,7 @@
             <p>Admin Fee <span> {{ getTotalCommission(cards).toFixed(2) }} </span></p>
         </div>
         <div class="summary-item">
-            <p><span>Total</span> <span>$ {{ getTotalWithFees(cards) }}</span></p>
+            <p><span>Total</span> <span>{{ getTotalWithFees(cards) }} {{  $page.props?.currency.value }}</span></p>
         </div>
     </div>
 </template>

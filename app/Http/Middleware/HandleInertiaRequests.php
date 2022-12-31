@@ -52,6 +52,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'user' => auth()->user(),
             'url' => url(''),
+            'currency' => $settings->where('name', 'currency')->first(),
             'settings' => [
                 'commission' => $settings->where('name', 'commission')->first(),
                 'currency' => $settings->where('name', 'currency')->first(),

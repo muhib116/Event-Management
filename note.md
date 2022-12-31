@@ -97,7 +97,7 @@
  -- ✅user profile update
     -- ✅name, phone, etc.
  -- ✅ticket sold list, spalling mistack for price
- -- use datatable on sold ticket list
+ -- ✅use datatable on sold ticket list
  -- ✅ticket sold date
  -- ✅next payout date is after one week from event end date
  -- ✅event details page, change date formate to d-m-y
@@ -111,11 +111,11 @@
         ✅only one account information will add (update otherwise)
         ✅remove delete button form account information
 -- ✅remove compare percent from widgets
--- currency will placed after amount with space.
-    -- commission implement from backend.
--- from payment method page, remove serves & handling
+-- ✅currency will placed after amount with space.
+    -- ✅commission implement from backend.
+-- ✅from payment method page, remove serves & handling
 
--- ticket code scane by camera and update status to checkin.(already used ticket)
+-- ✅ticket code scane by camera and update status to checkin.(already used ticket)
     vue qrcode reader
     https://gruhn.github.io/vue-qrcode-reader/
 
@@ -132,8 +132,8 @@
             -- ✅witter, Facebook, Tiktok, Instagram, Youtube, Telegram, Copy write text
         ✅(Dynamic from backend)
 
--- while scanning (Check if he is woner of this ticket)
-    invalid, expired, used, validated
+-- ✅while scanning (Check if he is woner of this ticket)
+    ✅invalid, expired, used, validated
 
 database:
     ✅sales
