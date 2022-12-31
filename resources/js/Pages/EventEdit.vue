@@ -15,7 +15,7 @@
                         <p class="top" v-if="!event.is_expired && $page.props.has_payment_details != 1"><i class="fa-solid fa-circle-exclamation"></i> Things to do before you can make your event live</p>
                         <p class="requirement" v-if="$page.props.has_payment_details != 1"><span class="cursor-pointer select-none" @click="payPoput=true">Add payment details</span> so you can get paid</p>
                         <p class="requirement" v-if="event.ticket_count == 0"><span>Create some tickets</span> for your event</p>
-                        <p class="requirement" v-if="event.is_expired">Update the <span class="cursor-pointer select-none" @click="scrollToDate">event date</span> </p>
+                        <p class="requirement" v-if="event.is_expired && !$page.props.is_paid">Update the <span class="cursor-pointer select-none" @click="scrollToDate">event date</span> </p>
                     </div>
                 </div>
                 <PaymentPopup

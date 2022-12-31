@@ -10,6 +10,7 @@
             <div class="nav">
                 <Link :href="route('live.account')">Account</Link>
                 <Link :href="route('dashboard')">Events</Link>
+                <Link :href="route('organizer_payment')">Payments</Link>
                 <Link v-if="$page.props.auth.user.type=='admin'" :href="route('advertise.index')">Advertise</Link>
                 <Link v-if="$page.props.auth.user.type=='admin'" :href="route('settings.index')">Settings</Link>
                 <Link v-if="$page.props.auth.user.type=='admin'" :href="route('page')">Pages</Link>

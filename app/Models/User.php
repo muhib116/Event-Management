@@ -43,4 +43,8 @@ class User extends Authenticatable
     public function transaction() {
         $this->hasMany(Transaction::class, 'user_id', 'id');
     }
+
+    public function payment_details() {
+        return $this->hasOne(PaymentDetail::class, 'user_id', 'id');
+    }
 }

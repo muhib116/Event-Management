@@ -2,7 +2,7 @@
         <div class="py-5 bg-white px-5 rounded-md">
             <div class="flex justify-between items-end">
                 <h4 class="font-extrabold text-2xl">Tickets</h4>
-                <button @click="() => showPopup = true" class="bg-orange-500 px-4 py-2 rounded shadow text-white">Add Tickets</button>
+                <button @click="() => showPopup = true" v-if="!$page.props.is_paid" class="bg-orange-500 px-4 py-2 rounded shadow text-white">Add Tickets</button>
             </div>
             
             <!-- table start -->

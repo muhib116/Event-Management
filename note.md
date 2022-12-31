@@ -57,7 +57,7 @@
     -- ✅category carosel padding
     -- ✅event details manage guest list
     -- ✅guest management
-    -- organizer manage with payment system
+    -- ✅organizer manage with payment system
 
     -- site settings
         -- ✅logo, banner image, title

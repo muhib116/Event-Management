@@ -30,4 +30,13 @@ class EventList extends Model
         return $this->hasOne(EventView::class, 'event_list_id', 'id');
     }
 
+    public function tickets() {
+        return $this->hasMany(EventTickets::class, 'event_id', 'id');
+    }
+    
+
+    public function transaction() {
+        return $this->hasOne(Transaction::class, 'event_list_id', 'id');
+    }
+
 }

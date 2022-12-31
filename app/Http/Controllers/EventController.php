@@ -75,10 +75,18 @@ class EventController extends Controller
         $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->end_date $event->end_time")));
         $next_payout_date = $end_at->addWeek(1)->format('d-M-Y');
         $has_payment_details = PaymentDetail::where('user_id', auth()->id())->get();
+
+        $end = Carbon::parse(date('Y-m-d H:i:s', strtotime($next_payout_date)));
+        $payout_date_over = now()->gt($end);
+        $is_paid = $event->transaction;
+
         return Inertia::render('EventEdit', [
             'userId' => Auth::id(),
+            'user' => auth()->user(),
             'has_payment_details' => count($has_payment_details) ? 1 : 0,
             'next_payout_date' => $next_payout_date,
+            'payout_date_over' => $payout_date_over,
+            'is_paid' => $is_paid,
         ]);
     }
     public function eventEdit(Request $request, $eventId) {
@@ -152,10 +160,14 @@ class EventController extends Controller
         $ids = $eventList->eventTickets()->pluck('id');
         $sales = TicketSales::with(['guests', 'ticket', 'ticket_number'])->whereIn('ticket_id', $ids)->get();
         // ssl
+        $ticket_revenue = 0;
+        foreach ($sales as $key => $sale) {
+            $ticket_revenue += ($sale->price - $sale->commission) * $sale->quantity;
+        }
         return response([
             'sales' => $sales,
             'ticket_sold' => $sales->sum('quantity'),
-            'ticket_revenue' => $sales->sum('price'),
+            'ticket_revenue' => $ticket_revenue,
         ], 200);
     }
 

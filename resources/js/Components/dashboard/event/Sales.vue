@@ -11,7 +11,20 @@
                     <div class="name">Sales revenue</div>
                 </div>
                 <div class="column">
-                    <div class="number">{{ $page.props.next_payout_date }}</div>
+                    <div v-if="$page.props.user.type == 'admin' && !$page.props.is_paid">
+                        <button @click="makePayment($page.props.user, id)" class="flex items-center gap-1 py-2 px-3 bg-red-500 text-white rounded-sm" v-if="$page.props.payout_date_over">
+                            <svg v-if="pay_form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Pay now
+                        </button>
+                        <div class="number">{{ $page.props.next_payout_date }}</div>
+                    </div>
+                    <div class="number text-green-600 flex items-center flex-col" v-else>
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+                        Paid
+                    </div>
                     <div class="name">Next payout date</div>
                 </div>
             </div>
@@ -60,10 +73,12 @@
     import { isEmpty } from 'lodash'
     import ImageUpload from '@/Components/dashboard/event/components/ImageUpload.vue'
     import useFileUpload from '@/Components/useFileUpload.js'
-    import { Link } from '@inertiajs/inertia-vue3'
+    import { Link, useForm } from '@inertiajs/inertia-vue3'
     import axios from 'axios'
-import moment from 'moment'
-    
+    import moment from 'moment'
+    import { Inertia } from '@inertiajs/inertia'
+    import { useToast } from "vue-toastification";
+    const toast = useToast();
     const props = defineProps({
         editable: {
             type: Boolean,
@@ -81,6 +96,23 @@ import moment from 'moment'
 
     const eventId = ref(null)
     const eventSales = ref({})
+    const pay_form = useForm({});
+    const makePayment = () => {
+        // makePayment
+        pay_form.post(route('create_transaction', {
+            eventList: props.event.id,
+            user: props.userId
+        }), {
+            onSuccess(pg) {
+                if (pg.props.flash?.error) {
+                    toast.error(pg.props.flash?.error);
+                }
+                if (pg.props.flash?.success) {
+                    toast.success(pg.props.flash?.success)
+                }
+            },
+        });
+    }
 
     const getBannerImage = (images) => {
         let filteredImage = images.filter(item => {

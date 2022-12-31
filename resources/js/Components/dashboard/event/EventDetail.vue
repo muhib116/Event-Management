@@ -33,7 +33,8 @@
         <div class="element">
             <label for="location">*Use Custom URL</label>
             <div class="input-container">
-                <div class="startup">tix.africa/discover/</div>
+                <!-- <div class="startup">tix.africa/discover/</div> -->
+                <div class="startup flex whitespace-nowrap">{{ $page.props.url }}/event-details</div>
                 <input name="url" type="url" :class="validationFor.url.hasError && 'border-red-500'" required v-model="eventForm.url">
             </div>
         </div>
@@ -223,7 +224,7 @@
             </div>
         </div>
         <!-- Continue Buttons -->
-        <div class="save-or-cancel">
+        <div class="save-or-cancel" v-if="!$page.props.is_paid">
             <Link v-if="!editable" class="button save" :href="route('dashboard')">Cancel</Link>
             <div class="button save bg-red cursor-pointer" @click="handleEvent">
                 {{ editable ? 'Update' : 'Continue' }}

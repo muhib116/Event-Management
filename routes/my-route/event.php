@@ -17,3 +17,4 @@ Route::get('event/appearance/{event_id?}', function () {
 })->middleware(['auth', 'verified'])->name('appearance');
 
 Route::get('/organizer-payment', [TransactionController::class, 'index'])->name('organizer_payment');
+Route::post('create-transaction/{eventList}/{user}', [TransactionController::class, 'createTransaction'])->name('create_transaction');
