@@ -1,18 +1,8 @@
 <template>
     <main class="dashboard">
         <h1 class="text-4xl -m-5 mb-8 px-3 text-center border-b pb-4 border-slate-200 font-black">Welcome to {{ user.type }}  panel</h1> 
-
-        <Widgets />
-
-        <h1 class="text-3xl font-black flex flex-wrap justify-between items-center">
-            Your events
-            <button class="py-2 px-4 bg-blue-500 text-white rounded-md text-sm font-semibold flex gap-2 items-center justify-center">
-                <i class="fas fa-qrcode"></i>
-                Check in
-            </button>
-        </h1>
         
-        <QRScanner />
+        <Widgets />
 
         <div class="events">
             <div @click="showEventPopup = true" v-show="user.type == 'organizer'" class="create-new cursor-pointer">
@@ -43,23 +33,22 @@
 </template>
 
 <script setup>
-  import { Link } from '@inertiajs/inertia-vue3'
-  import { ref } from 'vue'
-  import EventCard from './EventCard.vue';
-  import NewEventPopup from './popup/NewEventPopup.vue'
-  import Widgets from './Widgets.vue'
-  import QRScanner from './QRScanner.vue';
+    import { Link } from '@inertiajs/inertia-vue3'
+    import { ref } from 'vue'
+    import EventCard from './EventCard.vue';
+    import NewEventPopup from './popup/NewEventPopup.vue'
+    import Widgets from './Widgets.vue'
 
-  const showEventPopup = ref(false)
-  const props = defineProps({
-      events: {
-        typeof: Array
-      },
-      user: {
-        type: Object,
-        default: {}
-      }
-  });
+    const showEventPopup = ref(false)
+    const props = defineProps({
+        events: {
+          typeof: Array
+        },
+        user: {
+          type: Object,
+          default: {}
+        }
+    });
 </script>
 
 <style>

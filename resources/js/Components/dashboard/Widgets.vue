@@ -3,6 +3,7 @@
         <h1 class="text-3xl font-black">Widgets</h1>
         <div class="py-4 mb-5">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <QRScannerTrigger />
                 <div class="w-full" v-if="$page.props.user.type == 'admin'">
                     <div class="relative flex flex-col min-w-0 break-words bg-white rounded-lg mb-6 xl:mb-0 shadow-lg">
                         <div class="flex-auto p-4">
@@ -164,6 +165,7 @@
 <script setup>
 import useDashboard from '@/Pages/useDashboard';
 import { Link, usePage } from '@inertiajs/inertia-vue3';
+import QRScannerTrigger from './QRScannerTrigger.vue';
 
 const { dashboard } = useDashboard();
 // const pg  = usePage();
