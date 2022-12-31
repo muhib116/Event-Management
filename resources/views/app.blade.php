@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <title inertia>{{ config('app.name') }}</title>
         
         <!-- Fontawesome -->
         <script src="https://kit.fontawesome.com/38516d3f67.js" crossorigin="anonymous"></script>

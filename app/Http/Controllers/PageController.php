@@ -10,8 +10,15 @@ use Inertia\Inertia;
 class PageController extends Controller
 {
     use Utils;
+
+    public function show(Page $page) {
+        // return $page;
+        return Inertia::render('Frontend/PageView', [
+            'page' => $page
+        ]);
+    }
     public function index() {
-        $pages = Page::where('status', true)->get();
+        $pages = Page::all();
         return Inertia::render('Page', [
             'pages' => $pages,
         ]);

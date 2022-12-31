@@ -23,6 +23,7 @@
         "@auth0/auth0-vue": "^1.0.2",
         "@ckeditor/ckeditor5-build-classic": "^35.3.2",
         "@ckeditor/ckeditor5-vue": "^4.0.1",
+        "@paypal/paypal-js": "^5.1.4",
         "@syncfusion/ej2-vue-calendars": "^20.3.59",
         "@zoom/videosdk": "^1.5.5",
         "element-plus": "^2.2.27",

@@ -29,11 +29,12 @@ Route::post('/user/profile/update', [FrontendUserProfileController::class, 'upda
 Route::get('/user/get_profile/{email}', [FrontendUserProfileController::class, 'get_profile'])->name('user.get_profile');
 
 
+Route::get('/page/{page:slug}', [PageController::class, 'show'])->name('show_page');
 Route::get('/create-page', [PageController::class, 'index'])->name('page');
 Route::get('/create-page/{page}', [PageController::class, 'edit'])->name('page.edit');
 Route::post('/store-page', [PageController::class, 'store'])->name('page.store');
 Route::put('/store-update/{page}', [PageController::class, 'update'])->name('page.update');
-Route::put('/store-delete/{page}', [PageController::class, 'delete'])->name('page.delete');
+Route::delete('/store-delete/{page}', [PageController::class, 'delete'])->name('page.delete');
 
 
 

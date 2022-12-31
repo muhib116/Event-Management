@@ -37,12 +37,11 @@
                                         {{ page.title }}
                                     </th> 
                                     <td class="text-center px-2 py-4 text-gray-700">
-                                        {{ page.description ? page.description : 'N/A' }}
+                                        {{ page.content ? page.content.slice(0, 50)+'...' : 'N/A' }}
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         <div class="inline-flex gap-3 text-center px-2 py-4 mx-auto">
-                                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
-                                            <button class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                                            <button @click="editPage(page)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                                         </div>
                                     </td>
                                 </tr> 
@@ -51,7 +50,7 @@
                     </div>
                 </div>
 
-                <form class="Profile--Personal py-2 account-item" v-show="activeTab == 'create'" @submit.prevent="createAdvertise" method="POST" enctype="multipart/form-data">
+                <form class="Profile--Personal py-2 account-item" v-show="activeTab == 'create'" @submit.prevent="createPage" method="POST" enctype="multipart/form-data">
                     <!-- <h2>Advertise</h2> -->
                     <div class="event-details">
                         <div class="element">
@@ -60,9 +59,14 @@
                             <div class="text-red-500" v-if="form.errors.first_name">{{ form.errors.first_name }}</div>
                         </div>
                         <div class="element">
-                            <label for="description">Description</label>
-                            <textarea name="description" id="description" rows="3" placeholder="Description" v-model="form.description"></textarea>
-                            <div class="text-red-500" v-if="form.errors.description">{{ form.errors.description }}</div>
+                            <label for="slug"><span class="important">*</span>Link</label>
+                            <input type="text" id="slug" name="slug" v-model="form.slug" readonly>
+                            <div class="text-red-500" v-if="form.errors.slug">{{ form.errors.slug }}</div>
+                        </div>
+                        <div class="element">
+                            <label for="content">Content</label>
+                            <textarea name="content" id="content" rows="3" placeholder="Content" v-model="form.content"></textarea>
+                            <div class="text-red-500" v-if="form.errors.content">{{ form.errors.content }}</div>
                         </div>
                     </div>
                     
@@ -90,14 +94,59 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import Header from '@/Components/dashboard/Header.vue';
 import { ref } from '@vue/reactivity';
 import Master from './Master.vue';
+import { useToast } from "vue-toastification";
 const props = defineProps({
     pages: Array,
 });
+const toast = useToast();
 const activeTab = ref('lists');
 const form = useForm({
     title: '',
-    description: '',
+    content: '',
+    slug: '',
+    id: null,
 });
+const deleteForm = useForm({
+    id: null,
+});
+const editPage = (page) => {
+    form.title = page.title;
+    form.slug = page.slug;
+    form.content = page.content;
+    form.id = page.id;
+    activeTab.value = 'create';
+}
 
+
+const createPage = () => {
+    console.log('some');
+    if (form.id !== null) {
+        form.put(route('page.update', form.id), {
+            onSuccess(ee){
+                toast.success('Page updated');
+                form.reset();
+                activeTab.value = 'lists';
+            },
+            onError(ee) {
+                toast.error('Page could not be created');
+            }
+        });
+    } else {
+        toast.error("Page Creation Disabled");
+        form.reset();
+        activeTab.value = 'lists';
+
+        // form.post(route('page.store'), {
+        //     onSuccess(ee){
+        //         toast.success('Page created');
+        //         form.reset();
+        //         activeTab.value = 'lists';
+        //     },
+        //     onError(ee) {
+        //         toast.error('Page could not be created');
+        //     }
+        // });
+    }
+}
 
 </script>

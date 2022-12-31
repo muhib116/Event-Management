@@ -57,9 +57,8 @@
     </Master>
 </template>
 
-<script setup>
-    // import "https://unpkg.com/@paypal/paypal-js@5.1.1/dist/iife/paypal-js.min.js";
-    // import "https://www.paypalobjects.com/api/checkout.js";
+<script setup> 
+    import { loadScript } from "@paypal/paypal-js";
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import { onMounted,onActivated, ref, watchEffect } from 'vue'
     import { useToast } from "vue-toastification";
@@ -68,7 +67,7 @@
     import useTicket from '@/Pages/Frontend/useTicket'
     import axios from 'axios'
     import LoginCheck from './LoginCheck.vue'
-    import useAuth from '@/useAuth.js'
+    import useAuth from '@/useAuth.js' 
     
     const clickLoading = ref(false);
     const guestId = ref(null)
@@ -76,12 +75,16 @@
         userInfo,
         isLoading
     } = useAuth()
-    const toast = useToast();
-    const { cards, commission } = useTicket()
-    
+        
     const props = defineProps({
         event: Object
     })
+
+    const toast = useToast();
+    const { cards, commission } = useTicket()
+
+
+    
     const paypalBtnContainer = ref(null);
 
     const preparePayload = (cards) => {
@@ -114,8 +117,7 @@
                 position: "top-center",
             })
             return
-        }
-        // axios.post('create-payment', payload);
+        } 
         let res = await axios.post('ticket/sale', payload);
         if(res.status == 200){
             // clean cards from localStorage
@@ -128,14 +130,12 @@
     } 
     onMounted(() => {
         if(localStorage.getItem('cards')){
-            let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
-            // cards.value = cardsFromLocalStorage
-            
-            
+            let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards')) 
         }
     })
 
     let timeoutId = null
+    let mountedPaypal = ref(false);
     watchEffect(() => {
         if(!isLoading.value && !guestId.value){
             clearTimeout(timeoutId)
@@ -146,59 +146,48 @@
                 console.log(guestId.value)
             }, 100)
         }
-        if (!isLoading.value) {
-            // if (document.querySelector('#braintree-paypal-cta')) {
-            //     paypal.Button.render({
-            //         env: 'sandbox', // Or 'production'
-            //         style: {
-            //             size: 'large',
-            //             layout: 'vertical',
-            //             color: 'blue',
-            //             shape: 'rect',
-            //             label: 'paypal',
-            //         },
-            //         // Set up the payment:
-            //         // 1. Add a payment callback
-            //         validate: function(e) {
-            //             // console.log(e);
-            //             // let accepted = document.getElementById('accept_terms_condition');
-            //             // enableDisable(accepted, e);
-            //             // accepted.addEventListener('change', function() {
-            //             //     enableDisable(accepted, e);
-            //             // });
-            //         },
-            //         payment: function(data, actions) {
-            //             // 2. Make a request to your server
-            //             // console.dir(actions.request.post);
-            //             // accept_tmcaccept_tmc
-            //             console.log(data);
-            //             return actions.request.post(route('create_payment'))
-            //                 .then(function(res) {
-            //                     // 3. Return res.id from the response
-            //                     console.log(res);
-            //                     return res.id;
-            //                 }).catch(err => {
-            //                     console.log(err.message);
-            //                 });
-            //         },
-            //         // Execute the payment:
-            //         // 1. Add an onAuthorize callback
-            //         onAuthorize: function(data, actions) {
-            //             // 2. Make a request to your server
-            //             console.log(data);
-            //             // return actions.request.post('/api/execute-payment/{{ $order->id }}', {
-            //             //     paymentID: data.paymentID,
-            //             //     payerID:   data.payerID
-            //             // })
-            //             //     .then(function(res) {
-            //             //     console.log(res);
-            //             //     //   alert('PAYMENT WENT THROUGH!!');
-            //             //     window.location.href = `{{ route('order.success', $order->id) }}`;
-            //             //     // 3. Show the buyer a confirmation message.
-            //             //     });
-            //         }
-            //     }, '#braintree-paypal-cta');
-            // }
+        if (!isLoading.value && !mountedPaypal.value) {
+            mountedPaypal.value = true;
+            // loadScript({ "client-id": "AQeJeHLGLcEAq6RII_55oIyly5_zD5LaNxldDPauKB-qxcfwo33NbxErw0QxuqSrmvwjO79AVSKAskrY" })
+            //     .then((paypal) => {
+            //         paypal
+            //             .Buttons({
+            //                 style: {
+            //                     layout: 'vertical',
+            //                     color:  'blue',
+            //                     shape:  'rect',
+            //                     label:  'paypal'
+            //                 },
+            //                 payment: function(data, actions) {},
+            //                 // createOrder: function(data, actions) {
+            //                 //     // This function sets up the details of the transaction, including the amount and line item details.
+            //                 //     return actions.order.create({
+            //                 //     purchase_units: [{
+            //                 //         amount: {
+            //                 //             value: '0.01'
+            //                 //         }
+            //                 //     }]
+            //                 //     });
+            //                 // },
+            //                 // onApprove: function(data, actions) {
+            //                 //     // This function captures the funds from the transaction.
+            //                 //     return actions.order.capture().then(function(details) {
+            //                 //         // This function shows a transaction success message to your buyer.
+            //                 //         alert('Transaction completed by ' + details.payer.name.given_name);
+            //                 //     });
+            //                 // },
+            //                 // onCancel: function (data) {
+            //                 //     // Show a cancel page, or return to cart
+            //                 // }
+            //             })
+            //             .render("#braintree-paypal-cta")
+            //             .catch((error) => {
+            //                 console.error("failed to render the PayPal Buttons", error);
+            //             });
+            //     })
+            //     .catch((err) => {
+            //         console.error("failed to load the PayPal JS SDK script", err);
+            //     });
         }
     })
 </script>

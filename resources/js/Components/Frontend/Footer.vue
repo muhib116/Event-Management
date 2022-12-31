@@ -9,17 +9,17 @@
                 </div>
                 <div class="footer-item w-full"> 
                     <ul>
-                        <li class="text-center"><a href="#" class="mt-0">Imprint</a></li> 
+                        <li class="text-center"><Link href="/page/imprint" class="mt-0">Imprint</Link></li> 
                     </ul>
                 </div> 
                 <div class="footer-item w-full"> 
                     <ul>
-                        <li class="text-center"><a href="#" class="mt-0">Data privacy</a></li> 
+                        <li class="text-center"><Link href="/page/data-privacy" class="mt-0">Data privacy</Link></li> 
                     </ul>
                 </div>
                 <div class="footer-item w-full"> 
                     <ul>
-                        <li class="md:text-right text-center"><a href="#" class="mt-0">Terms & conditions</a></li> 
+                        <li class="md:text-right text-center"><Link href="/page/terms-conditions" class="mt-0">Terms & conditions</Link></li> 
                     </ul>
                 </div>
             </div>             
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-
+import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <style lang="scss" scoped>
