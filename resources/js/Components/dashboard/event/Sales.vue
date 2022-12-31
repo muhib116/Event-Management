@@ -65,10 +65,10 @@
 
 <script setup>
     import { ref, onMounted, onUpdated, computed } from 'vue'
-    import useFileUpload from '@/Components/useFileUpload.js'
     import { useForm } from '@inertiajs/inertia-vue3'
     import { useToast } from "vue-toastification";
     const toast = useToast();
+    import useFileUpload from '@/Components/useFileUpload.js'
     import axios from 'axios'
     import moment from 'moment'
     
@@ -86,7 +86,6 @@
     } = useFileUpload()
 
     const eventId = ref(null)
-    const eventSales = ref({})
     const pay_form = useForm({});
     const makePayment = () => {
         // makePayment
