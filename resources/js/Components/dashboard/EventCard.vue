@@ -4,8 +4,8 @@
             <img :src="`../../../../${get_banner(event.images)}`" alt="Thumbnail">
             <span @click="handlePublish(event)" class="cursor-pointer">{{ event.publish ? 'Published' : 'Draft' }}</span>
 
-            <div class="absolute top-2 left-2 flex flex-col bg-white z-10 rounded-md py-0 px-2 text-center">
-                <div class="flex items-center gap-2"><i class="fa fa-eye text-sm"></i> <div class="text-xl">{{ event.views?.count }}</div></div>
+            <div v-if="event.views?.count" class="absolute top-2 left-2 flex flex-col bg-white z-10 rounded-md py-0 px-2 text-center">
+                <div class="flex items-center gap-2"><i class="fa fa-eye text-sm"></i> <div class="text-sm">{{ event.views?.count }}</div></div>
             </div>
 
         </div>
