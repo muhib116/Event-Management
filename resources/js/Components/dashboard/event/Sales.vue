@@ -31,54 +31,47 @@
         </div>
     </div>
     <div class="guestlist event-item " data-item="guestlist">
-        <!-- eventSales -->
         <div class="shadow mt-10 rounded border-t">
-            
-            <table class="w-full rounded">
-                <tr class="border-b">
-                    <th class="px-2 py-4 text-gray-700">Ticket Name</th>
-                    <th class="px-2 py-4 text-gray-700">Guest</th>
-                    <th class="px-2 py-4 text-gray-700">Ticket type</th>
-                    <th class="px-2 py-4 text-gray-700">Price</th>
-                    <th class="px-2 py-4 text-gray-700">Quantity</th>
-                    <th class="px-2 py-4 text-gray-700">Sold date</th>
-                    <th class="px-2 py-4 text-gray-700">View Ticket</th>
-                </tr>
-                <tr
-                    v-for="(data, index) in eventSales.sales" 
-                    :key="index" 
-                    class="border-b">
-                    <td class="text-center px-2 py-4 text-gray-700">{{ data.ticket?.ticket_name }}</td>
-                    <td class="text-center px-2 py-4 text-gray-700">
-                        {{ data.guests?.firstName }} 
-                        {{ data.guests?.lastName }}
-                    </td>
-                    <td class="text-center px-2 py-4 text-gray-700">{{ data.ticket_type }}</td>
-                    <td class="text-center px-2 py-4 text-gray-700">{{ $page.props.settings?.currency.value }} {{ data.price }}</td>
-                    <td class="text-center px-2 py-4 text-gray-700">{{ data.quantity }}</td>
-                    <td class="text-center px-2 py-4 text-gray-700">{{ moment(data.created_at).format('d-M-Y H:s:i a') }}</td>
-                    <td class="text-center px-2 py-4 text-gray-700">
-                        <a :href="route('ticket_view', data.sales_id)" target="_blank" class="border px-3 py-2 rounded border-slate-200 relative">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                    </td>
-                </tr>
-            </table>
+            <el-table
+                :data="filterTableData"
+                style="width: 100%; margin-bottom: 20px"
+                row-key="id"
+                default-expand-all
+            >
+                <el-table-column prop="ticket_name" label="Ticket Name" sortable />
+                <el-table-column prop="name" label="Guest" sortable />
+                <el-table-column prop="ticket_type" label="Ticket type" sortable />
+                <el-table-column prop="price" label="Price" sortable />
+                <el-table-column prop="quantity" label="Quantity" sortable />
+                <el-table-column prop="date" label="Sold date" sortable />
+                <el-table-column label="View Ticket" align="right">
+                    <template #header>
+                        <el-input v-model="search" size="small" placeholder="Type to search" />
+                    </template>
+                    <template #default="scope" class="text-right">
+                        <el-button 
+                            size="small" 
+                        >
+                            <a :href="route('ticket_view', scope.row.sales_id)" target="_blank" class="border px-3 py-2 relative">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
         </div>
     </div>
 </template>
 
 <script setup>
-    import { ref, onMounted, onUpdated } from 'vue'
-    import { isEmpty } from 'lodash'
-    import ImageUpload from '@/Components/dashboard/event/components/ImageUpload.vue'
+    import { ref, onMounted, onUpdated, computed } from 'vue'
     import useFileUpload from '@/Components/useFileUpload.js'
-    import { Link, useForm } from '@inertiajs/inertia-vue3'
-    import axios from 'axios'
-    import moment from 'moment'
-    import { Inertia } from '@inertiajs/inertia'
+    import { useForm } from '@inertiajs/inertia-vue3'
     import { useToast } from "vue-toastification";
     const toast = useToast();
+    import axios from 'axios'
+    import moment from 'moment'
+    
     const props = defineProps({
         editable: {
             type: Boolean,
@@ -90,8 +83,6 @@
     
     const {
         getImages,
-        imageFromApi,
-        deleteImage
     } = useFileUpload()
 
     const eventId = ref(null)
@@ -112,38 +103,33 @@
                 }
             },
         });
+    const eventSales = ref([])
+    const getData = () => {
+        if(!eventSales.value?.sales) return []
+        return eventSales.value.sales.map(item => {
+            item.ticket_name = item.ticket.ticket_name
+            item.name = item.guests.firstName+' '+item.guests.lastName
+            item.date = moment(item.created_at).format('d-M-Y H:s:i a')
+            return item
+        })
     }
 
-    const getBannerImage = (images) => {
-        let filteredImage = images.filter(item => {
-            return (item.type=='banner')
+    const search = ref('')
+    const filterTableData = computed(() => {
+        return getData().filter((data) => {
+            if(!search.value || data.name.toLowerCase().includes(search.value.toLowerCase())){
+                return data
+            }
         })
-        if(isEmpty(filteredImage)) return
-        return (filteredImage[0].path) ? filteredImage[0].path : ''
-    }
-    const getBannerId = (images) => {
-        let filteredImage = images.filter(item => {
-            return (item.type=='banner')
-        })
-        if(isEmpty(filteredImage)) return null
-        return (filteredImage[0].id) ? filteredImage[0].id : null
-    }
-    const handleImageDelete = (id) => {
-        if(confirm('Are you sure to delete this image ?')){
-            deleteImage(id)
-            getImages(eventId.value)
-        }
-    }
+    })
     const getEventId = () => {
         let urlData = window.location.pathname.split('/')
         return urlData.at(-1)
     }
 
-
     onMounted(async () => {
         getImages(getEventId())
         let { data } = await axios.get(`event-sales/${getEventId()}`);
-        console.log(data);
         eventSales.value = data;
     })
     onUpdated(() => {
