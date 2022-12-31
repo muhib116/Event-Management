@@ -11,7 +11,8 @@ class PageController extends Controller
 {
     use Utils;
     public function index() {
-        $pages = Page::where('status', true)->get();
+        // $pages = Page::where('status', true)->get();
+        $pages = Page::get();
         return Inertia::render('Page', [
             'pages' => $pages,
         ]);
@@ -20,13 +21,12 @@ class PageController extends Controller
     public function store(Request $request) {
         $request->validate([
             'title' => 'required',
-            'slug' => 'required|unique:pages,slug',
             'content' => 'required',
         ]);
-
+        
         $page = Page::create([
             'title' => $request->title,
-            'slug' => str()->slug($request->slug),
+            'slug' => str()->slug($request->title),
             'image' => '',
             'content' => $request->content,
             'status' => ($request->status) ? true : false,
@@ -42,13 +42,11 @@ class PageController extends Controller
     public function update(Request $request, Page $page) {
         $request->validate([
             'title' => 'required',
-            'slug' => 'required|unique:pages,slug,'.$page->id,
             'content' => 'required',
         ]);
 
         $page->update([
             'title' => $request->title,
-            'slug' => str()->slug($request->slug),
             'content' => $request->content,
             'status' => ($request->status) ? true : false,
         ]);

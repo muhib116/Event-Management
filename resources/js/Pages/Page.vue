@@ -11,11 +11,8 @@
                     <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'lists' }" @click="activeTab = 'lists'">Lists</div>
                     <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'create' }" @click="activeTab = 'create'">Create</div>
                 </nav>
-                <!-- Profile -->
-                <!-- settings -->
+                
                 <div class="settings--order-notification account-item" v-show="activeTab == 'lists'">
-
-
                     <div class="shadow mt-10 rounded border-t">
                         <table class="w-full rounded">
                             <thead class="border-b">
@@ -33,15 +30,15 @@
                             </thead>
                             <tbody>
                                 <tr v-for="page in pages" :key="page.id" class="border-b">
-                                    <th scope="row" class="text-center px-2 py-4 text-gray-700">
+                                    <td scope="row" class="px-2 py-2 text-gray-700 w-[30%]">
                                         {{ page.title }}
-                                    </th> 
-                                    <td class="text-center px-2 py-4 text-gray-700">
-                                        {{ page.description ? page.description : 'N/A' }}
+                                    </td> 
+                                    <td class="px-2 py-2 text-gray-700">
+                                        {{ page.content ? page.content : 'N/A' }}
                                     </td>
-                                    <td class="text-center px-2 py-4 text-gray-700">
+                                    <td class="text-center px-2 py-2 text-gray-700 w-[100px]">
                                         <div class="inline-flex gap-3 text-center px-2 py-4 mx-auto">
-                                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
+                                            <button @click="edit(page)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                                             <button class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
                                         </div>
                                     </td>
@@ -51,7 +48,7 @@
                     </div>
                 </div>
 
-                <form class="Profile--Personal py-2 account-item" v-show="activeTab == 'create'" @submit.prevent="createAdvertise" method="POST" enctype="multipart/form-data">
+                <form class="Profile--Personal py-2 account-item" v-show="activeTab == 'create'" @submit.prevent="submit" method="POST" enctype="multipart/form-data">
                     <!-- <h2>Advertise</h2> -->
                     <div class="event-details">
                         <div class="element">
@@ -61,8 +58,8 @@
                         </div>
                         <div class="element">
                             <label for="description">Description</label>
-                            <textarea name="description" id="description" rows="3" placeholder="Description" v-model="form.description"></textarea>
-                            <div class="text-red-500" v-if="form.errors.description">{{ form.errors.description }}</div>
+                            <textarea name="description" id="description" rows="3" placeholder="Description" v-model="form.content"></textarea>
+                            <div class="text-red-500" v-if="form.errors.content">{{ form.errors.content }}</div>
                         </div>
                     </div>
                     
@@ -85,19 +82,55 @@
 </template>
 
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { useForm } from '@inertiajs/inertia-vue3';
-import Header from '@/Components/dashboard/Header.vue';
-import { ref } from '@vue/reactivity';
-import Master from './Master.vue';
-const props = defineProps({
-    pages: Array,
-});
-const activeTab = ref('lists');
-const form = useForm({
-    title: '',
-    description: '',
-});
+    import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+    import { useForm } from '@inertiajs/inertia-vue3';
+    import Header from '@/Components/dashboard/Header.vue';
+    import { ref } from '@vue/reactivity';
+    import Master from './Master.vue';
+    import { useToast } from "vue-toastification";
+
+    const toast = useToast();
+    const props = defineProps({
+        pages: Array,
+    });
+    const activeTab = ref('lists');
+    const form = useForm({
+        title: '',
+        content: '',
+    });
 
 
+    function submit() {
+        if(form.id){
+            form.post(route('page.update'), {
+                onError(e) {
+                    toast.error('Opps Something wrong');
+                },
+                onSuccess(e) {
+                    toast.success('Advertise Updated Successfully');
+                    form.reset();
+                    activeTab.value = 'lists';
+                },
+            });
+            return
+        }
+
+        form.post(route('page.store'), {
+            onError(e) {
+                toast.error('Opps Something wrong');
+            },
+            onSuccess(e) {
+                toast.success('Advertise Saved Successfully');
+                form.reset();
+                activeTab.value = 'lists';
+            },
+        });
+    }
+
+    function edit(page) {
+        activeTab.value = 'create';
+        form.id = page.id;
+        form.title = page.title;
+        form.content = page.content;
+    }
 </script>

@@ -32,7 +32,7 @@ Route::get('/user/get_profile/{email}', [FrontendUserProfileController::class, '
 Route::get('/create-page', [PageController::class, 'index'])->name('page');
 Route::get('/create-page/{page}', [PageController::class, 'edit'])->name('page.edit');
 Route::post('/store-page', [PageController::class, 'store'])->name('page.store');
-Route::put('/store-update/{page}', [PageController::class, 'update'])->name('page.update');
+Route::post('/store-update/{page}', [PageController::class, 'update'])->name('page.update');
 Route::put('/store-delete/{page}', [PageController::class, 'delete'])->name('page.delete');
 
 
