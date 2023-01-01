@@ -7,7 +7,7 @@
                     <div class="left">
                         <h1>{{ event.name }}</h1>
                         <!-- <p><i class="fa-solid fa-calendar-days"></i> Wed, Aug 17 2022 at 10:00 PM - 10:30 PM GDT (Greenland)</p> -->
-                        <p><i class="fa-solid fa-calendar-days"></i> {{ event.start_date }} at {{ event.start_time }} - {{ event.end_date }} at {{ event.start_time }} </p>
+                        <p><i class="fa-solid fa-calendar-days"></i> {{ event.start_date_formate }} at {{ event.start_time }} - {{ event.end_date_formate }} at {{ event.start_time }} </p>
                         <p><i class="fa-solid fa-location-dot"></i> {{ event.location }}</p>
                     </div>
                     <div class="right">
@@ -15,7 +15,7 @@
                         <p class="top" v-if="!event.is_expired && $page.props.has_payment_details != 1"><i class="fa-solid fa-circle-exclamation"></i> Things to do before you can make your event live</p>
                         <p class="requirement" v-if="$page.props.has_payment_details != 1"><span class="cursor-pointer select-none" @click="payPoput=true">Add payment details</span> so you can get paid</p>
                         <p class="requirement" v-if="event.ticket_count == 0"><span>Create some tickets</span> for your event</p>
-                        <p class="requirement" v-if="event.is_expired && !$page.props.is_paid">Update the <span class="cursor-pointer select-none" @click="scrollToDate">event date</span> </p>
+                        <p class="requirement" v-if="event.is_expired && !$page.props.is_paid">Update the <span class="cursor-pointer select-none" @click="updateEventDate">event date</span> </p>
                     </div>
                 </div>
                 <PaymentPopup
@@ -104,9 +104,13 @@ import PaymentPopup from '@/Components/dashboard/popup/PaymentPopup.vue'
         console.log(event);
     })
 
-    function scrollToDate() {
-        let el = document.querySelector('.scroll_target');
-        el.scrollIntoView({behavior: 'smooth'});
+    const updateEventDate = () =>  {
+        // activeComponent.value = 'EventDetail'
+        handleComponent(navList.value[0]);
+        setTimeout(() => {
+            let el = document.querySelector('.scroll_target');
+            el.scrollIntoView({behavior: 'smooth'});
+        }, 100);
     }
 
     const handleComponent = (item) => {

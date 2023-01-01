@@ -2,7 +2,7 @@
     <Head title="Payment Method" />
     <Master>
         <LoginCheck>
-            <div class="header-area">
+            <div class="header-area min-h-[78vh]">
                 <div class="container bg-white h-full px-0">
                     <div class="flex h-full border">
                         <div class="leftSide min-w-[250px] h-full bg-white py-10">
@@ -30,15 +30,20 @@
                             <div class="">
                                 <div class="element mb-6 flex flex-col gap-2">
                                     <label>Name</label>
-                                    <input type="text" v-model="userForm.name" class="rounded border" />
+                                    <input type="text" :value="userForm.name" class="rounded border" disabled/>
                                 </div>
                                 <div class="element mb-6 flex flex-col gap-2">
                                     <label>Email</label>
-                                    <input type="text"  v-model="userForm.email" class="rounded border" />
+                                    <input type="text"  :value="userForm.email" class="rounded border" disabled />
                                 </div>
                                 <div class="element mb-6 flex flex-col gap-2">
                                     <label>Phone</label>
                                     <input type="text"  v-model="userForm.phone" class="rounded border" />
+                                </div>
+                                <div class="element mb-6 flex flex-col gap-2">
+                                    <label>Address</label>
+                                    <!-- <input type="text"   class="rounded border" /> -->
+                                    <textarea rows="5" v-model="userForm.settings.address" class="rounded border"></textarea>
                                 </div>
                                 <button @click="saveInfo()" class="py-2 flex items-center px-4 rounded bg-blue-500 text-white active:scale-95">
                                     <svg v-if="userForm.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -77,6 +82,9 @@
         email: '',
         name: '',
         phone: '',
+        settings: {
+            address: null
+        },
      });
 
     const history = ref([]);
@@ -104,6 +112,7 @@
                 userForm.name = getUser.firstName;
                 userForm.email = getUser.email;
                 userForm.phone = getUser.phone;
+                userForm.settings.address = getUser.settings?.address;
             }
             if (getUser == 'not_found') {
                 userForm.name = userInfo.value.name;

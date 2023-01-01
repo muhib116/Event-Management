@@ -26,6 +26,7 @@ class FrontendUserProfileController extends Controller
                 'firstName' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
+                'settings' => $request->settings,
             ]);
             return back()->with('success', 'Profile update successfully');
         } else {
@@ -33,6 +34,7 @@ class FrontendUserProfileController extends Controller
                 'firstName' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
+                'settings' => $request->settings,
             ]);
             return back()->with('success', 'Profile update successfully');
         }

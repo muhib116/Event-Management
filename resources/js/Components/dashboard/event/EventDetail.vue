@@ -369,6 +369,10 @@
                 position: "top-center",
             })
         }
+        console.log(data);
+        if (data.error) {
+            toast.error(data.error);
+        }
     }
 
     const getValidationStatus = () => {

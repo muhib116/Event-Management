@@ -38,12 +38,12 @@ class FileUploadController extends Controller
     function fileDelete($id){
         $data = Images::where(['id' => $id])->first();
         
-        if (File::exists(public_path($data->path)))
+        if ($data && file_exists(public_path($data->path)))
         {
 
             // delete database data
             if(Images::where(['id' => $id])->delete()){
-                $status = File::delete(public_path($data->path));
+                $status = unlink(public_path($data->path));
                 return response()->json($status);
             }
 

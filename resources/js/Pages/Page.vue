@@ -8,8 +8,8 @@
                     <h1>Pages</h1>
                 </div>
                 <nav class="flex justify-center">
-                    <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'lists' }" @click="activeTab = 'lists'">Lists</div>
-                    <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'create' }" @click="activeTab = 'create'">Create</div>
+                    <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'lists' }" @click="activeTab = 'lists'"></div>
+                    <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'create' }" @click="activeTab = 'create'"></div>
                 </nav>
                 
                 <div class="settings--order-notification account-item" v-show="activeTab == 'lists'">

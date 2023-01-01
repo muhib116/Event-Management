@@ -33,9 +33,9 @@ class EventController extends Controller
         ]);
         $start_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$request->start_date $request->start_time")));
         $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$request->end_date $request->end_time")));
-        if ($start_at->isAfter($end_at) && $start_at->isAfter(Carbon::now())) {
+        if ($start_at->isAfter($end_at)) {
             return response()->json([
-                'start_date' => 'Invalid Date time'
+                'error' => 'Start date must be less than end date.'
             ]);
         }
         $data = [
@@ -94,8 +94,8 @@ class EventController extends Controller
         $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$request->end_date $request->end_time")));
         if ($start_at->isAfter($end_at)) {
             return response([
-                'start_date' => 'Invalid Date time'
-            ], 500);
+                'error' => 'Start date must be less than end date.'
+            ]);
         }
         $data = [
             "eventType"    => $request->eventType,
@@ -145,8 +145,8 @@ class EventController extends Controller
         $end = Carbon::parse(date('Y-m-d H:i:s', strtotime("$eventList->end_date $eventList->end_time")));
         $eventList->expired_at = $this->getDurationFormate($end->diffInSeconds(now()));
         $eventList->is_expired = now()->gt($end);
-        $eventList->end_date = $end->format('d-M-Y');
-        $eventList->start_date = $start->format('d-M-Y');
+        $eventList->end_date_formate = $end->format('d-M-Y');
+        $eventList->start_date_formate = $start->format('d-M-Y');
         return response()->json($eventList, 200);
     }
     public function getEventGuest(EventList $eventList) {

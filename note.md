@@ -6,7 +6,6 @@
 
 
 ::Trying to forgot.
-    -- ticket view
     -- zoom link generate
     -- ticket question
 
