@@ -299,7 +299,6 @@ function onFileChange(e) {
     // advertise_form.image = file;
 }
 const createAdvertise = () => {
-    console.log(advertise_form);
     advertise_form.post(route('advertise.store'), {
         onError(e) {
             console.log('error', e);
@@ -314,7 +313,6 @@ const createAdvertise = () => {
         },
     });
 }
-
 </script>
 
 

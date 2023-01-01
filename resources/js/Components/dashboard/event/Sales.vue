@@ -25,46 +25,47 @@
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
                         Paid
                     </div>
-                    <div class="name">Next payout date</div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="guestlist event-item " data-item="guestlist">
-        <div class="shadow mt-10 rounded border-t">
-            <el-table
-                :data="filterTableData"
-                style="width: 100%; margin-bottom: 20px"
-                row-key="id"
-                default-expand-all
-            >
-                <el-table-column prop="ticket_name" label="Ticket Name" sortable />
-                <el-table-column prop="name" label="Guest" sortable />
-                <el-table-column prop="ticket_type" label="Ticket type" sortable />
-                <el-table-column prop="price" label="Price" sortable />
-                <el-table-column prop="quantity" label="Quantity" sortable />
-                <el-table-column prop="date" label="Sold date" sortable />
-                <el-table-column label="View Ticket" align="right">
-                    <template #header>
-                        <el-input v-model="search" size="small" placeholder="Type to search" />
-                    </template>
-                    <template #default="scope" class="text-right">
-                        <el-button 
-                            size="small" 
-                        >
-                            <a :href="route('ticket_view', scope.row.sales_id)" target="_blank" class="border px-3 py-2 relative">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
+        <div class="guestlist event-item " data-item="guestlist">
+            <div class="shadow mt-10 rounded border-t">
+                <el-table
+                    :data="filterTableData"
+                    style="width: 100%; margin-bottom: 20px"
+                    row-key="id"
+                    default-expand-all
+                >
+                    <el-table-column prop="ticket_name" label="Ticket Name" sortable />
+                    <el-table-column prop="name" label="Guest" sortable />
+                    <el-table-column prop="ticket_type" label="Ticket type" sortable />
+                    <el-table-column prop="price" label="Price" sortable />
+                    <el-table-column prop="quantity" label="Quantity" sortable />
+                    <el-table-column prop="date" label="Sold date" sortable />
+                    <el-table-column label="View Ticket" align="right">
+                        <template #header>
+                            <el-input v-model="search" size="small" placeholder="Type to search" />
+                        </template>
+                        <template #default="scope" class="text-right">
+                            <el-button 
+                                size="small" 
+                            >
+                                <a :href="route('ticket_view', scope.row.sales_id)" target="_blank" class="border px-3 py-2 relative">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
+    import axios from 'axios'
     import { ref, onMounted, onUpdated, computed } from 'vue'
+    import useFileUpload from '@/Components/useFileUpload.js'
     import { useForm } from '@inertiajs/inertia-vue3'
     import { useToast } from "vue-toastification";
     import useFileUpload from '@/Components/useFileUpload.js'
@@ -83,10 +84,7 @@
         event: Object
     });
     
-    const {
-        getImages,
-    } = useFileUpload()
-
+    const {getImages} = useFileUpload()
     const eventId = ref(null)
     const pay_form = useForm({});
     const makePayment = () => {
@@ -94,7 +92,8 @@
         pay_form.post(route('create_transaction', {
             eventList: props.event.id,
             user: props.userId
-        }), {
+        }),
+        {
             onSuccess(pg) {
                 if (pg.props.flash?.error) {
                     toast.error(pg.props.flash?.error);

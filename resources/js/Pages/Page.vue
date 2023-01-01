@@ -11,11 +11,8 @@
                     <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'lists' }" @click="activeTab = 'lists'">Lists</div>
                     <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'create' }" @click="activeTab = 'create'">Create</div>
                 </nav>
-                <!-- Profile -->
-                <!-- settings -->
+                
                 <div class="settings--order-notification account-item" v-show="activeTab == 'lists'">
-
-
                     <div class="shadow mt-10 rounded border-t">
                         <table class="w-full rounded">
                             <thead class="border-b">
@@ -33,13 +30,13 @@
                             </thead>
                             <tbody>
                                 <tr v-for="page in pages" :key="page.id" class="border-b">
-                                    <th scope="row" class="text-center px-2 py-4 text-gray-700">
+                                    <td scope="row" class="px-2 py-2 text-gray-700 w-[30%]">
                                         {{ page.title }}
-                                    </th> 
+                                    </td> 
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         {{ page.content ? page.content.slice(0, 50)+'...' : 'N/A' }}
                                     </td>
-                                    <td class="text-center px-2 py-4 text-gray-700">
+                                    <td class="text-center px-2 py-2 text-gray-700 w-[100px]">
                                         <div class="inline-flex gap-3 text-center px-2 py-4 mx-auto">
                                             <button @click="editPage(page)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                                         </div>
