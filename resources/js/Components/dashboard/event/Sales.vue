@@ -65,11 +65,9 @@
 <script setup>
     import axios from 'axios'
     import { ref, onMounted, onUpdated, computed } from 'vue'
-    import useFileUpload from '@/Components/useFileUpload.js'
     import { useForm } from '@inertiajs/inertia-vue3'
     import { useToast } from "vue-toastification";
-    import useFileUpload from '@/Components/useFileUpload.js'
-    import axios from 'axios'
+    import useFileUpload from '@/Components/useFileUpload.js' 
     import moment from 'moment'
     
 

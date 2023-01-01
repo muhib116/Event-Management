@@ -116,7 +116,7 @@
 -- ✅from payment method page, remove serves & handling
 
 -- ✅ticket code scane by camera and update status to checkin.(already used ticket)
-    vue qrcode reader
+    ✅vue qrcode reader
     https://gruhn.github.io/vue-qrcode-reader/
 
 
