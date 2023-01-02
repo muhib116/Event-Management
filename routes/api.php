@@ -81,17 +81,34 @@ Route::post('checkin', [EventController::class, 'checkin'])->name('check_in');
 
 
 Route::post('create-payment', function (Request $request) {
+    $curl = curl_init();
+    $curls = 'curl -v -X POST "https://api-m.sandbox.paypal.com/v1/oauth2/token" \
+            -u "AQeJeHLGLcEAq6RII_55oIyly5_zD5LaNxldDPauKB-qxcfwo33NbxErw0QxuqSrmvwjO79AVSKAskrY:EEfrEij3BttADhuAPqcrBDW94qjQ-PHzC5tWIQPNZ6iWcOLJ8yRXEV0nK7xxiNTVYcPrp7j2BteT4Yfn" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=client_credentials"';
+            curl_setopt($curl, CURLOPT_URL, $curls);
+            $response = curl_exec($curl);
+    return $response;
     // return $request->all();
-    $all = collect($request->all());
-    // return $all->pluck('ticket_id');
-    // if ($order->payment_status == 1) {
-    //     return null;
-    // }
-    // if ($request->accept_tmc !== 'true') {
-    //     return null;
-    // }
-    // return $order;
-    // return 'create pament';
+    $card = collect($request->all());
+    $items = [];
+    $sub_total = 0;
+    foreach ($card as $key => $od) { 
+        $ticket = EventTickets::where('id', $od['ticket_id'])->first();
+        $order_items = [];
+        // return $ticket;
+        $sub_total += $od['price'] * $od['quantity'];
+        $order_items['amount']['value'] = $od['price'] * $od['quantity'];
+        // $order_items->setName($ticket->ticket_name)
+        //     ->setCurrency('USD')
+        //     ->setQuantity($od['quantity'])
+        //     // ->setSku("123123") // Similar to `item_number` in Classic API
+        //     ->setPrice($od['price']);
+        array_push($items, $order_items);
+        // $items[] = $order_items;
+        // return $order_items;
+    }
+    return $items;
     $apiContext = new \PayPal\Rest\ApiContext(
         new \PayPal\Auth\OAuthTokenCredential(
             env('PAYPAL_SANDBOX_CLIENT_ID'),     // ClientID
@@ -104,7 +121,7 @@ Route::post('create-payment', function (Request $request) {
 
     $items = [];
     $sub_total = 0;
-    foreach ($all as $key => $od) {
+    foreach ($card as $key => $od) { 
         $ticket = EventTickets::where('id', $od['ticket_id'])->first();
         $order_items = new Item();
         // return $ticket;
@@ -118,6 +135,7 @@ Route::post('create-payment', function (Request $request) {
         // $items[] = $order_items;
         // return $order_items;
     }
+    // return $items;
     // return $sub_total;
 
 
@@ -180,8 +198,8 @@ Route::post('execute-payment/{order}', function (Request $request, Request $orde
     // return $order;
     $apiContext = new \PayPal\Rest\ApiContext(
         new \PayPal\Auth\OAuthTokenCredential(
-            env('paypal_client_id'),     // ClientID
-            env('paypal_client_secret')      // ClientSecret
+            env('PAYPAL_SANDBOX_CLIENT_ID'),     // ClientID
+            env('PAYPAL_SANDBOX_CLIENT_SECRET')      // ClientSecret
         )
     );
 

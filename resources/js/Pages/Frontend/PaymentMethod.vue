@@ -82,7 +82,7 @@
 
     const toast = useToast();
     const { cards, commission } = useTicket()
-
+    const payLoadForPaypal = ref({});
 
     
     const paypalBtnContainer = ref(null);
@@ -108,6 +108,7 @@
 
         return payload
     }
+    
 
     const handlePayment = async (cards) => {
         let payload = preparePayload(cards)
@@ -131,6 +132,7 @@
     onMounted(() => {
         if(localStorage.getItem('cards')){
             let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards')) 
+            
         }
     })
 
@@ -142,52 +144,57 @@
 
             timeoutId = setTimeout(async () => {
                 let guest = await axios.get(`guest/${userInfo.value.email}`)
-                guestId.value = guest.data.id
-                console.log(guestId.value)
+                guestId.value = guest.data.id;
+                payLoadForPaypal.value = preparePayload(cards.value);
             }, 100)
         }
         if (!isLoading.value && !mountedPaypal.value) {
             mountedPaypal.value = true;
-            // loadScript({ "client-id": "AQeJeHLGLcEAq6RII_55oIyly5_zD5LaNxldDPauKB-qxcfwo33NbxErw0QxuqSrmvwjO79AVSKAskrY" })
-            //     .then((paypal) => {
-            //         paypal
-            //             .Buttons({
-            //                 style: {
-            //                     layout: 'vertical',
-            //                     color:  'blue',
-            //                     shape:  'rect',
-            //                     label:  'paypal'
-            //                 },
-            //                 payment: function(data, actions) {},
-            //                 // createOrder: function(data, actions) {
-            //                 //     // This function sets up the details of the transaction, including the amount and line item details.
-            //                 //     return actions.order.create({
-            //                 //     purchase_units: [{
-            //                 //         amount: {
-            //                 //             value: '0.01'
-            //                 //         }
-            //                 //     }]
-            //                 //     });
-            //                 // },
-            //                 // onApprove: function(data, actions) {
-            //                 //     // This function captures the funds from the transaction.
-            //                 //     return actions.order.capture().then(function(details) {
-            //                 //         // This function shows a transaction success message to your buyer.
-            //                 //         alert('Transaction completed by ' + details.payer.name.given_name);
-            //                 //     });
-            //                 // },
-            //                 // onCancel: function (data) {
-            //                 //     // Show a cancel page, or return to cart
-            //                 // }
-            //             })
-            //             .render("#braintree-paypal-cta")
-            //             .catch((error) => {
-            //                 console.error("failed to render the PayPal Buttons", error);
-            //             });
-            //     })
-            //     .catch((err) => {
-            //         console.error("failed to load the PayPal JS SDK script", err);
-            //     });
+            loadScript({ "client-id": "AQeJeHLGLcEAq6RII_55oIyly5_zD5LaNxldDPauKB-qxcfwo33NbxErw0QxuqSrmvwjO79AVSKAskrY" })
+                .then((paypal) => {
+                    paypal
+                        .Buttons({
+                            createOrder: async function(data, actions) {
+                                // console.log(payLoadForPaypal.value);
+                                // var SETEC_URL = 'http://127.0.0.1:8000/api/create-payment';
+                                // return axios.post('/create-payment', payLoadForPaypal.value)
+                                // .then(res => res);
+                                // return fetch(SETEC_URL, {
+                                //     method: 'post',
+                                //     headers: {
+                                //         'content-type': 'application/json'
+                                //     },
+                                //     data: {
+                                //         id: 1,
+                                //         name: 'some'
+                                //     }
+                                // }).then(function(res) {
+                                //     return res.json();
+                                // }).then(function(data) {
+                                //     return data.token;
+                                // });
+                                //     console.log(data, actions);
+                                // // Set up the transaction
+                                const generatedData = await axios.post('/create-payment', payLoadForPaypal.value).then(res => res.data);
+                                console.log(generatedData);
+                                return actions.order.create({
+                                    purchase_units: [generatedData]
+                                    // purchase_units: [{
+                                    //     amount: {
+                                    //         value: '0.01'
+                                    //     }
+                                    // }]
+                                });
+                            }
+                        })
+                        .render("#braintree-paypal-cta")
+                        .catch((error) => {
+                            console.error("failed to render the PayPal Buttons", error);
+                        });
+                })
+                .catch((err) => {
+                    console.error("failed to load the PayPal JS SDK script", err);
+                });
         }
     })
 </script>
