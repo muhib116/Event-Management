@@ -52,7 +52,10 @@ class TransactionController extends Controller
         if ($eventList->transaction) {
             return back()->with('error', 'Already paid');
         }
-        Transaction::create($data);
+        Transaction::updateOrCreate([
+            'user_id' => $user->id,
+            'event_list_id' => $eventList->id,
+        ],$data);
         return back()->with('success', 'Payment Created Successfully');
     }
 }
