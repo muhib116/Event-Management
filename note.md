@@ -138,3 +138,7 @@ database:
     ✅sales
         sales details
         ticket_numbers
+
+
+
+::::Tutorial video for this project

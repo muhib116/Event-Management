@@ -22,7 +22,7 @@
                     <td class="text-center px-2 py-4 text-gray-700">
                         <div class="relative group inline-flex">
                             <button class="border px-3 py-2 rounded border-slate-200 relative">
-                                <i class="fa fa-eye"></i>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </button>
                             <div class="absolute scale-0 transition-transform duration-200 origin-bottom-right group-hover:scale-100 bottom-0 right-full bg-white z-10 py-3 px-4 shadow-md min-w-[200px] divide-y divide-slate-300">
                                 <div class="flex py-1 justify-between" v-if="data.settings?.browser">Browser: <strong>{{ data.settings?.browser }}</strong></div>

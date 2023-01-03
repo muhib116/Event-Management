@@ -46,6 +46,9 @@ class TransactionController extends Controller
             'status' => 'paid',
             // 'settings'  => '',
         ];
+        if(auth()->user()->type=='organizer') {
+            $data['status'] = 'progress';
+        }
         if ($eventList->transaction) {
             return back()->with('error', 'Already paid');
         }

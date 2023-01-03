@@ -7,7 +7,7 @@
         <td v-else class="text-center px-2 py-4 text-gray-700">
             {{ data.sold }}/{{ data.stock_limit }}
         </td>
-        <td class="text-center px-2 py-4 text-gray-700">{{ data.price ? data.price : 'Free' }}</td>
+        <td class="text-center px-2 py-4 text-gray-700">{{ data.price ? data.price + ' ' + $page.props?.currency.value : 'Free' }}</td>
         <td class="text-center px-2 py-4 text-gray-700">
             <button @click="showDropdown=!showDropdown" class="dropdown relative" v-if="!$page.props.is_paid">
                 <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none">

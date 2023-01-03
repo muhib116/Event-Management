@@ -57,17 +57,21 @@
                         </div>
                         <div class="element">
                             <label for="slug"><span class="important">*</span>Link</label>
-                            <input type="text" id="slug" name="slug" v-model="form.slug" readonly>
+                            <input type="text" id="slug" name="slug" v-model="form.slug" readonly disabled>
                             <div class="text-red-500" v-if="form.errors.slug">{{ form.errors.slug }}</div>
                         </div>
                         <div class="element">
                             <label for="content">Content</label>
-                            <textarea name="content" id="content" rows="3" placeholder="Content" v-model="form.content"></textarea>
                             <div class="text-red-500" v-if="form.errors.content">{{ form.errors.content }}</div>
+                            <ckeditor :editor="ClassicEditor" v-model="form.content" :config="editorConfig"></ckeditor>
                         </div>
                     </div>
                     
                     <div class="save flex gap-3"> 
+                        <button type="button" class="button" @click="() => {
+                            activeTab='lists';
+                            form.reset();
+                        }">Cancel</button>
                         <button class="button bg-green-600" type="submit" :disabled="form.processing">
                             <svg v-if="form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -92,9 +96,12 @@ import Header from '@/Components/dashboard/Header.vue';
 import { ref } from '@vue/reactivity';
 import Master from './Master.vue';
 import { useToast } from "vue-toastification";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
+
 const props = defineProps({
     pages: Array,
 });
+const editorConfig = ref({});
 const toast = useToast();
 const activeTab = ref('lists');
 const form = useForm({
@@ -147,3 +154,9 @@ const createPage = () => {
 }
 
 </script>
+
+<style>
+.ck-editor__editable_inline {
+    min-height: 200px;
+}
+</style>

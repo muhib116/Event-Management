@@ -58,8 +58,9 @@
                                         <div><strong>Stripe info: </strong>{{ transaction.stripe_info }}</div>
                                         <div><strong>M-Pesa info: </strong>{{ transaction.mpesa_info }}</div>
                                     </td> 
-                                    <td>
-                                        paid/progress
+                                    <td class="text-center">
+                                        <!-- paid/progress -->
+                                        {{ transaction.status }}
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         {{ transaction.amount }} {{ $page.props.settings?.currency.value }}

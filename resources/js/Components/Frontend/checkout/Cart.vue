@@ -23,7 +23,7 @@
                 <span>{{ card.quantity }} x Rp. {{ card.price }}</span>
             </p> -->
             <!-- <p>Service & Handling <span> - </span></p> -->
-            <p>Service & Handling <span> {{ getTotalCommission(cards).toFixed(2) }} </span></p>
+            <p>Service & Handling <span> {{ getTotalCommission(cards).toFixed(2) }} {{  $page.props?.currency.value }}</span></p>
         </div>
         <div class="summary-item">
             <p><span>Total</span> <span>{{ getTotalWithFees(cards) }} {{  $page.props?.currency.value }}</span></p>
