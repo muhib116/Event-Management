@@ -145,7 +145,7 @@
                                         <strong>Bank name:</strong> {{ payment_details.bank_name }}
                                     </div>
                                     <div>
-                                        <strong>IBAN number:</strong> {{ payment_details.bank_number }}
+                                        <strong>IBAN:</strong> {{ payment_details.bank_number }}
                                     </div>
                                     <div>
                                         <strong>BIC:</strong> {{ payment_details.account_name }}

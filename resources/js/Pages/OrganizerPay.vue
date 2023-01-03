@@ -36,6 +36,9 @@
                                         Bank info
                                     </th>
                                     <th scope="col" class="px-2 py-4 text-gray-700">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="px-2 py-4 text-gray-700">
                                         Amount
                                     </th>
                                 </tr>
@@ -55,12 +58,18 @@
                                         <div><strong>Stripe info: </strong>{{ transaction.stripe_info }}</div>
                                         <div><strong>M-Pesa info: </strong>{{ transaction.mpesa_info }}</div>
                                     </td> 
+                                    <td>
+                                        paid/progress
+                                    </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         {{ transaction.amount }} {{ $page.props.settings?.currency.value }}
                                     </td> 
                                 </tr> 
                             </tbody>
                         </table>
+                        <div v-if="!transactions.length" class="text-center min-h-[200px] text-orange-500 text-xl font-semibold flex items-center justify-center">
+                            No payment yet
+                        </div>
                     </div>
                 </div>
             </div>

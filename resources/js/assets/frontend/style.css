@@ -3,12 +3,20 @@
 header-area start
 =====================
 */
+@font-face {
+    font-family: CabinetGrotesk;
+    src: url(./fonts/CabinetGrotesk-Bold.ttf);
+}
 body {	
-    font-family: 'General Sans', sans-serif;
+    font-family: 'CabinetGrotesk' !important;
     font-size: 16px;
     font-weight: 400;    
 	background: #FFFFFF;
 	color: #1B1B25;	
+}
+
+.body_font {
+    font-family: "CabinetGrotesk" !important;
 }
 
 a {

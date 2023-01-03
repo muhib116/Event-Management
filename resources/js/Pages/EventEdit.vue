@@ -83,7 +83,7 @@ import PaymentPopup from '@/Components/dashboard/popup/PaymentPopup.vue'
             isActive: false
         },
         {
-            title: 'ManageGuestlist',
+            title: 'Guest list',
             component: 'ManageGuestlist',
             isActive: false
         }, 

@@ -176,15 +176,25 @@
                                 //     console.log(data, actions);
                                 // // Set up the transaction
                                 const generatedData = await axios.post('/create-payment', payLoadForPaypal.value).then(res => res.data);
-                                console.log(generatedData);
+                                let val = 0;
+                                payLoadForPaypal.value.forEach(i => val+= i.price * i.quantity);
                                 return actions.order.create({
-                                    purchase_units: [generatedData]
-                                    // purchase_units: [{
-                                    //     amount: {
-                                    //         value: '0.01'
-                                    //     }
-                                    // }]
+                                    // purchase_units: [generatedData]
+                                    purchase_units: [{
+                                        amount: {
+                                            currency_code: "USD",
+                                            value: val
+                                        }
+                                    }]
                                 });
+                            },
+                            onApprove: function(data, actions) {
+                                console.log('approved', data, actions);
+                                // This function captures the funds from the transaction.
+                                // return actions.order.capture().then(function(details) {
+                                //     // This function shows a transaction success message to your buyer.
+                                //     alert('Transaction completed by ' + details.payer.name.given_name);
+                                // });
                             }
                         })
                         .render("#braintree-paypal-cta")

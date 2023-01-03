@@ -17,7 +17,7 @@
                                     <img :src="`../../../../${get_banner(event?.images)}`" alt="">
                                     <div class="event-cnt">
                                         <h4>{{ event.name }}</h4>
-                                        <p><i class="fas fa-calendar-alt"></i> {{ event.start_date }}· {{ event.start_time }} </p>
+                                        <p><i class="fas fa-calendar-alt"></i> {{ moment(event.start_date).format('d-MMM-YYYY') }} at {{ event.start_time }} </p>
                                         <p><i class="fas fa-map-marker-alt"></i> {{ event.location }} </p>
                                         <p>{{ event.description.slice(0, 300) }}...</p>
                                     </div>
@@ -76,6 +76,7 @@
     import useTicket from '@/Pages/Frontend/useTicket'
     import useAuth from '@/useAuth'
     import LoginPopup from '@/Components/dashboard/popup/LoginPopup.vue'
+    import moment from 'moment'
 
     const { get_banner } = useEvent()
     const { isLoading, isAuthenticated, login } = useAuth();

@@ -34,12 +34,11 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
+                <label for="email">Email</label>
+                <input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1 w-full border border-slate-300 rounded focus:border-[#172853]"
                     v-model="form.email"
                     required
                     autofocus
@@ -50,9 +49,9 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="bg_bunting text-white py-2 px-5 rounded">
                     Email Password Reset Link
-                </PrimaryButton>
+                </button>
             </div>
         </form>
     </GuestLayout>

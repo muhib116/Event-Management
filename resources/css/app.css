@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.bg_bunting {
+    background: #172853;
+}
+.text_bunting {
+    color: #172853;
+}
+
+.bg_steel_blue {
+    background: #487eb7;
+}
+.text_steel_blue {
+    color: #487eb7;
+}
+
+.bg_metalic_gold {
+    background: #d4af37;
+}
+.text_metalic_gold {
+    color: #d4af37;
+}

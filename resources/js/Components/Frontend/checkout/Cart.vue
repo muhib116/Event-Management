@@ -6,7 +6,7 @@
             <div class="event-cnt">
                 <h4>{{ event.name }}</h4>
                 <p><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
-                <p><i class="fas fa-calendar-alt"></i> {{ event.start_date }} · {{ event.start_time }} - {{ event.end_date }} · {{ event.end_time }}</p>
+                <p><i class="fas fa-calendar-alt"></i> {{ moment(event.start_date).format('d-MMM-YYYY') }} · {{ event.start_time }} to {{ moment(event.end_date).format('d-MMM-YYYY') }} · {{ event.end_time }}</p>
             </div>
         </div>
 
@@ -22,8 +22,8 @@
                 Ticket Price 
                 <span>{{ card.quantity }} x Rp. {{ card.price }}</span>
             </p> -->
-            <p>Service & Handling <span> - </span></p>
-            <p>Admin Fee <span> {{ getTotalCommission(cards).toFixed(2) }} </span></p>
+            <!-- <p>Service & Handling <span> - </span></p> -->
+            <p>Service & Handling <span> {{ getTotalCommission(cards).toFixed(2) }} </span></p>
         </div>
         <div class="summary-item">
             <p><span>Total</span> <span>{{ getTotalWithFees(cards) }} {{  $page.props?.currency.value }}</span></p>
@@ -36,6 +36,7 @@
     import useTicket from '@/Pages/Frontend/useTicket'
     import useEvent from '@/Pages/useEvent.js'
     import { usePage } from '@inertiajs/inertia-vue3'
+    import moment from 'moment'
     
     const { cards, getTotal, getTotalCommission, getTotalWithFees } = useTicket();
     const { get_banner } = useEvent();

@@ -18,7 +18,7 @@
                                 <h2>{{ event.name }}</h2>
                                 <ul>
                                     <li><i class="fas fa-map-marker-alt"></i> {{ event.location }}</li>
-                                    <li><i class="fas fa-calendar-alt"></i> {{ event.start_date }}· {{ event.start_time }} </li>
+                                    <li><i class="fas fa-calendar-alt"></i> {{ moment(event.start_date).format('d-MMM-Y') }} at {{ moment(event.start_time, 'HH:ss a').format('HH:ss a') }} </li>
                                 </ul>
                                 <p>{{ event.description.slice(0, 150) }}<a href="#description">...</a></p>
                             </div>
@@ -110,6 +110,7 @@
     import Master from './Master.vue'
     import useEvent from '@/Pages/useEvent.js'
     import Gallery from '@/Components/Frontend/EventDetails/Gallery.vue'
+    import moment from 'moment'
 
     const { get_banner } = useEvent()
     const props = defineProps({

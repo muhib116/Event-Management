@@ -18,8 +18,7 @@
                 </h2>
                 <div class="grid gap-2">
                     <p>
-                        <i class="far fa-calendar-alt text-slate-500"></i> {{ getMonth(item.start_date).slice(0,3) }} {{ formateDate(item.start_date) }}
-                        {{ getMonth(item.start_date).slice(0,3) }} {{ formateDate(item.start_date) }}
+                        <i class="far fa-calendar-alt text-slate-500"></i> {{ getMonth(item.start_date).slice(0,3) }} {{ formateDate(item.start_date) }} 
                     </p>
                     <p>
                         <i class="fa-solid fa-location-dot text-slate-500"></i>

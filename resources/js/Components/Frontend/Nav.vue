@@ -20,8 +20,16 @@
                             <li><Link :href="route('category.event', 'investments')">Investments</Link></li>            
                         </ul>
                         <ul class="navbar-nav nav-btn ms-auto">            
-                            <li>
+                            <li class="relative nav_dropdown_wrapper">
                                 <button v-if="!isAuthenticated && !isLoading" @click="login">Log in</button>
+                                <ul class="dropdown absolute top-[50px] right-0 bg-white shadow w-[260px] rounded"> 
+                                    <li class="truncate border-b px-0">
+                                        <div @click="login" class="cursor-pointer flex items-center px-3 py-2 hover:bg-gray-100  border-0 text-black text-md">Guest login</div>
+                                    </li>
+                                    <li class="truncate border-b px-0">
+                                        <Link :href="route('login')" class="cursor-pointer flex items-center px-3 py-2 hover:bg-gray-100  border-0 text-black text-md">Organizer login</Link>
+                                    </li>
+                                </ul>
                             </li> 
                             <!-- <li><Link :href="route('login')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">L og In</Link></li>  -->
                             <!-- <li><Link class="active" :href="route('register')">Sign Up</Link></li>  -->

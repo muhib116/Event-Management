@@ -12,9 +12,10 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
+        "paypal/rest-api-sdk-php": "*",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "srmklive/paypal": "^3.0",
-        "paypal/rest-api-sdk-php": "*",
+        "stripe/stripe-php": "^10.3",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

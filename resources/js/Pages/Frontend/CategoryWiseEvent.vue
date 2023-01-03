@@ -9,8 +9,9 @@
                             <div v-if="!isEmpty(events)" class="result-forupr">
                                 <h2>Search results for <span> “{{ events[0].eventCategory }}”</span></h2>
                             </div>
-
-                            <h1 v-else class="font">No result found</h1>
+                            <div v-else class="min-h-[50vh] flex items-center justify-center">
+                                <h1 class="font">No result found</h1>
+                            </div>
 
                             <div class="row">
                                 <div class="col-sm-6 col-xl-4" v-for="(event, index) in events" :key="index">
