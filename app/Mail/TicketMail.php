@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 
-class TicketMail extends Mailable
+class TicketMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
