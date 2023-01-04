@@ -77,18 +77,10 @@ Route::get('event-sales/{eventList}', [EventController::class, 'getEventSales'])
 Route::post('checkin', [EventController::class, 'checkin'])->name('check_in');
 
 
-
-
+Route::post('/stripe-pay', [TicketSaleController::class, 'stripe_pay'])->name('stripe.pay');
 
 Route::post('create-payment', function (Request $request) {
-    $curl = curl_init();
-    $curls = 'curl -v -X POST "https://api-m.sandbox.paypal.com/v1/oauth2/token" \
-            -u "AQeJeHLGLcEAq6RII_55oIyly5_zD5LaNxldDPauKB-qxcfwo33NbxErw0QxuqSrmvwjO79AVSKAskrY:EEfrEij3BttADhuAPqcrBDW94qjQ-PHzC5tWIQPNZ6iWcOLJ8yRXEV0nK7xxiNTVYcPrp7j2BteT4Yfn" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=client_credentials"';
-            curl_setopt($curl, CURLOPT_URL, $curls);
-            $response = curl_exec($curl);
-    return $response;
+    return $request->all();
     // return $request->all();
     $card = collect($request->all());
     $items = [];

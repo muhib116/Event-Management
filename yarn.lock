@@ -384,6 +384,11 @@
   "resolved" "https://registry.npmjs.org/@sxzz/popperjs-es/-/popperjs-es-2.11.7.tgz"
   "version" "2.11.7"
 
+"@stripe/stripe-js@^1.46.0":
+  "integrity" "sha512-dkm0zCEoRLu5rTnsIgwDf/QG2DKcalOT2dk1IVgMySOHWTChLyOvQwMYhEduGgLvyYWTwNhAUV4WOLPQvjwLwA=="
+  "resolved" "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-1.46.0.tgz"
+  "version" "1.46.0"
+
 "@syncfusion/ej2-base@~20.3.56":
   "integrity" "sha512-BeXX3XBOs1kv9/rki9f1kPuLbNJU06kJE8o0jLY62fEd/U5k2KkuG5Z/WbWHJIuQVH5dv57ZM2Adl3rG+vkvjg=="
   "resolved" "https://registry.npmjs.org/@syncfusion/ej2-base/-/ej2-base-20.3.56.tgz"

@@ -24,6 +24,7 @@
         "@ckeditor/ckeditor5-build-classic": "^35.4.0",
         "@ckeditor/ckeditor5-vue": "^4.0.1",
         "@paypal/paypal-js": "^5.1.4",
+        "@stripe/stripe-js": "^1.46.0",
         "@syncfusion/ej2-vue-calendars": "^20.3.59",
         "@zoom/videosdk": "^1.5.5",
         "element-plus": "^2.2.27",

@@ -14,17 +14,21 @@
                                 </div>
                                 <div class="check-leftmain payright-prt">
                                     <h2>Payment Method</h2>
-                                    <form action="#">
+                                    <div>
                                         <div class="payment-item">
-                                            <h4>Credit Card</h4>
+                                            <h4>Select method</h4>
                                             <ul>
                                                 <li>
-                                                    <input type="radio" id="r1" name="radio-group">
-                                                    <label for="r1">Credit/Debit Card</label>
+                                                    <input v-model="active_pay" type="radio" id="r1" name="radio-group" value="paypal">
+                                                    <label for="r1">Paypal</label>
+                                                </li>
+                                                <li>
+                                                    <input v-model="active_pay" type="radio" id="r2" name="radio-group" value="stripe">
+                                                    <label for="r2">Stripe</label>
                                                 </li>
                                             </ul>   
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +36,7 @@
                             <Cart :event="event" />
                             <div class="pay-btn">
                                 <!-- <Link class="active" :href="route('payment-complete')">Pay Now</Link> -->
-                                <Button class="active flex items-center gap-2 justify-center" @click="()=> {
+                                <!-- <Button class="active flex items-center gap-2 justify-center" @click="()=> {
                                     clickLoading = true;
                                     handlePayment(cards);
                                 }" :disabled="clickLoading"
@@ -45,8 +49,20 @@
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
                                     Pay Now
-                                </Button>
-                                <div id="braintree-paypal-cta" ref="paypalBtnContainer"></div>
+                                </Button> -->
+                                <div v-show="active_pay=='paypal'" id="braintree-paypal-cta" ref="paypalBtnContainer"></div>
+
+                                <div v-show="active_pay=='stripe'" >
+                                    <div id="stripe"></div>
+                                    <div class="text-red-400" v-if="stripe_error">{{ stripe_error }}</div>
+                                    <Button class="active flex items-center gap-2 justify-center" ref="btn_stripe" :disabled="clickLoading">
+                                        <svg v-if="clickLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Pay Now
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -59,7 +75,8 @@
 
 <script setup> 
     import { loadScript } from "@paypal/paypal-js";
-    import { Head, Link } from '@inertiajs/inertia-vue3'
+    import { loadStripe } from '@stripe/stripe-js/pure';
+    import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
     import { onMounted,onActivated, ref, watchEffect } from 'vue'
     import { useToast } from "vue-toastification";
     import Master from './Master.vue'
@@ -67,10 +84,19 @@
     import useTicket from '@/Pages/Frontend/useTicket'
     import axios from 'axios'
     import LoginCheck from './LoginCheck.vue'
-    import useAuth from '@/useAuth.js' 
+    import useAuth from '@/useAuth.js'
+    import { result } from "lodash-es";
     
     const clickLoading = ref(false);
     const guestId = ref(null)
+    const active_pay = ref(false);
+    const stripeElement = ref({});
+    const btn_stripe = ref();
+    const stripe_error = ref(false);
+    const stripeForm = useForm({
+        stripe_token: null,
+        cards: null,
+    });
     const { 
         userInfo,
         isLoading
@@ -129,11 +155,12 @@
             clickLoading.value = false;
         }
     } 
-    onMounted(() => {
+    onMounted(async () => {
         if(localStorage.getItem('cards')){
             let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards')) 
-            
         }
+        
+
     })
 
     let timeoutId = null
@@ -150,61 +177,113 @@
         }
         if (!isLoading.value && !mountedPaypal.value) {
             mountedPaypal.value = true;
-            // loadScript({ "client-id": "AQeJeHLGLcEAq6RII_55oIyly5_zD5LaNxldDPauKB-qxcfwo33NbxErw0QxuqSrmvwjO79AVSKAskrY" })
-            //     .then((paypal) => {
-            //         paypal
-            //             .Buttons({
-            //                 createOrder: async function(data, actions) {
-            //                     // console.log(payLoadForPaypal.value);
-            //                     // var SETEC_URL = 'http://127.0.0.1:8000/api/create-payment';
-            //                     // return axios.post('/create-payment', payLoadForPaypal.value)
-            //                     // .then(res => res);
-            //                     // return fetch(SETEC_URL, {
-            //                     //     method: 'post',
-            //                     //     headers: {
-            //                     //         'content-type': 'application/json'
-            //                     //     },
-            //                     //     data: {
-            //                     //         id: 1,
-            //                     //         name: 'some'
-            //                     //     }
-            //                     // }).then(function(res) {
-            //                     //     return res.json();
-            //                     // }).then(function(data) {
-            //                     //     return data.token;
-            //                     // });
-            //                     //     console.log(data, actions);
-            //                     // // Set up the transaction
-            //                     const generatedData = await axios.post('/create-payment', payLoadForPaypal.value).then(res => res.data);
-            //                     let val = 0;
-            //                     payLoadForPaypal.value.forEach(i => val+= i.price * i.quantity);
-            //                     return actions.order.create({
-            //                         // purchase_units: [generatedData]
-            //                         purchase_units: [{
-            //                             amount: {
-            //                                 currency_code: "USD",
-            //                                 value: val
-            //                             }
-            //                         }]
-            //                     });
-            //                 },
-            //                 onApprove: function(data, actions) {
-            //                     console.log('approved', data, actions);
-            //                     // This function captures the funds from the transaction.
-            //                     // return actions.order.capture().then(function(details) {
-            //                     //     // This function shows a transaction success message to your buyer.
-            //                     //     alert('Transaction completed by ' + details.payer.name.given_name);
-            //                     // });
-            //                 }
-            //             })
-            //             .render("#braintree-paypal-cta")
-            //             .catch((error) => {
-            //                 console.error("failed to render the PayPal Buttons", error);
-            //             });
-            //     })
-            //     .catch((err) => {
-            //         console.error("failed to load the PayPal JS SDK script", err);
-            //     });
+            loadScript({ "client-id": "AQeJeHLGLcEAq6RII_55oIyly5_zD5LaNxldDPauKB-qxcfwo33NbxErw0QxuqSrmvwjO79AVSKAskrY" })
+                .then((paypal) => {
+                    paypal
+                        .Buttons({
+                            createOrder: async function(data, actions) { 
+                                let val = 0;
+                                Object.values(payLoadForPaypal.value).forEach(i => val+= i.price * i.quantity); 
+                                return actions.order.create({ 
+                                    purchase_units: [{ 
+                                        amount: {
+                                            currency_code: "USD",
+                                            value: val
+                                        }, 
+                                    }]
+                                });
+                            },
+                            onApprove: async function(data, actions) {
+                                console.log('approved', data, actions);
+                                let payload = preparePayload(cards.value)
+                                let res = await axios.post('ticket/sale', payload);
+                                console.log('result', res.data);
+                                if (res.data.target_url) {
+                                    // This function captures the funds from the transaction.
+                                    return actions.order.capture().then(function(details) {
+                                        // This function shows a transaction success message to your buyer.
+                                        // alert('Transaction completed by ' + details.payer.name.given_name);
+                                        localStorage.clear('cards')
+                                        window.location.href = res.data.target_url; 
+                                    });
+                                }
+                            }
+                        })
+                        .render("#braintree-paypal-cta")
+                        .catch((error) => {
+                            console.error("failed to render the PayPal Buttons", error);
+                        });
+                })
+                .catch((err) => {
+                    console.error("failed to load the PayPal JS SDK script", err);
+                });
+
+            // stripe 
+            
+            loadStripe('pk_test_51M1lgfDKrpdPsiSpc2iGtO8XgCgWkjhGvXo5JRT6jpH6NLsyPDVXTSczbUFEihz94XQBZnWvQ2hqE46mJraU238E00l1d2VpQG')
+                .then(stripe => {
+                    let element = stripe.elements();
+                    let stripeElement = element.create('card', {
+                        hidePostalCode: true,
+                        base: {
+                            color: '#32325d',
+                            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                            fontSmoothing: 'antialiased',
+                            fontSize: '16px',
+                            '::placeholder': {
+                                color: '#aab7c4'
+                            }
+                        },
+                        classes: {
+                            base: 'bg-gray-100 rounded border py-3 px-4',
+                        },
+                        invalid: {
+                            color: '#fa755a',
+                            iconColor: '#fa755a'
+                        }
+                    });
+                    stripeElement.mount('#stripe');
+                    
+                    btn_stripe.value.addEventListener('click', function() {
+                        clickLoading.value = true;
+                        stripe.createToken(stripeElement).then(function(result) {
+                            console.log(result);
+                            if (result.error) {
+                                console.log('error', result.error);
+                                stripe_error.value = result.error.message;
+                                clickLoading.value = false;
+                            } else {
+                                let payload = preparePayload(cards.value);
+                                stripeForm.stripe_token = result.token.id
+                                stripeForm.cards = payload;
+                                axios.post(route('stripe.pay'), stripeForm)
+                                    .then(response => response.data)
+                                    .then(result => {
+                                        console.log(result);
+                                        clickLoading.value = false;
+                                        if (result.target_url) {
+                                            localStorage.clear('cards')
+                                            window.location.href = route('payment.complete')
+                                        }
+                                    }).catch(() => {
+                                        clickLoading.value = false;
+                                    });
+                                // axios.post(route('stripe.pay'), {
+                                //     onSuccess(p) {
+                                //         console.log(p.props.flash);
+                                //         if (p.props.flash?.success) {
+                                //             // localStorage.clear('cards')
+                                //             // window.location.href = route('payment.complete')
+                                //         }
+                                //     },
+                                //     onError(p) {}
+                                // });
+                            }
+                        });
+                    });
+                    // stripe.createToken();
+                })
+            
         }
     })
 </script>
