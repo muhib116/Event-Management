@@ -9,16 +9,16 @@
            <form class="content" @submit.prevent="saveInfo">
               <div class="text-black">Bank information</div>
               <div class="element">
-                 <label for="name"><span class="text-red-500">*</span>Bank Name</label>
-                 <input name="bank_name" v-model="form.bank_name" type="text" required>
+                 <label for="name">Bank Name</label>
+                 <input name="bank_name" v-model="form.bank_name" type="text">
               </div>
               <div class="element">
-                 <label for="name"><span class="text-red-500">*</span>IBAN number</label>
-                 <input name="iban_number" v-model="form.bank_number" type="text" required>
+                 <label for="name">IBAN number</label>
+                 <input name="iban_number" v-model="form.bank_number" type="text">
               </div>
               <div class="element">
-                 <label for="name"><span class="text-red-500">*</span>BIC</label>
-                 <input name="bic" v-model="form.account_name" type="text" required>
+                 <label for="name">BIC</label>
+                 <input name="bic" v-model="form.account_name" type="text">
               </div>
               <div class="text-black">Paypal information</div>
               <div class="element">

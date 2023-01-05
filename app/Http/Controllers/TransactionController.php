@@ -33,12 +33,12 @@ class TransactionController extends Controller
             'amount' => $total,
             // 'note' => '',
             'event_list_id' => $eventList->id,
-            'bank_name' => $user->payment_details->bank_name,
-            'bank_number' => $user->payment_details->bank_number,
-            'account_name' => $user->payment_details->account_name,
-            'paypal_info' => $user->payment_details->paypal_info,
-            'stripe_info' => $user->payment_details->stripe_info,
-            'mpesa_info' => $user->payment_details->mpesa_info,
+            'bank_name' => @$user->payment_details->bank_name,
+            'bank_number' => @$user->payment_details->bank_number,
+            'account_name' => @$user->payment_details->account_name,
+            'paypal_info' => @$user->payment_details->paypal_info,
+            'stripe_info' => @$user->payment_details->stripe_info,
+            'mpesa_info' => @$user->payment_details->mpesa_info,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
@@ -49,9 +49,10 @@ class TransactionController extends Controller
         if(auth()->user()->type=='organizer') {
             $data['status'] = 'progress';
         }
-        if ($eventList->transaction) {
-            return back()->with('error', 'Already paid');
-        }
+        // if ($eventList->transaction) {
+        //     return back()->with('error', 'Already paid');
+        // }
+        // return $data;
         Transaction::updateOrCreate([
             'user_id' => $user->id,
             'event_list_id' => $eventList->id,

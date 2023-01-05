@@ -54,7 +54,7 @@
     import Tickets from '@/Components/dashboard/AllTickets/Tickets.vue'
     import Master from './Master.vue'
     import useEvent from '@/Pages/useEvent.js'
-import PaymentPopup from '@/Components/dashboard/popup/PaymentPopup.vue'
+    import PaymentPopup from '@/Components/dashboard/popup/PaymentPopup.vue'
 
     const props = defineProps({
         userId: [Number, String]

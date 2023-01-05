@@ -86,6 +86,7 @@
     import LoginCheck from './LoginCheck.vue'
     import useAuth from '@/useAuth.js'
     import { result } from "lodash-es";
+    const { getTotalWithFees } = useTicket();
     
     const clickLoading = ref(false);
     const guestId = ref(null)
@@ -96,16 +97,20 @@
     const stripeForm = useForm({
         stripe_token: null,
         cards: null,
+        total_amount_with_fees: null,
     });
+
+    
     const { 
         userInfo,
         isLoading
     } = useAuth()
         
     const props = defineProps({
-        event: Object
+        event: Object,
+        settings: Object
     })
-
+// console.log(props);
     const toast = useToast();
     const { cards, commission } = useTicket()
     const payLoadForPaypal = ref({});
@@ -159,8 +164,7 @@
         if(localStorage.getItem('cards')){
             let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards')) 
         }
-        
-
+        commission.value = props.settings.commission.value
     })
 
     let timeoutId = null
@@ -181,14 +185,12 @@
                 .then((paypal) => {
                     paypal
                         .Buttons({
-                            createOrder: async function(data, actions) { 
-                                let val = 0;
-                                Object.values(payLoadForPaypal.value).forEach(i => val+= i.price * i.quantity); 
+                            createOrder: async function(data, actions) {
                                 return actions.order.create({ 
                                     purchase_units: [{ 
                                         amount: {
                                             currency_code: "USD",
-                                            value: val
+                                            value: getTotalWithFees(cards.value).value
                                         }, 
                                     }]
                                 });
@@ -218,8 +220,8 @@
                     console.error("failed to load the PayPal JS SDK script", err);
                 });
 
+                
             // stripe 
-            
             loadStripe('pk_test_51M1lgfDKrpdPsiSpc2iGtO8XgCgWkjhGvXo5JRT6jpH6NLsyPDVXTSczbUFEihz94XQBZnWvQ2hqE46mJraU238E00l1d2VpQG')
                 .then(stripe => {
                     let element = stripe.elements();
@@ -256,10 +258,10 @@
                                 let payload = preparePayload(cards.value);
                                 stripeForm.stripe_token = result.token.id
                                 stripeForm.cards = payload;
+                                stripeForm.total_amount_with_fees = getTotalWithFees(cards.value).value;
                                 axios.post(route('stripe.pay'), stripeForm)
                                     .then(response => response.data)
                                     .then(result => {
-                                        console.log(result);
                                         clickLoading.value = false;
                                         if (result.target_url) {
                                             localStorage.clear('cards')

@@ -17,7 +17,7 @@
 
                         <div class="resend-tickcnt">
                             <h4>Haven’t received tickets yet?</h4>
-                            <a href="#">Resend Tickets</a>
+                            <Link :href="route('user.profile')">Get your ticket</Link>
                         </div>
 
                         <div class="completed-btm">

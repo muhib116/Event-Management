@@ -11,7 +11,7 @@
                     <div class="name">Sales revenue</div>
                 </div>
                 <div class="column">
-                    <div v-if="$page.props.user.type == 'admin' && !$page.props.is_paid">
+                    <div v-if="$page.props.user.type == 'admin' && $page.props.is_paid?.status == 'progress'">
                         <button @click="makePayment($page.props.user, id)" class="flex items-center gap-1 py-2 px-3 bg-red-500 text-white rounded-sm" v-if="$page.props.payout_date_over">
                             <svg v-if="pay_form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -34,10 +34,11 @@
                         <div class="name">Next payout date</div>
                     </div>
                     <!-- Payment in progress -->
-                    <div class="number text-green-600 flex items-center flex-col" v-if="$page.props.is_paid">
+                    <div class="number text-green-600 flex text-sm items-center flex-col" v-if="$page.props.is_paid">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
                         <!-- Paid -->
-                        {{ $page.props.is_paid?.status }}
+                        <span v-if="$page.props.is_paid?.status == 'progress'">Payment in progress</span>
+                        <span v-else>Paid</span>
                     </div>
                 </div>
             </div>

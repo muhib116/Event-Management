@@ -72,16 +72,17 @@ class EventController extends Controller
 
     public function update($edit){
         $event = EventList::findOrFail($edit);
+        // dd($event);
         $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->end_date $event->end_time")));
         $next_payout_date = $end_at->addWeek(1)->format('d-M-Y');
-        $has_payment_details = PaymentDetail::where('user_id', auth()->id())->get();
+        $has_payment_details = PaymentDetail::where('user_id', $event->user_id)->get();
 
         $end = Carbon::parse(date('Y-m-d H:i:s', strtotime($next_payout_date)));
         $payout_date_over = now()->gt($end);
         $is_paid = $event->transaction;
 
         return Inertia::render('EventEdit', [
-            'userId' => Auth::id(),
+            'userId' => $event->user_id,
             'user' => auth()->user(),
             'has_payment_details' => count($has_payment_details) ? 1 : 0,
             'next_payout_date' => $next_payout_date,

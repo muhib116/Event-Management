@@ -72,14 +72,12 @@ class TicketSaleController extends Controller
     }
 
     public function stripe_pay(Request $request) {
-        // return $request->all(); 
-        // Stripe::setApiKey(env('STRIPE_SECRET_KEY')); 
+        // return $request->all();
         Stripe::setApiKey('sk_test_51M1lgfDKrpdPsiSpLhcMQpw5KDBjuvQ5JPk4HK0tLwKK0GTFCcBaJ0nzfucRon3TamvVkwtcmolyMMMFbkH89Zmx00iODMPc7p'); 
         try {
             //code...
             $guest_id = 0;
-            $tickets = [];
-            $total = 0;
+            $tickets = []; 
             foreach($request->cards as $key => $value){
                 $data = [
                     "organizer_id" => $value['organizer_id'],
@@ -95,16 +93,15 @@ class TicketSaleController extends Controller
                 ];
                 $guest_id = $data['guest_id']; 
                 $ticket = TicketSales::create($data);
-                $tickets[] = $ticket;
-                $total += $value['price'] * $value['quantity'];
+                $tickets[] = $ticket; 
                 if($ticket->id){
                     $guest = Guests::find($data['guest_id']);
                     $this->generateTicketNumber($ticket, $guest);
                     $this->updateSoldColumn($value);  
                 }
             }
-            $obj = Charge::create([    
-                "amount" => (int)($total) * 100,
+            $obj = Charge::create([
+                "amount" => (float)($request->total_amount_with_fees) * 100,
                 "currency" => "USD",
                 "source" => $request->stripe_token,
                 "description" => "This payment is for guest ".$guest->email,
@@ -113,7 +110,7 @@ class TicketSaleController extends Controller
                 Mail::to($guest)->send(new TicketMail($guest, $tickets));
             }
             return response([
-                'target_url' => route('payment.complete', )
+                'target_url' => route('payment.complete')
             ], 200);
         } catch (\Throwable $th) {
             throw $th;
