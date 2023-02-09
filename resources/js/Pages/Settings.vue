@@ -9,8 +9,8 @@
                 </div>
                 <!-- settings -->
                 <form class="event-details container mx-auto mt-10" @submit.prevent="saveSettings">
-                    <div class="flex justify-end sticky top-[140px] z-10">
-                        <button type="submit" class="flex items-center py-2 px-6 bg-orange-600 text-white rounded-md" :disabled="form.processing">
+                    <div class="flex justify-end sticky top-[140px] z-10 pointer-events-none">
+                        <button type="submit" class="flex pointer-events-auto items-center py-2 px-6 bg-[var(--brand\_color)] hover:opacity-90 text-white rounded-md" :disabled="form.processing">
                             <svg v-if="form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -21,7 +21,7 @@
                     <div class="gap-6 grid grid-cols-1 md:grid-cols-2">
                         <div class="element">
                             <label for="currency">Currency</label>
-                            <input type="text" id="currency" name="currency" v-model="form.currency">
+                            <input class="disabled:opacity-60" type="text" style="font-family: initial !important;" name="currency" value="€" disabled>
                             <div class="text-red-500" v-if="form.errors.currency">{{ form.errors.currency }}</div>
                         </div>
                         <div class="element">
@@ -34,6 +34,40 @@
                         <label for="home_banner_text">Home page banner text</label>
                         <input type="text" id="home_banner_text" name="home_banner_text" v-model="form.home_banner_text">
                         <div class="text-red-500" v-if="form.errors.home_banner_text">{{ form.errors.home_banner_text }}</div>
+                    </div>
+                    <div class="element">
+                        <label for="site_name">Site name</label>
+                        <input type="text" name="site_name" v-model="form.site_name">
+                        <div class="text-red-500" v-if="form.errors.site_name">{{ form.errors.site_name }}</div>
+                    </div>
+                    <div class="element">
+                        <label for="paypal_publish_key">Paypal client id</label>
+                        <input type="text" id="paypal_publish_key" name="paypal_publish_key" v-model="form.paypal_publish_key">
+                        <div class="text-red-500" v-if="form.errors.paypal_publish_key">{{ form.errors.paypal_publish_key }}</div>
+                    </div>
+                    <div class="gap-6 grid grid-cols-1 md:grid-cols-2">
+                        <div class="element">
+                            <label for="stripe_publish_key">Stripe publish key</label>
+                            <input type="text" id="stripe_publish_key" name="stripe_publish_key" v-model="form.stripe_publish_key">
+                            <div class="text-red-500" v-if="form.errors.stripe_publish_key">{{ form.errors.stripe_publish_key }}</div>
+                        </div>
+                        <div class="element">
+                            <label for="stripe_secret_key">Stripe secret key</label>
+                            <input type="text" id="stripe_secret_key" name="stripe_secret_key" v-model="form.stripe_secret_key">
+                            <div class="text-red-500" v-if="form.errors.stripe_secret_key">{{ form.errors.stripe_secret_key }}</div>
+                        </div>
+                    </div>
+                    <div class="gap-6 grid grid-cols-1 md:grid-cols-2">
+                        <div class="element">
+                            <label for="auth0_domain">Auth0 domain</label>
+                            <input type="text" id="auth0_domain" name="auth0_domain" v-model="form.auth0_domain">
+                            <div class="text-red-500" v-if="form.errors.auth0_domain">{{ form.errors.auth0_domain }}</div>
+                        </div>
+                        <div class="element">
+                            <label for="auth0_client_id">Auth0 client id</label>
+                            <input type="text" id="auth0_client_id" name="auth0_client_id" v-model="form.auth0_client_id">
+                            <div class="text-red-500" v-if="form.errors.auth0_client_id">{{ form.errors.auth0_client_id }}</div>
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3">
 
@@ -59,7 +93,7 @@
                             <label for="logo_image" class="text-xl font-semibold">Header Logo image</label>
                             <div class="element">
                                 <div class="relative flex  items-center">
-                                    <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
+                                    <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-gray-200 p-4 bg-opacity-80 rounded">
                                         <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute -top-0">Upload Logo</span>
                                         <input hidden type="file" name="image" accept="image/*" @change="(e) => {
                                             form.logo_image = e.target.files[0];
@@ -77,7 +111,7 @@
                             <label for="logo_image" class="text-xl font-semibold">Footer Logo image</label>
                             <div class="element">
                                 <div class="relative flex  items-center">
-                                    <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-white p-4 bg-opacity-80 rounded">
+                                    <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-gray-200 p-4 bg-opacity-80 rounded">
                                         <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute -top-0">Upload Logo</span>
                                         <input hidden type="file" name="image" accept="image/*" @change="(e) => {
                                             form.footer_logo_image = e.target.files[0];
@@ -89,6 +123,24 @@
                                     </label>
                                 </div>
                                 <div class="text-red-500" v-if="form.errors.footer_logo_image">{{ form.errors.footer_logo_image }}</div>
+                            </div>
+                        </div>
+                        <div class="element">
+                            <label for="logo_image" class="text-xl font-semibold">Fave Icon</label>
+                            <div class="element">
+                                <div class="relative flex  items-center">
+                                    <label class="cursor-pointer relative border flex items-center justify-center text-2xl border-dashed border-red-400 max-w-[300px] min-h-[100px] w-full truncate font-bold bg-gray-200 p-4 bg-opacity-80 rounded">
+                                        <span class="z-[1] bg-white py-3 px-4 rounded shadow absolute -top-0">Upload Icon</span>
+                                        <input hidden type="file" name="image" accept="image/*" @change="(e) => {
+                                            form.fave_icon = e.target.files[0];
+                                            onFileChange(e, 'fave_icon')
+                                        }">
+                                        <div v-if="prev_fave_icon" class="flex-1 flex gap-5 flex-wrap">
+                                            <img class="w-full h-full object-cover" :src="prev_fave_icon" alt="">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="text-red-500" v-if="form.errors.fave_icon">{{ form.errors.fave_icon }}</div>
                             </div>
                         </div>
 
@@ -152,10 +204,11 @@ const props = defineProps({
 });
 const prev_img = ref(false);
 const prev_logo_img = ref(false);
+const prev_fave_icon = ref(false);
 const prev_footer_logo_img = ref(false);
 
 const form = useForm({
-    currency: '',
+    currency: '€',
     commission: null,
     home_banner_text: '',
     home_banner_image: null,
@@ -167,13 +220,26 @@ const form = useForm({
     instagram_link: null,
     youtube_link: null,
     telegram_link: null,
+    fave_icon: null,
+    site_name: null,
+    paypal_publish_key: null,
+    stripe_publish_key: null,
+    stripe_secret_key: null,
+    auth0_domain: null,
+    auth0_client_id: null,
 });
 onMounted(()=> {
     let settings = props.site_settings;
-    // console.log(settings);
-    form.currency = _.find(settings, {name: 'currency'})?.value;
+    form.currency = '€';
     form.commission = _.find(settings, {name: 'commission'})?.value;
     form.home_banner_text = _.find(settings, {name: 'home_banner_text'})?.value;
+    form.site_name = _.find(settings, {name: 'site_name'})?.value;
+    form.stripe_publish_key = _.find(settings, {name: 'stripe_publish_key'})?.value;
+    form.stripe_secret_key = _.find(settings, {name: 'stripe_publish_key'})?.value;
+    form.paypal_publish_key = _.find(settings, {name: 'paypal_publish_key'})?.value;
+    form.auth0_domain = _.find(settings, {name: 'auth0_domain'})?.value;
+    form.auth0_client_id = _.find(settings, {name: 'auth0_client_id'})?.value;
+    
     form.facebook_link = _.find(settings, {name: 'facebook_link'})?.value;
     form.twitter_link = _.find(settings, {name: 'twitter_link'})?.value;
     form.tiktok_link = _.find(settings, {name: 'tiktok_link'})?.value;
@@ -182,28 +248,33 @@ onMounted(()=> {
     form.telegram_link = _.find(settings, {name: 'telegram_link'})?.value;
 
 
+
     prev_img.value = _.find(settings, {name: 'home_banner_image'})?.value;
     prev_logo_img.value = _.find(settings, {name: 'logo_image'})?.value;
     prev_footer_logo_img.value = _.find(settings, {name: 'footer_logo_image'})?.value;
-    // console.log(_.find(settings, {name: 'home_banner_image'})?.value);
+    prev_fave_icon.value = _.find(settings, {name: 'fave_icon'})?.value; 
 });
 
 function onFileChange(e, type=null) {
     if (type == 'logo') {
         const file = URL.createObjectURL(e.target.files[0]);
         prev_logo_img.value = file;
-    } else if(type == 'footer_logo_image') {
+    }
+    else if(type == 'footer_logo_image') {
         const file = URL.createObjectURL(e.target.files[0]);
         prev_footer_logo_img.value = file;
-    } else {
+    } 
+    else if(type == 'fave_icon') {
+        const file = URL.createObjectURL(e.target.files[0]);
+        prev_fave_icon.value = file;
+    } 
+    else {
         const file = URL.createObjectURL(e.target.files[0]);
         prev_img.value = file;
-    }
-    // advertise_form.image = file;
+    } 
 }
 
 function saveSettings() {
-    console.log(form);
     form.post(route('settings.save'), {
         onSuccess(e) {
             if (e.props?.flash?.success) {

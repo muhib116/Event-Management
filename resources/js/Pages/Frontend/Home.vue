@@ -1,5 +1,5 @@
 <template>
-    <Head title="Welcome----" />
+    <Head :title="get($page, 'props.site_name.value')" />
 
     <Master>
         <Banner />
@@ -14,8 +14,7 @@
         >
             <EventCarousel :data="events" :title="key" />
         </div>
-    <!-- 
-            <EventCarousel :data="arts_events" title="Browse Arts" />
+    <!--<EventCarousel :data="arts_events" title="Browse Arts" />
         <EventCarousel :data="concerts_events" title="Browse Concerts" /> -->
     </Master>
 </template>
@@ -29,7 +28,8 @@
     import EventCarousel from '@/Components/Frontend/EventCarousel.vue'
     import HotOffers from '@/Components/Frontend/HotOffers.vue'
     import TopSelling from '@/Components/Frontend/TopSelling.vue'
-import OfferCarousel from '@/Components/Frontend/OfferCarousel.vue'
+    import OfferCarousel from '@/Components/Frontend/OfferCarousel.vue'
+    import {get} from 'lodash'
 
     defineProps({
         canLogin: Boolean,

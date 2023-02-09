@@ -12,6 +12,7 @@ class EventList extends Model
 
     protected $casts = [
         'settings' => 'array',
+        'publish' => 'boolean'
     ];
 
     public function eventTickets() {

@@ -14,7 +14,8 @@ import { createAuth0 } from '@auth0/auth0-vue';
 import ElementPlus from 'element-plus'
 import VueQrcodeReader from "vue3-qrcode-reader"; 
 import CKEditor from '@ckeditor/ckeditor5-vue';
-
+import { get } from 'lodash'
+ 
 axios.defaults.baseURL = `${window.location.origin}/api/`;
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || '';
@@ -23,6 +24,7 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, app, props, plugin }) {
+        let settings = props.initialPage.props.settings;
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(Toast, {
@@ -35,9 +37,9 @@ createInertiaApp({
             .use(CKEditor) 
             .use(
                 createAuth0({
-                    domain: "dev-8xgi8q5dp4sbgcnn.us.auth0.com",
-                    client_id: "lVcd5ENj2CbbKwVRv1dP4yF11F2cr4YH",
-                    redirect_uri: `${window.location.origin}/`,
+                    domain: `${get(settings, 'auth0_domain.value')}`,
+                    client_id: `${get(settings, 'auth0_client_id.value')}`,
+                    redirect_uri: window.location.origin
                 })
             )
             .use(ZiggyVue, Ziggy)

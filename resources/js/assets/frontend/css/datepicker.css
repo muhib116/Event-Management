@@ -81,12 +81,12 @@
 
 .Zebra_DatePicker .dp_body .dp_current {
     color: #FFF;
-    background: #4F4CEE;
+    background: #172853;
 }
 
 .Zebra_DatePicker .dp_body .dp_selected {
     background: #F8F7FA;
-    color: #4F4CEE;
+    color: #172853;
     font-weight: 700;
 }
 
@@ -102,7 +102,7 @@
 
 .Zebra_DatePicker .dp_body .dp_hover {
     color: #fff;
-    background: #4F4CEE;
+    background: #172853;
 }
 
 .Zebra_DatePicker .dp_body .dp_hover.dp_time_control {
@@ -178,7 +178,7 @@
 }
 
 .Zebra_DatePicker .dp_daypicker th {
-    background: #4F4CEE;
+    background: #172853;
     cursor: text;
     font-weight: 700;
     color: #FFF;

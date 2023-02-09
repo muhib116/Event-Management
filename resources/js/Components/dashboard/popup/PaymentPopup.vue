@@ -13,7 +13,7 @@
                  <input name="bank_name" v-model="form.bank_name" type="text">
               </div>
               <div class="element">
-                 <label for="name">IBAN number</label>
+                 <label for="name">IBAN</label>
                  <input name="iban_number" v-model="form.bank_number" type="text">
               </div>
               <div class="element">
@@ -94,27 +94,15 @@
    });
 
    function saveInfo() {
-      // console.log(form.value);
       form.post(route('payment_details.save'), {
          onSuccess(s) {
-            // console.log(s);
             toast.success('Details saved');
-            // form.reset();
             emit('update:modelValue', false);
          },
          onError(err) {
-            console.log(err);
             toast.error('Opps! Something wrong');
          }
       });
-      // axios.post(route('payment_details.save'), {
-      //    ...form
-      // }).then(res => res.data).then(result => {
-      //    console.log(result);
-      //    toast.success('Details saved');
-      // }).catch(err => {
-      //    toast.error('Opps! Something wrong');
-      // });
    }
 </script>
 

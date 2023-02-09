@@ -12,7 +12,7 @@
               <div class="text-2xl py-4 text-center">Please login before continue.</div>
               
               <div class="flex justify-center">
-                  <button v-if="!isAuthenticated && !isLoading" @click="login" class="flex gap-2 rounded py-2 px-5 bg-[#4F4CEE] hover:bg-[#4744e4] text-white">
+                  <button v-if="!isAuthenticated && !isLoading" @click="login" class="flex gap-2 rounded py-2 px-5 bg-[#172853] hover:bg-[#4744e4] text-white">
                      Login
                   </button>
               </div>

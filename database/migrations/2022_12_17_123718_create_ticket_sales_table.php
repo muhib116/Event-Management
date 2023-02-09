@@ -26,7 +26,7 @@ return new class extends Migration
             
             $table->string('payment_method', 100)->nullable();
             $table->json('settings')->nullable();
-            $table->string('status', 100)->nullable()->default('complete');
+            $table->string('status', 100)->default('complete');
 
             $table->timestamps();
         });

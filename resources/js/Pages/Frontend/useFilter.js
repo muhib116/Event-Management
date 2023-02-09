@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash'
 
 const events = ref([])
 const filterParameter = ref({
-    isOnline: true,
+    isOnline: false,
     categories: [],
     priceRange: [],
     locations: [],
@@ -60,7 +60,6 @@ export default function useFilter()
         localEvents.forEach(item => {
             priceList.push(Number(item.max_price))
         })
-
         return !isEmpty(priceList) ? Math.max(...priceList) : 0
     }
 

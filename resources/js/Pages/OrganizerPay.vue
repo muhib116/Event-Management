@@ -29,41 +29,47 @@
                         <table class="w-full rounded">
                             <thead class="border-b">
                                 <tr>
-                                    <th scope="col" class="px-2 py-4 text-gray-700">
+                                    <th scope="col" class="px-2 text-left py-4 text-gray-700">
                                         Organizer info
                                     </th>
-                                    <th scope="col" class="px-2 py-4 text-gray-700">
+                                    <th scope="col" class="px-2 text-left py-4 text-gray-700">
                                         Bank info
                                     </th>
-                                    <th scope="col" class="px-2 py-4 text-gray-700">
+                                    <th scope="col" class="px-2 text-left py-4 text-gray-700">
                                         Status
                                     </th>
-                                    <th scope="col" class="px-2 py-4 text-gray-700">
+                                    <th scope="col" class="px-2 text-left py-4 text-gray-700">
                                         Amount
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="transaction in transactions" :key="transaction.id" class="border-b">
-                                    <th scope="row" class="text-center px-2 py-4 text-gray-700">
+                                    <th scope="row" class="text-left px-2 py-4 text-gray-700">
                                         <div>Name: {{ transaction.first_name }} {{ transaction.last_name }}</div>
                                         <div>Email: {{ transaction.email }}</div>
                                         <div>Phone: {{ transaction.phone }}</div>
                                     </th> 
-                                    <td class="text-center px-2 py-4 text-gray-700">
-                                        <div><strong>Bank name: </strong>{{ transaction.bank_name }}</div>
-                                        <div><strong>IBAN number: </strong>{{ transaction.bank_number }}</div>
-                                        <div><strong>BIC: </strong>{{ transaction.account_name }}</div>
-                                        <div><strong>Paypal info: </strong>{{ transaction.paypal_info }}</div>
-                                        <div><strong>Stripe info: </strong>{{ transaction.stripe_info }}</div>
-                                        <div><strong>M-Pesa info: </strong>{{ transaction.mpesa_info }}</div>
+                                    <td class="text-left px-2 py-4 text-gray-700">
+                                        <div v-if="transaction.bank_name"><strong>Bank name: </strong>{{ transaction.bank_name }}</div>
+                                        <div v-if="transaction.bank_number"><strong>IBAN: </strong>{{ transaction.bank_number }}</div>
+                                        <div v-if="transaction.account_name"><strong>BIC: </strong>{{ transaction.account_name }}</div>
+                                        <div v-if="transaction.paypal_info"><strong>Paypal info: </strong>{{ transaction.paypal_info }}</div>
+                                        <div v-if="transaction.stripe_info"><strong>Stripe info: </strong>{{ transaction.stripe_info }}</div>
+                                        <div v-if="transaction.mpesa_info"><strong>M-Pesa info: </strong>{{ transaction.mpesa_info }}</div>
                                     </td> 
-                                    <td class="text-center">
+                                    <td class="text-left">
                                         <!-- paid/progress -->
-                                        {{ transaction.status }}
+                                        <span v-if="transaction.status == 'paid'" class="bg-green-100 text-green-500 py-px px-2 rounded inline-flex gap-1 items-center">
+                                            <i class="fa fa-check"></i>
+                                            {{ transaction.status }}
+                                        </span>
+                                        <span v-else class="bg-red-100 text-red-500 py-px px-2 rounded inline-flex gap-1 items-left">
+                                            {{ transaction.status }}
+                                        </span>
                                     </td>
-                                    <td class="text-center px-2 py-4 text-gray-700">
-                                        {{ transaction.amount }} {{ $page.props.settings?.currency.value }}
+                                    <td class="text-left px-2 py-4 text-gray-700">
+                                        {{ transaction.amount }} <span style="font-family: initial !important;">{{ $page.props.settings?.currency.value }}</span>
                                     </td> 
                                 </tr> 
                             </tbody>

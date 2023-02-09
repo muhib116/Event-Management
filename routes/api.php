@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+// Route::group(['middleware' => ['auth', 'verified']], function() {});
 // event api
 Route::post('store/event', [EventController::class, 'eventStore'])->name('event.store');
 Route::post('event/edit/{eventId}', [EventController::class, 'eventEdit'])->name('event.edit');
@@ -73,6 +73,7 @@ Route::get('/event-history/{email}', [GuestController::class, 'getHistory'])->na
 // get event guest
 Route::get('event-guest/{eventList}', [EventController::class, 'getEventGuest'])->name('get.event_guest');
 Route::get('event-sales/{eventList}', [EventController::class, 'getEventSales'])->name('get.event_sales');
+Route::post('custom-url-validation', [EventController::class, 'validateCustomUrl'])->name('validate.custom_url');
 
 Route::post('checkin', [EventController::class, 'checkin'])->name('check_in');
 

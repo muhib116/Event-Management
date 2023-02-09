@@ -43,7 +43,7 @@
               <div v-show="ticketForm.ticketType == 'Paid'" class="element pricing" id="ticket_price">
                  <label for="paid">Price</label>
                  <div class="two-columns">
-                    <input type="text" value="$" disabled="">
+                    <input style="font-family: initial !important;" type="text" :value="$page.props.currency?.value" disabled="">
                     <input v-model="ticketForm.price" min="0" type="number">
                  </div>
               </div>
@@ -58,20 +58,15 @@
                  <label for="name">*Ticket description</label>
                  <textarea :class="validationFor.ticket_description.hasError && 'border-red-500'" v-model="ticketForm.ticket_description" name="Ticket description"></textarea>
               </div>
-              <div class="element perks" id="perks">
-                  <input v-model="ticketForm.perks" type="text" placeholder="Perks for this ticket" id="perks_input"> 
-                  <!-- <div class="add-perk" id="add_perk">
-                     + Add
-                  </div> -->
-              </div>
-              <div class="element- mb-6">
+             
+              <div class="element- mb-6" v-if="ticketForm.ticketType == 'Paid'">
                  <div class="two-columns">
                     <input type="checkbox" v-model="ticketForm.isTransferFeesToGuest" value="1" :checked="Boolean(ticketForm.isTransferFeesToGuest)"  >
                     <label>Transfer fees to guest</label>
                  </div>
               </div>
 
-              <h6 class="additional-information-heading">Do you want to collect additional information?</h6>
+              <!-- <h6 class="additional-information-heading">Do you want to collect additional information?</h6>
               
                <template v-for="(item, index) in ticketForm.questions" :key="index">
                   <div class="element">
@@ -101,7 +96,7 @@
                         ticketForm.questions.push({...placeholderQuestion})
                      }"
                  >+ Add an other question</button> 
-              </div>
+              </div> -->
 
               <div class="buttons">
                  <!-- <div class="button btn-light">skip (go to event publish page)</div> -->
@@ -208,7 +203,7 @@
 
       payload.user_id = props.userId
       let res = await saveTicket(payload, getEventId())
-      if(res.statusText == 'OK'){
+      if(res){
          toast.success("Ticket created!", {
             timeout: 2000,
             position: "top-center",

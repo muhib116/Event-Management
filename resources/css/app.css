@@ -2,24 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: "Hero";
+    src: url(./Hero/Commercial/TTF/Hero-Bold.ttf),
+        url(./Hero/Commercial/TTF/Hero-Light.ttf),
+        url(./Hero/Commercial/TTF/Hero-Regular.ttf);
+}
+@font-face {
+    font-family: "Hero bold";
+    src: url(./Hero/Commercial/TTF/Hero-Bold.ttf);
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Hero light";
+    src: url(./Hero/Commercial/TTF/Hero-Light.ttf);
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Hero regular";
+    src: url(./Hero/Commercial/TTF/Hero-Regular.ttf);
+    font-weight: 300;
+    font-style: normal;
+}
+
+html body#root__body *:not(i,.fa, .fa-regular,.fa-solid,.fa-brand,.fas,.far,.fab) {
+    font-family: "Hero regular" !important;
+}
+
+html body#root__body{
+    font-weight: lighter;
+    --brand_color: #172853;
+}
+.brand_color {
+    color: #172853 !important;
+}
+.brand_bg {
+    background: #172853 !important;
+}
+body .admin .save-or-cancel .button.save {
+    background: var(--brand_color);
+    color: white;
+}
+html body#root__body .banner-cnt h2 {
+    font-family: "Hero bold" !important;
+}
+html body#root__body .hero-bold {
+    font-family: "Hero bold" !important;
+}
+html body#root__body .hero-regular {
+    font-family: "Hero regular" !important;
+}
+html body#root__body .hero-light {
+    font-family: "Hero light" !important;
+}
+
+
+.footer_mh {
+    min-height: calc(100vh - 188px) !important;
+}
 
 .bg_bunting {
-    background: #172853;
+    background: var(--brand_color) !important;
 }
 .text_bunting {
-    color: #172853;
+    color: var(--brand_color) !important;
 }
 
 .bg_steel_blue {
-    background: #487eb7;
+    background: #487eb7 !important;
 }
 .text_steel_blue {
-    color: #487eb7;
+    color: #487eb7 !important;
 }
 
 .bg_metalic_gold {
-    background: #d4af37;
+    background: #d4af37 !important;
 }
 .text_metalic_gold {
-    color: #d4af37;
+    color: #d4af37 !important;
+}
+
+.st-sticky-share-buttons {
+    display: none !important;
+}
+
+.admin .account .main-heading h1 {
+    color: var(--brand_color) !important;
+}
+
+.admin .main-heading .left p {
+    color: var(--brand_color) !important;
 }

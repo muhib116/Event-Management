@@ -61,7 +61,7 @@
                         {{ item.ticket?.ticketType }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        {{ item.ticket?.price }}
+                        {{ item.ticket?.price }} <span style="font-family: initial !important;">{{ get($page, 'props.currency.value') }}</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ item.quantity }}
@@ -76,14 +76,11 @@
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                        {{ item.ticket?.event.start_date }} {{ item.ticket?.event.start_time }} <br> to <br>
-                        {{ item.ticket?.event.end_date }} {{ item.ticket?.event.end_time }}
+                        {{ moment(item.ticket?.event.start_date).format('ddd., DD MMM. YYYY') }} {{ moment(item.ticket?.event.start_time, 'H:m a').format('H:m') }} <br> to <br>
+                        {{ moment(item.ticket?.event.end_date).format('ddd., DD MMM. YYYY') }} {{ moment(item.ticket?.event.end_time, 'H:m a').format('H:m') }}
                         <!-- 22-12-12, 09:15am to 22-12-12, 04:00pm -->
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <!-- <a :href="route('ticket_view', data.id)" target="_blank" class="border px-3 py-2 rounded border-slate-200 relative">
-                            <i class="fa fa-eye"></i>
-                        </a> -->
+                    <td class="px-6 py-4 whitespace-nowrap"> 
                         <a :href="route('ticket_view', item.sales_id)" class="cursor-pointer font-black text-blue-400">Download Ticket</a>
                     </td>
                 </tr>
@@ -94,12 +91,11 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import {get} from 'lodash'
+import moment from 'moment';
+
 const props = defineProps({
     history: Array
-});
-
-onMounted(() =>{
-    console.log('test')
 });
 
 

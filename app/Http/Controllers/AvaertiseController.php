@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertise;
+use App\Utils;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,15 +12,11 @@ use Inertia\Inertia;
 
 class AvaertiseController extends Controller
 {
-    private function check()
-    {
-        if (auth()->user()->type != 'admin') {
-            abort(404);
-            return Redirect::route('home');
-        }
-    }
+    use Utils; 
     public function index() {
-        $this->check();
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         $advertises = Advertise::orderBy('position', 'ASC')
                         ->get()
                         ->map(function ($item) {
@@ -33,7 +30,9 @@ class AvaertiseController extends Controller
     }
 
     public function store(Request $request) {
-        $this->check();
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         $request->validate([
             'title' => 'required',
             'link' => 'required',
@@ -93,7 +92,9 @@ class AvaertiseController extends Controller
     }
 
     public function delete(Request $request) {
-        $this->check();
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         $request->validate([
             'advertise_id' => 'required'
         ]);

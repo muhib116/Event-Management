@@ -18,7 +18,7 @@
             <div class="flex flex-wrap -mb-1">
                 <div v-for="(link, inde) in events.links" :key="inde">
                     <div v-if="link.url === null" :key="Math.random()+Math.random()" class="mr-1 mb-1 px-4 py-3 bg-white text-sm leading-4 text-gray-800 border rounded" v-html="link.label" />
-                    <Link :key="inde" v-else :class="{ 'bg-orange-600 text-white border-orange-600': link.active, 'text-black': !link.active }" class="block mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded bg-white hover:bg-orange-100 hover:border-orange-600 hover:text-black focus:border-orange-500 focus:text-orange-500" :href="link.url">
+                    <Link :key="inde" v-else :class="{ 'brand_bg text-white': link.active, 'text-black': !link.active }" class="block mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded bg-white hover:bg-[var(brand\_color)] hover:border-[var(--brand\_color)] hover:text-white focus:border-[var(--brand\_color)] focus:text-white" :href="link.url">
                         <span v-html="link.label"></span>
                     </Link>
                 </div>

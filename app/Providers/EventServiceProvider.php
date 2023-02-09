@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\NotifyEvent;
+use App\Listeners\SendEventNotice;
 use App\Models\EventTickets;
 use App\Observers\TicketObserver;
 use Illuminate\Auth\Events\Registered;
@@ -19,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        NotifyEvent::class => [
+            SendEventNotice::class,
         ],
     ];
 

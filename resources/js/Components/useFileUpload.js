@@ -5,7 +5,7 @@ const imageFromApi = ref([])
 export default function useFileUpload() {
     const preloader = ref(false)
     const imagePreview = (file, item, key) => {
-        let FR = new FileReader()
+        let FR = new FileReader();
         FR.readAsDataURL(file)
         FR.onload = () => {
             item[key] = FR.result
@@ -14,8 +14,11 @@ export default function useFileUpload() {
 
     const handleImageUpload = async (file, type='banner', eventId) => 
     {
+        if (file.size/1024 > 1024) {
+            alert('Maximum file upload size should 1MB');
+            return;
+        }
         preloader.value = true
-
         const formData = new FormData()
         formData.append('file', file)
         formData.append('type', type)

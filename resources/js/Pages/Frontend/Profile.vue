@@ -4,7 +4,7 @@
         <LoginCheck>
             <div class="header-area">
                 <div class="container bg-white h-full px-0">
-                    <div class="flex h-full border">
+                    <div class="flex max-md:flex-wrap h-full border">
                         <div class="leftSide min-w-[250px] h-full bg-white py-10">
                             <div class="px-4">
                                 <img
@@ -20,8 +20,8 @@
                                 </p>
                             </div>
                             <div class="mt-0 grid">
-                                <Link :class="{'!text-red-500': $page.component == 'Frontend/ProfileEdit'}" :href="route('user.profile.edit')" class="px-4 text-black py-1 text-left hover:bg-gray-50">Profile</Link>
-                                <Link :class="{'!text-red-500': $page.component == 'Frontend/Profile'}" :href="route('user.profile')" class="px-4 py-1 text-black text-left hover:bg-gray-50">History</Link>
+                                <Link :class="{'text-[#172853]': $page.component == 'Frontend/ProfileEdit'}" :href="route('user.profile.edit')" class="px-4 text-black py-1 text-left hover:bg-gray-50">Profile</Link>
+                                <Link :class="{'text-[#172853]': $page.component == 'Frontend/Profile'}" :href="route('user.profile')" class="px-4 py-1 text-black text-left hover:bg-gray-50">History</Link>
                                 <button class="px-4 py-1 text-left hover:bg-gray-50" @click="logout">Logout</button>
                             </div>
                         </div>
@@ -56,9 +56,7 @@
     const history = ref([]);
 
     watchEffect(async ()=> {
-        // console.log(isLoading);
         if (!isLoading.value) {
-            console.log('in');
             let getHistory = await axios.get(route('get.history', userInfo.value.email)).then(res => res.data);
             history.value = getHistory.ticket_sales;
         }

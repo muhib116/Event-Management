@@ -4,7 +4,7 @@
         <LoginCheck>
             <div class="header-area min-h-[78vh]">
                 <div class="container bg-white h-full px-0">
-                    <div class="flex h-full border">
+                    <div class="flex h-full border max-md:flex-wrap">
                         <div class="leftSide min-w-[250px] h-full bg-white py-10">
                             <div class="px-4">
                                 <img
@@ -20,8 +20,8 @@
                                 </p>
                             </div>
                             <div class="mt-0 grid">
-                                <Link :class="{'!text-red-500': $page.component == 'Frontend/ProfileEdit'}" :href="route('user.profile.edit')" class="px-4 text-black py-1 text-left hover:bg-gray-50">Profile</Link>
-                                <Link :class="{'!text-red-500': $page.component == 'Frontend/Profile'}" :href="route('user.profile')" class="px-4 py-1 text-black text-left hover:bg-gray-50">History</Link>
+                                <Link :class="{'text-[#172853]': $page.component == 'Frontend/ProfileEdit'}" :href="route('user.profile.edit')" class="px-4 text-black py-1 text-left hover:bg-gray-50">Profile</Link>
+                                <Link :class="{'text-[#172853]': $page.component == 'Frontend/Profile'}" :href="route('user.profile')" class="px-4 py-1 text-black text-left hover:bg-gray-50">History</Link>
                                 <button class="px-4 py-1 text-left hover:bg-gray-50" @click="logout">Logout</button>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                                     <!-- <input type="text"   class="rounded border" /> -->
                                     <textarea rows="5" v-model="userForm.settings.address" class="rounded border"></textarea>
                                 </div>
-                                <button @click="saveInfo()" class="py-2 flex items-center px-4 rounded bg-blue-500 text-white active:scale-95">
+                                <button @click="saveInfo()" class="py-2 flex items-center px-4 rounded bg-[#172853] text-white active:scale-95">
                                     <svg v-if="userForm.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -101,14 +101,11 @@
     }
 
     watchEffect(async ()=> {
-        // console.log(isLoading);
-        if (!isLoading.value) {
-            console.log('in');
+        if (!isLoading.value) { 
             let getHistory = await axios.get(route('get.history', userInfo.value.email)).then(res => res.data);
             history.value = getHistory.ticket_sales;
             let getUser = await axios.get(route('user.get_profile', userInfo.value.email)).then(res => res.data);
-            if (getUser) {
-                console.log(getUser);
+            if (getUser) { 
                 userForm.name = getUser.firstName;
                 userForm.email = getUser.email;
                 userForm.phone = getUser.phone;

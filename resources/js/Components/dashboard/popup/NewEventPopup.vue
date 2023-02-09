@@ -5,8 +5,9 @@
             <div class="title">New Event</div>
             <div class="options">
                 <div 
-                    v-for="item in eventType" 
-                    class="option" 
+                    v-for="(item, index) in eventType" 
+                    :key="index"
+                    class="option hover:border-[var(--brand\_color)] text-[var(--brand\_color)]" 
                     :class="item.isSelected && 'active'"
                     @click="() => {
                         eventType.forEach(event => {
@@ -17,10 +18,10 @@
                     <i class="fa-regular fa-calendar-check"></i>
                     <h3>{{ item.name }}</h3>
                     <p>{{ item.description }}</p>
-                    <div class="button">Select</div>
+                    <div class="button hover:!border-[var(--brand\_color)]">Select</div>
                 </div>
             </div>
-            <Link :href="`create/event/${eventType.find(item=>item.isSelected).key}`" class="continue">Continue</Link>
+            <Link :href="`create/event/${eventType.find(item=>item.isSelected).key}`" class="continue bg-[var(--brand\_color)]">Continue</Link>
         </div>
     </div>
 </template>
@@ -53,10 +54,23 @@
 <style scoped>
     .screen-overlay .create-new-event .options .option.active,
      .screen-overlay .create-new-event .options .option.active .button {
-        border-color: var(--normal-orange);
+        border-color: var(--brand_color);
+    } 
+     .screen-overlay .create-new-event .options .button:hover {
+        border-color: var(--brand_color);
     }
 
     .screen-overlay .create-new-event .options .option.active>*{
-        color: var(--normal-orange)
+        color: var(--brand_color)
+    }
+
+    .screen-overlay .create-new-event .options .option:hover i, .screen-overlay .create-new-event .options .option:hover h3, .screen-overlay .create-new-event .options .option:hover p, .screen-overlay .create-new-event .options .option:hover .button {
+        color: var(--brand_color)
+    }
+    .screen-overlay .create-new-event .options .option:hover, .screen-overlay .create-new-event .options .option:hover .button:hover {
+        color: var(--brand_color) !important
+    }
+    .option:hover .button {
+        border-color: var(--brand_color);
     }
 </style>

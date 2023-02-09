@@ -492,13 +492,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import TicketCreatePopup from '@/Components/dashboard/popup/TicketCreatePopup.vue';
 import Master from './Master.vue';
 const showPopup = ref(false)
-// console.log(ClassicEditor);
-// ClassicEditor
-//         .create( document.querySelector( '#editor-email' ) )
-//         .catch( error => {
-//             console.error( error );
-//         } );
-
 const activeTab = ref('details');
 
 const props = defineProps({

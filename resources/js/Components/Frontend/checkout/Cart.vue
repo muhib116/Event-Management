@@ -6,7 +6,7 @@
             <div class="event-cnt">
                 <h4>{{ event.name }}</h4>
                 <p><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
-                <p><i class="fas fa-calendar-alt"></i> {{ moment(event.start_date).format('d-MMM-YYYY') }} · {{ event.start_time }} to {{ moment(event.end_date).format('d-MMM-YYYY') }} · {{ event.end_time }}</p>
+                <p><i class="fas fa-calendar-alt"></i> {{ moment(event.start_date).format('ddd., DD MMM. YYYY') }} · {{ moment(event.start_time, 'H:m a').format('H:m') }} to {{ moment(event.end_date).format('ddd., DD MMM. YYYY') }} · {{ moment(event.end_time, 'H:m a').format('H:m') }}</p>
             </div>
         </div>
 
@@ -14,19 +14,14 @@
             <h6>Order Summary</h6>
             <p v-for="(card, index) in cards" :key="`type-${index}`">
                 <span>{{ card.name }} ({{ card.type }})</span>
-                <span>{{ card.quantity }}pcs x {{ card.price }} {{  $page.props?.currency.value }}</span>
+                <span>{{ card.quantity }}pcs x {{ card.price }} <span style="font-family: initial !important;">{{  $page.props?.currency.value }}</span></span>
             </p>
         </div>
         <div v-if="getTotalCommission(cards)>0" class="summary-item">
-            <!-- <p v-for="(card, index) in cards" :key="`type-${index}`">
-                Ticket Price 
-                <span>{{ card.quantity }} x Rp. {{ card.price }}</span>
-            </p> -->
-            <!-- <p>Service & Handling <span> - </span></p> -->
-            <p>Service & Handling <span> {{ getTotalCommission(cards).toFixed(2) }} {{  $page.props?.currency.value }}</span></p>
+            <p>Service & Handling <span> {{ getTotalCommission(cards).toFixed(2) }} <span style="font-family: initial !important;">{{  $page.props?.currency.value }}</span></span></p>
         </div>
         <div class="summary-item">
-            <p><span>Total</span> <span>{{ getTotalWithFees(cards) }} {{  $page.props?.currency.value }}</span></p>
+            <p><span>Total</span> <span>{{ getTotalWithFees(cards) }}<span style="font-family: initial !important;">{{  $page.props?.currency.value }}</span></span></p>
         </div>
     </div>
 </template>
@@ -52,9 +47,6 @@
             cards.value = cardsFromLocalStorage
             getTotal(cards.value)
         }
-        // console.log(props.commission);
-        // commission.value = props.settings.commission.value
-        // commission.value = page.props.value?.settings.commission?.value
     })
 
 </script>

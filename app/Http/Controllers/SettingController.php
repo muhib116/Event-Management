@@ -12,7 +12,11 @@ use Inertia\Inertia;
 class SettingController extends Controller
 {
     use Utils;
+    
     public function index() {
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         $settings = SiteSetting::all()->map(function($s) {
             if ($s->name == 'home_banner_image') {
                 $s->value = asset($s->value);
@@ -25,12 +29,16 @@ class SettingController extends Controller
     }
     
     public function save(Request $request) {
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         $request->validate([
             'commission' => 'required|numeric',
             'currency' => 'required',
-            'home_banner_image' => 'nullable|image',
-            'logo_image' => 'nullable|image',
-            'footer_logo_image' => 'nullable|image',
+            'home_banner_image' => 'nullable|image|max:1024',
+            'logo_image' => 'nullable|image|max:1024',
+            'footer_logo_image' => 'nullable|image|max:1024',
+            'fave_icon' => 'nullable|image|max:1024',
             'home_banner_text' => 'required',
         ]);
         try {
@@ -81,9 +89,46 @@ class SettingController extends Controller
                     'value' => $image,
                 ]);
             }
+            if ($request->hasFile('fave_icon')) {
+                $file = $request->file('fave_icon');
+                $uniqueCode = md5(uniqid(rand(), true));
+                $file_name  = $request->type.'-'.$uniqueCode.'-'.$file->getClientOriginalName();
+                
+                $old = SiteSetting::where('name', 'fave_icon')->first();
+                $image = $this->imageUpload($request, 'fave_icon', 'images');
+
+                SiteSetting::updateOrCreate(['name' => 'fave_icon'],[
+                    'name' => 'fave_icon',
+                    'value' => $image,
+                ]);
+            }
             SiteSetting::updateOrCreate(['name' => 'home_banner_text'],[
                 'name' => 'home_banner_text',
                 'value' => $request->home_banner_text,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'site_name'],[
+                'name' => 'site_name',
+                'value' => $request->site_name,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'paypal_publish_key'],[
+                'name' => 'paypal_publish_key',
+                'value' => $request->paypal_publish_key,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'stripe_publish_key'],[
+                'name' => 'stripe_publish_key',
+                'value' => $request->stripe_publish_key,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'stripe_secret_key'],[
+                'name' => 'stripe_secret_key',
+                'value' => $request->stripe_secret_key,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'auth0_domain'],[
+                'name' => 'auth0_domain',
+                'value' => $request->auth0_domain,
+            ]);
+            SiteSetting::updateOrCreate(['name' => 'auth0_client_id'],[
+                'name' => 'auth0_client_id',
+                'value' => $request->auth0_client_id,
             ]);
 
             SiteSetting::updateOrCreate(['name' => 'facebook_link'],[

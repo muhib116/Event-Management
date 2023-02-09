@@ -20,13 +20,12 @@
                             <Link :href="route('user.profile')">Get your ticket</Link>
                         </div>
 
-                        <div class="completed-btm">
+                        <!-- <div class="completed-btm">
                             <h4>Having trouble receiving the tickets?</h4>
                             <ul>
-                                <!-- <li><a href="tel: +62 21 1234 9876"><i class="fas fa-phone-alt"></i> {{ userInfo.phone }}</a></li> -->
                                 <li><a v-if="!isLoading" :href="`mailto: ${userInfo.email}`"><i class="far fa-envelope"></i>{{ userInfo.email }}</a></li>
                             </ul>
-                        </div>                    
+                        </div> -->
                     </div>
                 </div>
             </main>
@@ -46,9 +45,6 @@
         isLoading
     } = useAuth();
 
-    onMounted(() => {
-        console.log(userInfo);
-    })
 </script>
 
 <style lang="scss" scoped>

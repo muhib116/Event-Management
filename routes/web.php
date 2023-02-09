@@ -5,8 +5,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
+
 
 require_once('my-route/frontend.php');
 require_once('my-route/event.php');
@@ -46,3 +50,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+Route::any('{url}', function(){
+    return back();
+})->where('url', '.*');

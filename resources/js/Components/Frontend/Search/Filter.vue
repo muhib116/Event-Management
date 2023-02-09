@@ -8,12 +8,14 @@
                 <input type="checkbox" checked="" v-model="filterParameter.isOnline">
                 <span class="slider round"></span>
             </label>
-            <span class="online online-checked">Online</span>
+            <span class="online online-checked">
+                {{ filterParameter.isOnline ? 'Offline' : 'Online' }}
+            </span>
         </div>
 
         <div class="filter-item">
-            <h4>Location <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
-            <ul class="select-none">
+            <h4 @click="locationToggle = !locationToggle">Location <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
+            <ul v-show="locationToggle" class="select-none">
                 <li v-for="location in getLocations(events)" :key="`location-${location}`">
                     <div class="form-group">
                         <input 
@@ -29,8 +31,8 @@
         </div>
 
         <div class="filter-item">
-            <h4>Categories <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
-            <ul class="select-none">
+            <h4 @click="catToggle = !catToggle">Categories <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
+            <ul v-show="catToggle" class="select-none">
                 <li v-for="category in getCategories(events)" :key="`location-${category}`">
                     <div class="form-group">
                         <input 
@@ -46,19 +48,22 @@
         </div>
 
         <div class="filter-item border-0">
-            <h4>Price <i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></h4>
-            <ElSlider v-if="getMinPrice(filteredEvents) <= getMaxPrice(filteredEvents)" v-model="rangeValue" range :max="getMaxPrice(filteredEvents)" @change="setPriceRange" />
+            <h4>Price</h4>
+            <ElSlider v-if="getMinPrice(events) <= getMaxPrice(events)" v-model="rangeValue" range :max="getMaxPrice(events)" @change="setPriceRange" />
         </div>
     </div>
 </template>
 
 <script setup>
-    import { onMounted } from 'vue'
+    import { onMounted, ref } from 'vue'
     import useFilter from '@/Pages/Frontend/useFilter.js'
 
     const props = defineProps({
         events: Array
     })
+
+    let catToggle = ref(true)
+    let locationToggle = ref(true)
 
     const {
         rangeValue,

@@ -16,6 +16,13 @@ class TicketMail extends Mailable
 
     public $guest;
     public $tickets;
+
+    public $title;
+    public $header;
+    public $message;
+    public $info;
+    public $button_link;
+    public $button_text;
     /**
      * Create a new message instance.
      *

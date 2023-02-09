@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute top-full right-0 grid bg-white z-10 text-xs rounded shadow-lg">
+    <div class="fixed grid bg-white z-10 text-xs rounded shadow-lg">
         <button @click="$emit('openTicketPopup')" class="px-5 text-left py-2 border-b">Edit</button>
         <button @click="handleDuplicate(data.id)" class="px-5 text-left py-2 border-b">Duplicate</button>
         <!-- <a :href="route('ticket_view', data.id)" target="_blank" class="px-5 text-left py-2 border-b whitespace-nowrap">View design</a> -->

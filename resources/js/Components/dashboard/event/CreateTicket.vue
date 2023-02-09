@@ -1,9 +1,6 @@
 <template>
     <div>
-
-        <div class="note">
-            <a href="#">Tix is free to use for free events. If you’re charging guests a fee, we charge a percentage of the value of ticket as a transaction processing fee.</a> 
-         </div>
+ 
          <div class="make-tickets">
             <img src="../../../assets/images/ticket-create.svg" alt="Ticket Create">
             <h5>Let's create tickets</h5>

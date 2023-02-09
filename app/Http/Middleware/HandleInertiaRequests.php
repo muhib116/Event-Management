@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\EventList;
 use App\Models\Page;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
@@ -41,19 +42,48 @@ class HandleInertiaRequests extends Middleware
         if ($logo) {
             $logo->value = asset($logo->value);
         }
-        
+
         $footer_logo_image = $settings->where('name', 'footer_logo_image')->first();
         if ($footer_logo_image) {
             $footer_logo_image->value = asset($footer_logo_image->value);
         }
+
+        $ev_list = EventList::where('eventCategory', '!=', null)
+                    ->get()
+                    ->pluck('eventCategory')->unique();
+        $cats = [];
+        foreach($ev_list as $key => $cat) {
+            $cats[$key] = [
+                'category' => $cat,
+                'count' => EventList::where('eventCategory', $cat)->count()
+            ];
+        }
+        usort($cats, function ($item1, $item2) {
+            return $item1['count'] <= $item2['count'];
+        });
+        $category_list = collect($cats)->take(4)->pluck('category')
+            ->map(function($c) {
+                $op = [
+                    'category' => $c,
+                    'name' => ucfirst(str_replace('-', ' ', $c)),
+                ];
+                return $op;
+            });
+
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
             ],
+            'category_list' => $category_list,
             'user' => auth()->user(),
             'url' => url(''),
+            'site_name' => $settings->where('name', 'site_name')->first(),
             'currency' => $settings->where('name', 'currency')->first(),
             'settings' => [
+                'stripe_publish_key' => $settings->where('name', 'stripe_publish_key')->first(),
+                'paypal_publish_key' => $settings->where('name', 'paypal_publish_key')->first(),
+                'auth0_domain' => $settings->where('name', 'auth0_domain')->first(),
+                'auth0_client_id' => $settings->where('name', 'auth0_client_id')->first(),
                 'commission' => $settings->where('name', 'commission')->first(),
                 'currency' => $settings->where('name', 'currency')->first(),
                 'home_banner_image' => $settings->where('name', 'home_banner_image')->first(),
@@ -67,7 +97,10 @@ class HandleInertiaRequests extends Middleware
                 'youtube_link' => $settings->where('name', 'youtube_link')->first(),
                 'telegram_link' => $settings->where('name', 'telegram_link')->first(),
             ],
-            'pages' => Page::all(),
+            'pages' => Page::all()->map(function($page){
+                $page->content = strip_tags($page->content);
+                return $page;
+            }),
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'error' => fn () => $request->session()->get('error'),

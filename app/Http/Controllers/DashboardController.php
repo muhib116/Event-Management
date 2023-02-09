@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotifyEvent;
+use App\Mail\CanWithdraw;
+use App\Mail\EventNoticeMail;
+use App\Mail\EventOverMail;
 use App\Models\Advertise;
 use App\Models\EventList;
 use App\Models\EventTickets;
@@ -10,14 +14,20 @@ use App\Models\TicketSales;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function index() {
+
+    public function index() { 
         $sales = collect([]);
         $query = EventList::query();
-
+        // $eventList = $query->get()->map(function($event) {
+        //     $event->start_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->start_date $event->start_time")));
+        //     return $event;
+        // })->whereBetween('start_at', [Carbon::now(), Carbon::now()->addDays(2)]);
+        // return $eventList;
         $query->withSum('eventTickets', 'sold')->with(['images']);
         if (auth()->user()->type == 'organizer' || auth()->user()->type == 'clients') {
             $query->where('user_id', auth()->id());
@@ -47,13 +57,14 @@ class DashboardController extends Controller
         }
 
         $events = $query->limit(900)
-                ->with(['user', 'views'])
+                ->with(['user', 'views', 'transaction'])
                 ->orderBy('created_at', 'DESC')
                 ->paginate(12)
                 ->through(function ($item) {
                     $item['start_date'] = Carbon::parse($item->start_date)->diffForHumans();;
                     return $item;
                 });
+
                 // ->map(function($item) {
                 //     $item->start_date = Carbon::parse($item->start_date)->diffForHumans();
                 //     return $item;

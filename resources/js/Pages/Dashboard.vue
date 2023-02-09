@@ -21,6 +21,7 @@ const props = defineProps({
     total_ticket: Number,
 })
 onMounted(() => {
+    document.title = 'Dashboard'
     dashboard.value = {
         total_sales_quantity: props.total_sales_quantity,
         total_sales_amount: props.total_sales_amount,

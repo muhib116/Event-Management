@@ -54,8 +54,9 @@ export default function useTicket()
         return urlData.at(-1)
     }
 
-    const saveTicket = (data, eventId) => {
-        return axios.post(`create/ticket/${eventId}`, data)
+    const saveTicket = async (data, eventId) => {
+        let { data: op } = await axios.post(`create/ticket/${eventId}`, data)
+        return op.status
     }
 
     const updateTicket = async (payload, id) => {

@@ -21,14 +21,22 @@ class EventTicketController extends Controller
             'price'         => $request->price ? $request->price : 0,
             'purchase_limit' => $request->purchase_limit,
             'questions'      => $request->questions,
+            'publish'      => 0,
             'perks'          => $request->perks,
             'ticket_description'    => $request->ticket_description,
             'isTransferFeesToGuest' => $request->isTransferFeesToGuest,
             'settings' => $request->settings,
         ];
+        if ($data['ticketType'] == 'Paid' && $data['price'] <= 0) {
+            return response()->json(['status' => false]);
+        }
         
         $ticketId = EventTickets::create($data);
-        return response()->json(["id" => $ticketId->id], 200);
+        // return response()->json(["id" => $ticketId->id], 200);
+        if($ticketId){
+            return response()->json(['status' => true], 200);
+        }
+        return response()->json(['status' => false]);
     }
 
     function update(Request $request, $id) {
@@ -97,11 +105,11 @@ class EventTicketController extends Controller
 
     public function ticket_view(TicketSales $ticketSales) {
         $ticketSales = TicketSales::with(['guests', 'ticket_number', 'organizer', 'ticket' => fn($q) => $q->with('event')])->find($ticketSales->id);
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('ticket_view', compact('ticketSales'));
+        // $pdf = App::make('dompdf.wrapper');
+        // $pdf->loadView('ticket_view', compact('ticketSales'));
+        // return $pdf->stream();
         // return $ticketSales;
         // return $pdf->download(str()->random(4).'_'.$ticketSales->id.'.pdf');
-        return $pdf->stream();
         return view('ticket_view', compact('ticketSales'));
     }
 }

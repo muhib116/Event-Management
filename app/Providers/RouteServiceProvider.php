@@ -36,6 +36,11 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+        $this->routeCheck();
+    }
+
+    public function routeCheck() {
+        // dd(request());
     }
 
     /**

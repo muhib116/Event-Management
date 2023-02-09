@@ -1,19 +1,19 @@
 <template>
     <div class="steps" :style="{ '--width': step==2 ? '50%' : step==3 ? '100%' : 0 }">
         <div class="step first">
-           <div class="icon active">
+           <div class="icon bg-[var(--brand\_color)] border-[var(--brand\_color)] active">
               <i v-if="(step<=3)" class="fa-solid fa-check"></i>
            </div>
            <span>Details</span>
         </div>
         <div class="step second">
-           <div class="icon active">
+           <div class="icon bg-[var(--brand\_color)] border-[var(--brand\_color)] active">
               <i v-if="(step<=3 && step>=2)" class="fa-solid fa-check"></i>
            </div>
            <span>Appearance</span>
         </div>
         <div class="step third">
-           <div class="icon active">
+           <div class="icon bg-[var(--brand\_color)] border-[var(--brand\_color)] active">
               <i v-if="(step==3)" class="fa-solid fa-check"></i>
            </div>
            <span>Tickets</span>
@@ -38,5 +38,6 @@
 }
 .event-creation.step-3 .steps:before{
     width: var(--width);
+    background: var(--brand_color);
 }
 </style>

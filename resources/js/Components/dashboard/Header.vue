@@ -5,7 +5,7 @@
         </Link>
         <div class="account-container">
             <div class="account"> 
-                <img :src="`https://ui-avatars.com/api/?name=${$page.props.auth.user.first_name}&rounded=true&background=FC6435&color=fff`" alt="">
+                <img :src="`https://ui-avatars.com/api/?name=${$page.props.auth.user.first_name}&rounded=true&background=172853&color=fff`" alt="">
             </div>
             <div class="nav">
                 <Link :href="route('live.account')">Account</Link>
@@ -13,8 +13,7 @@
                 <Link :href="route('organizer_payment')">Payments</Link>
                 <Link v-if="$page.props.auth.user.type=='admin'" :href="route('advertise.index')">Advertise</Link>
                 <Link v-if="$page.props.auth.user.type=='admin'" :href="route('settings.index')">Settings</Link>
-                <Link v-if="$page.props.auth.user.type=='admin'" :href="route('page')">Pages</Link>
-                <a href="#">Help</a>
+                <Link v-if="$page.props.auth.user.type=='admin'" :href="route('page')">Pages</Link> 
                 <a href="#" @click="logOutUser()">Log out</a>
             </div>
         </div>

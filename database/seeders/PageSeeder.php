@@ -17,21 +17,21 @@ class PageSeeder extends Seeder
     {
         Page::create([
             'title' => 'Imprint',
-            'slug' => str()->slug('Imprint'),
+            'slug' => str()->slug('imprint'),
             'image' => '',
             'content' => fake()->text(200),
             'status' => true,
         ]);
         Page::create([
             'title' => 'Data privacy',
-            'slug' => str()->slug('Data privacy'),
+            'slug' => str()->slug('data-privacy'),
             'image' => '',
             'content' => fake()->text(200),
             'status' => true,
         ]);
         Page::create([
             'title' => 'Terms & conditions',
-            'slug' => str()->slug('Terms & conditions'),
+            'slug' => str()->slug('terms-conditions'),
             'image' => '',
             'content' => fake()->text(200),
             'status' => true,

@@ -1,14 +1,14 @@
 <template>
     <div>
         <template v-if="!isLoading">
-            <div v-if="isAuthenticated" class="header-area">
+            <div v-if="isAuthenticated" class="header-area footer_mh">
                 <slot></slot>
             </div>
-            <div v-else class="header-area h-[40vh] grid items-center text-center">
+            <div v-else class="header-area footer_mh grid items-center text-center">
                 <LoginNotice />
             </div>
         </template>
-        <p v-else class="text-center h-[40vh] grid items-center">Loading...</p>
+        <p v-else class="text-center footer_mh grid items-center">Loading...</p>
     </div>
 </template>
 

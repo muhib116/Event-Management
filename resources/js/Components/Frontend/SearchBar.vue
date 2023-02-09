@@ -8,17 +8,10 @@
                     </div>
                     <div class="search-right">
                         <!-- <div class="date-field"> -->
-                        <div class="w-[270px]">
-                            <el-date-picker
-                                v-model="daterange"
-                                class="w-full border-none py-3 h-[40px]"
-                                type="datetimerange"
-                                start-placeholder="Start Date"
-                                end-placeholder="End Date"
-                                :default-time="defaultTime2"
-                            />
-                            <!-- <input class="datepicker_1 w-full block" type="date" value="Select date" data-zdp_readonly_element="false" /> -->
-                        </div>
+                        <label class="w-[270px] flex flex-wrap relative">
+                            <span class="absolute left-1 top-1/2 -translate-y-1/2 bg-white">{{date ? moment(date).format('MM/DD/YYYY') : 'Select date'}}</span>
+                            <input class="w-[60%] flex text-left text-white" v-model="date" type="date" placeholder="Select date"/>
+                        </label>
                         <button class="search-btn" type="button" @click="searchSubmit()"><i class="fas fa-search"></i> Search</button>
                     </div>
                 </div>
@@ -29,20 +22,16 @@
 
 <script setup>
 import { Inertia } from '@inertiajs/inertia';
-import { ref } from '@vue/reactivity';
-const daterange = ref('')
+import { ref,watchEffect } from 'vue';
+import moment from 'moment';
+const date = ref()
 const keyword = ref('')
-const defaultTime2 = [
-  new Date(2000, 1, 1, 12, 0, 0),
-  new Date(2000, 2, 1, 8, 0, 0),
-] // '12:00:00', '08:00:00'
 
 function searchSubmit() {
     Inertia.get(route('search-result'), {
         keyword: keyword.value,
-        daterange: daterange.value
-    });
-    // console.log();
+        date: date.value
+    })
 }
 
 </script>
@@ -65,6 +54,31 @@ function searchSubmit() {
 }
 .el-range-editor.is-active,
 .el-range-editor.is-active:hover {
-    box-shadow: 0 0 0 1px #4F4CEE inset !important;
+    box-shadow: 0 0 0 1px #172853 inset !important;
+}
+@media (max-width: 768px) {
+    .el-picker-panel__body {
+        display: flex;
+        flex-direction: column;
+        min-width: 100% !important;
+        width: 100% !important;
+    }
+    .el-date-range-picker__time-header {
+        display: flex;
+        flex-direction: column;
+    }
+    .el-picker-panel {
+        width: 100% !important;
+    }
+    .el-date-range-picker__content {
+        width: 100% !important;
+    }
+    .el-date-range-picker__editors-wrap {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .el-date-range-picker__time-picker-wrap {
+        width: 100%;
+    }
 }
 </style>

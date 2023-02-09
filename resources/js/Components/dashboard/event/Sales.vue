@@ -1,18 +1,18 @@
 <template>
     <div class="event-page">
         <div class="sales">
-            <div class="sales-container">
-                <div class="column">
-                    <div class="number">{{ eventSales?.ticket_sold }}</div>
+            <div class="sales-container bg-slate-100">
+                <div class="column bg-slate-100">
+                    <div class="number brand_color">{{ eventSales?.ticket_sold }}</div>
                     <div class="name">Tickets sold</div>
                 </div>
-                <div class="column">
-                    <div class="number">{{ $page.props.settings?.currency?.value }}{{ eventSales?.ticket_revenue }}</div>
+                <div class="column bg-slate-100">
+                    <div class="number brand_color">{{ eventSales?.ticket_revenue }} <span style="font-family: initial !important;">{{ $page.props.settings?.currency?.value }}</span></div>
                     <div class="name">Sales revenue</div>
                 </div>
-                <div class="column">
+                <div class="column bg-slate-100">
                     <div v-if="$page.props.user.type == 'admin' && $page.props.is_paid?.status == 'progress'">
-                        <button @click="makePayment($page.props.user, id)" class="flex items-center gap-1 py-2 px-3 bg-red-500 text-white rounded-sm" v-if="$page.props.payout_date_over">
+                        <button @click="makePayment($page.props.user, id)" class="flex items-center gap-1 py-2 px-3 brand_bg text-white rounded-sm" v-if="$page.props.payout_date_over">
                             <svg v-if="pay_form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -21,7 +21,7 @@
                         </button>
                     </div>
                     <div v-if="$page.props.user.type == 'organizer' && !$page.props.is_paid && $page.props.has_payment_details">
-                        <button @click="makePayment($page.props.user, id)" class="flex items-center gap-1 py-2 px-3 bg-red-500 text-white rounded-sm" v-if="$page.props.payout_date_over">
+                        <button @click="makePayment($page.props.user, id)" class="flex items-center gap-1 py-2 px-3 brand_bg text-white rounded-sm" v-if="$page.props.payout_date_over">
                             <svg v-if="pay_form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -30,7 +30,7 @@
                         </button>
                     </div>
                     <div class="text-center" v-if="!$page.props.is_paid">
-                        <div class="number">{{ $page.props.next_payout_date }}</div>
+                        <div class="number brand_color">{{ moment($page.props.next_payout_date).format('ddd., DD MMM. YYYY') }}</div>
                         <div class="name">Next payout date</div>
                     </div>
                     <!-- Payment in progress -->
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="guestlist event-item " data-item="guestlist">
-            <div class="shadow mt-10 rounded border-t">
+            <div class="shadow mt-10 rounded border-t" id="d_tbl">
                 <el-table
                     :data="filterTableData"
                     style="width: 100%; margin-bottom: 20px"
@@ -94,7 +94,8 @@
             default: false
         },
         userId: [String, Number],
-        event: Object
+        event: Object,
+        settings: Object,
     });
     
     const {getImages} = useFileUpload()
@@ -123,15 +124,16 @@
         return eventSales.value.sales.map(item => {
             item.ticket_name = item.ticket.ticket_name
             item.name = item.guests.firstName+' '+item.guests.lastName
-            item.date = moment(item.created_at).format('d-MMM-YYYY HH:ss a')
+            item.date = moment(item.created_at).format('ddd., DD MMM. YYYY')
             return item
         })
     }
 
     const search = ref('')
-    const filterTableData = computed(() => {
+    const filterTableData = computed(() => { 
         return getData().filter((data) => {
             if(!search.value || data.name.toLowerCase().includes(search.value.toLowerCase())){
+                data.price = `${data.price} ${props.settings.currency.value}`
                 return data
             }
         })
@@ -151,6 +153,8 @@
     // })
 </script>
 
-<style scoped>
-    
+<style>
+#d_tbl table tr.el-table__row td:nth-child(4) .cell {
+    font-family: initial !important;
+}
 </style>

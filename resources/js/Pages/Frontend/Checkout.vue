@@ -1,5 +1,4 @@
 <template>
-    <Head title="Checkout" />
     <Master>
         <LoginCheck>
             <div class="checkout-wrapper">
@@ -29,22 +28,20 @@
 
 <script setup>
     import { onMounted } from 'vue'
-    import { Head, Link } from '@inertiajs/inertia-vue3'
+    import { Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
     import Cart from '@/Components/Frontend/checkout/Cart.vue'
-    import { useToast } from "vue-toastification";
     import useTicket from '@/Pages/Frontend/useTicket'
     import LoginCheck from './LoginCheck.vue'
     import BuyerInfo from '@/Components/Frontend/checkout/BuyerInfo.vue'
 
-
-    const toast = useToast();
     const { cards } = useTicket()
     const props = defineProps({
         event: Object
     })    
     
     onMounted(() => {
+        document.title = "Checkout"
         if(localStorage.getItem('cards')){
             let cardsFromLocalStorage = JSON.parse(localStorage.getItem('cards'))
             cards.value = cardsFromLocalStorage

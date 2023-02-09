@@ -1,5 +1,5 @@
 <template>
-    <div class="selling-area">
+    <div v-if="!isEmpty($page.props.top_selling_events)" class="selling-area">
         <div class="container">
             <div class="upcome-upper">
                 <h2>Top Selling</h2>
@@ -23,6 +23,7 @@
 </template>
 
 <script setup>
+    import { isEmpty } from 'lodash'
     import { Link } from '@inertiajs/inertia-vue3';
     import useEvent from '@/Pages/useEvent.js'
 

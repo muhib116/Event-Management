@@ -18,27 +18,27 @@ use Inertia\Inertia;
 
 class FrontendController extends Controller
 {
-    use Utils;
+    use Utils; 
     protected $eventsCategory = [
-        "Arts Culture",
-        "Business",
-        "Concerts",
-        "Career",
-        'Charity & Aid',
-        "Children & Youth",
-        "Community",
-        "Fashion & Design",
-        "Food & Drink",
-        "Government",
-        "Investments",
-        "Media & Film",
-        "Music & Performances",
-        "Schools & Education",
-        "Spirituality & Religion",
-        "Sports & Fitness",
-        "Startups & Small Business",
-        "Technology & Science",
+        "arts-culture",
+        "business",
+        "career",
+        "charity-and-aid",
+        "children-and-youth",
+        "community",
+        "fashion-and-design",
+        "food-and-drink",
+        "government",
+        "investments",
+        "media-and-film",
+        "concerts",
+        "schools-and-education",
+        "spirituality-and-religion",
+        "sports-and-fitness",
+        "startups-and-small-business",
+        "technology-and-science"
     ];
+    public $data;
 
     public function __construct()
     {
@@ -49,6 +49,7 @@ class FrontendController extends Controller
             'phpVersion' => PHP_VERSION,
         ];
     }
+
     public function index() {
         $json     = file_get_contents("http://ipinfo.io/119.30.32.76/geo");
         // return json_decode($json);
@@ -56,30 +57,31 @@ class FrontendController extends Controller
                                 ->withMin('eventTickets as min_price', 'price')
                                 ->withMax('eventTickets as max_price', 'price')
                                 ->where('publish', 1)
-                                ->whereDate('start_date', '>', now())
+                                // ->whereDate('start_date', '>', now())
                                 ->orderBy('start_date', 'ASC')
-                                ->limit(10)->get();
+                                ->get()->filter(function($event) {
+                                    return $this->startExpired($event) == false;
+                                });
         $this->data['top_selling_events'] = EventList::with(['images'])
                                 ->where('publish', 1)
                                 ->withMin('eventTickets', 'price')
                                 ->withMax('eventTickets', 'price')
-                                ->whereDate('end_date', '>', now())
+                                ->whereDate('start_date', '>', now())
                                 ->withSum('eventTickets as ticket_sold', 'sold')
-                                ->withSum('eventTickets as tickets_stock_limit', 'stock_limit')
-                                // ->with(['eventTickets' => function($q) {
-                                //     return $q->select('stock_limit,sold');
-                                // }])
+                                ->withSum('eventTickets as tickets_stock_limit', 'stock_limit') 
                                 ->orderBy('ticket_sold', 'DESC')
                                 ->get()->filter(function($item) {
                                     $stock_limit = $item->eventTickets->sum('stock_limit');
                                     $sold = $item->eventTickets->sum('sold');
+                                    return $this->startExpired($item) == false;
+                                    if ($sold == 0) {
+                                        return false;
+                                    }
                                     if ($stock_limit > $sold) {
                                         return true;
                                     }
                                     return false;
                                 })->take(3);
-        // return $this->data['category_events'];
-        // return $this->data['top_selling_events'];
         $this->data['featured_advertise'] = Advertise::where('featured', 1)
                                             ->orderBy('position', 'ASC')
                                             ->where('end_at', '>', Carbon::now())
@@ -91,16 +93,18 @@ class FrontendController extends Controller
                                             });
 
         $cevnt = [];
-        foreach ($this->eventsCategory as $nm) {
+        foreach ($this->eventsCategory as $nm) { 
             $evnt = EventList::with(['images'])
                     ->withMin('eventTickets as min_price', 'price')
                     ->withMax('eventTickets as max_price', 'price')
                     ->where('publish', 1)
-                    ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
-                    ->where('eventCategory', $nm)
+                    // ->whereDate('start_date', '>', Carbon::yesterday()->format('Y-m-d'))
+                    ->where('eventCategory', 'LIKE', '%'.$nm.'%')
                     ->orderBy('created_at', 'DESC')
                     ->with(['eventTickets', 'images'])
-                    ->limit(10)->get();
+                    ->limit(10)->get()->filter(function($event) {
+                        return $this->startExpired($event) == false;
+                    });
             if (count($evnt) > 3) { 
                 $cevnt[$nm] = $evnt;
             }
@@ -113,11 +117,20 @@ class FrontendController extends Controller
 
     public function event_details($url) {
         $event = EventList::with(['images'])
+                ->where('publish', 1)
                 ->withMin('eventTickets as min_price', 'price')
                 ->withMax('eventTickets as max_price', 'price')
                 ->where('url', $url)
                 ->orWhere('slug', $url)
                 ->first();
+                if(!$event) {
+                    abort(404);
+                }
+        $event->end_expired = $this->startExpired($event);
+        // return $event;
+        // if (now()->gt(Carbon::parse($event->end_date))) {
+        //     return redirect()->route('home');
+        // }
         $dur = $this->getEventDuration($event);
         $event->duration = $this->getDurationFormate($dur);
         $this->data['event'] = $event;
@@ -133,18 +146,27 @@ class FrontendController extends Controller
         }
         // event_list_id
         // TicketView::event_ticket_id
-                        
+
         return Inertia::render('Frontend/EventDetails', $this->data);
     }
 
 
     public function category_wise_event($category) {
-        $this->data['events'] = EventList::with(['images'])
+        $this->data['events'] = EventList::with(['images', 'user'])
+                                ->where('publish', 1)
                                 ->withMin('eventTickets as min_price', 'price')
                                 ->withMax('eventTickets as max_price', 'price')
+                                // ->whereDate('start_date','>', Carbon::yesterday()->format('Y-m-d'))
                                 ->where('eventCategory', 'LIKE', '%'.$category.'%')
-                                ->limit(500)->get();
-                        
+                                ->get()->map(function($event) {
+                                    $event->images->map(function($image) {
+                                        $image->path = asset($image->path);
+                                        return $image;
+                                    });
+                                    return $event;
+                                })->filter(function($event) {
+                                    return $this->startExpired($event) == false;
+                                });
         return Inertia::render('Frontend/CategoryWiseEvent', $this->data);
     }
 
@@ -152,13 +174,21 @@ class FrontendController extends Controller
         // $json = file_get_contents("http://ipinfo.io/119.30.32.76/geo");
         $json = file_get_contents("https://ipinfo.io/json");
         $this->data['ip_info'] = json_decode($json);
-        $this->data['event'] = EventList::with(['images', 'eventTickets'])
+        $event = EventList::with(['images', 'eventTickets'])
                                 ->withMin('eventTickets as min_price', 'price')
                                 ->withMax('eventTickets as max_price', 'price')
                                 ->where('url', $url)
                                 ->orWhere('slug', $url)
                                 ->first();
-                                
+        if (!$event) {
+            abort(404);
+        }
+
+        if ($this->startExpired($event)) {
+            abort(403);
+        }
+
+        $this->data['event'] = $event;
         return Inertia::render('Frontend/Checkout', $this->data);
     }
 
@@ -174,13 +204,18 @@ class FrontendController extends Controller
     }
 
     public function ticket_info($url) {
-        $this->data['event'] = EventList::with(['eventTickets', 'images'])
+        $event = EventList::with(['eventTickets', 'images'])
                         ->withMin('eventTickets as min_price', 'price')
                         ->withMax('eventTickets as max_price', 'price')
                         ->where('url', $url)
                         ->orWhere('slug', $url)
                         ->first();
-
+        $this->data['event'] = $event;
+        $event->end_expired = $this->startExpired($event);
+        // dd($this->endExpired($event));
+        // if ($event && $this->endExpired($event)) {
+        //     return redirect()->route('home');
+        // }
         return Inertia::render('Frontend/TicketInfo', $this->data);
     }
 
@@ -192,8 +227,6 @@ class FrontendController extends Controller
     }
 
     public function filterPage(Request $request) {
-        // return $request->all();
-        // $keyword = $request->keyword;
         $query = EventList::query();
         if ($request->keyword) {
             $query->where('name', 'like', '%'.$request->keyword.'%');
@@ -202,34 +235,20 @@ class FrontendController extends Controller
             $query->orWhere('location', 'like', '%'.$request->keyword.'%');
             $query->orWhere('attention', 'like', '%'.$request->keyword.'%');
             $query->orWhere('eventCategory', 'like', '%'.$request->keyword.'%');
-        }
-        if (isset($request->daterange) && is_array($request->daterange)) {
-            $query->whereBetween('start_date', $request->daterange);
-            $query->orWhereBetween('end_time', $request->daterange);
-        }
-        // $request->request->add([
-        //     'categories' => [
-        //         'Media & Film'
-        //     ]
-        // ]);
+        } 
+        if (isset($request->date)) {
+            $query->where('start_date', $request->date);
+        } 
+
         if (isset($request->categories) && is_array($request->categories)) {
             $query->whereIn('eventCategory', $request->categories);
         }
 
-        if (isset($request->price_range) && is_array($request->price_range)) {
-            // $query->whereIn('eventCategory', $request->categories);
-        }
-        // if (isset($request->event_type) && is_array($request->price_range)) {
-        //     $query->where('eventCategory', $request->event_type);
-        // }
-        // return $query->get();
         $this->data['events'] = $query->with(['eventTickets', 'images'])
                         ->withMin('eventTickets as min_price', 'price')
                         ->withMax('eventTickets as max_price', 'price')
-                        ->limit(20)
+                        ->limit(800)
                         ->get();
-
-        // dd($this->data);
         return Inertia::render('Frontend/SearchResult', $this->data);
     }
 

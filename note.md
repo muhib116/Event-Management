@@ -142,3 +142,33 @@ database:
 
 
 ::::Tutorial video for this project
+
+
+
+
+
+
+
+
+
+Share this
+
+
+
+
+
+Bro please don’t forget to use the band guidelines for the colors and text font. The logos should be there too
+Concerning the email:
+1. ✅Send an email to customer and organizer when ticket is bought. Just add some random text there, I will edit it myself.
+2. ✅email when ticket is scanned to customer like check in successful
+7. ✅Send email to admin when an event is over with summary Information: number of attendees, ticket sold, event name und amount for admin and Organiser.
+4. ✅7 days and 24 hours before event reminder email to customer
+
+3. ❌Registration email for customer
+5. Send emails to those customers when the organizer adds new events in the future (if customer subscribed to that)
+<!-- 6. Send email 24 hours after event to event organizers that he can now withdraw funds -->
+6. ✅Send email 7 days after event to event organizers that he can now withdraw funds
+
+
+8. Send email when something wrong with event like no payment information, or event not published, or any thing wrong. Send it 4 hours After event was created to event organizers
+

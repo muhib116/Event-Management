@@ -1,198 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ticket</title>
+
+    @php
+        $site_settings = \App\Models\SiteSetting::where('name', 'footer_logo_image')->first();
+    @endphp
+    <style>
+        @font-face {
+            font-family: "Hero";
+            src: url({{ asset('Hero/Commercial/TTF/Hero-Bold.ttf') }}),
+                url({{ asset('Hero/Commercial/TTF/Hero-Light.ttf')}}),
+                url({{ asset('Hero/Commercial/TTF/Hero-Regular.ttf')}});
+        }
+        html body#root__body *:not(i,.fa, .fa-regular,.fa-solid,.fa-brand,.fas,.far,.fab) {
+            font-family: "Hero" !important;
+        }
+    </style>
 </head>
 
-<body>
-    
-    <div class="container"> 
-        @foreach ($ticketSales->ticket_number as $ticket_number) 
+<body id="root__body"> 
+    <div class="container">
+        @foreach ($ticketSales->ticket_number as $ticket_number)
             @php
-                $get_img = QrCode::format('svg')->size(100)->generate(json_encode([
-                    'guest_name' => $ticketSales->guests->firstName,
-                    'guest_id' => $ticketSales->guests->id,
-                    'ticket_id' => $ticketSales->id,
-                    'ticket_number' => $ticket_number->ticket_number,
-                ]));
-                $image = "data:image/svg+xml;base64," . base64_encode($get_img);
+                $get_img = QrCode::format('svg')
+                    ->size(100)
+                    ->generate(
+                        json_encode([
+                            'guest_name' => $ticketSales->guests->firstName,
+                            'guest_id' => $ticketSales->guests->id,
+                            'ticket_id' => $ticketSales->id,
+                            'ticket_number' => $ticket_number->ticket_number,
+                        ]),
+                    );
+                $image = 'data:image/svg+xml;base64,' . base64_encode($get_img);
                 $logo = \App\Models\SiteSetting::where('name', 'logo_image')->first();
             @endphp
-            <div class="item">
-                {{-- <img class="water_mark_image" src="{{ asset($logo->value) }}" alt=""> --}}
-                <div class="item-left">
-                    <div class="icent">
-                        <h2 class="day">{{ date('d', strtotime($ticketSales->ticket->event->start_date)) }}</h2>
-                        <p class="month">{{ date('M', strtotime($ticketSales->ticket->event->start_date)) }}</p>
-                        <p>{{ date('Y', strtotime($ticketSales->ticket->event->start_date)) }}</p>
+            <div class="ticket">
+                <div class="ticket--center">
+                    <div class="ticket--center--row">
+                        <div class="ticket--center--col">
+                            <span>Your ticket for</span>
+                            <strong>{{ @$ticketSales->ticket->event->name }}</strong>
+                        </div>
                     </div>
-                </div> <!-- end item-right -->
-
-                <div class="item-right">
-                    {{-- <div>
-                        <p class="event">{{ $ticketSales->ticket->ticket_name }}</p> - <h2 class="title">{{ $ticketSales->ticket->event->name }}</h2>
-                    </div> --}}
-                    <table>
-                        <tr>
-                            <th>Event name:</th>
-                            <td>{{ $ticketSales->ticket->event->name }}</td>
-                        </tr>
-                        <tr>
-                            <th>Ticket Name:</th>
-                            <td>{{ $ticketSales->ticket->ticket_name }}</td>
-                        </tr>
-                        <tr>
-                            <th>Start from:</th>
-                            <td>{{ date('M d Y', strtotime($ticketSales->ticket->event->start_date)) }} At 
-                            {{ date('H:s:i a', strtotime($ticketSales->ticket->event->start_time)) }}</td>
-                        </tr>
-                        <tr>
-                            <th>End at:</th>
-                            <td>
-                                {{ date('M d Y', strtotime($ticketSales->ticket->event->end_date)) }} At
-                                {{ date('H:s:i a', strtotime($ticketSales->ticket->event->end_time)) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Location:</th>
-                            <td>
-                                {{ $ticketSales->ticket->event->location }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Guest:</th>
-                            <td>
-                                {{ $ticketSales->guests->lastName }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Ticket number:</th>
-                            <td>
-                                {{ $ticket_number->ticket_number }}
-                            </td>
-                        </tr>
-                    </table>
-                    <img class="abs_img" src="{{ $image }}">
+                    <div class="ticket--center--row">
+                        <div class="ticket--center--col">
+                            <span class="ticket--info--title">Date and time</span>
+                            <span class="ticket--info--subtitle">{{ date('D., M., Y', strtotime($ticketSales->ticket->event->start_date)) }}</span>
+                            <span class="ticket--info--content">{{ date('H:s', strtotime($ticketSales->ticket->event->start_time)) }}</span>
+                        </div>
+                        <div class="ticket--center--col">
+                            <span class="ticket--info--title">Location</span>
+                            <span class="ticket--info--subtitle">
+                                {{ @$ticketSales->ticket->event->location }} <br>
+                                {{ @$ticketSales->ticket->event->settings->streetName }}
+                                @if (@$ticketSales->ticket->event->settings->houseNumber)
+                                    <div>{{ @$ticketSales->ticket->event->settings->houseNumber }},</div>
+                                @endif
+                                {{ @$ticketSales->ticket->event->settings->postcode }}
+                                @if (@$ticketSales->ticket->event->settings->city)
+                                    <div>{{ @$ticketSales->ticket->event->settings->city }},</div>
+                                @endif
+                                {{ @$ticketSales->ticket->event->settings->country }}
+                            </span> 
+                        </div>
+                    </div>
+                    <div class="ticket--center--row">
+                        <div class="ticket--center--col">
+                            <span class="ticket--info--title">Ticket type</span>
+                            <span class="ticket--info--content">{{ @$ticketSales->ticket->event->eventType }}</span>
+                        </div>
+                        <div class="ticket--center--col">
+                            <span class="ticket--info--title">Order info</span>
+                            <span class="ticket--info--content">
+                                Ticket id {{ @$ticket_number->ticket_number }}. <br>
+                                <div>
+                                    Ordered By {{ $ticketSales->guests->lastName }}
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ticket--end" style="position: relative;">
+                    <img style="position: absolute;width:100%;height:100%;top:0;left:0;z-index:-1;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEoAAAAgCAYAAAC1v+5NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABcSURBVGhD7dDBAAAgFECxLFLI5/uzFEIPYIcJbO0zlz9RkahIVCQqEhWJikRFoiJRkahIVCQqEhWJikRFoiJRkahIVCQqEhWJikRFoiJRkahIVCQqEhWJikQlcx+BuX4T2MaLzgAAAABJRU5ErkJggg==" alt="">
+                    <div style="display: flex;justify-content: center;align-items: center;z-index:1;">
+                    <img src="{{ $image }}">
+                </div>
+                
+                
+                <div><img width="150" src="{{ asset($site_settings->value) }}" title="logo" alt="logo"></div>
                 </div>
             </div>
-        @endforeach 
+        @endforeach
     </div>
-
+    
     <style>
-        *, ::before, ::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background: #ffffff;
-            font-family: 'Inknut Antiqua', serif;
-            font-family: 'Ravi Prakash', cursive;
-            font-family: 'Lora', serif;
-            font-family: 'Indie Flower', cursive;
-            font-family: 'Cabin', sans-serif;
-        }
-
         
         .container {
-            padding: 20px;
-            margin: 80px auto;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .event,
-        .title {
-            display: inline-block;
-            margin-right: 10px;
-            margin: 0;
-            vertical-align: middle;
-        }
-        .title {
-            /* margin: 10px 0; */
-            font-weight: 500;
-            font-size: 20px;
-            /* margin-left: 20px; */
-        }
-        .container .item {
-            /* padding: 100px; */
-            background: #fff;
+        .ticket {
             display: flex;
-            gap: 10px;
-            padding: 30px;
-            border: 1px dashed #0008;
-            height: 200px;
-            margin-bottom: 50px;
+            font-family: Roboto;
+            margin: 16px;
+            border: 1px solid #e0e0e0;
             position: relative;
-        }
-        .water_mark_image {
-            position: absolute;
-            display: block;
-            width: 600px;
-            top: 50%;
-            left: 50%;
-            opacity: 0.1;
-            pointer-events: none;
-            transform: translate(-50%, -50%) rotate(-8deg);
-        }
-        .item::after,
-        .container .item-right {
-            content: '';
-            display: block;
-            clear: both;
-        }
-        .container .item-left {
-            float: left;
-            width: 20%;
-            border-right: 1px dashed #0005;
-            height: 100%;
-            text-align: center;
-            position: relative;
-        }
-        .container .icent {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .container .item-right {
-            float: right;
-            width: 75%;
-            position: relative;
-        }
-        .item-right .abs_img {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .container .day {
-            font-size: 60px;
-        }
-        .container .month {
-            font-size: 30px;
-        }
-        th {
-            text-align: right;
-        }
-        table, th, td {
-            border: 1px solid #fff;
-        }
-        table {
-            border-collapse: collapse;
-        }
-        table td {
-            padding: 3px 5px;
-        }
-        @media print {
-            .item {
-                page-break-after: always;
-            }
         }
 
+        .ticket:before {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: -18px;
+            top: 50%;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .ticket:after {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            position: absolute;
+            transform: rotate(135deg);
+            right: -18px;
+            top: 50%;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .ticket--start {
+            position: relative;
+            border-right: 1px dashed #e0e0e0;
+        }
+
+        .ticket--start:before {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: -18px;
+            top: -2px;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .ticket--start:after {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: -18px;
+            top: 100%;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .ticket--start>img {
+            display: block;
+            padding: 24px;
+            height: 270px;
+        }
+
+        .ticket--center {
+            padding: 24px;
+            flex: 1;
+        }
+
+        .ticket--center--row {
+            display: flex;
+        }
+
+        .ticket--center--row:not(:last-child) {
+            padding-bottom: 48px;
+        }
+
+        .ticket--center--row:first-child span {
+            color: #172853;
+            text-transform: uppercase;
+            line-height: 24px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .ticket--center--row:first-child strong {
+            font-size: 20px;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .ticket--center--col {
+            display: flex;
+            flex: 1;
+            width: 50%;
+            box-sizing: border-box;
+            flex-direction: column;
+        }
+
+        .ticket--center--col:not(:last-child) {
+            padding-right: 16px;
+        }
+
+        .ticket--end {
+            padding: 24px;
+            /* background: #172853; */
+            /* background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGcAAAAlCAYAAABf0feeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABtSURBVGhD7dExAQAgDMAw5KEHZXM4bOToEQU5983GVA6sHFg5sHJg5cDKgZUDKwdWDqwcWDmwcmDlwMqBlQMrB1YOrBxYObByYOXAyoGVAysHVg6sHFg5sHJg5cDKgZUDKwdWDqwcWDmwclizHydt4yl5rUkzAAAAAElFTkSuQmCC'); */
+            display: grid;
+            align-items: center;
+            position: relative;
+        }
+
+        .ticket--end:before {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            position: absolute;
+            transform: rotate(-45deg);
+            right: -18px;
+            top: -2px;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .ticket--end:after {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-right-color: transparent;
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+            position: absolute;
+            transform: rotate(-45deg);
+            right: -18px;
+            top: 100%;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .ticket--end>div:first-child {
+            flex: 1;
+        }
+
+        .ticket--end>div:first-child>img {
+            width: 128px;
+            padding: 4px;
+            background-color: #fff;
+        }
+
+        .ticket--end>div:last-child>img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .ticket--info--title {
+            text-transform: uppercase;
+            color: #757575;
+            font-size: 13px;
+            line-height: 24px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ticket--info--subtitle {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 500;
+            color: #172853;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ticket--info--content {
+            font-size: 13px;
+            line-height: 24px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
+<script>
+window.print();
+</script>
 </body>
 
 </html>

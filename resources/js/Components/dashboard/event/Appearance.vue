@@ -1,6 +1,6 @@
 <template>
-    <div class="grid gap-4" :class="editable&&'mb-10'">
-        <label class="bg-red-100 cursor-pointer relative grid items-center text-center max-w-[900px] mx-auto w-full" style="aspect-ratio: 3/1">
+    <div class="grid gap-4 overflow-y-auto pb-10" :class="editable&&'mb-10'">
+        <label class="bg-slate-100 cursor-pointer relative grid items-center text-center max-w-[900px] mx-auto w-full" style="aspect-ratio: 3/1">
             <ImageUpload 
                 :title="(getBannerImage(imageFromApi)) ? 'Update Banner' : 'Upload Banner'" 
                 type="banner" 
@@ -13,12 +13,12 @@
             <img v-if="getBannerImage(imageFromApi)" :src="getBannerImage(imageFromApi)" class="block h-full w-full object-cover object-center" />
             <h4 v-else>Banner Image not available</h4>
         </label>
-        <div class="grid grid-cols-3 gap-4 max-w-[900px] mx-auto w-full" style="aspect-ratio: 3/1">
+        <div class="grid md:grid-cols-3 grid-cols-1 gap-4 max-w-[900px] mx-auto w-full md:px-0 px-5">
             
-            <ImageUpload title="Upload Gallery" type="gallery" :id="eventId" />
+            <ImageUpload title="Upload Gallery" type="gallery" :id="eventId" class="min-h-[150px]" />
             
             <template v-for="(item, index) in imageFromApi" :key="index">
-                <div v-if="item.type == 'gallery'" class="relative bg-red-100 shadow-lg rounded overflow-hidden grid  items-center justify-center">
+                <div v-if="item.type == 'gallery'" class="relative bg-slate-100 shadow-lg rounded overflow-hidden grid  items-center justify-center">
                     <button 
                         @click="handleImageDelete(item.id)"
                         class="absolute right-2 top-2 p-2 bg-white bg-opacity-50 shadow hover:text-red-500"
@@ -32,7 +32,7 @@
 
 
         <div v-if="!editable" class="save-or-cancel">
-            <Link class="button save bg-red" :href="route('ticket', eventId)">Skip</Link>
+            <Link class="button save bg-red-500" :href="route('ticket', eventId)">Skip</Link>
             <Link class="button save bg-red" :href="route('ticket', eventId)">
                 Continue
             </Link>

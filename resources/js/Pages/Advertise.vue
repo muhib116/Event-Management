@@ -16,7 +16,7 @@
                 <div class="settings--order-notification account-item" v-show="activeTab == 'lists'">
 
 
-                    <div class="shadow mt-10 rounded border-t">
+                    <div class="shadow mt-10 rounded border-t overflow-x-auto">
                         <table class="w-full rounded">
                             <thead class="border-b">
                                 <tr>
@@ -26,9 +26,7 @@
                                     <th scope="col" class="px-2 py-4 text-gray-700">
                                         Image
                                     </th>
-                                    <th scope="col" class="px-2 py-4 text-gray-700">
-                                        Description
-                                    </th>
+                                    
                                     <th scope="col" class="px-2 py-4 text-gray-700">
                                         Featured
                                     </th>
@@ -53,9 +51,6 @@
                                     </th>
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         <img :src="ad.image" class="w-10" alt="">
-                                    </td>
-                                    <td class="text-center px-2 py-4 text-gray-700">
-                                        {{ ad.description ? ad.description : 'N/A' }}
                                     </td>
                                     <td class="text-center px-2 py-4 text-gray-700">
                                         <span v-if="ad.featured" class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Featured</span>
@@ -100,26 +95,13 @@
                             <input type="text" id="link" name="link" v-model="advertise_form.link">
                             <div class="text-red-500" v-if="advertise_form.errors.link">{{ advertise_form.errors.link }}</div>
                         </div>
-                        <div class="element">
+                        <!-- <div class="element">
                             <label for="description">Description</label>
                             <textarea name="description" id="description" rows="3" placeholder="Description" v-model="advertise_form.description"></textarea>
                             <div class="text-red-500" v-if="advertise_form.errors.description">{{ advertise_form.errors.description }}</div>
-                        </div>
-                        
-                        <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-6">  -->
-                        <div class=""> 
-                            <!-- <div class="flex flex-col gap-[10px] mb-[40px] focus:border-red-600">
-                                <label for="position">Position</label>
-                                <el-date-picker
-                                    v-model="defaultTime2"
-                                    class="w-full border-none py-3 h-[40px]"
-                                    type="datetimerange"
-                                    start-placeholder="Start Date"
-                                    end-placeholder="End Date"
-                                    @vnode-before-update="handleUpdate"
-                                />
-                                <div class="text-red-500" v-if="advertise_form.errors.position">{{ advertise_form.errors.position }}</div>
-                            </div> -->
+                        </div> -->
+                         
+                        <div class="">  
                             <div class="element">
                                 <label for="position">Position</label>
                                 <input type="number" id="position" name="position" v-model="advertise_form.position">
@@ -183,7 +165,7 @@
                         <button @click="cancelEdit()" v-if="advertise_form.advertise_id!==null" class="button" type="button">
                             <span>Cancel</span>
                         </button>
-                        <button class="button bg-green-600" type="submit" :disabled="advertise_form.processing">
+                        <button class="button bg-[var(--brand\_color)] text-white" type="submit" :disabled="advertise_form.processing">
                             <svg v-if="advertise_form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -289,23 +271,25 @@ function edit(ad) {
     // defaultTime2.value[1] = new Date(...moment(ad.end_at).format('Y, m, d, h, m').toString().split(','));
 
     prev_img.value = ad.image;
-    // console.log(new Date(ad.start_at));
 }
 
 
 function onFileChange(e) {
     const file = URL.createObjectURL(e.target.files[0]);
+    let selected_file = e.target.files[0];
+    if (selected_file.size/1024 > 1024) {
+        alert('Maximum file upload size should 1MB');
+        return;
+    }
     prev_img.value = file;
     // advertise_form.image = file;
 }
 const createAdvertise = () => {
     advertise_form.post(route('advertise.store'), {
         onError(e) {
-            console.log('error', e);
             toast.error('Opps Something wrong');
         },
         onSuccess(e) {
-            console.log('success', e);
             toast.success('Advertise Saved Successfully');
             advertise_form.reset();
             activeTab.value = 'lists';

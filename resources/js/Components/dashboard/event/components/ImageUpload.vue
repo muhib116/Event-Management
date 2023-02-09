@@ -1,5 +1,5 @@
 <template>
-    <label class="relative bg-red-100 grid  items-center justify-center">
+    <label class="relative bg-blue-100 grid  items-center justify-center">
         <div class="absolute cursor-pointer top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 truncate font-bold bg-white p-4 bg-opacity-80 rounded shadow-lg">
             + {{ title }}
             <input 

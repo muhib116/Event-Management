@@ -4,7 +4,6 @@
             <div class="container">
                 <nav class="navbar navbar-expand-lg">
                     <Link class="navbar-brand" :href="route('home')">
-                        <!-- <img :src="@/assets/frontend/images/logo.png" alt=""> -->
                         <img :src="get($page.props, 'settings.logo_image.value')" alt="">
                     </Link>
                     <button @click="(showOffCanvas = true)" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
@@ -14,23 +13,25 @@
                     </button>
                     <div class="navbar-collapse">
                         <ul class="navbar-nav ms-auto">
-                            <li><Link :href="route('category.event', 'concerts')">Concerts</Link></li>
-                            <li><Link :href="route('category.event', 'arts-culture')">Arts</Link></li>
-                            <li><Link :href="route('category.event', 'media-and-film')">Movies</Link></li>
-                            <li><Link :href="route('category.event', 'investments')">Investments</Link></li>            
+                            <li v-for="(category, index) in $page.props.category_list" :key="index"><Link :href="route('category.event', category.category)">{{ category.name }}</Link></li>
                         </ul>
-                        <ul class="navbar-nav nav-btn ms-auto">            
+                        <ul class="navbar-nav nav-btn ms-auto">
                             <li class="relative nav_dropdown_wrapper">
                                 <button v-if="!isAuthenticated && !isLoading" @click="login">Log in</button>
                                 <ul class="dropdown absolute top-[50px] right-0 bg-white shadow w-[260px] rounded"> 
                                     <li class="truncate border-b px-0">
-                                        <div @click="login" class="cursor-pointer flex items-center px-3 py-2 hover:bg-gray-100  border-0 text-black text-md">Guest login</div>
+                                        <div @click="login" class="cursor-pointer flex items-center px-3 py-2 hover:bg-gray-100  border-0 text-black text-md" style="font-size: 14px;">Guest login</div>
                                     </li>
                                     <li class="truncate border-b px-0">
                                         <Link :href="route('login')" class="cursor-pointer flex items-center px-3 py-2 hover:bg-gray-100  border-0 text-black text-md">Organizer login</Link>
                                     </li>
                                 </ul>
                             </li> 
+                            
+                            <li class="relative nav_dropdown_wrapper">
+                                <Link :href="route('register')" class="active_link" v-if="!isAuthenticated && !isLoading">Sign Up</Link>
+                            </li>
+
                             <!-- <li><Link :href="route('login')" data-bs-toggle="modal" data-bs-target="#staticBackdrop">L og In</Link></li>  -->
                             <!-- <li><Link class="active" :href="route('register')">Sign Up</Link></li>  -->
                             <li v-if="isAuthenticated" class="relative nav_dropdown_wrapper">
@@ -76,18 +77,23 @@
 
 <style scoped>
     .nav-btn li button {
-        font-family: 'General Sans', sans-serif;
+        font-family: 'Cabinet Grotesk', sans-serif;
         font-weight: 500;
         font-size: 14px;
-        color: #4F4CEE;
+        color: #172853;
         background: #FFFFFF;
-        border: 1px solid #4F4CEE;
+        border: 1px solid #172853;
         display: inline-block;
         padding: 8px 16px;
         border-radius: 4px;
     }
     .nav-btn li button:hover, .nav-btn li .active {
-        background: #4F4CEE;
+        background: #172853;
+        color: #FFFFFF;
+    }
+
+    .active_link {
+        background: #172853;
         color: #FFFFFF;
     }
 

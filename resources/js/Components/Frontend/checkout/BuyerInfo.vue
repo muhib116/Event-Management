@@ -34,8 +34,8 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="inform-btn">
-                        <button class="bg-[#4F4CEE] text-white px-4 py-3 rounded" type="submit">Continue to Payment</button>
+                    <div class="inform-btn flex items-end">
+                        <button class="bg-[#172853] text-white w-auto inline-block px-4 py-3 rounded" type="submit">Continue to Payment</button>
                     </div>
                 </div>
             </form>
@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, watchEffect } from 'vue'
     import { isEmpty } from 'lodash'
     import useAuth from '@/useAuth.js'
     import axios from 'axios';
@@ -57,7 +57,8 @@
     })
     const { 
         userInfo,
-        isLoading
+        isLoading,
+        isAuthenticated
      } = useAuth()
 
     const form = ref({
@@ -75,6 +76,10 @@
     onMounted(async () => {
         form.value.settings.browser = getBrowser()
         let ip = await getIp();
+        let getUser = await axios.get(route('user.get_profile', userInfo.value.email)).then(res => res.data);
+        if (getUser) {
+            form.value.phone = getUser.phone
+        }
         form.value.ip_info =  ip;
     })
 
@@ -85,13 +90,15 @@
         showForm.value = true
     }
 
-    if(isLoading){
-        const nameArray = userInfo.value.name.split(' ')
-        nameArray.push('khushi')
-        form.value.firstName = nameArray[0]
-        form.value.lastName  = nameArray.splice(1, (nameArray.length-1)).join(' ')
-        form.value.email = userInfo.value.email
-    }
+    watchEffect(() => {
+        if(isLoading && isAuthenticated){
+            const nameArray = (userInfo.value.name) ? userInfo.value.name.split(' ') : userInfo.value.name
+            if(!nameArray) return
+            form.value.firstName = nameArray[0]
+            form.value.lastName  = nameArray.splice(1, (nameArray.length-1)).join(' ')
+            form.value.email = userInfo.value.email
+        }
+    })
 
     const handleForm = async (e) => {
         e.preventDefault()

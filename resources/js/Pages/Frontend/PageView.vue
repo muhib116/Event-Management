@@ -3,13 +3,11 @@ page
     <Head :title="`${page.title}`" />
 
     <Master>
-        <div style="min-height: 80vh;" class="py-[100px] max-w-screen-xl mx-auto">
+        <div style="min-height: 80vh;" class="py-[100px] max-w-screen-xl px-3 mx-auto">
             <h1 class="text-black">
                 {{ page.title }}
             </h1>
-            <div>
-                {{ page.content }}
-            </div>
+            <div v-html="page.content"></div>
         </div>
     </Master>
 </template>

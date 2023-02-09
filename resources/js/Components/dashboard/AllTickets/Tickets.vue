@@ -2,13 +2,13 @@
         <div class="py-5 bg-white px-5 rounded-md">
             <div class="flex justify-between items-end">
                 <h4 class="font-extrabold text-2xl">Tickets</h4>
-                <button @click="() => showPopup = true" v-if="!$page.props.is_paid" class="bg-orange-500 px-4 py-2 rounded shadow text-white">Add Tickets</button>
+                <button @click="() => showPopup = true" v-if="!$page.props.is_paid" class="bg-[#172853] px-4 py-2 rounded shadow text-white">Add Tickets</button>
             </div>
             
             <!-- table start -->
-            <div class="shadow mt-10 rounded border-t">
+            <div class="shadow mt-10 rounded border-t overflow-x-auto">
                 <table class="w-full rounded">
-                    <tr class="border-b">
+                    <tr class="border-b whitespace-nowrap">
                         <th class="px-2 py-4 text-gray-700">Ticket name</th>
                         <th class="px-2 py-4 text-gray-700">Ticket quantity</th>
                         <th class="px-2 py-4 text-gray-700">Ticket price</th>

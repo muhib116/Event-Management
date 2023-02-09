@@ -24,11 +24,13 @@ class AccountController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
+            'email' => 'required|email',
         ]);
         User::find(Auth::id())->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'phone' => $request->phone,
+            'email' => $request->email,
         ]);
         return back();
     }

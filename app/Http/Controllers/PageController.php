@@ -18,13 +18,22 @@ class PageController extends Controller
         ]);
     }
     public function index() {
-        $pages = Page::all();
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
+        $pages = Page::all()->map(function($page){
+            $page->content = strip_tags($page->content);
+            return $page;
+        });
         return Inertia::render('Page', [
             'pages' => $pages,
         ]);
     }
 
     public function store(Request $request) {
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         $request->validate([
             'title' => 'required',
             'content' => 'required',
@@ -42,10 +51,16 @@ class PageController extends Controller
     }
 
     public function edit(Page $page) {
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         return response($page);
     }
 
     public function update(Request $request, Page $page) {
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         $request->validate([
             'title' => 'required',
             'content' => 'required',
@@ -62,6 +77,9 @@ class PageController extends Controller
     }
 
     public function delete(Page $page) {
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
         $page->delete();
 
         return back()->with('success', 'Page Delete Successfully!');

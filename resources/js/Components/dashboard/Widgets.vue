@@ -167,9 +167,7 @@ import useDashboard from '@/Pages/useDashboard';
 import { Link, usePage } from '@inertiajs/inertia-vue3';
 import QRScannerTrigger from './QRScannerTrigger.vue';
 
-const { dashboard } = useDashboard();
-// const pg  = usePage();
-// console.log(pg);
+const { dashboard } = useDashboard(); 
 </script>
 
 <style lang="scss" scoped>

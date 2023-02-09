@@ -16,11 +16,11 @@
                         <div class="dropdown">
                             <div class="dropdown-item filter-item " @click="activeTab = 'profile-personal'">Personal</div>
                             <div class="dropdown-item filter-item" @click="activeTab = 'profile-password'">Password</div>
-                            <div class="dropdown-item filter-item" @click="activeTab = 'profile-interests'">Interests</div>
+                            <!-- <div class="dropdown-item filter-item" @click="activeTab = 'profile-interests'">Interests</div> -->
                         </div>
                     </div>
-                    <div class="billing nav-item filter-item" :class="{ 'active': activeTab == 'billing' }" @click="activeTab = 'billing'">Billing</div>
-                    <div class="dropdown-container">
+                    <div v-if="$page.props.user.type != 'admin'" class="billing nav-item filter-item" :class="{ 'active': activeTab == 'billing' }" @click="activeTab = 'billing'">Billing</div>
+                    <!-- <div class="dropdown-container">
                         <div class="profile nav-item filter-item" :class="{ 'active': activeTab == 'order-notifications' }" @click="activeTab = 'order-notifications'">
                             Settings
                             <i class="fa-solid fa-chevron-down"></i>
@@ -29,7 +29,7 @@
                             <div class="dropdown-item filter-item " @click="activeTab = 'order-notifications'">Order notifications</div>
                             <div class="dropdown-item filter-item" @click="activeTab = 'payment-settings'">Payment settings</div>
                         </div>
-                    </div>
+                    </div> -->
                 </nav>
                 <!-- Profile -->
                 <form class="Profile--Personal account-item" method="POST" v-show="activeTab == 'profile-personal'" @submit.prevent="savePersonalInfo">
@@ -50,9 +50,14 @@
                             <input type="text" name="phone" v-model="personal_info_form.phone" placeholder="+23480000000">
                             <div class="text-red-500" v-if="personal_info_form.errors.phone">{{ personal_info_form.errors.phone }}</div>
                         </div>
+                        <div class="element">
+                            <label for="Phone number">Email</label>
+                            <input class="pointer-events-none text-gray-400" type="text" name="phone" :value="personal_info_form.email" placeholder="example@gmail.com" disabled>
+                            <div class="text-red-500" v-if="personal_info_form.errors.email">{{ personal_info_form.errors.email }}</div>
+                        </div>
                     </div>
                     <div class="save">
-                        <button class="button" type="submit" :disabled="personal_info_form.processing">
+                        <button class="button rounded-md bg-[var(--brand\_color)] text-white" type="submit" :disabled="personal_info_form.processing">
                             <svg v-if="personal_info_form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -80,7 +85,7 @@
                         </div>
                     </div>
                     <div class="save">
-                        <button class="button" type="submit" :disabled="password_reset_info.processing">
+                        <button class="button rounded-md bg-[var(--brand\_color)] text-white" type="submit" :disabled="password_reset_info.processing">
                             <svg v-if="password_reset_info.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -102,7 +107,7 @@
                         </div>
                     </div>
                     <div class="save">
-                        <button type="submit" class="button" :disabled="interest_form_inf.processing">
+                        <button type="submit" class="button rounded-md bg-[var(--brand\_color)] text-white" :disabled="interest_form_inf.processing">
                             <svg v-if="interest_form_inf.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -117,14 +122,14 @@
                     <PaymentPopup v-model="showPopup" :payment_details="payment_details" />
                     
                     <div class="flex items-center flex-wrap  justify-end" v-if="payment_details">
-                        <button class="button rounded hover:bg-orange-700 py-2 px-7 bg-orange-600 text-white" @click="showPopup = true">
+                        <button class="button rounded-md bg-[var(--brand\_color)] text-white py-2 px-4" @click="showPopup = true">
                             Edit payment details
                         </button>
                     </div>
                     <div class="mt-10 flex flex-wrap gap-5 justify-center" v-if="payment_details">
                         <!-- payment_details.get -->
 
-                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
+                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md" v-if="payment_details.bank_name || payment_details.bank_number || payment_details.account_name">
                             <div class="py-4 flex justify-center text-green-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-12" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -141,13 +146,13 @@
                             <div class="pb-5 px-4 text-center">
                                 <h5 class="mb-2 font-semibold tracking-tight text-gray-900">Bank information</h5>
                                 <div class="flex flex-col">
-                                    <div>
+                                    <div v-if="payment_details.bank_name">
                                         <strong>Bank name:</strong> {{ payment_details.bank_name }}
                                     </div>
-                                    <div>
+                                    <div v-if="payment_details.bank_number">
                                         <strong>IBAN:</strong> {{ payment_details.bank_number }}
                                     </div>
-                                    <div>
+                                    <div v-if="payment_details.account_name">
                                         <strong>BIC:</strong> {{ payment_details.account_name }}
                                     </div>
                                 </div>
@@ -186,55 +191,14 @@
                             You didn't provide any payment information
                         </h2>
                         <div class="flex items-center flex-wrap  justify-end">
-                            <button class="button rounded-md hover:bg-orange-700 py-5 px-8 bg-orange-600 text-white" @click="showPopup = true">
+                            <button class="button rounded-md bg-[var(--brand\_color)] text-white py-2 px-4" @click="showPopup = true">
                                 <span v-if="payment_details">Edit</span>
                                 <span v-else><i class="fa fa-plus"></i> Add</span>
                                 payment details
                             </button>
                         </div>
                     </div>
-                </div>
-                <!-- settings -->
-                <div class="settings--order-notification account-item" v-show="activeTab == 'order-notifications'">
-                    <h2>Order Notifications</h2>
-                    <p>How frequently should we send order notifications by email?</p>
-                    <div class="options">
-                        <div class="element">
-                            <input type="radio" name="order-notification-option">
-                            <label>Instantly, for each order as it comes in</label>
-                        </div>
-                        <div class="element">
-                            <input type="radio" name="order-notification-option">
-                            <label>Daily summary, a daily summary of all orders sold each day</label>
-                        </div>
-                        <div class="element">
-                            <input type="radio" name="order-notification-option">
-                            <label>Weekly summary, a weekly summary of all orders sold each week</label>
-                        </div>
-                        <div class="element">
-                            <input type="radio" name="order-notification-option">
-                            <label>I do not want to receive order notifications</label>
-                        </div>
-                        <!-- save -->
-                        <div class="save">
-                            <div class="button">Save</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="settings--order-notification account-item" v-show="activeTab == 'payment-settings'">
-                    <h2>Payment Settings</h2>
-                    <p>How frequently should we send order notifications by email?</p>
-                    <div class="options">
-                        <div class="element">
-                            <input type="radio" name="payment-settings-option">
-                            <label>Weekly, your payouts are batched and paid once a week on friday</label>
-                        </div>
-                        <!-- save -->
-                        <div class="save">
-                            <div class="button">Save</div>
-                        </div>
-                    </div>
-                </div>
+                </div> 
             </div>
         </AuthenticatedLayout>
     </Master>
@@ -279,11 +243,12 @@ const {
     eventsCategory
 } = useEvent()
 
-console.log(props);
+
 const personal_info_form = useForm({
     first_name: props.user.first_name,
     last_name: props.user.last_name,
     phone: props.user.phone,
+    email: props.user.email,
 });
 
 const password_reset_info = useForm({
@@ -318,7 +283,6 @@ const handleInterest = (item) => {
 const saveInterest = (e) => {
     interest_form_inf.post(route('account.update_interest'), {
         onSuccess: (e) => {
-            console.log(e);
             toast.success("Interest updated", {
                 timeout: 2000,
                 position: "top-center",
@@ -345,7 +309,6 @@ const savePersonalInfo = (e) => {
             })
         },
         onError: (e) => {
-            console.log(e);
             let msg = '';
             for (const m of Object.values(e)) {
                 msg += `${m} \n`

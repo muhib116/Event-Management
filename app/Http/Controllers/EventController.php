@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CheckinMail;
+use App\Mail\PromotionMail;
 use App\Models\EventList;
 use App\Models\EventTickets;
 use App\Models\Guests;
@@ -9,12 +11,14 @@ use App\Models\MEvents;
 use App\Models\PaymentDetail;
 use App\Models\TicketNumber;
 use App\Models\TicketSales;
+use App\Models\User;
 use App\Utils;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {
@@ -42,7 +46,7 @@ class EventController extends Controller
             "user_id"    => $request->user_id,
             "eventType"    => $request->eventType,
             "name"         => $request->name,
-            "slug"         => str()->slug($request->name),
+            "slug"         => str()->slug($request->url),
             "description"  => $request->description,
             "terms_and_conditions" => $request->terms_and_conditions,
             "audience"      => $request->audience,
@@ -65,13 +69,25 @@ class EventController extends Controller
             "map_link"     => $request->map_link,
             "publish"     => $request->publish ? 1 : 0,
         ];
-
         $eventId = EventList::create($data)->id;
+        $guest_ids = TicketSales::where('organizer_id', $request->user_id)->pluck('id');
+        $guests = Guests::whereIn('id', $guest_ids)->get();
+        $ev = EventList::find($eventId);
+        $org = User::find($request->user_id);
+        foreach ($guests as $value) {
+            Mail::to($value)->send(new PromotionMail($ev, $org, $value));
+        }
         return response()->json(["id" => $eventId], 200);
     }
 
     public function update($edit){
-        $event = EventList::findOrFail($edit);
+        $event = EventList::find($edit);
+        if (!$event) {
+            return redirect()->route('dashboard');
+        }
+        if(auth()->user()->type !== 'admin' && $event->user->id != auth()->id()) {
+            return redirect()->route('dashboard');
+        }
         // dd($event);
         $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->end_date $event->end_time")));
         $next_payout_date = $end_at->addWeek(1)->format('d-M-Y');
@@ -101,6 +117,7 @@ class EventController extends Controller
         $data = [
             "eventType"    => $request->eventType,
             "name"         => $request->name,
+            "slug"         => str()->slug($request->url),
             "description"  => $request->description,
             "terms_and_conditions" => $request->terms_and_conditions,
             "audience"     => $request->audience,
@@ -119,7 +136,7 @@ class EventController extends Controller
             "instagram"    => $request->instagram,
             "twitter"      => $request->twitter,
             "facebook"     => $request->facebook,
-            "settings"     => json_encode($request->settings),
+            "settings"     => $request->settings,
             "map_link"     => $request->map_link,
             "publish"     => $request->publish ? 1 : 0,
         ];
@@ -130,11 +147,23 @@ class EventController extends Controller
         }
         return response()->json(['status' => false]);
     }
-    public function editPublish(Request $request, $eventId) {
-        $data = ["publish" => $request->publish ? 1 : 0];
 
-        $res = EventList::where(['id' => $eventId])->update($data);
-        if($res){
+    public function editPublish(Request $request, $eventId) {
+        $data = ["publish" => $request->publish ? 1 : 0]; 
+        $res = EventList::where(['id' => $eventId])->first();
+        if (!$res->eventTickets) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You dont have any ticket for this event.',
+            ], 200);
+        }
+        if (!$res->user->payment_details) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You dont have any payment information',
+            ], 200);
+        }
+        if($res->update($data)){
             return response()->json(['status' => true], 200);
         }
         return response()->json(['status' => false]);
@@ -146,15 +175,23 @@ class EventController extends Controller
         $end = Carbon::parse(date('Y-m-d H:i:s', strtotime("$eventList->end_date $eventList->end_time")));
         $eventList->expired_at = $this->getDurationFormate($end->diffInSeconds(now()));
         $eventList->is_expired = now()->gt($end);
-        $eventList->end_date_formate = $end->format('d-M-Y');
-        $eventList->start_date_formate = $start->format('d-M-Y');
+        $eventList->start_time_formate = Carbon::parse($eventList->start_time)->format('H:i');
+        $eventList->end_time_formate = Carbon::parse($eventList->end_time)->format('H:i');
+        // $eventList->start_time = Carbon::parse($eventList->start_time)->format('h:i a');
+        // $eventList->end_time = Carbon::parse($eventList->end_time)->format('h:i a');
         return response()->json($eventList, 200);
     }
     public function getEventGuest(EventList $eventList) {
         $ids = $eventList->eventTickets()->pluck('id');
-        $sales = TicketSales::where('guest_id', '!=', null)->whereIn('ticket_id', $ids)->pluck('guest_id');
-        $guest = Guests::whereIn('id', $sales)->get();
-        return $guest;
+        $sales = TicketSales::with(['guests', 'ticket', 'ticket_number'])->where('guest_id', '!=', null)->whereIn('ticket_id', $ids)->get();
+        $guest_ids = $sales->pluck('guest_id');
+        $guest = Guests::whereIn('id', $guest_ids)->get();
+        $op = [];
+        foreach($guest as $g) {
+            $g->sales = $sales->where('guest_id', $g->id);;
+            $op[] = $g;
+        }
+        return $op;
         // return response()->json($eventList->guests()->get(), 200);
     }
     public function getEventSales(EventList $eventList) {
@@ -232,6 +269,9 @@ class EventController extends Controller
                 'message' => "Opps! Ticket Expired."
             ]);
         }
+        $guest = Guests::find($ticket_number->ticketSales->guest_id);
+        
+        Mail::to($guest)->send(new CheckinMail($guest, $event));
         $ticket_number->update([
             'status' => 'used'
         ]);
@@ -239,5 +279,13 @@ class EventController extends Controller
             'type' => 'success',
             'message' => "Checked in successfully"
         ]);
+    }
+
+    public function validateCustomUrl(Request $request)
+    {
+        $slug = rtrim(trim($request->url), '-');
+        $response = EventList::where(['slug' => $slug])->first();
+        $status = $response ? false : true;
+        return response()->json(['status' => $status]);
     }
 }

@@ -9,16 +9,28 @@
                     </div>
 
                     <div class="col-md-9">
-                        <div class="result-right">
+                        <div class="result-right min-h-[55vh]">
                             <div class="result-forupr">
-                                <h2>Search results for <span> “...”</span></h2>
+                                <h2>Search results</h2>
                             </div>
 
-                            <div class="row">
-                                <div v-for="event in filteredEvents" :key="event.id" class="col-sm-6 col-xl-4 mb-4 px-0">
+                            <div v-if="!isEmpty(event_list)" class="row">
+                                <div v-for="event in event_list" :key="event.id" class="col-sm-6 col-xl-4 mb-4 px-0">
                                     <EventCardVue :item="event" />
                                 </div>
-                            </div>                            
+                            </div>
+                            <div v-else class="opacity-40">
+                                No result found
+                            </div>
+                            <div class="flex justify-center" v-if="filteredEvents.length>page_size">
+                                <el-pagination 
+                                    v-model:current-page="page_number" 
+                                    background layout="prev, pager, next" 
+                                    :total="filteredEvents.length"
+                                    :page-size="page_size"
+                                    :pager-count="4"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -28,7 +40,8 @@
 </template>
 
 <script setup>
-    import { onMounted } from 'vue'
+    import { computed, onMounted, ref } from 'vue'
+    import { isEmpty } from 'lodash'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import Master from './Master.vue'
     import EventCardVue from '@/Components/Frontend/components/EventCard.vue'
@@ -77,4 +90,20 @@
         let myIndex = (filterParameter.value.categories.indexOf(e.target.value))
         filterParameter.value.categories.splice(myIndex, 1)
     }
+
+
+    const page_number = ref(1);
+    const page_size = ref(12); 
+    const event_list = computed(()=> {
+        let start_point = (page_number.value -1) * page_size.value;
+        let end_point = start_point + page_size.value;
+        return filteredEvents.value.slice(start_point, end_point);
+    });
 </script>
+
+
+<style>
+.el-pagination.is-background .btn-next.is-active, .el-pagination.is-background .btn-prev.is-active, .el-pagination.is-background .el-pager li.is-active {
+    background-color: #172853 !important;
+}
+</style>

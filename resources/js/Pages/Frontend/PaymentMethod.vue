@@ -13,9 +13,10 @@
                                     </Link>
                                 </div>
                                 <div class="check-leftmain payright-prt">
-                                    <h2>Payment Method</h2>
+                                    <h2 v-if="getTotalWithFees(cards) > 0">Payment Method</h2>
+                                    <h2 v-else>Free Ticket Purchasing</h2>
                                     <div>
-                                        <div class="payment-item">
+                                        <div v-if="getTotalWithFees(cards) > 0" class="payment-item">
                                             <h4>Select method</h4>
                                             <ul>
                                                 <li>
@@ -35,21 +36,6 @@
                         <div class="col-lg-5">
                             <Cart :event="event" />
                             <div class="pay-btn">
-                                <!-- <Link class="active" :href="route('payment-complete')">Pay Now</Link> -->
-                                <!-- <Button class="active flex items-center gap-2 justify-center" @click="()=> {
-                                    clickLoading = true;
-                                    handlePayment(cards);
-                                }" :disabled="clickLoading"
-                                :class="{
-                                    'opacity-50': clickLoading
-                                }"
-                                >
-                                    <svg v-if="clickLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Pay Now
-                                </Button> -->
                                 <div v-show="active_pay=='paypal'" id="braintree-paypal-cta" ref="paypalBtnContainer"></div>
 
                                 <div v-show="active_pay=='stripe'" >
@@ -61,6 +47,18 @@
                                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
                                         Pay Now
+                                    </Button>
+                                </div>
+                                <div v-show="getTotalWithFees(cards) == 0" >
+                                    <Button @click="() => {
+                                        clickLoading=true;
+                                        handlePayment(cards);
+                                    }" class="active flex items-center gap-2 justify-center" :disabled="clickLoading">
+                                        <svg v-if="clickLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Buy Now
                                     </Button>
                                 </div>
                             </div>
@@ -110,11 +108,10 @@
         event: Object,
         settings: Object
     })
-// console.log(props);
     const toast = useToast();
     const { cards, commission } = useTicket()
     const payLoadForPaypal = ref({});
-
+    const total = getTotalWithFees(cards.value);
     
     const paypalBtnContainer = ref(null);
 
@@ -142,7 +139,7 @@
     
 
     const handlePayment = async (cards) => {
-        let payload = preparePayload(cards)
+        let payload = preparePayload(cards);
         if(!payload.length) {
             toast.error("Please add ticket!", {
                 timeout: 2000,
@@ -181,7 +178,10 @@
         }
         if (!isLoading.value && !mountedPaypal.value) {
             mountedPaypal.value = true;
-            loadScript({ "client-id": "AQeJeHLGLcEAq6RII_55oIyly5_zD5LaNxldDPauKB-qxcfwo33NbxErw0QxuqSrmvwjO79AVSKAskrY" })
+            loadScript({
+                "client-id": props.settings.paypal_publish_key?.value,
+                currency: "EUR"
+            })
                 .then((paypal) => {
                     paypal
                         .Buttons({
@@ -189,27 +189,25 @@
                                 return actions.order.create({ 
                                     purchase_units: [{ 
                                         amount: {
-                                            currency_code: "USD",
-                                            value: getTotalWithFees(cards.value).value
+                                            currency_code: "EUR",
+                                            value: getTotalWithFees(cards.value)
                                         }, 
                                     }]
                                 });
                             },
                             onApprove: async function(data, actions) {
-                                console.log('approved', data, actions);
                                 let payload = preparePayload(cards.value)
-                                let res = await axios.post('ticket/sale', payload);
-                                console.log('result', res.data);
-                                if (res.data.target_url) {
-                                    // This function captures the funds from the transaction.
-                                    return actions.order.capture().then(function(details) {
-                                        // This function shows a transaction success message to your buyer.
-                                        // alert('Transaction completed by ' + details.payer.name.given_name);
-                                        localStorage.clear('cards')
-                                        window.location.href = res.data.target_url; 
-                                    });
-                                }
-                            }
+                                let res = await axios.post('ticket/sale', payload); 
+                                return actions.order.capture().then(function(details) {
+                                    // This function shows a transaction success message to your buyer.
+                                    // alert('Transaction completed by ' + details.payer.name.given_name);
+                                    localStorage.clear('cards')
+                                    window.location.href = route('payment.complete'); 
+                                });
+                                // if (res.data.target_url) {
+                                //     // This function captures the funds from the transaction.
+                                // }
+                            },
                         })
                         .render("#braintree-paypal-cta")
                         .catch((error) => {
@@ -222,7 +220,7 @@
 
                 
             // stripe 
-            loadStripe('pk_test_51M1lgfDKrpdPsiSpc2iGtO8XgCgWkjhGvXo5JRT6jpH6NLsyPDVXTSczbUFEihz94XQBZnWvQ2hqE46mJraU238E00l1d2VpQG')
+            loadStripe(props.settings.stripe_publish_key?.value)
                 .then(stripe => {
                     let element = stripe.elements();
                     let stripeElement = element.create('card', {
@@ -249,16 +247,14 @@
                     btn_stripe.value.addEventListener('click', function() {
                         clickLoading.value = true;
                         stripe.createToken(stripeElement).then(function(result) {
-                            console.log(result);
                             if (result.error) {
-                                console.log('error', result.error);
                                 stripe_error.value = result.error.message;
                                 clickLoading.value = false;
                             } else {
                                 let payload = preparePayload(cards.value);
                                 stripeForm.stripe_token = result.token.id
                                 stripeForm.cards = payload;
-                                stripeForm.total_amount_with_fees = getTotalWithFees(cards.value).value;
+                                stripeForm.total_amount_with_fees = getTotalWithFees(cards.value);
                                 axios.post(route('stripe.pay'), stripeForm)
                                     .then(response => response.data)
                                     .then(result => {
@@ -267,19 +263,10 @@
                                             localStorage.clear('cards')
                                             window.location.href = route('payment.complete')
                                         }
+
                                     }).catch(() => {
                                         clickLoading.value = false;
                                     });
-                                // axios.post(route('stripe.pay'), {
-                                //     onSuccess(p) {
-                                //         console.log(p.props.flash);
-                                //         if (p.props.flash?.success) {
-                                //             // localStorage.clear('cards')
-                                //             // window.location.href = route('payment.complete')
-                                //         }
-                                //     },
-                                //     onError(p) {}
-                                // });
                             }
                         });
                     });
@@ -292,7 +279,7 @@
 
 <style scoped>
     .pay-btn button:hover, .pay-btn .active {
-        background: #4F4CEE;
+        background: #172853;
     }
     .pay-btn button {
         width: 184px;

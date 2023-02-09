@@ -60,6 +60,18 @@ trait Utils
         return $value;
     }
 
+    public function endExpired($event) {
+        if (!$event) return true;
+        $end_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->end_date $event->end_time")));
+        return now()->gt($end_at);
+    }
+
+    public function startExpired($event) {
+        if (!$event) return true;
+        $start_at = Carbon::parse(date('Y-m-d H:i:s', strtotime("$event->start_date $event->start_time")));
+        return now()->gt($start_at);
+    }
+
     public function getDurationFormate($value) {
         $dt = Carbon::now();
         $days = $dt->diffInDays($dt->copy()->addSeconds($value));
@@ -67,6 +79,12 @@ trait Utils
         $minutes = $dt->diffInMinutes($dt->copy()->addSeconds($value)->subDays($days)->subHours($hours));
         $op = CarbonInterval::days($days)->hours($hours)->minutes($minutes)->forHumans();
         return $op;
+    }
+
+    public function isAdmin() {
+        if(auth()->user()->type != 'admin') {
+            return redirect()->route('dashboard');
+        }
     }
 
     

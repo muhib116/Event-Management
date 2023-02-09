@@ -14,12 +14,24 @@
                             <div class="check-leftmain">
                                 <h2>Ticket Options</h2>
                                 <div class="event-upper ticket-opt items-start">
-                                    <img :src="`../../../../${get_banner(event?.images)}`" alt="">
+                                    <img :src="`../../../../${get_banner(event?.images)}`" alt="" />
                                     <div class="event-cnt">
                                         <h4>{{ event.name }}</h4>
-                                        <p><i class="fas fa-calendar-alt"></i> {{ moment(event.start_date).format('d-MMM-YYYY') }} at {{ event.start_time }} </p>
-                                        <p><i class="fas fa-map-marker-alt"></i> {{ event.location }} </p>
-                                        <p>{{ event.description.slice(0, 300) }}...</p>
+                                        <p><i class="fas fa-calendar-alt"></i> {{ moment(event.start_date).format('ddd., DD MMM. YYYY') }} at {{ moment(event.start_time, 'H:m a').format('H:m') }} </p>
+                                        <p class="flex gap-2">
+                                            <i class="mt-1 fas fa-map-marker-alt"></i>
+                                            <span class="flex-2 block">
+                                                {{ get(event, 'location') }} 
+                                                {{ get(event, 'settings.streetName') }}
+                                                <span v-if="get(event, 'settings.houseNumber')">{{ get(event, 'settings.houseNumber') }},</span>
+                                                {{ get(event, 'settings.postcode') }}
+                                                <span v-if="get(event, 'settings.city')">
+                                                    {{ get(event, 'settings.city') }},
+                                                </span>
+                                                <span>{{ get(event, 'settings.country') }}</span>
+                                            </span>
+                                        </p>
+                                        <p>{{ removeTags(event.description) }}...</p>
                                     </div>
                                 </div>
                             </div>
@@ -43,9 +55,12 @@
             </div>
         </div>
 
-        <div v-if="Object.keys(cards).length" class="sticky bottom-0 z-10 w-full text-white bg-[#7F7DF3] border-t">
+        <div v-if="Object.keys(cards).length" class="sticky bottom-0 z-10 w-full text-white bg-[#487EB7] border-t">
             <div class="container h-[70px] flex items-center justify-between">
-                <div>
+                <div class="flex flex-wrap gap-2 justify-center items-center">
+                    <button @click="clearCart" class="w-[30px] h-[30px] bg-red-200/50 rounded-full">
+                        <i class="fa fa-close"></i>
+                    </button>
                     <table>
                         <tr>
                             <td class="py-[4px] px-2">Qty</td>
@@ -53,14 +68,17 @@
                         </tr>
                         <tr>
                             <td class="py-[4px] px-2">{{ totalQuantity }}</td>
-                            <td class="py-[4px] px-2 font-bold">{{ totalPrice.toFixed(2) }} {{  $page.props?.currency.value }}</td>
+                            <td class="py-[4px] px-2 font-bold">{{ getTotal(cards) }} <span style="font-family: initial !important;">{{  $page.props?.currency.value }}</span></td>
                         </tr>
                     </table>
                 </div>
-                <Link :href="route('checkout', event.slug)" class="bg-white text-[#4F4CEE] px-4 py-2 rounded shadow-lg">Buy Tickets</Link>
+                
+                <Link :href="route('checkout', event.slug)" class="bg-white text-[#172853] px-4 py-2 rounded shadow-lg">
+                    Buy Tickets
+                </Link>
             </div>
         </div>
-        <div v-else class="bg-red h-[65px] sticky bottom-0 z-10 text-white bg-[#7F7DF3] w-full flex items-center justify-center border-t">
+        <div v-else class="bg-red h-[65px] sticky bottom-0 z-10 text-white bg-[#487EB7] w-full flex items-center justify-center border-t">
             Choose your ticket and quantity.
         </div>
         <LoginPopup :modelValue="modelValue" />
@@ -77,16 +95,18 @@
     import useAuth from '@/useAuth'
     import LoginPopup from '@/Components/dashboard/popup/LoginPopup.vue'
     import moment from 'moment'
+    import { removeTags } from '@/Helper'
+    import {get} from 'lodash'
 
     const { get_banner } = useEvent()
     const { isLoading, isAuthenticated, login } = useAuth();
     const modelValue = ref(false);
-    const { cards, getTotalWithFees, totalQuantity, totalPrice, commission } = useTicket()
+    const { cards, getTotalWithFees, getTotal, totalQuantity, totalPrice, commission } = useTicket()
     const props = defineProps({
         event: Object,
         settings: Object
     })
-    
+
     watch(cards, ()=>{
         getTotalWithFees(cards.value)
         localStorage.setItem('cards', JSON.stringify(cards.value))
@@ -103,16 +123,20 @@
         
         commission.value = props.settings.commission.value
     })
- 
+    const clearCart = () => {
+        localStorage.removeItem('cards');
+        cards.value = {}
+        window.location.reload();
+    }
 </script>
 
 <style scoped>
     .short-btn button {
         font-weight: 400;
         font-size: 14px;
-        color: #4F4CEE;
+        color: #172853;
         background: #FFFFFF;
-        border: 1px solid #4F4CEE;
+        border: 1px solid #172853;
         display: inline-block;
         padding: 6px 16px;
         border-radius: 4px;
